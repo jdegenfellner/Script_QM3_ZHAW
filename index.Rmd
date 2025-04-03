@@ -14,15 +14,16 @@ description: "This is a minimal example of using the bookdown package to write a
 
 # Preamble {#intro0}
 
-This script is a continuation of 
-[the first one](https://jdegenfellner.github.io/Script_QM1_ZHAW/) for Quantitative Methods 1 
-at ZHAW. 
+This script is a continuation of the previous scrips for Quantitative Methods 
+[1](https://jdegenfellner.github.io/Script_QM1_ZHAW/) and 
+[2](https://jdegenfellner.github.io/Script_QM2_ZHAW/) at ZHAW. 
 
-In the first part, we learned about the basics of probability theory,
-descriptive statistics, Bayesian statistics, and hypothesis testing.
+In the second part, we learned about the basics of statistical modeling,
+specifically, using Bayesian and Frequentist approaches.
 
-In this script, we will dive into the basics of statistical modeling - 
-a world of aesthetic wonder and surprises.
+In this script, we will continue with Reliability, Validity, do a short introduction
+into artificial intelligence (AI) and then continue to expand our classical
+statistical toolbox.
 
 This script is a first draft as you are the first group to be working with it.
 
