@@ -6,8 +6,8 @@ language:
 delete_merged_file: true
 rmd_files:
   - index.Rmd
-  - 01-intro.Rmd
-  - 02-Simple_Linear_Regression.Rmd
-  - 03-Multiple_Linear_Regression.Rmd
-  - 04-Reliability_Validity.Rmd
+  - 01-Reliability_Validity.Rmd
+  #- 02-Simple_Linear_Regression.Rmd
+  #- 03-Multiple_Linear_Regression.Rmd
+  #- 04-Reliability_Validity.Rmd
   # Add more Rmd files here as needed
