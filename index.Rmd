@@ -47,7 +47,7 @@ The complete code for this script can be found
 
 - (older online version is Free; current version in ZHAW Library) [Statistical Rethinking](https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf), YouTube-Playlist: [Statistical Rethinking 2023](https://youtu.be/FdnMWdICdRs?si=q2py5QVY_L299hEa)
 - (Free) [Understanding Regression Analysis: A Conditional Distribution Approach](https://vdoc.pub/documents/understanding-regression-analysis-a-conditional-distribution-approach-84oqjr8sqva0)
-- (Free online-access via ZHAW Library) [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/)
+- [Measurement in Medicine](https://www.cambridge.org/core/books/measurement-in-medicine/8BD913A1DA0ECCBA951AC4C1F719BCC5)
 - (Free) [Doing Bayesian Data Analysis](https://nyu-cdsc.github.io/learningr/assets/kruschke_bayesian_in_R.pdf)
 
 ```{r, echo=FALSE}
@@ -57,10 +57,10 @@ library(png)
 library(grid)
 
 # Load images (ensure they are in the "images/" subfolder)
-img1 <- rasterGrob(readPNG("./images/Cover_Stat_Reth.png"), interpolate=TRUE)
-img2 <- rasterGrob(readPNG("./images/Cover_Westfall.png"), interpolate=TRUE)
-img3 <- rasterGrob(readPNG("./images/Cover_Gelman.png"), interpolate=TRUE)
-img4 <- rasterGrob(readPNG("./images/Cover_Kruschke.png"), interpolate=TRUE)
+img1 <- rasterGrob(readPNG("./images/Cover_Stat_Reth.png"), interpolate = TRUE)
+img2 <- rasterGrob(readPNG("./images/Cover_Westfall.png"), interpolate = TRUE)
+img3 <- rasterGrob(readPNG("./images/Cover_MIM.png"), interpolate = TRUE)
+img4 <- rasterGrob(readPNG("./images/Cover_Kruschke.png"), interpolate = TRUE)
 
 # Create plots with labels
 p1 <- ggplot() + annotation_custom(img1) + theme_void()
