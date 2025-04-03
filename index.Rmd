@@ -1,0 +1,83 @@
+--- 
+title: "Quantitative Methods 2, ZHAW"
+author: "Jürgen Degenfellner"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+# Preamble {#intro0}
+
+This script is a continuation of 
+[the first one](https://jdegenfellner.github.io/Script_QM1_ZHAW/) for Quantitative Methods 1 
+at ZHAW. 
+
+In the first part, we learned about the basics of probability theory,
+descriptive statistics, Bayesian statistics, and hypothesis testing.
+
+In this script, we will dive into the basics of statistical modeling - 
+a world of aesthetic wonder and surprises.
+
+This script is a first draft as you are the first group to be working with it.
+
+Please feel free to send me suggestions for improvements or corrections.
+
+This **should be a collaborative effort** and will (hopefully) 
+never be finished as our insight grows over time.
+
+The script can also be seen as a pointer to great sources which are
+suited to deepen your understanding of the topics. Knowledge is decentralized,
+and there are many great resources out there.
+
+For the working setup with R, please 
+see [this](https://jdegenfellner.github.io/Script_QM1_ZHAW/index.html#section) 
+and the following sections in the first script.
+
+The complete code for this script can be found 
+[here](https://github.com/jdegenfellner/Script_QM2_ZHAW).
+
+## Books we will heavily borrow from are:
+
+- (older online version is Free; current version in ZHAW Library) [Statistical Rethinking](https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf), YouTube-Playlist: [Statistical Rethinking 2023](https://youtu.be/FdnMWdICdRs?si=q2py5QVY_L299hEa)
+- (Free) [Understanding Regression Analysis: A Conditional Distribution Approach](https://vdoc.pub/documents/understanding-regression-analysis-a-conditional-distribution-approach-84oqjr8sqva0)
+- (Free online-access via ZHAW Library) [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/)
+- (Free) [Doing Bayesian Data Analysis](https://nyu-cdsc.github.io/learningr/assets/kruschke_bayesian_in_R.pdf)
+
+```{r, echo=FALSE}
+library(gridExtra)
+library(ggplot2)
+library(png)
+library(grid)
+
+# Load images (ensure they are in the "images/" subfolder)
+img1 <- rasterGrob(readPNG("./images/Cover_Stat_Reth.png"), interpolate=TRUE)
+img2 <- rasterGrob(readPNG("./images/Cover_Westfall.png"), interpolate=TRUE)
+img3 <- rasterGrob(readPNG("./images/Cover_Gelman.png"), interpolate=TRUE)
+img4 <- rasterGrob(readPNG("./images/Cover_Kruschke.png"), interpolate=TRUE)
+
+# Create plots with labels
+p1 <- ggplot() + annotation_custom(img1) + theme_void()
+p2 <- ggplot() + annotation_custom(img2) + theme_void()
+p3 <- ggplot() + annotation_custom(img3) + theme_void()
+p4 <- ggplot() + annotation_custom(img4) + theme_void()
+
+# Arrange in 2x2 grid
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+
+## If you need a good reason to buy great books...
+
+Think of the total costs of your education. You want to extract maximum 
+benefit from it. In the US, an education costs [a lot](https://www.finaid.ucsb.edu/docs/default-source/default-document-library/2024-2025-undergrad-coa.pdf?sfvrsn=fb791f8a_4).
+In beautiful Switzerland, the [tuition fees](https://www.zhaw.ch/de/sml/studium/master/kosten) (if applicable) are nowhere near these figures.
+Costs you could consider are opportunity costs of not working.
+A comparison with both, a foreign education or opportunity costs,
+justifies the investment in good books.
+Or: The costs of all the good books of your education combined are probably less than an iPhone Pro.

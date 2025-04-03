@@ -1,0 +1,1860 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Simple Linear Regression
+
+## Simple Linear Regression in the Bayesian Framework {#simple_lin_reg_bayes}
+
+You can watch [this video](https://www.youtube.com/watch?v=14mkCpJ7tKs&ab_channel=VeryNormal) as primer.
+
+We will now add one covariate/explanatory variable to the model. 
+Refer to [Statistical Rethinking](https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf) 
+"4.4 Linear prediction" or "4.4 Adding a predictor" as it's called in the online version of the book.
+
+So far, our "regression" did not do much to be honest. The mean of a list of values
+was already calculated in the [descriptive statistics section](https://jdegenfellner.github.io/Script_QM1_ZHAW/descriptive_stats.html) 
+before and we have mentioned how great this statistic is as measure of location and where its weaknesses are.
+
+Now, we want to model **how** body height and weight are **related**.
+Formally, one wants to *predict* body heights from body weights.
+
+Here and in the Frequentist framework, we will see that it is **not the same**
+problem (and therefore results in a different statistical model) 
+**to predict body weights from body heights or vice versa**.
+
+We remember the following:
+
+- Regress $Y$ on $X$, which is equivalent to predict $Y$ from $X$.
+  We know X and want to predict Y.
+- Regress $X$ on $Y$, which is equivalent to predict $X$ from $Y$.
+  We know Y and want to predict X.
+
+The word "predictor" is important here. It is a technical term
+and describes a variable that we know (in our case weight) and with 
+which we want to "guess as good as possible" the value of the 
+dependent variable (in our case height). "As good as possible"
+means that we put a penalty on an error. The farer our prediction
+is away from the true value ($y_i$), the higher the penalty.
+And not only that, but if you are twice as far away from the true value,
+you should be penalized four times as much. This is the idea behind
+the squared error [loss function](https://en.wikipedia.org/wiki/Loss_function) 
+and the core of the least squares method.
+What if we would punish differently, you ask?
+There are many loss functions one could use 
+(for instance the [Huber loss](https://en.wikipedia.org/wiki/Huber_loss)), 
+maybe we will see some later. For now, we punish quadratically.
+
+We **always** visualize the data first to improve our understanding.
+First comes descriptive statistics, then one can think about modeling.
+
+```{r}
+library(rethinking)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+plot(d2$height ~ d2$weight)
+```
+
+It's not often that you see such a clean plot.
+The scatterplot indicates a linear relationship between the two variables.
+The higher the weight, the higher the height; with some deviations of course and
+we decide that normally distributed errors are a good idea.
+This relationsip is neither causal, nor deterministic.
+
+- It is not causal since an increase in weight does not 
+  necessarily lead to an increase in height, especially in grown-ups.
+- It is not deterministic since there are deviations from the line. 
+  It if was deterministic, we would not need statistical modeling. 
+
+For simpler notation, we will call `d2$weight` $x$. $\bar{x}$
+is the mean of $x$.
+
+### Model definition
+
+Let's write down our **model** (again with the Swiss population prior mean):
+
+\begin{eqnarray*}
+h_i &\sim& \text{Normal}(\mu_i, \sigma)\\
+\mu_i &\sim& \alpha + \beta (x_i - \bar{x})\\
+\alpha &\sim& \text{Normal}(171.1, 20)\\
+\beta &\sim& \text{Normal}(0, 10)\\
+\sigma &\sim& \text{Uniform}(0, 50)
+\end{eqnarray*}
+
+Visualization of the **model structure**:
+
+```{r, echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph model {
+  graph [layout = dot, rankdir = TB]
+
+  # Nodes for variables
+  node [shape = ellipse, style = filled, fillcolor = lightblue]
+  alpha [label = 'α ~ Normal(171.1, 20)']
+  beta [label = 'β ~ Normal(0, 10)']
+  sigma [label = 'σ ~ Uniform(0, 50)']
+  mu [label = 'μ_i = α + β(x_i - x̄)']
+  h_i [label = 'h[i] ~ Normal(μ_i, σ)']
+
+  # Connections
+  alpha -> mu
+  beta -> mu
+  mu -> h_i
+  sigma -> h_i
+}
+")
+```
+
+There are now additional lines for the priors of $\alpha$ and $\beta$ 
+(compared to the simple mean model before).
+The model structure also shows the way to simulate from the prior.
+One starts at the top and ends up with the heights.
+
+- $h_i$ is the height of the $i$-th person and we assume it is normally distributed.
+- $\mu_i$ is the mean of the height of the $i$-th person and we 
+  assume it is linearly dependent on the difference $x_i-\bar{x}$. 
+  Compared to the intercept model, a different mean is assumed for each person
+  depending on his/her weight. 
+- $\alpha$ is the intercept and we use the same prior as before.
+- $\beta$ is the slope of the line and we use the normal distribution as prior for it,
+  hence it can be positive or negative and how plausible each value is, is
+  determined by that specific normal distribution. Note, that we could 
+  easily adapt the distribution to any distribution we like.
+- The prior for $\sigma$ is unchanged.
+- $x_i - \bar{x}$ is the deviation of the weight from the mean weight, thereby **we
+  center** the weight variable. This is a common practice in regression analysis.
+  A value $x_i - \bar{x} > 0$ implies that the person is heavier than the average.
+
+The linear model is quite popular in applied statistics and one
+reason is probably the rather straightforward interpretation of the coefficients:
+A one unit increase in weight is on average (in the mean) associated with 
+a $\beta$ unit increase/decrease (depending if $\beta$ is $>0$ or $<0$) in height.
+
+### Priors
+
+We want to plot our prior predictions to get a feeling **what 
+the model would predict without seeing the data**.
+This is a kind of "sanity check" to see if the priors and 
+the model definition are reasonable.
+Again, we just draw from the assumed distributions for $\alpha$ and $\beta$
+100 times and draw the corresponding lines. Just as the model 
+definition says.
+
+```{r}
+set.seed(2971)
+N <- 100  # 100 lines
+a <- rnorm(N, 171.1, 20)
+b <- rnorm(N, 0, 10)
+
+xbar <- mean(d2$weight)
+
+# start with empty plot
+plot(NULL, xlim = range(d2$weight), ylim = c(-100, 400),
+     xlab = "weight", ylab = "height")
+abline(h = 0, lty = 2)  # horizontal line at 0
+abline(h = 272, lty = 1, lwd = 0.5)  # horizontal line at 272
+mtext("b ~ dnorm(0, 10)")
+
+# Overlay the 100 lines
+for (i in 1:N) {
+  curve(a[i] + b[i] * (x - xbar),
+        from = min(d2$weight), to = max(d2$weight),
+        add = TRUE, col = col.alpha("black", 0.2))
+}
+```
+
+This linear relationship defined with the chosen priors seems rather 
+non-restrictive. According to our priors,
+one could see very steeply rising or falling relationships between weight and expected heights. 
+We could at least make the priors for the slope ($\beta$) non-negative. 
+One possibility to do this 
+is to use a [log-normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution) 
+for the prior of $\beta$ which can only take non-negative values.
+
+$$\beta \sim \text{Log-Normal}(0, 1)$$
+
+Lets plot the priors again.
+
+```{r}
+set.seed(2971)
+N <- 100  # 100 lines
+a <- rnorm(N, 171.1, 20)
+b <- rlnorm(N, 0, 1)
+
+xbar <- mean(d2$weight)
+
+plot(NULL, xlim = range(d2$weight), ylim = c(-100, 400),
+     xlab = "weight", ylab = "height")
+abline(h = 0, lty = 2)  # horizontal line at 0
+abline(h = 272, lty = 1, lwd = 0.5)  # horizontal line at 272
+mtext("b ~ dlnorm(0, 1)")
+
+# Overlay the 100 lines
+for (i in 1:N) {
+  curve(a[i] + b[i] * (x - xbar),
+        from = min(d2$weight), to = max(d2$weight),
+        add = TRUE, col = col.alpha("black", 0.2))
+}
+```
+
+This seems definitely more realistic. There is some sort of positive linear relationship
+between weight and expected height.
+
+### Fit model
+
+Now, let's **estimate the posterior/fit the model** as before:
+
+```{r}
+# load data again, since it's a long way back
+library(rethinking)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+xbar <- mean(d2$weight)
+# fit model
+mod <- quap(
+    alist(
+        height ~ dnorm(mu, sigma),
+        mu <- a + b * (weight - xbar),
+        a ~ dnorm(171.1, 100),
+        b ~ dnorm(0, 10),
+        sigma ~ dunif(0, 50)
+    ) ,
+data = d2)
+```
+
+Note that the model definition was now directly included in the `quap` function.
+Let's look at the **marginal distributions** of the parameters:
+
+```{r}
+precis(mod)
+plot(mod)
+```
+
+Note, that the credible intervals in the plot of the coefficients are 
+hardly noticable. The reason is that the intercept $a$ is rather large,
+whereas $b$ and sigma are comparativly small. The plot is scaled to the
+largest parameter.
+
+We can improve this by centering the height variable as well. Or,
+we could standardize both weight and height. This would change the interpretation
+of the $\beta$ parameter. It would then be the expected change in standard deviations
+when changing weight by one standard deviation. 
+See [exercise 12](#exercise12_simpl_lin_reg).
+
+The analysis yields estimates for all our parameters of the model: $\alpha$,
+$\beta$ and $\sigma$. The estimates are the mean of the posterior distribution.
+
+See [exercise 2](#exercise2_simpl_lin_reg).
+
+**Interpretation of $\beta$**:
+The mean of the posterior distribution of $\beta$ is 0.9. A person with a weight
+of 1 kg more weight can be expected to be 0.9 cm taller. A 89% credible interval
+for this estimate is $[0.83, 0.97]$. We can be quite sure that the slope is 
+positive (of course we designed it that way too via the prior). 
+
+It might also be interesting to inspect the **variance-covariance matrix**, 
+respectively the correlation between the parameters as we did before
+in the intercept model. Remember, these are the correlations of
+parameters in the multivariate (because three paremeters simulatenously) 
+posterior distribution.
+
+```{r}
+diag(vcov(mod))
+round(cov2cor(vcov(mod)),2)
+```
+
+- `diag(vcov(mod))` gives the variances of the parameters and 
+- `cov2cor(vcov(mod))`the correlations. As we can see the correlations are (near) zero. Compare to the graphical
+  display of the model structure. There is no connection.
+
+### Result
+
+**Graphical end result** of fitting the model:
+We plot the marginal posterior distributions of $\alpha$ and $\beta$,
+and also the raw data with the found regression line.
+
+```{r}
+post <- extract.samples(mod)
+dens(post$a, col = rangi2)
+dens(post$b, col = rangi2)
+
+# both posteror plots seem symmetric
+# we use the mean as point estimate
+# for a and b.
+a_quap <- mean(post$a)
+b_quap <- mean(post$b)
+
+plot(d2$height ~ d2$weight, col = rangi2)
+curve(a_quap + b_quap * (x - xbar), add = TRUE)
+```
+
+### Credible bands
+
+We could draw again and again from the posterior distribution
+and calculate the means like above. Plotting the regression lines
+with the respective parameters $\alpha$, $\beta$ would indicate
+the variability of the estimates.
+Note that we do not draw from the data (as one does in bootstrap resampling),
+but from the posterior distribution.
+The `link` function does this for us. It takes the posterior distribution we
+have just fit, samples $\alpha$ and $\beta$ from it, calculates the mean and then
+samples from this normal distribution for the mean at a given weight.
+Refer to pages 98-106 in the current version of the book Statistical Rethinking
+for all details.
+
+```{r}
+# Define a sequence of weights for predictions
+weight.seq <- seq(from = 25, to = 70, by = 1)
+
+# Use the model to compute mu for each weight
+mu <- link(mod, data = data.frame(weight = weight.seq))
+str(mu)
+
+# Visualize the distribution of mu values
+plot(height ~ weight, d2, type = "n")  # Hide raw data with type = "n"
+
+# Loop over samples and plot each mu value
+for (i in 1:100) {
+  points(weight.seq, mu[i, ], pch = 16, col = col.alpha(rangi2, 0.1))
+}
+```
+
+The `link` function fixes the weight at the values in `weight.seq` and
+draws samples from the posterior distribution of the parameters. Above, 
+the first $100$ (of $1000$) rows are used.
+
+We can also draw a nice shade (using all 1000 rows of the $\mu$-matrix) 
+for the regression line:
+
+```{r}
+# Summarize the distribution of mu
+mu.mean <- apply(mu, 2, mean)
+mu.PI <- apply(mu, 2, PI, prob = 0.89)
+plot(height ~ weight, d2, col = col.alpha(rangi2, 0.5))
+lines(weight.seq, mu.mean)
+shade(mu.PI, weight.seq)
+```
+
+The function `PI` from the `rethinking` package calculates the 89% percentile interval 
+for the mean of the height at a certain weight. The `apply` function 
+apples this function to each columns (hence the `2`) of the matrix `mu`.
+
+As we can see, we are pretty sure about the mean of height which 
+we wanted to model in the first place.
+
+**Mean modeling is one thing, individual prediction is another**.
+Given a certain weight of a person, what is the height of the same person?
+The first line in the model definition ($height_i \sim Normal(\mu_i, \sigma)$)
+tells us that a person's height is distributed *around* the mean
+(which linearly depends on weight) and is not necessary the mean itself.
+
+To get to an **individual prediction**, we need to consider the uncertainty 
+of the parameter estimation *and* the uncertainty from the Gaussian distribution
+around the mean (at a certain weight). We do this with `sim`.
+
+```{r}
+# Simulate heights from the posterior
+sim.height <- sim(mod, data = list(weight = weight.seq))
+str(sim.height)
+
+# Compute the 89% prediction interval for simulated heights
+height.PI <- apply(sim.height, 2, PI, prob = 0.89)
+
+# Plot the raw data
+plot(height ~ weight, d2, col = col.alpha(rangi2, 0.5))
+
+# Draw MAP (mean a posteriori) line
+lines(weight.seq, mu.mean)
+
+# Draw HPDI (highest posterior density interval) region for mu
+shade(mu.PI, weight.seq)
+
+# Draw PI (prediction interval) region for simulated heights
+shade(height.PI, weight.seq)
+```
+
+Here, the `PI` function is applied to the simulated heights and calculates the 89%
+percentile interval for each weight.
+
+The lighter and wider shaded region is where the model expects to find 89%
+of the heights of a person with a certain weight. 
+
+This part is **sometimes a bit desillusioning** when seen for the first time:
+Draw a horizontal line at 150 cm and see how many weights (according to 
+the individual prediction) are compatible with this height. Weights 
+from 30 to 50 kg are compatible with this height according to the 
+89% prediction interval:
+
+```{r, echo=FALSE}
+# Simulate heights from the posterior
+sim.height <- sim(mod, data = list(weight = weight.seq))
+#str(sim.height)
+##  num [1:1000, 1:46] 138 130 130 147 136 ...
+
+# Compute the 89% prediction interval for simulated heights
+height.PI <- apply(sim.height, 2, PI, prob = 0.89)
+
+# Plot the raw data
+plot(height ~ weight, d2, col = col.alpha(rangi2, 0.5))
+
+# Draw MAP (mean a posteriori) line
+lines(weight.seq, mu.mean)
+
+# Draw HPDI (highest posterior density interval) region for mu
+shade(mu.PI, weight.seq)
+
+# Draw PI (prediction interval) region for simulated heights
+shade(height.PI, weight.seq)
+
+# Add horizontal line at height = 150
+abline(h = 150, col = "red", lty = 2)
+
+# Find weight range for height = 150
+height_at_150 <- which.min(abs(height.PI[1, ] - 150)) # Closest weight for lower bound
+weight_lower <- weight.seq[height_at_150]
+
+height_at_150_upper <- which.min(abs(height.PI[2, ] - 150)) # Closest weight for upper bound
+weight_upper <- weight.seq[height_at_150_upper]
+
+# Add vertical lines for weight range
+abline(v = c(weight_lower, weight_upper), col = "blue", lty = 2)
+
+# Annotate the plot (optional)
+text(weight_lower, 150, labels = paste("Upper:", round(weight_lower, 1)), pos = 4)
+text(weight_upper, 150, labels = paste("Lower:", round(weight_upper, 1)), pos = 4)
+```
+
+The higher the credibility, the wider the interval,
+the wider the range of compatible weights. 
+In our example, more than 60% of the weight-range are 
+plausible to predict a height of 150 cm.
+
+```{r}
+(50 - 30) / (range(d2$weight)[2] - range(d2$weight)[1])
+```
+
+On the other hand: We did not model the relationship this way.
+We modeled **height depending on weight** and not the other way around. 
+In the next chapter, we will regress weight on height (yes, this is the correct order)
+and see what changes.
+
+
+
+### Summary
+
+- We have added a covariate (weight) to the simple mean model to predict height.
+- We have centered the weight variable.
+- We have defined and refined priors for the intercept and slope.
+- We have estimated the posterior distribution of the parameters using quadratic approximation with `quap`.
+- We have visualized the result.
+- We have created credible bands for mean and individual predictions.
+
+
+## Simple Linear Regression in the Frequentist Framework
+
+We will now do the same analysis in the Frequentist framework while introducing
+some foundational theory along the way.
+I recommend reading the first couple of chapters from [Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4).
+
+### Model definition
+
+Our linear model is defined as:
+
+$$h_i = \beta_0 + \beta_1 x_i + \varepsilon_i$$
+
+where
+
+- $\varepsilon_i$ is the error term with $\varepsilon_i \sim N(0, \sigma^2), \forall i$
+- $\beta_0$ is the unknown but fixed intercept
+- $\beta_1$ is the unknown but fixed slope
+
+#### Model Assumptions of the Classical Regression Model ([Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4), 1.7): {#_model_assumptions}
+
+The first and **most important assumption** is that the data are produced  
+probabilistically, which is specifically stated as
+$$Y|X = x \sim p(y|x)$$
+
+What does this mean? 
+
+- $Y|X = x$ is the random variable Y **conditional** on X being equal to x, i.e. the 
+   distribution of $Y$ if we know the value of $X$ (in our example the weight in kg).
+   [This](https://blogs.sas.com/content/iml/files/2015/09/GLM_normal_identity.png) is a nice image of what is meant here.
+- $p(y|x)$ is the distribution of potentially observable $Y$ given $X = x$. 
+  In our case above this was the normal distribution with mean $\mu_i$ and variance $\sigma$.
+
+You can play with [this shiny app](https://psychmeth.shinyapps.io/Regression-NVFehler/) to improve your understanding.
+It offers the option "Bedingte Verteilung anzeigen".
+
+One always thinks about the so-called
+[data generating process](https://en.wikipedia.org/wiki/Data_generating_process) 
+([Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4), 1.2).
+How did the data come about? There is a process behind it and this process
+is attempted to be modeled.
+
+**Further assumptions**:
+
+- **Correct functional specification**: The conditional mean function $f(x) = \mathbb{E}(Y|X=x)$.
+  In the case of the linear model, the assumption is $\mathbb{E}(Y|X=x) = \alpha + \beta x$. 
+  The **expectation** of $Y$ (height) depends linearly on $x$ (weight).
+  This assumption is violated when the true relationship is not linear or the
+  data at least suggest that it is not linear, like [here](https://www.alexanderdemos.org/Class5_files/figure-html/unnamed-chunk-2-1.png).
+
+- **The errors are homoscedastic** (constant variance $\sigma^2$). This means the
+  variances of all conditional distributions $p(y|x)$ are constant ($=\sigma^2$).
+  This assumption is (for instance) violated if points are [spreading out more and more
+  around the regression line](https://www.investopedia.com/thmb/n9S9lWMv6X9-sKC2DtAOtUTPSik=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Heteroskedasticity22-ce5acc2acef6494d91935588b0599579.png), 
+  indicating that the errors are getting larger.
+
+- **Normality**. For the classical linear regression model all the conditional
+  distributions $p(y|x)$ are normal distributions. It could well be, that
+  the errors are not nicely normally distributed around the regression line,
+  for instance if we have a lot of outliers upwards and the distribution 
+  is skewed, like [here (Figure 5.20)](https://www.bookdown.org/rwnahhas/RMPH/mlr-normality.html).
+
+- The **errors are independent** of each other. 
+  The potentially observable $\varepsilon_i = Y_i - f(\mathbf{x_i}, \mathbf{\beta})$
+  is uncorrelated with $\varepsilon_j = Y_j - f(\mathbf{x_j}, \mathbf{\beta})$ for 
+  $i \neq j$. This assumption is violated if the errors are correlated,
+  here is an example: The true data comes from a sine curve and we estimate a 
+  linear model (green), which does not fit the data well (left plot).
+  The residuals plot shows clear patterns (right plot) and indicates
+  that the errors are correlated. Specifically, the errors around $x=2$ and $x=4$ 
+  are negatively correlated (see [exercise 6](#exercise6_simpl_lin_reg)).
+```{r, echo=FALSE, warning=FALSE}
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Generate data from a sine function
+x <- seq(0, 2 * pi, length.out = 100)       # Predictor variable
+true_y <- sin(x)                            # True values based on sine function
+
+# Add noise to simulate observed data
+noise <- rnorm(length(x), mean = 0, sd = 0.2)
+observed_y <- true_y + noise                # Observed response variable
+
+# Perform a simple linear regression with intercept
+linear_model <- lm(observed_y ~ x)
+
+# Display summary of the model
+#summary(linear_model)
+
+# Load necessary libraries
+library(ggplot2)
+library(patchwork)
+
+# Create the first plot: Observed data and linear regression fit
+plot1 <- ggplot(data = data.frame(x, observed_y, true_y), aes(x = x)) +
+  geom_point(aes(y = observed_y), color = "blue", size = 2) +
+  geom_line(aes(y = true_y), color = "red",
+            linetype = "dashed", linewidth = 1) +
+  geom_abline(intercept = coef(linear_model)[1], slope = coef(linear_model)[2],
+              color = "green", linewidth = 1) +
+  labs(title = "Sine Data with Linear Regression", x = "x", y = "Observed y") +
+  theme_minimal()
+
+# Create the second plot: Residuals
+plot2 <- ggplot(data = data.frame(x, residuals = residuals(linear_model)),
+                aes(x = x, y = residuals)) +
+  geom_point(color = "blue", size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Residuals vs. x", x = "x", y = "Residuals") +
+  theme_minimal()
+
+# Arrange the plots side by side using patchwork
+plot1 + plot2
+```
+
+In the case above, the errors are **not conditionally independent**.
+If we condition on $X=2$ and $X=4.5$, the errors are correlated ($r \sim -0.3$),
+which they should not be.
+
+These assumptions become clearer as we go along and should be checked 
+for every model we fit. They are not connected, they can all be true or false.
+The question is not "Are the assumptions met?" since they never are exactly met.
+The question is **how** "badly" the assumptions are violated?
+
+Remember, **all models are wrong, but some are useful**.
+
+In full, **the classical linear regression model** can be written as:
+
+$$Y_i|X_i = x_i \sim_{independent} N(\beta_0 + \beta_1 x_{i1} + \dots \beta_k x_{ik},\sigma^2)$$
+for $i = 1, \dots, n$.
+
+Interpretation of this formula:
+
+The outcome variables $Y_i$ are independently (from each other, 
+since the errors are indepentent from each other) conditionally normally distributed
+(conditioned on $X_i=x_i$) with a mean that is linearly depending on
+true but unknown parameters $\beta_0, \beta_1, \dots, \beta_k$ and a 
+constant variance $\sigma^2$.
+
+### Fit the model {#fit_model_simple_lin_reg_classic}
+
+Again, we fit the model using the [**least squares method**](https://en.wikipedia.org/wiki/Least_squares). 
+For a neat animated explanation, 
+visit [this video](https://www.youtube.com/watch?v=jEEJNz0RK4Q&ab_channel=COCCmath).
+There are literally hundreds of videos on the topic. Choose wisely. Not all are good.
+If in doubt, use our recommended books as reading materials. This is the most reliable source.
+A hint along the way: Be very sceptical if you ask GPT about information, 
+although for this special case one has a good chance of getting a decent answer due to 
+the vast amount of training data. 
+
+One has to minimize the sum of squared differences between the true heights and 
+the model-predicted heights in order to find $\beta_0$ and $\beta_1$.
+
+$$SSE(\beta_0, \beta_1) = \sum_{i=1}^n (y_i - (\beta_0 + \beta_1 x_i))^2$$
+
+We omit the technical details (set derivative to zero and solve the system) and give the results for $\beta_0$ and $\beta_1$:
+
+\[
+\hat{\beta_0} = \bar{y} - \hat{\beta_1} \bar{x},
+\]
+\[
+\hat{\beta_1} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} =
+ \frac{s_{x,y}}{s_x^2} = r_{xy} \frac{s_y}{s_x}.
+\]
+
+where:
+
+- \(r_{xy}\) is the [sample correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) between \(x\) and \(y\)
+- \(s_x\) and \(s_y\) are the [uncorrected sample standard deviations](https://en.wikipedia.org/wiki/Standard_deviation) of \(x\) and \(y\)
+- \(s_x^2\) and \(s_{xy}\) are the [sample variance](https://en.wikipedia.org/wiki/Variance) and [sample covariance](https://en.wikipedia.org/wiki/Covariance), respectively
+
+Interpretation of $\hat{\beta}_0$ and $\hat{\beta}_1$: see [exercise 3](#exercise3_simpl_lin_reg).
+
+Let's **use R again to solve the problem**:
+
+```{r}
+library(rethinking)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+mod <- lm(height ~ weight, data = d2)
+summary(mod)
+```
+
+**Interpretation of R-output**:
+
+- `Call`: The model that was fitted.
+- `Residuals`: $r_i = height_i - \widehat{height}_i$. 
+   Differences between true heights and model-predicted heights.
+- `Coefficients`: Names for $\beta_0$ and $\beta_1$. We call them $\hat{\beta}_0$ and $\hat{\beta}_1$.
+   - `Estimate`: The (least squares) estimated value of the coefficient.
+   - `Std. Error`: The standard error of the estimate. 
+                   This is a measure of how precise the estimator for the coefficient is.
+   - `t value`: The value of the $t$-statistic for the (Wald-) hypothesis test
+        $H_0: \beta_i = 0$.
+   - `Pr(>|t|)`: The $p$-value of the hypothesis test. 
+- `Residual standard error`: The estimate of $\sigma$ 
+   which is also a model parameter (as in the Bayesian framework).
+- `Multiple R-squared`: The proportion of the variance explained by the 
+   model (we will explain this below).
+- `Adjusted R-squared`: A corrected version of the $R^2$ which takes into account
+   the number of predictors in the model.
+- `F-statistic`: The value of the $F$-statistic for the hypothesis test: 
+    $H_0: \beta_1 = \beta_2 = \dots = \beta_k = 0$. Note, the alternative 
+    hypotheses to this test is that *any* of the $\beta_i$ is not zero. If that is
+    the case, the model explains more than the mean model with just $\beta_0$.
+
+We could also **solve the least squares problem graphically**: We want to find the 
+values of $\beta_0$ and $\beta_1$ that minimize the sum of squared differences
+which can be plotted as 3D function. Since the function is a sum of squared terms,
+we should expected a paraboloid form.
+All we have to do is to ask R which of 
+the coordinates ($\beta_0$, $\beta_1$) minimizes the sum of squared errors. 
+The result confirms
+the results from the `lm` function. The dot in red marks the spot 
+(Code is in the [git repository](https://github.com/jdegenfellner/Script_QM2_ZHAW)):
+
+
+```{r, echo=FALSE, eval=TRUE}
+library(pacman)
+p_load(plotly, tidyverse, rethinking)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+
+d2$x <- d2$weight
+d2$y <- d2$height
+
+mod <- lm(y ~ x, data = d2)
+#summary(mod)
+cat("Intercept beta_0: ", coef(mod)[1], "\n")
+cat("Slope beta_1: ", coef(mod)[2], "\n")
+
+sse <- function(beta_0, beta_1, data) {
+  predicted <- beta_0 + beta_1 * data$x
+  sum((data$y - predicted)^2)
+}
+
+beta_0_values <- seq(100, 126, length.out = 1000) # adapt to your data
+beta_1_values <- seq(-1, 3, length.out = 1000) # adapt to your data
+sse_values <- outer(beta_0_values, beta_1_values, Vectorize(function(a, b) sse(a, b, d2)))
+fig <- plot_ly(x = ~beta_0_values, y = ~beta_1_values, z = ~sse_values, type = "surface") %>%
+  layout(title = "Sum of squared errors depending on beta_0 and beta_1")
+#fig
+
+# Highlight min of this paraboloid (fig)----
+min_sse_index <- which(sse_values == min(sse_values), arr.ind = TRUE) # Find indices where error is smallest.
+min_beta_0 <- beta_0_values[min_sse_index[1]]
+min_beta_1 <- beta_1_values[min_sse_index[2]]
+min_sse <- min(sse_values)
+
+# check
+#min_beta_0 # (= Intercept)
+#min_beta_1
+#coef(mod) # match
+
+fig <- fig %>% add_trace(
+  x = min_beta_0, 
+  y = min_beta_1, 
+  z = min_sse, 
+  type = 'scatter3d', 
+  mode = 'markers',
+  marker = list(color = 'red', size = 7)
+)
+
+fig
+```
+
+### Confidence Intervals of coefficients (Frequentist) {#confidence_intervals_frequentist}
+
+You can get CI's conveniently with the `confint` function:
+
+```{r}
+confint(mod, level = 0.96)
+```
+
+Remember, these are Frequentist confidence intervals. 
+
+**If one repeats the experiment (i.e. draws new data from the true model)
+many times, the true but unknown value of the parameter will 
+be in the interval in 96% of the cases.**
+
+We can also use the simple [bootstrap](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)). 
+The advantage of this technique is that we can basically always use it,
+no matter how compliated the estimator is. We do not need formulae.
+We simply
+
+- create 1000 bootstrap samples, 
+- fit the model, 
+- store the coefficients. 
+- The 2% and 98% quantiles of the coefficients constitute the 96% bootstrap confidence interval.
+
+```{r}
+set.seed(123)
+n <- nrow(d2)
+B <- 1000
+boot_coefs <- matrix(NA, nrow = B, ncol = 2)
+for (i in 1:B) {
+  boot_idx <- sample(1:n, replace = TRUE)
+  boot_mod <- lm(height ~ weight, data = d2[boot_idx, ])
+  boot_coefs[i, ] <- coef(boot_mod)
+}
+#head(boot_coefs)
+t(apply(boot_coefs, 2, quantile, c(0.02, 0.98)))
+```
+The CIs are quite similar to the ones from the `confint` function.
+
+In the Bayesian setting, we used the centered weight variable. Let's to this here too for 
+comparison and use 89% coverage probability.
+
+```{r}
+d2$weight_centered <- d2$weight - mean(d2$weight)
+mod_centered <- lm(height ~ weight_centered, data = d2)
+#summary(mod_centered)
+confint(mod_centered, level = 0.89)
+```
+
+Compare with `precis` from the Bayesian model:
+```{r, echo=FALSE}
+library(rethinking)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+xbar <- mean(d2$weight)
+# fit model
+mod <- quap(
+    alist(
+        height ~ dnorm(mu, sigma),
+        mu <- a + b * (weight - xbar),
+        a ~ dnorm(171.1, 100),
+        b ~ dnorm(0, 10),
+        sigma ~ dunif(0, 50)
+    ) ,
+data = d2)
+precis(mod)
+```
+
+We are glad to see that both analyses align really nicely.
+
+### ANOVA (Analysis of Variance) {#analysis_of_variance}
+
+A non-obvious and very useful finding is that the total variability (SST)
+in the data (our heights) can be
+**decomposed** (or [analysed](https://en.wiktionary.org/wiki/analysis)) 
+into two parts:
+
+- The variability explained by the model (the regression line): SSR
+- The variability not explained by the model (the residuals): SSE
+
+$$\text{Sum of Squares in Total} = \text{Sum of Squares from Regression} + \text{Sum of Squared Errors}$$
+
+$$SST = SSR + SSE$$
+
+$$\sum_{i=1}^{n} (y_i - \bar{y})^2 = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 + \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+If you are interested in the details, check out [this](https://en.wikipedia.org/wiki/Explained_sum_of_squares#Partitioning_in_the_general_ordinary_least_squares_model).
+
+[This video](https://www.youtube.com/watch?v=NxRTs7sXKAQ&ab_channel=365DataScience) 
+explains the concept nicely.
+
+Let's visualize our regression result:
+
+```{r, echo=FALSE}
+library(rethinking)
+library(tidyverse)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+
+# Fit linear model
+mod <- lm(height ~ weight, data = d2)
+
+# Calculate predicted heights for the regression line
+d2 <- d2 %>%
+  mutate(predicted_height = predict(mod, newdata = d2),
+         mean_height = mean(height))
+
+# Select one point to highlight the differences
+highlight_point <- d2[10, ]
+
+# Create the plot
+ggplot(d2, aes(x = weight, y = height)) +
+  # Scatterplot of all points
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue", linewidth = 1) +
+  geom_point(data = highlight_point, aes(x = weight, y = height),
+            color = "red", size = 3) +
+  
+  # Vertical difference: Point and mean height (offset slightly left)
+  geom_segment(data = highlight_point,
+               aes(x = weight - 0.5, xend = weight - 0.5,
+                   y = height, yend = mean_height, color = "Point-to-Mean"),
+               linetype = "dashed") +
+  
+  # Vertical difference: Point and regression line (no offset)
+  geom_segment(data = highlight_point,
+               aes(x = weight, xend = weight,
+                   y = height, yend = predicted_height,
+                   color = "Point-to-Line"),
+               linetype = "dashed") +
+  
+  # Vertical difference: Regression line and mean height (offset slightly right)
+  geom_segment(data = highlight_point,
+               aes(x = weight + 0.5, xend = weight + 0.5,
+                   y = predicted_height,
+                   yend = mean_height, color = "Line-to-Mean"),
+               linetype = "dashed") +
+  
+  # Add horizontal line for the mean height
+  geom_hline(yintercept = mean(d2$height), 
+             color = "darkgreen", linetype = "dashed") +
+  # Labels
+  labs(title = "Scatterplot with Regression Line and Differences",
+       x = "Weight",
+       y = "Height",
+       color = "Distance Type") +
+  # Style
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5,
+                              size = 16),  # Center and adjust title size
+    legend.position = "top"  # Place legend at the top
+  )
+```
+
+The blue dotted line is the distance from
+the mean to the point (total variance), the red dotted line is the distance from
+the mean to the regression line (explained variance) and the green dotted line
+is the distance from the regression line to the point (unexplained variance).
+We see that it adds up. I find this fact quite fascinating.
+Thank you [Ronald Fisher](https://en.wikipedia.org/wiki/Analysis_of_variance#:~:text=ANOVA%20was%20developed%20by%20the,to%20different%20sources%20of%20variation.).
+
+See [exercise 13](#exercise13_simpl_lin_reg).
+
+### $R^2$ - Coefficient of Determination
+[$R^2$](https://en.wikipedia.org/wiki/Coefficient_of_determination)
+is the **amount of variance explained by the model**. 
+You can also read [Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4) 8.1.
+
+As you can see 
+[above](#analysis_of_variance), the total variance (SST) of our outcome (height) 
+can be decomposed into two parts: the variance explained by the model (SSR)
+and the variance not explained by the model (SSE).
+
+Maybe the most intuitive definition of $R^2$ is:
+
+$$R^2 = \frac{SSR}{SST} = \frac{SST - SSE}{SST} = 1 - \frac{SSE}{SST}$$
+
+The value is between 0 and 1. The higher the value, the more variance is explained.
+But be cautious. Depending on the context, a really high $R^2$ is not 
+necessarily a good thing. With the data we are working with,
+it could easily hint towards an error. If we are near 1,
+all points in the simple linear regression model are on the line.
+If we are near 0, the model does not explain much of the variance 
+and we would see "noise with no slope" in the scatterplot ([exercise 4](#exercise4_simpl_lin_reg)).
+The normal $R^2$ can be found in the R output under `Multiple R-squared`.
+
+If you add a lot of variables to your regression model, you can get an
+$R^2$ of 1. The $R^2$ will never decrease when adding more variables.
+We will verify this when we have more than 2 explanatory variables. 
+As a non-formal explanation for this: In the Sum of Squares Errors (SSE),
+if you add more covariates ($\beta_2, \beta_3$), you have more freedom
+to choose values that minimize the number that will be squared. Simple regression
+is just a special case of multiple (more than one predictor) regression with $\beta_2=\beta_3=\dots=0$.
+Hence, you will definitely not be worse off with regards to SSE when using more covariates.
+A smaller SSE implies a larger SSR (sum constraint; SST remains constant) and hence a larger $R^2$.
+If you have as many explanatory variables as data points, you can get an $R^2$ of 1. This is
+[overfitting](https://en.wikipedia.org/wiki/Overfitting) at its "best" (which we want to avoid). 
+You would just get a value for each data point by setting all other $\beta_i$ to zero and 
+$\beta_i = \frac{y_i}{x_i}$. 
+Since we want to find the unterlying process, we want to avoid this.
+
+Although not perfect, one way to mitigate the influence of "too many" variables
+on $R^2$ is to use the adjusted $R^2$, which an also be found in the R output (`Adjusted R-squared`).
+
+#### Seperating property of regression due to $R^2$: {#seperating_property}
+[Peter Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4)
+explains (in Figure 8.1 of the book) how $R^2$ influences the separation of distributions in our simple regression model.
+
+In our regression of *height on weight* (the order is correct, that's how you say it), 
+the $R^2$ is $0.5696$. The following plot shows how "well" (i.e. precise) one can predict
+height if we use the 10% and 90% quantile of the weights (x_low and x_high).
+In both, you see the conditional distribution of height given the weight $X = x_{low}$ or $X = x_{high}$.
+Scenario 1 is the original model, scenario 2 is the same data with added noise (in Y-direction),
+which reduces $R^2$ to $0.13$, much lower. In the right plot, the distributions have a large
+overlap and it is hard to distinguish between weights when seeing the height.
+With a very low $R^2$, the height prediction does not really change and we could just as well
+use the mean model.
+
+```{r, echo=FALSE}
+library(pacman)
+p_load(plotly, tidyverse, rethinking, patchwork)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+
+mod <- lm(height ~ weight, data = d2)
+#summary(mod)
+
+#plot(d2$weight, d2$height)
+
+# lets use the 10% and the 90% quantile 
+# of height
+
+x_low_high <- quantile(d2$weight, probs = c(0.1, 0.9))
+
+# Scenario 1
+# original
+#coef(mod)
+# Conditional distribution of height is: N(113.8793936  + 0.9050291 *weight, 5.086)
+
+# Draw to distributions for weights = x_low_high into one diagram
+# 1) N(113.8793936  + 0.9050291 *x_low_high[1], 5.086)
+# 2) N(113.8793936  + 0.9050291 *x_low_high[2], 5.086)
+
+# Parameters for the two normal distributions
+mean1 <- 113.8793936 + 0.9050291 * x_low_high[1]
+mean2 <- 113.8793936 + 0.9050291 * x_low_high[2]
+sd <- 5.086  # Standard deviation for both distributions
+
+# Create a data frame for plotting
+x_seq <- seq(mean1 - 4 * sd, mean2 + 4 * sd, length.out = 1000)
+data <- data.frame(
+  x = rep(x_seq, 2),
+  density = c(dnorm(x_seq, mean = mean1, sd = sd),
+              dnorm(x_seq, mean = mean2, sd = sd)),
+  group = rep(c(paste0("x_low = ", x_low_high[1]),
+                paste0("x_high = ", x_low_high[2])), each = length(x_seq))
+)
+
+# Scenario 2
+# more variability to get a worse R^2
+set.seed(123)
+d2$height_added_noise <- d2$height + rnorm(nrow(d2), mean = 0, sd = 15)
+
+mod_noise <- lm(height_added_noise ~ weight, data = d2)
+#summary(mod_noise)
+
+# Extract the new coefficients
+coef_noise <- coef(mod_noise)
+
+# Conditional distribution of height with noise
+# N(coef_noise[1] + coef_noise[2] * weight, Residual SD)
+residual_sd <- sigma(mod_noise)
+
+# Parameters for the two normal distributions
+mean1_noise <- coef_noise[1] + coef_noise[2] * x_low_high[1]
+mean2_noise <- coef_noise[1] + coef_noise[2] * x_low_high[2]
+
+# Create a data frame for plotting (with added noise)
+x_seq_noise <- seq(mean1_noise - 4 * residual_sd, mean2_noise + 4 * residual_sd, length.out = 1000)
+data_noise <- data.frame(
+  x = rep(x_seq_noise, 2),
+  density = c(dnorm(x_seq_noise, mean = mean1_noise, sd = residual_sd),
+              dnorm(x_seq_noise, mean = mean2_noise, sd = residual_sd)),
+  group = rep(c(paste0("x_low = ", x_low_high[1]),
+                paste0("x_high = ", x_low_high[2])), each = length(x_seq_noise))
+)
+
+# Plot for Scenario 1
+plot1 <- ggplot(data, aes(x = x, y = density, color = group)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Scenario 1",
+    x = "Height",
+    y = "Density",
+    color = "Weight"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c("blue", "red")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),
+    legend.position = "bottom"
+  )
+
+# Plot for Scenario 2
+plot2 <- ggplot(data_noise, aes(x = x, y = density, color = group)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Scenario 2",
+    x = "Height",
+    y = "Density",
+    color = "Weight"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c("blue", "red")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),
+    legend.position = "bottom"
+  )
+
+# Combine the two plots side by side with a shared legend
+combined_plot <- plot1 + plot2 +
+  plot_layout(guides = "collect") &  # Collect the legend
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, size = 16)
+  )
+
+# Add a single title to the combined plot
+combined_plot <- combined_plot +
+  plot_annotation(
+    title = "Normal Distributions for Two Scenarios",
+    theme = theme(plot.title = element_text(size = 18, hjust = 0.5))
+  )
+
+# Display the combined plot
+combined_plot
+```
+
+In the left plot, given $X = x_{low}$ gives a a rather strongly shifted normal distribution of
+potentially observable heights for this weight compared to $X=x_{high}$.
+We would have a lower missclassification error when trying to distinguish heights
+of very light and very heavy people in the sample just by seeing the height. 
+You can think of an even more extreme separation of these distributions,
+which would happen, when $R^2$ is very high or the true slope is much higher.
+
+See also [exercise 5](#exercise5_simpl_lin_reg).
+
+An interesting way to look at $R^2$ is the following:
+Given, that one person is in the 90% quantile of the weight,
+the other is in the 10% quantile. What is the probability that the
+height of the person in the 90% quantile is higher than the height of the other person?
+We could calculate this relatively easy using theorems about additivity of normal distributions.
+Since we are all about application, we simulate this:
+
+```{r}
+library(rethinking)
+data(Howell1)
+d <- Howell1
+d2 <- d[d$age >= 18, ]
+# Simulate heights for the two quantiles
+n_sims <- 10000
+set.seed(123)
+mod <- lm(height ~ weight, data = d2)
+summary(mod)$r.squared
+x_low_high <- quantile(d2$weight, probs = c(0.1, 0.9))
+x_low_high
+mean1 <- 113.8793936 + 0.9050291 * x_low_high[1]
+mean2 <- 113.8793936 + 0.9050291 * x_low_high[2]
+sd <- 5.086  # Standard deviation for both distributions
+simulated_heights <- tibble(
+  # conditional normal distribution according to the model
+  low_heights = rnorm(n_sims, mean = mean1, sd = sd),
+  high_heights = rnorm(n_sims, mean =  mean2, sd = sd)
+)
+
+# Calculate the probability that the height of the person in the 90% quantile is higher
+# than the height of the person in the 10% quantile
+simulated_heights %>%
+  mutate(higher_height = high_heights > low_heights) %>%
+  dplyr::summarise(mean(higher_height))
+```
+
+In other words, we can be almost sure, that a person in the 90% quantile of the weight
+is taller than a person in the 10% quantile of the weight given this data set. 
+See also [exercise 11](#exercise11_simpl_lin_reg).
+
+### Check regression assumptions
+Everytime we fit a model, we should check the assumptions [above](#_model_assumptions).
+We do this for different reasons (which will become clearer over the course). 
+The assumptions are independent of each other.
+They can all be true or false or some can be true and some false 
+([Wesftall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4), p.21).
+Chapter 4 in the book is dedicated to this topic. It is important to know
+that the assumptions are usually not met exactly. The question is *how badly* they are violated,
+not *if* they are violated.
+Furthermore, the asssumptions refer to the data generating process, not the data itself.
+Thus, the evaluation of the assumptions should involve subject matter knowledge.
+
+$p$-values to evaluate model assumptions are not a good idea. To [quote](https://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108#d1e949) the 
+American Statistical Association (ASA): "By itself, a $p$-value does not provide a good measure 
+of evidence regarding a model or hypothesis."
+Decision-tree thinking might not be the best idea for statistical modeling.
+
+We will not use hypothesis tests for assumptions, because
+
+- They are never met exactly. You cannot "prove" them.
+- With small sample sizes, the statistical *power* is often low.
+- With large sample sizes, the smallest deviation will be "significant".
+
+We will follow the book (chapter 4, pages 99ff) and use graphical and simulation methods to check the assumptions.
+As guidance, we could check them in the following order:
+
+- Linearity
+- Constant variance 
+- Independence
+- Normality
+
+#### Linearity {#linearity}
+
+First, we **plot the data**, as we did already above. We can add a 
+a smoothing line to the raw data as well:
+
+```{r, echo=FALSE}
+ggplot(d2, aes(x = weight, y = height)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue", linewidth = 1) +
+  labs(title = "Scatterplot with Regression Line",
+       x = "Weight",
+       y = "Height") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+It looks like this relationship is describable in a linear way.
+No apparent curvature or patches.
+A refined version of the scatterplot of the raw data is The
+**residual scatter plot** ($x_i, e_i$):
+
+```{r, echo=FALSE}
+# Calculate residuals
+d2$residuals <- residuals(mod)
+
+# Create the residual scatter plot
+ggplot(d2, aes(x = weight, y = residuals)) +
+  geom_point(alpha = 0.6) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  geom_smooth(method = "loess", se = FALSE, color = "blue", linewidth = 1) +
+  labs(title = "Residuals vs. Weight",
+       x = "Weight",
+       y = "Residuals") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+Compared to the scatterplot above, the residuals plot magnifies
+possible curvature. The reason is that the range of residuals
+is smaller than the range of the heights. 
+
+In multiple regression, we will use the ($\hat{y_i}, e_i$) plot, which is
+identical to the  plot above in simple linear regression, but
+very helpful in multiple regression.
+You get the ($\hat{y_i}, e_i$) plot in R with `plot(mod, which = 1)`.
+
+
+#### Constant variance {#constant_variance}
+
+This assumption means that the variance of the residuals is constant.
+If it is violated, the spread around a hypothetical regression line is not constant.
+We look at the residual scatter plot again:
+
+```{r, echo=FALSE}
+plot(mod, which = 1)
+```
+
+Look for a changes in patterns of vertical variability. Note, that you
+often do not have as many data points near the end of the range of the predictor.
+Here are some examples of heteroskedasticity:
+[1](https://i0.wp.com/statisticsbyjim.com/wp-content/uploads/2017/08/residuals_unfixed.png?resize=576%2C384),
+[2](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPAPMGV5U0Pe0nKnhoZWHJ8KypqVCls6ZQZud84C3KM8SJqOkuMNeJl2oTg-UDuukJRhk&usqp=CAU),
+[3](https://i.sstatic.net/R5KIH.png). 
+The above looks homoscedastic. If it was heteroskedastic, this is not a problem,
+we just have to model it differently (later).
+
+As always, it is a good idea to study the variability of these plots
+using simulation ([exercise 7](#exercise7_simpl_lin_reg)). 
+
+Better for detecting heteroscedasticity is the ($\hat{y_i}, |e_i|$) plot
+with a smoothing line:
+
+```{r, echo=FALSE}
+library(rethinking)
+data("Howell1")
+d <- Howell1
+str(d)
+d2 <- d[d$age >= 18, ] # only adults
+mod <- lm(height ~ weight, data = d2)
+predicted_height <- predict(mod)
+residuals <- residuals(mod)
+ggplot(d2, aes(x = predicted_height, y = abs(residuals))) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue", linewidth = 1) +
+  labs(title = "Residuals vs. Predicted Height",
+       x = "Predicted Height",
+       y = "Absolute Residuals") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+This will probably not be a perfectly horizontal line, since
+there are less points at the end of the range of the predictor.
+For instance, There are less people with extreme weights in the data set.
+
+#### Independence, uncorrelated errors
+
+We had an example above, where the errors were correlated. 
+The sine curve could stem from time series data, where the $x$-variable 
+is the time and the $y$-variable is a seasonally changing variable
+like temperature (purely hypothetical). In [exercise 6](#exercise6_simpl_lin_reg),
+the values are autocorrelated: Correlated with previous values of the same variable.
+If we would track the body heights of persons over time, we would have
+an autocorrelated time series since the height of a person at time $t$ is
+correlated with the height of the same person at time $t-1$, but a little
+less with the height at time $t-2$ and so on. If I am tall today, it is 
+very likely that I was tall yesterday.
+
+In our case of the !Kung San data, we do not have autocorrelated data.
+Just because the first person we drew is tall, does not mean that the second
+person we draw is tall. We could draw a very young person for instance.
+
+But still, we could look at the correlations the residuals with lagged residuals. 
+A $lag=1$ means I compare the residuals with the ones right next to me and check if
+they are correlated. 
+
+```{r, echo=FALSE, warning=FALSE}
+library(rethinking)
+data("Howell1")
+d <- Howell1
+#str(d)
+d2 <- d[d$age >= 18, ] # only adults
+mod <- lm(height ~ weight, data = d2)
+predicted_height <- predict(mod)
+residuals <- residuals(mod)
+residuals_lagged <- c(NA, residuals[1:(length(residuals)-1)])
+cat("cor=",cor(residuals, residuals_lagged, use = "pairwise.complete.obs"))
+plot(residuals, residuals_lagged)
+```
+
+At least with a lag of $1$, there so no large correlation between the residuals.
+
+#### Normality {#normality_assumption}
+
+This assumptions states that the conditional distribution $Y|X=x$ 
+is a normal distribution. We do not look at the normality of $Y$ itself,
+since it is not a formal requirement, that $Y$ is normally distributed.
+It might well occur that the conditional distributions are all normal,
+but the variance is not constant. Then we would have heteroskedasticity,
+but the assumption of normality would be fullfilled.
+
+We need to assess the normality of the residuals $e_i = y_i - \hat{y}_i$
+I like doing this with a [Q-Q plot](https://jdegenfellner.github.io/Script_QM1_ZHAW/descriptive_stats.html#q-q-plots) 
+from the R package `car` (command `qqPlot`):
+
+```{r, echo=FALSE, warning=FALSE}
+library(rethinking)
+library(car)
+data("Howell1")
+d <- Howell1
+d2 <- d[d$age >= 18, ] # only adults
+mod <- lm(height ~ weight, data = d2)
+qqPlot(residuals(mod), envelope = 0.97)
+``` 
+
+With the 97% confidence envelope, we can see if the residuals are
+consistent with coming from a normal distribution.
+We could again use simulation to see how the Q-Q Plot changes 
+to get a better feeling (see [exercise 9](#exercise9_simpl_lin_reg)).
+
+Another convenient way to check model assumptions (for a wide class of models) 
+is to use the `check_model` function from the `performance` package:
+
+```{r, echo=FALSE}
+library(performance)
+check_model(mod)
+```
+
+In this case, everything looks fine. Let`s go through the plots and explain them one by one:
+
+##### Posterior predictive check (upper left)
+
+Here, you create new data from the estimated model. We did that already in
+the Bayesian framework using `sim` from the `rethinking` package.
+You could also try the command `extract.samples()`from the `rethinking` package 
+(Statistical Rethinking p. 196) to create
+new data from the Frequentist model. You can try this in our exercises sessions. 
+Using least squares, the estimated model was:
+
+$$height_i = 113.87939 + 0.90503 \cdot weight_i + Normal(0, 5.086)$$
+
+From this model, we can simulate new data (or the original weights, if we want to use fixed $X$) 
+by plugging in different weights, and adding a random error from a normal distribution 
+with mean 0 and standard deviation 5.086.
+Then, we can compare the distribution of the simulated data with the observed data.
+The blue lines in the graph (output from `check_model`) are density 
+estimations of model predicted heights, the green line is the density estimate of the
+observed heights. 
+
+Let`s try to replicate this plot.
+First, we want to simulate new data from the model.
+A scatter plot is another nice way to check if model predictions
+are in line with the observed data. One could repeat this process
+multiple times to get a feeling for the variability of the model predictions.
+
+```{r, echo=FALSE}
+# Create new data
+new_data <- data.frame(weight = d2$weight)
+new_data$height <- rnorm(nrow(new_data), 
+                   mean = coef(mod)[1] + coef(mod)[2] * new_data$weight, sd = sigma(mod))
+
+# Create the plot
+ggplot(new_data, aes(x = weight, y = height)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue", linewidth = 1) +
+  geom_point(data = d2, aes(x = weight, y = height), color = "green", alpha = 0.6) +
+  labs(title = "Scatter plot of observed and simulated data",
+       x = "Weight",
+       y = "Height") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+The simulated and original data (green) fit nicely together. 
+This lends some credibility to the model - at least in terms of prediction.
+And now the density plots of the model created data (blue) and the observed data (green):
+
+```{r, echo=FALSE}
+
+# Set up an empty plot area
+plot(NULL, xlim = range(d2$height), ylim = c(0, 0.07), 
+     xlab = "Height", ylab = "Density", 
+     main = "Posterior Predictive Density Plot")
+
+# Simulate 10 new datasets and overlay densities
+for (i in 1:10) {
+  # Generate new simulated data
+  new_heights <- rnorm(
+    n = nrow(d2),
+    mean = coef(mod)[1] + coef(mod)[2] * d2$weight,
+    sd = sigma(mod)
+  )
+  
+  # Add density for simulated data in light blue
+  lines(density(new_heights), col = rgb(0.2, 0.6, 1, alpha = 0.2), lwd = 1)
+}
+
+# Add density for the original data in green
+lines(density(d2$height), col = "green", lwd = 2)
+
+# Add a legend
+legend("topright", legend = c("Observed", "Simulated"),
+       col = c("green", rgb(0.2, 0.6, 1, alpha = 0.5)), 
+       lwd = c(2, 2), bty = "n", cex = 0.8)
+```
+
+As you can see, the densities of the observed and simulated data are broadly similar.
+One could argue that heights in the range of 150-160 cm are a bit overestimated by the model.
+Depending on the context, this might be a problem or not. Let`s accept the model for now.
+
+##### Linear fit (upper right)
+This is the same plot as [above](#linearity): $(\hat{y}_i, e_i)$.
+
+##### Homogeneity of variance (middle left)
+This is the same plot as [above](#constant_variance): $(\hat{y}_i, |e_i|)$.
+
+##### Influential observations (middle right)
+The standard method to check for influential observations is to compute the
+so-called [Cook's distance](https://en.wikipedia.org/wiki/Cook%27s_distance). 
+This is a measure of how much leverage a single observation has on the model.
+We can extract the Cook's distance from the model using `cooks.distance()`.
+An ugly rule of thumb would be to look at observations with a Cook's distance
+greater than 1.
+In the plot, the leverage $h_{ii}$ is on the x-axis, and the standardized residuals
+are on the y-axis. In short, a high leverage means that the estimated value $\hat{y}_i$
+is potentially far away from the original value $y_i$. 
+The contours (dotted green lines) are the Cook's distance, in this 
+case at a Cook's distance of 0.5.
+There is a [formula](https://en.wikipedia.org/wiki/Cook%27s_distance#Relationship_to_other_influence_measures_(and_interpretation))
+that relates the leverage ($h_{ii}$), the Cook's distance
+and the residuals. Holding Cook`s distant constant at 0.5, 
+gives you the green dotted line in the plot.
+
+Let`s create a nasty outlier and see what happens:
+
+```{r, echo=FALSE}
+library(rethinking)
+library(car)
+data("Howell1")
+d <- Howell1
+d2 <- d[d$age >= 18, ] # only adults
+mod <- lm(height ~ weight, data = d2)
+
+# Lets's create an outlier and see what happens,
+# maybe an outlier in x and y
+
+# maybe 3 sd above the mean of weight
+# and 20 sd below the mean of height
+# this should tilt our regression line nicely
+
+#dim(d2)
+d2_copy <- d2
+d2_copy$height[352] <- d2_copy$height[352]  - 20 * sd(d2_copy$height)
+d2_copy$weight[352] <- d2_copy$weight[352]  + 3 * sd(d2_copy$weight)
+mod2 <- lm(height ~ weight, data = d2_copy)
+check_model(mod2)
+
+d2_copy %>% ggplot(aes(weight, height)) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
+
+cat("Cook's distance = ",cooks.distance(mod2)[352])
+```
+
+One single outlier changes the diagnostic plots. Observation 352
+is clearly identified as influential. The one point
+changes all diagnostic plots notably.
+The estimates of the regression coefficients
+are also affected:
+
+```{r, echo=FALSE}
+print("Original Model")
+coef(mod)
+print("Model with outlier")
+coef(mod2)
+```
+
+Admitted, this is a somewhat artificial example.
+
+##### Normality of residuals (lower left)
+This is basically the same plot as [above](#normality_assumption), just [detrended](https://cran.r-project.org/web/packages/qqplotr/vignettes/introduction.html). 
+Let's try to replicate it:
+
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(qqplotr)
+
+# Prepare the data
+df <- data.frame(
+  residuals = scale(mod$residuals) # Standardize the residuals to match `check_model()`
+)
+
+# Create the detrended QQ plot
+ggplot(data = df, mapping = aes(sample = residuals)) +
+  stat_qq_band(distribution = "norm", 
+               bandType = "boot",
+               detrend = TRUE, 
+               fill = "grey", 
+               alpha = 0.3) + # Confidence band
+  stat_qq_line(distribution = "norm", 
+  detrend = TRUE, color = "green", linewidth = 0.8) + # Detrended line
+  stat_qq_point(distribution = "norm", 
+  detrend = TRUE, color = "blue", linewidth = 1.5) + # Points
+  labs(
+    title = "Normality of Residuals",
+    subtitle = "Dots should fall along the line",
+    x = "Standard Normal Distribution Quantiles",
+    y = "Sample Quantile Deviations"
+  ) +
+  coord_cartesian(ylim = c(-2, 2)) + # Match the y-range to the `check_model()` plot
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(plot.subtitle = element_text(hjust = 0.5))
+```
+
+The normality assumption seems to hold. Note that in the above QQ plot, 
+we detrended the residuals and used a bootrap confidence band. Depending 
+on the band type, the confidence band can be wider or narrower and include
+or exclude points.
+
+**After having checked the assumptions for the classical regression model**
+and we feel comfortable with the model, we get exact confidence intervals
+for the effect sizes ($\beta$s) using `confint()` (p. 74 in Westfall).
+
+**Heureka!** We have a model that fits the data well.
+
+### Bootstrap fit
+In order to get a feeling for the variability of the model with regards to the predictors as well, 
+we can bootstrap the whole data set, fit the model and draw regression lines.
+We create $100$ bootrap replicates of our data set `d2` by drawing with 
+repetition. For every bootstrap replicate, we fit the model and draw the regression line.
+
+```{r, echo=FALSE, warning=FALSE}
+# Required Libraries
+library(ggplot2)
+
+# Define number of bootstrap replicates
+n_bootstrap <- 100
+
+# Create a list to store bootstrap models
+bootstrap_models <- vector("list", n_bootstrap)
+
+# Bootstrap and fit the model
+set.seed(123) # For reproducibility
+for (i in 1:n_bootstrap) {
+  # Sample with replacement
+  bootstrap_data <- mod$model[sample(nrow(mod$model), replace = TRUE), ]
+  
+  # Fit the model to the bootstrap sample
+  bootstrap_models[[i]] <- lm(as.formula(mod$call), data = bootstrap_data)
+}
+
+# Extract regression lines
+bootstrap_lines <- lapply(bootstrap_models, function(model) {
+  data.frame(
+    x = mod$model[[2]], # Predictor variable
+    y = predict(model, newdata = mod$model) # Predicted values
+  )
+})
+
+# Combine all bootstrap lines into a single data frame
+bootstrap_lines_df <- do.call(rbind, lapply(seq_along(bootstrap_lines), function(i) {
+  data.frame(x = bootstrap_lines[[i]]$x, y = bootstrap_lines[[i]]$y, replicate = i)
+}))
+
+# Scatterplot of the original data with bootstrap regression lines
+ggplot(mod$model, aes(x = .data[[names(mod$model)[2]]], y = .data[[names(mod$model)[1]]])) +
+  geom_point(color = "blue", alpha = 0.7) + # Scatterplot points
+  geom_line(data = bootstrap_lines_df, aes(x = x, y = y, group = replicate), 
+            color = "grey", alpha = 0.3, linewidth = 0.5) + # Bootstrap regression lines
+  labs(
+    title = "Bootstrap Regression Lines",
+    x = "Predictor",
+    y = "Response"
+  ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+The result is very stable. Neither intercept nor slope change much.
+
+### Regression towards the mean
+
+There are great explanations for "[regression towards the mean](https://en.wikipedia.org/wiki/Regression_toward_the_mean)" in 
+[Gelman](http://www.stat.columbia.edu/~gelman/arm/) p.58 and 
+[Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4) p.36.
+This [video](https://www.youtube.com/watch?v=1tSqSMOyNFE&ab_channel=Veritasium) might be interesting to watch.
+
+It describes the phenomenon that the predicted value (y) is closer to its 
+mean than the predictor (x) to its mean.
+In our case this means, if the weight of a person is 1 standard deviation above the mean of body weights,
+the (model-)predicted height is less than 1 standard deviation above the mean of body heights, but
+still larger than the average height. Let's verify:
+
+```{r, echo=FALSE, warning=FALSE}
+# Standardize the data
+d2$weight_scaled <- scale(d2$weight)
+d2$height_scaled <- scale(d2$height)
+
+mod <- lm(height_scaled ~ weight_scaled, data = d2)
+cat("predicted height=", as.numeric(coef(mod)[1] + coef(mod)[2] * 1))
+
+# Compute principal components
+pca <- prcomp(d2[, c("weight_scaled", "height_scaled")], scale. = FALSE)
+
+# Extract principal component directions
+pc1 <- pca$rotation[, 1] * pca$sdev[1]
+pc2 <- pca$rotation[, 2] * pca$sdev[2]
+
+# Adjust scaling factor for visualization
+scale_factor <- 2  # Adjust as necessary for visual clarity
+
+# Updated ggplot with properly scaled and aligned PC arrows
+ggplot(d2, aes(x = weight_scaled, y = height_scaled)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue", linewidth = 1) +
+  geom_point(data = data.frame(weight_scaled = 1, height_scaled = coef(mod)[1] + coef(mod)[2] * 1),
+             aes(x = weight_scaled, y = height_scaled),
+             color = "red", size = 3) +
+  # Line from the red point to the x-axis
+  geom_segment(aes(x = 1, xend = 1, y = 0, yend = coef(mod)[1] + coef(mod)[2] * 1), 
+               color = "red", linetype = "dotted") +
+  # Line from the red point to the y-axis
+  geom_segment(aes(x = 0, xend = 1, y = coef(mod)[1] + coef(mod)[2] * 1, yend = coef(mod)[1] + coef(mod)[2] * 1), 
+               color = "red", linetype = "dotted") +
+  # Add principal component 1
+  geom_segment(aes(x = 0, xend = scale_factor * pc1[1], 
+                   y = 0, yend = scale_factor * pc1[2]),
+               color = "green", linetype = "dotted", arrow = arrow(length = unit(0.2, "cm"))) +
+  # Add principal component 2
+  geom_segment(aes(x = 0, xend = scale_factor * pc2[1], 
+                   y = 0, yend = scale_factor * pc2[2]),
+               color = "green", linetype = "dotted", arrow = arrow(length = unit(0.2, "cm"))) +
+  geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
+  labs(title = "Regression towards the mean with Principal Components",
+       x = "Weight (standardized)",
+       y = "Height (standardized)") +
+  coord_fixed(ratio = 1) +  # Fix the aspect ratio to ensure equal scaling
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+As Gelman points out in his book (Figure 4.2), there is a fine detail:
+The regression line is not the line most people would draw through the data.
+They would draw a line through the main directions of variability 
+(directions are the eigenvectors of the covariance matrix).
+In dotted green, you can see these directions. The regression line is a solution 
+to another problem (as we have seen): It minimizes the sum of squared residuals, 
+which are defined via the **vertical** distances to the line.
+See [exercise 8](#exercise8_simpl_lin_reg).
+
+### Random X vs. fixed X
+
+A detail that is not mentioned often in introductory statistics courses
+is the question of whether the predictor variable $X$ is random or fixed.
+In our case, we did not specify the weights of the people in the !Kung San data set.
+*Obervational* data was collected and we have no control over the weights.
+In an *experimental* setting, we could have controlled the weights of the people.
+We could have for instance only included people with weights at certain steps (50 kg, 60 kg, 70 kg).
+In the latter case, we could consider X as fixed. In the former case, we consider X as random.
+If we would draw another sample from the population, we would get different weights again.
+Further reading: [Westfall](https://www.routledge.com/Understanding-Regression-Analysis-A-Conditional-Distribution-Approach/Westfall-Arias/p/book/9780367493516?srsltid=AfmBOore3O_Ciecl0TTkr9AjPIY1d6OmbQa7o7IAdKpTSkD8s9HkwzD4) 1.5.
+
+There are many more details we could look into, but we wanted to give a first 
+practical introduction to regression analysis with less emphasis on theory and proofs behind it.
+
+We want to make clear what the confidence intervals from `confint` of a model mean. For this see
+[exercise 14](#exercise14_simpl_lin_reg).
+
+## Exercises
+
+[E] Easy, [M] Medium, [H] Hard
+
+(Some) solutions to exercises can be found in the git-repo [here](https://github.com/jdegenfellner/Script_QM2_ZHAW/tree/main/Solutions_Exercises).
+
+### [E] Exercise 1 {#exercise1_simpl_lin_reg}
+
+In the model from above:
+
+\begin{eqnarray*}
+h_i &\sim& \text{Normal}(\mu_i, \sigma)\\
+\mu_i &\sim& \alpha + \beta (x_i - \bar{x})\\
+\alpha &\sim& \text{Normal}(171.1, 20)\\
+\beta &\sim& \text{Normal}(0, 10)\\
+\sigma &\sim& \text{Uniform}(0, 50)
+\end{eqnarray*}
+
+- What ist the expected height when $x_i = \bar{x}$?
+- What is the expected height when $x_i$ changes by 1 unit?
+
+### [E] Exercise 2 {#exercise2_simpl_lin_reg}
+
+Look at the marginal distrubutions of the parameters in the Bayesian model.
+
+- Plot the posterior distribution of all 3 parameters.
+- Include in the plot a 99% credible interval (HDI).
+
+### [H] Exercise 3 {#exercise3_simpl_lin_reg}
+
+Go to the coefficient estimates in the simple linear regression setting 
+above ([Fit the model](#fit_model_simple_lin_reg_classic))
+in the classical framework.
+
+- Simulate data from the simple linear regression model 
+  using the estimated coefficients ($\hat{\beta_0} = 113.87939$,
+  $\hat{\beta_1} = 0.90574$, $\hat{\sigma} = 5.086$).
+- Use the formulae from above to calculate $\beta_0$ and $\beta_1$ by "hand".
+- Change your true parameters ($\beta_0, \beta_1, \sigma$) and see how the 
+  estimates for the standard deviation of simulated heights, weights
+  and the correlation between simulated heights and weights change.
+- Create a scatterplot to see the data as well.
+
+### [H] Exercise 4 {#exercise4_simpl_lin_reg}
+
+Verify the statement above in the text for high and low values of $R^2$.
+
+### [H] Exercise 5 {#exercise5_simpl_lin_reg}
+
+Verify with simulation in R that the separation of the distributions in the simple linear regression model
+improves if the true (but usually unknown) slope increases.
+The code for the plots can be found 
+[here](https://github.com/jdegenfellner/Script_QM2_ZHAW/blob/main/02-Simple_Linear_Regression.Rmd).
+Hint: Use GPT for coding.
+
+### [H] Exercise 6 {#exercise6_simpl_lin_reg}
+
+Go to the model assumptions in the classical regression model ([Model Assumptions](#_model_assumptions)).
+
+- Use the code from [github](https://github.com/jdegenfellner/Script_QM2_ZHAW/blob/main/02-Simple_Linear_Regression.Rmd) 
+  to recreate the regression model with the sine-curve.
+
+- Use the autocorrelation function `acf` to check for autocorrelation in the residuals.
+
+### [M] Exercise 7 {#exercise7_simpl_lin_reg}
+
+- Simulate data from the regression of heights on weights in our !Kung San data set.
+- Draw the $\hat{y_i}, e_i$ plot.
+- Draw the $\hat{y_i}, |e_i|$ plot.
+- Repeat the simulation and look at the variability of the plot.
+
+### [E] Exercise 8 {#exercise8_simpl_lin_reg}
+
+- Go to p.36 in Westfall's book and read Appendix A.
+- Pay close attention to the explanation about regression toward the mean.
+
+### [M] Exercise 9 {#exercise9_simpl_lin_reg}
+
+Go to the residuals [above](#normality_assumption) where we tested the normality assumption.
+
+- Calcuate mean and standard deviation from the residuals of the model
+  that regresses height on weight.
+- Simulate from a normal distribution using these parameters.
+- Get a feeling how the QQ plot changes by drawing the QQ plot repeatedly.
+
+### [M] Exercise 10 {#exercise10_simpl_lin_reg}
+
+Using our !Kung San data, 
+
+- show that the regression of height on weight (`lm(height ~ weight)`)
+  is not the same as the regression of weight on height (`lm(weight ~ height)`).
+- Draw both regression lines in one diagram.
+- Can you simulate data where the two regressions deliver (almost) identical results?
+- Explain why the results differ and what consequences this would have for a research question.
+  Which question do I answer with each?
+
+### [E] Exercise 11 {#exercise11_simpl_lin_reg}
+
+Go back to the [section](#seperating_property) about $R^2$ and the separation of the distributions.
+How would the probability that a person in the 90% quantile of the weight
+is taller than a person in the 10% quantile of the weight change if you change 
+
+- the true slope of the regression line
+- the true $\sigma$, i.e. if you add more noise and have a lower $R^2$?
+
+### [M] Exercise 12 {#exercise12_simpl_lin_reg}
+
+Go back to the Bayesian simple regression model for height [above](#simple_lin_reg_bayes).
+
+- Standardize weights and heights in the data set `d2`.
+- Estimate the regression model as we did in the section using `quap`.
+- Plot the posterior distribution using `plot(model)`.
+- Interpret the regression coefficient $\beta$.
+
+### [M] Exercise 13 {#exercise13_simpl_lin_reg}
+
+Go back to the [ANOVA section](#analysis_of_variance).
+
+- Calculate SSE, SST and SSR for the regression of height on weight.
+
+- How many degrees of freedom does each term have?
+
+### [M] Exercise 14 {#exercise14_simpl_lin_reg}
+
+When we fit a simple linear regression model (Frequentist), we get confidence intervals for the coefficients
+using the command `confint`. As stated previously, these are Frequentist CIs. That means,
+if we draw data from the true (but usually unknown) data generating process, we would expect
+that the true value of the coefficient (intercept and slope) lies in the CI in X% of the cases.
+
+- Simulate data from the true data generating process of the simple linear regression model.
+- Fit the model and get the confidence intervals for the coefficients.
+- Repeat this process 1000 times and see how many times the true value of the coefficients
+  lies in the CI.
+
+Changing the distribution of the covariate $x$ should not change the results, since
+we only get a different amount of data points agross the range of $x$.
+
+- Verify this statement by changing the distribution of $x$.
+
+
+## eLearning 1
+
+eLearning Assignments:
+
+-	Review all content from the script, up to and including section 3.1.
+- Reading assignment on frequentist statistics (exam-relevant!): 
+  Chapter 1 (Introduction to Regression Models) from the book 
+  Understanding Regression Analysis - A Conditional Distribution Approach.
+- Research task: Find at least two scientific articles in your field that apply 
+  regression (either simple regression with one predictor or multiple regression). 
+  We have already searched for journals relevant to your field in QM1. 
+  If you send me one of these studies in advance, we could also discuss the 
+  applied methods in more detail during the practice sessions.
+
+
+## Sample exam questions for this chapter (in German since exam is in German)
+
+### Question 1
+
+Wir betrachten das Modell für die Einfachregression von Körpergrößen ($h_i$) auf Körpergewicht ($x_i$): 
+
+\begin{eqnarray*}
+h_i &\sim& \text{Normal}(\mu_i, \sigma)\\
+\mu_i &\sim& \alpha + \beta (x_i - \bar{x})\\
+\alpha &\sim& \text{Normal}(171.1, 20)\\
+\beta &\sim& \text{Normal}(0, 10)\\
+\sigma &\sim& \text{Uniform}(0, 50)
+\end{eqnarray*}
+
+Welche der folgenden Aussage(n) ist/sind richtig?
+
+- Der Intercept $\alpha$ ist die Körpergröße einer Person mit einem Gewicht von 0 kg.
+- Erhöht sich das Gewicht um 1 kg, so erhöht/verringert sich die Körpergröße um (durchschnittlich) $\beta$ cm.
+- Das Modell nimmt heteroskedastische Residuen an.
+- Die A-Priori-Verteilung für $\beta$ drückt unsere Überzeugung aus, dass $\beta$ zwischen
+  $0$ und $10$ liegt.
+
+### Question 2
+
+Wir erinnern uns an die *conditional distribution* Definition der Regression (Frequentistische Sicht):
+
+$$Y|X = x \sim p(y|x)$$
+
+Welche der folgenden Aussage(n) ist/sind richtig?
+
+- $p$ in obiger Formel entspricht dem $p$-Wert der Frequentistischen Statistik 
+  (wie groß die bedingte Wahrscheinlichkeit für $y|x$ oder noch extremere Werte ist).
+- Der realisierte Wert $x$ hat eine Wahrscheinlichkeitsverteilung $p(y|x)$.
+- $p$ steht immer für eine Normalverteilung.
+- Im Falle der linearen Einfachregression sind folgende Aussagen äquivalent:
+  - $Y|X = x \sim p(y|x)$
+  - $Y \sim p(y)$
+
+### Question 3
+
+Welche Voraussetzung(en) gilt/gelten im klassichen linearen Regressionsmodell?
+
+- Die erklärenden Variablen (Prädiktoren) müssen normalverteilt sein. 
+- Die Fehler $\varepsilon_i$ sind unabhängig.
+- Die abhängige Variable $y_i$ muss normalverteilt sein.
+- Zwischen allen Prädiktoren muss ein linearer Zusammenhang bestehen. 
+
+ 
+
