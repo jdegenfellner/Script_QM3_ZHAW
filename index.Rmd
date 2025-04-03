@@ -41,7 +41,7 @@ see [this](https://jdegenfellner.github.io/Script_QM1_ZHAW/index.html#section)
 and the following sections in the first script.
 
 The complete code for this script can be found 
-[here](https://github.com/jdegenfellner/Script_QM2_ZHAW).
+[here](https://github.com/jdegenfellner/Script_QM3_ZHAW).
 
 ## Books we will heavily borrow from are:
 
@@ -69,7 +69,7 @@ p3 <- ggplot() + annotation_custom(img3) + theme_void()
 p4 <- ggplot() + annotation_custom(img4) + theme_void()
 
 # Arrange in 2x2 grid
-grid.arrange(p1, p2, p3, p4, ncol=2)
+grid.arrange(p1, p2, p3, p4, ncol = 2)
 ```
 
 
