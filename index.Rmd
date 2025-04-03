@@ -1,5 +1,5 @@
 --- 
-title: "Quantitative Methods 2, ZHAW"
+title: "Quantitative Methods 3, ZHAW"
 author: "Jürgen Degenfellner"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
