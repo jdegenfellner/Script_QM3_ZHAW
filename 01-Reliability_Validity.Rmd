@@ -1052,18 +1052,14 @@ bland.altman.plot(df_long_bias[Rater == "ROMas.Mary", ]$ROM,
 
 ## TODOS
 
+- After Rel/Val; Extension of Classical statistical Methods: Logistic Regression and others (see Gelman)
+- Last Chapter - Introduction to AI. Previous statistical analyses is a special case of neuronal networks.
 - [table 2 fallacy](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I)
-- mention missing values, missingness mechanisms -> Methodenvertiefung
-- Logistic Regression, Poisson, -> Methodenvertiefung
+- mention missing values, missingness mechanisms
 - Exercise: Show by simulation what Gelman talks about with significant p values. So I scan the data
   for significant p values and then simulate data with the same effect size and see how often
   I get significant p values. Especially the next effect would be probably smaller,
   especially, if one did p-hacking! Calculate a priori probability for replication (def?).
 - Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test
-- Chapter about Reliability, Validity and ICCs (incl. simulation of what an ICC of 0.9 or so means), but maybe reduced
-- Angenommen man hat ein masking eines Effekts und der Model fit ist aber gut (keine Voraussetzung verletzt), 
-  ist diese Situation möglich?
-- What about papers? -> eLearning
 - AIC, BIC, cross-validation, Model selection (best subset, leaps....), Variable selection
 - More on bias variance tradeoff, show for polynomial regression?
-- include eLearning tasks in script.
