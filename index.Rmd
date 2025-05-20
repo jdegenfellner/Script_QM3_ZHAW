@@ -1,0 +1,95 @@
+--- 
+title: "Quantitative Methods 3, ZHAW"
+author: "Jürgen Degenfellner"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+# Preamble {#intro0}
+
+<!--- Rscript -e 'bookdown::render_book("index.Rmd")' -->
+
+This script is a continuation of Quantitative Methods 
+[1](https://jdegenfellner.github.io/Script_QM1_ZHAW/) and 
+[2](https://jdegenfellner.github.io/Script_QM2_ZHAW/) at ZHAW. 
+
+In the second part, we learned about the basics of statistical modeling,
+specifically, using Bayesian and Frequentist approaches.
+
+In this script, we will continue with Reliability, Validity, do a short introduction
+into artificial intelligence (AI) and also continue to expand our classical
+statistical toolbox.
+
+This is a first draft as you are the first group to be working with it.
+
+Please feel free to send me suggestions for improvements or corrections.
+
+This **should be a collaborative effort** and will (hopefully) 
+never be finished as our insights on how to present which topic grows over time.
+
+The script can also be seen as a pointer to great sources which are
+suited to deepen your understanding of the topics. Knowledge is decentralized,
+and there are many great resources out there - in books, on websites and on YouTube.
+
+For the working setup with R, please 
+see [this](https://jdegenfellner.github.io/Script_QM1_ZHAW/index.html#section) 
+and the following sections in the first script.
+
+The complete code for this script can be found 
+[here](https://github.com/jdegenfellner/Script_QM3_ZHAW).
+Feel free to copy and modify it for your own purposes.
+
+## PDFs of this script (might not be up to date)
+
+[Chapter Reliability and Validity](https://github.com/jdegenfellner/Script_QM3_ZHAW/blob/main/01-Reliability_Validity.pdf)
+.... 
+
+## Books we will borrow from are:
+
+- (older online version is Free; current version in ZHAW Library) [Statistical Rethinking](https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf), YouTube-Playlist: [Statistical Rethinking 2023](https://youtu.be/FdnMWdICdRs?si=q2py5QVY_L299hEa)
+- (Free) [Understanding Regression Analysis: A Conditional Distribution Approach](https://vdoc.pub/documents/understanding-regression-analysis-a-conditional-distribution-approach-84oqjr8sqva0)
+- [Measurement in Medicine](https://www.cambridge.org/core/books/measurement-in-medicine/8BD913A1DA0ECCBA951AC4C1F719BCC5)
+- (3rd edition is free) [Artificial Intelligence A Modern Approach](http://repo.darmajaya.ac.id/5272/1/Artificial%20Intelligence-A%20Modern%20Approach%20%283rd%20Edition%29%20%28%20PDFDrive%20%29.pdf)
+- [Data Analysis Using Regression and Multilevel/Hierarchical Models](https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview)
+
+```{r, echo=FALSE}
+library(gridExtra)
+library(ggplot2)
+library(png)
+library(grid)
+
+# Load images (ensure they are in the "images/" subfolder)
+img1 <- rasterGrob(readPNG("./images/Cover_Stat_Reth.png"), interpolate = TRUE)
+img2 <- rasterGrob(readPNG("./images/Cover_Westfall.png"), interpolate = TRUE)
+img3 <- rasterGrob(readPNG("./images/Cover_MIM.png"), interpolate = TRUE)
+img4 <- rasterGrob(readPNG("./images/Cover_AI_norvig_russel.png"), interpolate = TRUE)
+img5 <- rasterGrob(readPNG("./images/Cover_Gelman.png"), interpolate = TRUE)
+
+# Create plots with labels
+p1 <- ggplot() + annotation_custom(img1) + theme_void()
+p2 <- ggplot() + annotation_custom(img2) + theme_void()
+p3 <- ggplot() + annotation_custom(img3) + theme_void()
+p4 <- ggplot() + annotation_custom(img4) + theme_void()
+p5 <- ggplot() + annotation_custom(img5) + theme_void()
+
+# Arrange in 2x2 grid
+grid.arrange(p1, p2, p3, p4, p5, ncol = 2)
+```
+
+
+## If you need a good reason to buy great books...
+
+Think of the total costs of your education. You want to extract maximum 
+benefit from it. In the US, an education costs [a lot](https://www.finaid.ucsb.edu/docs/default-source/default-document-library/2024-2025-undergrad-coa.pdf?sfvrsn=fb791f8a_4).
+In beautiful Switzerland, the [tuition fees](https://www.zhaw.ch/de/sml/studium/master/kosten) (if applicable) are nowhere near these figures.
+Costs you could consider are opportunity costs of not working.
+A comparison with both, a foreign education or opportunity costs,
+justifies the investment in good books.
+Or: The costs of all the good books of your education combined are probably less than an iPhone Pro.

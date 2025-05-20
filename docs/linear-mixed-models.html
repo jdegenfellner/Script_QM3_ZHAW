@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Linear Mixed Models | Quantitative Methods 3, ZHAW</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Linear Mixed Models | Quantitative Methods 3, ZHAW" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Linear Mixed Models | Quantitative Methods 3, ZHAW" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Jürgen Degenfellner" />
+
+
+<meta name="date" content="2025-05-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reliability-and-validity.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Quantitative Methods 3</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preamble</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#pdfs-of-this-script-might-not-be-up-to-date"><i class="fa fa-check"></i><b>1.1</b> PDFs of this script (might not be up to date)</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#books-we-will-borrow-from-are"><i class="fa fa-check"></i><b>1.2</b> Books we will borrow from are:</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#if-you-need-a-good-reason-to-buy-great-books"><i class="fa fa-check"></i><b>1.3</b> If you need a good reason to buy great books…</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html"><i class="fa fa-check"></i><b>2</b> Reliability and Validity</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#reliability"><i class="fa fa-check"></i><b>2.1</b> Reliability</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#peter-and-marys-rom-measurements"><i class="fa fa-check"></i><b>2.1.1</b> Peter and Mary’s ROM measurements</a></li>
+<li class="chapter" data-level="2.1.2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#ICC"><i class="fa fa-check"></i><b>2.1.2</b> Intraclass Correlation Coefficient (ICC)</a></li>
+<li class="chapter" data-level="2.1.3" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#explanation-of-iccs-in-the-psych-output"><i class="fa fa-check"></i><b>2.1.3</b> Explanation of ICCs in the <code>psych</code> output</a></li>
+<li class="chapter" data-level="2.1.4" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#summary-peter-and-mary-with-and-without-bias-icc1-3"><i class="fa fa-check"></i><b>2.1.4</b> Summary Peter and Mary, with and without bias (ICC1-3)</a></li>
+<li class="chapter" data-level="2.1.5" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#difference-between-correlation-and-icc"><i class="fa fa-check"></i><b>2.1.5</b> Difference between correlation and ICC</a></li>
+<li class="chapter" data-level="2.1.6" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#badnews"><i class="fa fa-check"></i><b>2.1.6</b> Bad news about the ICC?</a></li>
+<li class="chapter" data-level="2.1.7" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#standard-error-of-measurement-sem"><i class="fa fa-check"></i><b>2.1.7</b> Standard Error of Measurement (SEM)</a></li>
+<li class="chapter" data-level="2.1.8" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#bland-altman-plot"><i class="fa fa-check"></i><b>2.1.8</b> Bland-Altman Plot</a></li>
+<li class="chapter" data-level="2.1.9" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#example_RELStudy"><i class="fa fa-check"></i><b>2.1.9</b> Example of a Reliability Study</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise1"><i class="fa fa-check"></i><b>2.2.1</b> [E] Exercise 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise2"><i class="fa fa-check"></i><b>2.2.2</b> [M] Exercise 2</a></li>
+<li class="chapter" data-level="2.2.3" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise3"><i class="fa fa-check"></i><b>2.2.3</b> [E] Exercise 3</a></li>
+<li class="chapter" data-level="2.2.4" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise4"><i class="fa fa-check"></i><b>2.2.4</b> [M] Exercise 4</a></li>
+<li class="chapter" data-level="2.2.5" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise5"><i class="fa fa-check"></i><b>2.2.5</b> [M] Exercise 5</a></li>
+<li class="chapter" data-level="2.2.6" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise6"><i class="fa fa-check"></i><b>2.2.6</b> [H] Exercise 6</a></li>
+<li class="chapter" data-level="2.2.7" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise7"><i class="fa fa-check"></i><b>2.2.7</b> [M] Exercise 7</a></li>
+<li class="chapter" data-level="2.2.8" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise8"><i class="fa fa-check"></i><b>2.2.8</b> [H] Exercise 8</a></li>
+<li class="chapter" data-level="2.2.9" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise9"><i class="fa fa-check"></i><b>2.2.9</b> [M] Exercise 9</a></li>
+<li class="chapter" data-level="2.2.10" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise10"><i class="fa fa-check"></i><b>2.2.10</b> [E] Exercise 10</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#elearning"><i class="fa fa-check"></i><b>2.3</b> eLearning</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>3</b> Linear Mixed Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#tadpole"><i class="fa fa-check"></i><b>3.1</b> Example: Reed Frog tadpole mortality - two levels</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#model13_1"><i class="fa fa-check"></i><b>3.1.1</b> Model 13.1. Partial pooling using regularizing priors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#model13_2"><i class="fa fa-check"></i><b>3.1.2</b> Model 13.2: Partial pooling using adaptive pooling</a></li>
+<li class="chapter" data-level="3.1.3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#conceptual-difference-between-model-13.1-and-13.2"><i class="fa fa-check"></i><b>3.1.3</b> Conceptual difference between model 13.1 and 13.2</a></li>
+<li class="chapter" data-level="3.1.4" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#compare-models-13.1-and-13.2-with-respect-to-predictive-ability-on-unseen-data"><i class="fa fa-check"></i><b>3.1.4</b> Compare models 13.1 and 13.2 with respect to predictive ability on unseen data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercises-1"><i class="fa fa-check"></i><b>3.2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise1_LMM"><i class="fa fa-check"></i><b>3.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.2.2" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise2_LMM"><i class="fa fa-check"></i><b>3.2.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.2.3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise3_LMM"><i class="fa fa-check"></i><b>3.2.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="3.2.4" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise4_LMM"><i class="fa fa-check"></i><b>3.2.4</b> Exercise 4</a></li>
+<li class="chapter" data-level="3.2.5" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise5_LMM"><i class="fa fa-check"></i><b>3.2.5</b> Exercise 5</a></li>
+<li class="chapter" data-level="3.2.6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise6_LMM"><i class="fa fa-check"></i><b>3.2.6</b> Exercise 6</a></li>
+<li class="chapter" data-level="3.2.7" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise7_LMM"><i class="fa fa-check"></i><b>3.2.7</b> Exercise 7</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#todos"><i class="fa fa-check"></i><b>3.3</b> TODOS</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quantitative Methods 3, ZHAW</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="linear-mixed-models" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Linear Mixed Models<a href="linear-mixed-models.html#linear-mixed-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In Richard McElreath’s book “Statistical Rethinking”,
+chapters 13 and 14 deal with multilevel models.
+In Gelman’s Book, see ” Part 2A: Multilevel Models” and the following.</p>
+<p>One very graspable introduction to LMMs is this
+<a href="https://www.youtube.com/watch?v=QCqF-2E86r0&amp;ab_channel=MatthewE.Clapham">video</a>.</p>
+<p>We have already come across a <a href="https://en.wikipedia.org/wiki/Mixed_model">Linear Mixed Model (LMM)</a>
+in the first chapter, where we used the <code>rethinking</code> and <code>lme4</code> packages to fit a model with
+random intercepts to determine our
+<a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/reliability-and-validity.html#ICC">Intraclass Correlation Coefficients (ICCs)</a>.</p>
+<p>The <strong>main reason</strong> for using LMMs is that they allow us to model data
+with hierarchical structure, such as repeated measures (of the same subject)
+or nested data (math scores in different schools within different school districts).</p>
+<ul>
+<li><p>For example, in our Peter and Mary data set where they measured
+ROMs, we had two measurements per subject. The two measurements
+are <em>clustered</em> within the subject.
+They are not independent. Hence, the classical linear regression
+model is not appropriate and would lead to smaller standard errors.</p></li>
+<li><p>Another example is our <a href="https://www.zhaw.ch/en/research/project/74535"><em>RESOLVE</em> trial</a>.
+We are conducting a
+cluster randomized trial (CRT) with <span class="math inline">\(20\)</span> clusters (physiotherapy offices)
+and over <span class="math inline">\(200\)</span> patients. Measurements within a cluster
+could be correlated (more similar compared to other clusters).
+One could also think of the physiotherapists performing
+the treatments as clusters, since - potentially - the outcomes
+for all their patients could be correlated due to a more similiar
+treatment from the same therapists compared to others.
+Here the outcome measures are nested within the physiotherapists which
+are nested within the physiotherapy offices
+(assuming they only work for one office).</p></li>
+</ul>
+<div id="tadpole" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Example: Reed Frog tadpole mortality - two levels<a href="linear-mixed-models.html#tadpole" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s start with Example 13.1 from McElreath’s book (p.401) (Tadpoles in tanks, image by GPT4o).</p>
+<p><img src="images/tadpoles_in_tanks.png" /></p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="linear-mixed-models.html#cb239-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb239-2"><a href="linear-mixed-models.html#cb239-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb239-3"><a href="linear-mixed-models.html#cb239-3" tabindex="-1"></a><span class="fu">data</span>(reedfrogs)</span>
+<span id="cb239-4"><a href="linear-mixed-models.html#cb239-4" tabindex="-1"></a>d <span class="ot">&lt;-</span> reedfrogs</span>
+<span id="cb239-5"><a href="linear-mixed-models.html#cb239-5" tabindex="-1"></a><span class="fu">str</span>(d)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    48 obs. of  5 variables:
+##  $ density : int  10 10 10 10 10 10 10 10 10 10 ...
+##  $ pred    : Factor w/ 2 levels &quot;no&quot;,&quot;pred&quot;: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ size    : Factor w/ 2 levels &quot;big&quot;,&quot;small&quot;: 1 1 1 1 2 2 2 2 1 1 ...
+##  $ surv    : int  9 10 7 10 9 9 10 9 4 9 ...
+##  $ propsurv: num  0.9 1 0.7 1 0.9 0.9 1 0.9 0.4 0.9 ...</code></pre>
+<p>Variables are explained <a href="https://www.rdocumentation.org/packages/rethinking/versions/2.13/topics/reedfrogs">here</a>
+(see also p.401 in the book).
+The original paper can be found <a href="https://link.springer.com/article/10.1007/s00442-004-1806-x">here</a>.</p>
+<p>The number of surviving <a href="https://en.wikipedia.org/wiki/Tadpole">tadpoles</a> <em>surv</em> should be modeled.
+Now, each row is a different “tank” (<span class="math inline">\(48\)</span> in total), an experimental environment that contains tadpoles.
+Obviously, the tanks are one option for <em>clustering</em> the data, assuming the tadpoles within the same
+tank live in a more similar environment than those in different tanks (or get a more similiar “treatment”).
+We could rewrite the data set to have one row per individual tadpole
+(instead of number of survived a binary variable) and the cluster variable
+called <em>tank</em> (<a href="linear-mixed-models.html#exercise1_LMM">exercise 1</a>). We would then model the survival<br />
+of each individual tadpole (<span class="math inline">\(1\)</span> could mean <em>survived</em> and <span class="math inline">\(0\)</span> could mean <em>died</em>). Formally,
+this would be a so-called <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a>,
+since our outcome is binary (<em>survided</em>/<em>died</em>).</p>
+<p>When estimating the number of surviving tadpoles we could consider the following options:</p>
+<ul>
+<li><strong>Complete pooling</strong> (<a href="linear-mixed-models.html#exercise6_LMM">exercise 6</a>): Estimate the overall survival probability
+(ignoring the tank effect).
+In this case, one might miss between-variance from the different tanks.
+A single intercept is used for all tanks.</li>
+<li><strong>No pooling</strong>: Estimate the survival probability for each tank (ignoring the overall effect completely).
+Here, the tanks do not “know” anything from one another. Information of one tank is not used for the other tanks.
+An intercept is estimated for each tank (<span class="math inline">\(48\)</span> in total).
+This approach would be equivalent to using indicator variables for each tank.</li>
+<li><strong>Partial pooling</strong>: Estimate the survival probability for each tank,
+but use information from the other tanks.</li>
+</ul>
+<div id="model13_1" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Model 13.1. Partial pooling using regularizing priors<a href="linear-mixed-models.html#model13_1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s start with the second model (intercept for each tank) with a regularizing prior.
+We want to model the
+number of surviving tadpoles in the tanks by using a binomial distribution with
+different survival probabilities for each tank.</p>
+<p>Here is our model in the typical notation:</p>
+<p><span class="math display">\[
+\begin{array}{rcl}
+S_i &amp;\sim&amp; Binomial(N_i, p_i) \\
+logit(p) &amp;=&amp; \alpha_{TANK}[i] \\
+\alpha_j &amp;\sim&amp; \text{Normal}(0, 1.5)~\text{for } j=1,\ldots,48
+\end{array}
+\]</span></p>
+<p>This is a <strong>varying intercept model</strong> (the simplest kind of <strong>varying effects</strong> model)
+with <span class="math inline">\(48\)</span> intercepts (one for each tank).</p>
+<p>The number of surviving tadpoles <span class="math inline">\(S_i\)</span> in tank <span class="math inline">\(i\)</span> is modeled as a binomial distribution with
+<span class="math inline">\(N_i\)</span> trials (the number of tadpoles in the tank) and <span class="math inline">\(p_i\)</span> the survival probability of tank <span class="math inline">\(i\)</span>.
+The <strong>regularizing prior</strong> for <span class="math inline">\(\alpha_j\)</span> is a normal distribution with mean <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(1.5\)</span>.</p>
+<p>Technically, we could use different priors for each intercept,
+but this would be a bit cumbersome and we do not have useful prior information
+about the survival probabilities of the tanks.</p>
+<p>Notice that we use a <code>logit</code> link function to transform the probability <span class="math inline">\(p\)</span> (range <span class="math inline">\((0,1)\)</span>)
+to the range <span class="math inline">\((-\infty, \infty)\)</span>.
+This way, we can use a normal distribution for the prior of the intercepts.
+The inverse of the logit function is also available in <code>rethinking</code>: <code>inv_logit</code>.
+<code>rethinking::inv_logit(0)</code>gives the probability of <span class="math inline">\(0.5\)</span>. So, we assume a coin flip for
+the survival probability of the tadpoles in the tanks <em>a priori</em>
+(maybe not the worst starting point if you have no clue).</p>
+<p>What survaival probabilities do we assume a priori? Well, according to
+the normal distribution with a standard deviation of <span class="math inline">\(1.5\)</span> we assume that the
+95% of the logit-transformed survival probabilities are between <span class="math inline">\(-3\)</span> and <span class="math inline">\(3\)</span>.
+This means that the survival probabilities in the tanks are in:</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="linear-mixed-models.html#cb241-1" tabindex="-1"></a><span class="fu">c</span>(rethinking<span class="sc">::</span><span class="fu">inv_logit</span>(<span class="sc">-</span><span class="dv">3</span>), rethinking<span class="sc">::</span><span class="fu">inv_logit</span>(<span class="dv">3</span>))</span></code></pre></div>
+<pre><code>## [1] 0.04742587 0.95257413</code></pre>
+<p>This assumption seems rather reasonable.</p>
+<p>Next we define the data set for the model and use the <code>ulam</code> function
+from the <code>rethinking</code> package to fit the model.</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="linear-mixed-models.html#cb243-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb243-2"><a href="linear-mixed-models.html#cb243-2" tabindex="-1"></a>d<span class="sc">$</span>tank <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d)</span>
+<span id="cb243-3"><a href="linear-mixed-models.html#cb243-3" tabindex="-1"></a></span>
+<span id="cb243-4"><a href="linear-mixed-models.html#cb243-4" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">S =</span> d<span class="sc">$</span>surv,</span>
+<span id="cb243-5"><a href="linear-mixed-models.html#cb243-5" tabindex="-1"></a>            <span class="at">N =</span> d<span class="sc">$</span>density,</span>
+<span id="cb243-6"><a href="linear-mixed-models.html#cb243-6" tabindex="-1"></a>            <span class="at">tank =</span> d<span class="sc">$</span>tank)</span>
+<span id="cb243-7"><a href="linear-mixed-models.html#cb243-7" tabindex="-1"></a></span>
+<span id="cb243-8"><a href="linear-mixed-models.html#cb243-8" tabindex="-1"></a><span class="co"># approximate posterior</span></span>
+<span id="cb243-9"><a href="linear-mixed-models.html#cb243-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">122</span>)</span>
+<span id="cb243-10"><a href="linear-mixed-models.html#cb243-10" tabindex="-1"></a>m13<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb243-11"><a href="linear-mixed-models.html#cb243-11" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb243-12"><a href="linear-mixed-models.html#cb243-12" tabindex="-1"></a>    S <span class="sc">~</span> <span class="fu">dbinom</span>(N, p),</span>
+<span id="cb243-13"><a href="linear-mixed-models.html#cb243-13" tabindex="-1"></a>    <span class="fu">logit</span>(p) <span class="ot">&lt;-</span> a[tank],</span>
+<span id="cb243-14"><a href="linear-mixed-models.html#cb243-14" tabindex="-1"></a>    a[tank] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">1.5</span>)</span>
+<span id="cb243-15"><a href="linear-mixed-models.html#cb243-15" tabindex="-1"></a>  ) , <span class="at">data =</span> dat, </span>
+<span id="cb243-16"><a href="linear-mixed-models.html#cb243-16" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb243-17"><a href="linear-mixed-models.html#cb243-17" tabindex="-1"></a>  <span class="at">log_lik =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb243-18"><a href="linear-mixed-models.html#cb243-18" tabindex="-1"></a>  <span class="at">cores =</span> <span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Running MCMC with 4 chains, at most 7 in parallel, with 1 thread(s) per chain...
+## 
+## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 4 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 1 finished in 0.1 seconds.
+## Chain 2 finished in 0.1 seconds.
+## Chain 3 finished in 0.1 seconds.
+## Chain 4 finished in 0.1 seconds.
+## 
+## All 4 chains finished successfully.
+## Mean chain execution time: 0.1 seconds.
+## Total execution time: 0.2 seconds.</code></pre>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="linear-mixed-models.html#cb245-1" tabindex="-1"></a><span class="fu">precis</span>(m13<span class="fl">.1</span>, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##               mean        sd        5.5%       94.5%      rhat ess_bulk
+## a[1]   1.717154006 0.7747045  0.54616751  3.00284170 1.0000687 3842.501
+## a[2]   2.428617822 0.9211741  1.06824055  4.00015385 1.0012690 3260.212
+## a[3]   0.752957586 0.6606081 -0.30096467  1.87725390 0.9994289 3657.926
+## a[4]   2.392671596 0.9029471  1.04232310  3.96444320 0.9999341 4901.360
+## a[5]   1.698600986 0.7501296  0.56599784  2.95760400 1.0010747 3583.085
+## a[6]   1.709016626 0.7333373  0.61628599  2.93631575 1.0043948 3791.625
+## a[7]   2.394662704 0.8967971  1.05357265  3.91037710 1.0021691 4633.411
+## a[8]   1.751520527 0.8358778  0.51949731  3.11502600 1.0010314 2908.886
+## a[9]  -0.368916633 0.6263820 -1.40362045  0.63108741 1.0014184 5011.742
+## a[10]  1.721989971 0.7876527  0.53971156  3.01818445 1.0064067 4743.990
+## a[11]  0.762625202 0.6504815 -0.23379561  1.84594325 1.0042895 4356.338
+## a[12]  0.360839662 0.6212530 -0.61653294  1.35696620 1.0003393 5427.338
+## a[13]  0.747187659 0.6556836 -0.26629876  1.86578240 1.0047650 4965.966
+## a[14]  0.004006226 0.6030814 -0.96596033  0.95626616 1.0015451 3860.382
+## a[15]  1.698071502 0.7557423  0.58532612  3.00604665 1.0044770 4060.982
+## a[16]  1.718281276 0.7589570  0.55788234  3.01417210 0.9995458 4085.653
+## a[17]  2.540229640 0.6715384  1.51315760  3.67929090 1.0045229 3551.210
+## a[18]  2.143608256 0.6099572  1.24664285  3.19176460 1.0027772 4601.028
+## a[19]  1.814013282 0.5661173  0.96992496  2.74369310 1.0008102 3875.396
+## a[20]  3.123650833 0.8415721  1.90725255  4.55287270 1.0001108 4325.296
+## a[21]  2.144628056 0.6206063  1.21321885  3.18875240 1.0003712 4533.942
+## a[22]  2.147574902 0.5862451  1.27518855  3.13301315 1.0054417 3115.241
+## a[23]  2.158113205 0.6232680  1.23542735  3.20262840 1.0031826 4470.846
+## a[24]  1.559385117 0.5054760  0.81471935  2.39450025 1.0050444 4677.140
+## a[25] -1.100464102 0.4645629 -1.90970175 -0.37079074 1.0031187 4404.834
+## a[26]  0.066658204 0.3997793 -0.57122361  0.71319580 1.0064293 5082.203
+## a[27] -1.543870059 0.4969425 -2.35267600 -0.80927273 1.0049318 4888.677
+## a[28] -0.545686639 0.3798291 -1.16412750  0.05957414 1.0141192 4539.855
+## a[29]  0.076432999 0.3891808 -0.54687735  0.68588656 1.0063621 4372.045
+## a[30]  1.317149701 0.4699257  0.61627877  2.10864310 1.0045814 4237.156
+## a[31] -0.730232329 0.4142389 -1.41215210 -0.08699833 1.0056791 4674.458
+## a[32] -0.380477602 0.3973004 -1.02838145  0.22966973 1.0027171 4757.953
+## a[33]  2.854476850 0.6688006  1.86231770  3.93923980 1.0028748 4265.441
+## a[34]  2.465178502 0.6016136  1.57307340  3.49223990 1.0034665 4026.537
+## a[35]  2.475988085 0.6001981  1.62509180  3.45605210 1.0022452 3520.649
+## a[36]  1.906146592 0.4793998  1.17540695  2.69468780 1.0091406 3637.720
+## a[37]  1.903268812 0.4848702  1.17045730  2.68925485 0.9999314 4580.692
+## a[38]  3.377291100 0.7728682  2.21480150  4.70722490 0.9999677 3559.742
+## a[39]  2.448119286 0.5794139  1.58287005  3.42906255 1.0005167 4544.304
+## a[40]  2.154826607 0.5110004  1.38358250  3.05123950 1.0057481 3928.734
+## a[41] -1.924960111 0.4805039 -2.72391445 -1.20680920 1.0003669 3217.189
+## a[42] -0.639489130 0.3594361 -1.20374385 -0.07755664 1.0036102 3891.702
+## a[43] -0.515434665 0.3438150 -1.06684055  0.01709138 1.0067069 3206.309
+## a[44] -0.399514162 0.3554107 -0.97334898  0.16487656 1.0043647 5212.318
+## a[45]  0.519393681 0.3592609 -0.05772033  1.08264245 1.0022088 4807.785
+## a[46] -0.636130179 0.3468987 -1.20742535 -0.10853365 1.0071298 3963.335
+## a[47]  1.919195782 0.4916630  1.16999095  2.74101715 1.0000987 3428.411
+## a[48] -0.061061407 0.3286406 -0.57313044  0.45005764 1.0009603 3435.612</code></pre>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="linear-mixed-models.html#cb247-1" tabindex="-1"></a><span class="co"># expected survival in tank 1</span></span>
+<span id="cb247-2"><a href="linear-mixed-models.html#cb247-2" tabindex="-1"></a>rethinking<span class="sc">::</span><span class="fu">logistic</span>(<span class="fl">1.717154006</span>) <span class="co"># same as inv_logit(1.717154006)</span></span></code></pre></div>
+<pre><code>## [1] 0.8477619</code></pre>
+<p>The R-output from <code>precis(m13.1, depth = 2)</code>shows the posterior means and standard deviations of
+our <span class="math inline">\(48\)</span> interecepts (<span class="math inline">\(48\)</span> tanks with tadpoles). These intercepts are on the scale <span class="math inline">\((-\infty, \infty)\)</span>.</p>
+<p>Note that you can always switch from the range <span class="math inline">\((-\infty, \infty)\)</span> to a probability using the <code>logistic</code> function
+from the <code>rethinking</code> package - these functions are called <em>squashing functions</em> for a reason.
+The <code>inv_logit</code>function does the same.</p>
+<p><span class="math display">\[
+\mathrm{logistic}(x) = \mathrm{inv\_logit}(x) = \frac{1}{1 + e^{-x}}
+\]</span></p>
+<p>The other way around works as well, using the <code>logit</code> function.
+<span class="math display">\[\text{logit}(p) = \log\left( \frac{p}{1 - p} \right)\]</span></p>
+<p>Let’s quickly see if these are indeed inverse functions of each other -&gt; <a href="linear-mixed-models.html#exercise5_LMM">exercise 5</a>.</p>
+</div>
+<div id="model13_2" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Model 13.2: Partial pooling using adaptive pooling<a href="linear-mixed-models.html#model13_2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Next</strong>, we use <strong>adaptive pooling</strong>. For this, we use priors for the <code>a[tank]</code> parameters.
+Now we have an additional level in the model hierarchy:</p>
+<ul>
+<li>In the <strong>top level</strong>, the outcome is <span class="math inline">\(S\)</span>, the parameters are the intercepts
+<span class="math inline">\(\alpha_{TANK[i]}\)</span>,
+and the priors are <span class="math inline">\(\alpha_j \sim N(\bar{\alpha}, \sigma)\)</span>.</li>
+<li>In the <strong>second level</strong>, the “outcome” are the intercepts <span class="math inline">\(\alpha_{TANK[i]}\)</span>,
+the parameters are <span class="math inline">\(\bar{\alpha}\)</span> and <span class="math inline">\(\sigma\)</span>,
+and the priors are <span class="math inline">\(\bar{\alpha} \sim N(0, 1.5)\)</span> and
+<span class="math inline">\(\sigma \sim \text{Exponential}(1)\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\begin{array}{rcl}
+S_i &amp;\sim&amp; \text{Binomial}(N_i, p_i) \\
+\text{logit}(p) &amp;=&amp; \alpha_{\text{TANK}[i]} \\
+\alpha_j &amp;\sim&amp; \text{Normal}(\bar{\alpha}, \sigma)\\
+\bar{\alpha} &amp;\sim&amp; \text{Normal}(0, 1.5)\\
+\sigma &amp;\sim&amp; \text{Exponential}(1)
+\end{array}
+\]</span></p>
+<p>Since the parameters in the prior of the <span class="math inline">\(\alpha_j\)</span> have also priors
+(last two lines are new), we have a <em>multilevel</em> model.
+In this case, we have <em>two</em> levels and the parameters
+<span class="math inline">\(\bar{\alpha}\)</span> and <span class="math inline">\(\sigma\)</span> are called <strong>hyperparameters</strong>.
+The priors of the hyperparameters are called <strong>hyperpriors</strong>.
+The <strong>amount or regularization is controlled by the hyperparameter</strong> <span class="math inline">\(\sigma\)</span> and is
+learned from the data. <span class="math inline">\(\sigma\)</span> controls, how much the intercepts are
+allowed to deviate from the mean <span class="math inline">\(\bar{\alpha}\)</span>. The smaller <span class="math inline">\(\sigma\)</span>,
+the more the intercepts are pulled towards the mean <span class="math inline">\(\bar{\alpha}\)</span>.</p>
+<p>Below, we see the model hierarchy:</p>
+<p><img src="images/Model_Hier_LMM_1.png" /></p>
+<p>We now fit the model using the <code>ulam</code> function from the <code>rethinking</code> package.</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="linear-mixed-models.html#cb249-1" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span>
+<span id="cb249-2"><a href="linear-mixed-models.html#cb249-2" tabindex="-1"></a><span class="fu">conflicts_prefer</span>(posterior<span class="sc">::</span>var)</span></code></pre></div>
+<pre><code>## [conflicted] Will prefer posterior::var over any other package.</code></pre>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="linear-mixed-models.html#cb251-1" tabindex="-1"></a><span class="fu">conflicts_prefer</span>(posterior<span class="sc">::</span>sd)</span></code></pre></div>
+<pre><code>## [conflicted] Removing existing preference.
+## [conflicted] Will prefer posterior::sd over any other package.</code></pre>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="linear-mixed-models.html#cb253-1" tabindex="-1"></a>m13<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb253-2"><a href="linear-mixed-models.html#cb253-2" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb253-3"><a href="linear-mixed-models.html#cb253-3" tabindex="-1"></a>    S <span class="sc">~</span> <span class="fu">dbinom</span>(N, p),</span>
+<span id="cb253-4"><a href="linear-mixed-models.html#cb253-4" tabindex="-1"></a>    <span class="fu">logit</span>(p) <span class="ot">&lt;-</span> a[tank],</span>
+<span id="cb253-5"><a href="linear-mixed-models.html#cb253-5" tabindex="-1"></a>    a[tank] <span class="sc">~</span> <span class="fu">dnorm</span>(a_bar, sigma),</span>
+<span id="cb253-6"><a href="linear-mixed-models.html#cb253-6" tabindex="-1"></a>    a_bar <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">1.5</span>),</span>
+<span id="cb253-7"><a href="linear-mixed-models.html#cb253-7" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb253-8"><a href="linear-mixed-models.html#cb253-8" tabindex="-1"></a>  ) , <span class="at">data =</span> dat, </span>
+<span id="cb253-9"><a href="linear-mixed-models.html#cb253-9" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb253-10"><a href="linear-mixed-models.html#cb253-10" tabindex="-1"></a>  <span class="at">log_lik =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb253-11"><a href="linear-mixed-models.html#cb253-11" tabindex="-1"></a>  <span class="at">cores =</span> <span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Running MCMC with 4 chains, at most 7 in parallel, with 1 thread(s) per chain...
+## 
+## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 4 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
+<pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpnXgpBv/model-15896abb0f1f.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+## Chain 4</code></pre>
+<pre><code>## Chain 1 finished in 0.1 seconds.
+## Chain 2 finished in 0.1 seconds.
+## Chain 3 finished in 0.1 seconds.
+## Chain 4 finished in 0.1 seconds.
+## 
+## All 4 chains finished successfully.
+## Mean chain execution time: 0.1 seconds.
+## Total execution time: 0.2 seconds.</code></pre>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="linear-mixed-models.html#cb257-1" tabindex="-1"></a><span class="fu">precis</span>(m13<span class="fl">.2</span>, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##                mean        sd        5.5%        94.5%      rhat ess_bulk
+## a[1]   2.1360104954 0.8661191  0.83424198  3.553682700 1.0026805 3270.394
+## a[2]   3.0781335085 1.1236851  1.43096300  4.984337950 1.0021514 3333.772
+## a[3]   1.0172166998 0.6728834  0.02487391  2.122557100 1.0017997 4433.035
+## a[4]   3.0539084560 1.0673010  1.45577985  4.862345550 0.9991935 3292.307
+## a[5]   2.1460704153 0.8885053  0.82128835  3.632871100 1.0012996 3243.212
+## a[6]   2.1295681940 0.8491091  0.88580128  3.547453050 1.0068927 4014.260
+## a[7]   3.0995747675 1.1423048  1.49656170  5.081114500 1.0000324 2876.988
+## a[8]   2.1399446424 0.9003458  0.81845163  3.682066500 1.0014370 3989.652
+## a[9]  -0.1714730123 0.6191399 -1.18887420  0.817493905 1.0011313 3485.167
+## a[10]  2.0975422705 0.8315647  0.86475233  3.491159800 1.0003507 3475.655
+## a[11]  0.9972846111 0.6886670 -0.06780398  2.108900800 1.0035689 6346.111
+## a[12]  0.5808274429 0.6321307 -0.39005998  1.589965800 1.0073548 4009.231
+## a[13]  1.0044482950 0.6869233 -0.06659326  2.145820400 1.0062364 5228.172
+## a[14]  0.1943572393 0.5958137 -0.75088828  1.137035850 1.0090229 4741.338
+## a[15]  2.1509188614 0.8679934  0.90383891  3.653387850 1.0031940 3312.879
+## a[16]  2.1333640552 0.9017144  0.80812878  3.653567300 1.0126010 4233.256
+## a[17]  2.9192000930 0.8415071  1.68621300  4.328422500 1.0040634 4410.077
+## a[18]  2.3925664980 0.6551941  1.42167145  3.513079150 1.0056149 4144.799
+## a[19]  2.0077513930 0.5900888  1.11100110  2.993477400 1.0059627 3633.662
+## a[20]  3.6725677750 1.0278681  2.20375370  5.475839300 1.0049323 3236.751
+## a[21]  2.4059350610 0.6759614  1.38493480  3.559096600 1.0015502 5132.563
+## a[22]  2.4065305525 0.6796675  1.42094305  3.541692650 0.9991290 3831.139
+## a[23]  2.3861532095 0.6514720  1.42360935  3.472103550 1.0043729 4128.680
+## a[24]  1.7089185740 0.5393019  0.87925440  2.627249950 1.0048578 4608.699
+## a[25] -1.0120972883 0.4472418 -1.73198540 -0.326257340 1.0014661 4734.657
+## a[26]  0.1608543317 0.3886832 -0.46547174  0.767354565 1.0023246 4941.014
+## a[27] -1.4196695957 0.4932724 -2.25709745 -0.685836175 1.0028562 4123.586
+## a[28] -0.4766474294 0.4060361 -1.14774660  0.151370735 1.0052220 3931.755
+## a[29]  0.1694769825 0.4170077 -0.49255198  0.859140040 1.0020527 4739.882
+## a[30]  1.4511140548 0.5133738  0.66183801  2.306309700 1.0011993 4978.641
+## a[31] -0.6385969972 0.4191422 -1.30238420  0.002327188 1.0021641 4600.143
+## a[32] -0.3101703440 0.3728743 -0.90309567  0.287795040 0.9998292 5387.376
+## a[33]  3.1774488200 0.7655335  2.08349505  4.549344000 1.0049724 3861.331
+## a[34]  2.7053424900 0.6559522  1.73698945  3.801545200 1.0012059 4418.032
+## a[35]  2.7221132200 0.6273888  1.81337830  3.780182650 1.0009124 3645.004
+## a[36]  2.0546272795 0.4965714  1.31339900  2.878739800 1.0062188 4941.400
+## a[37]  2.0584841305 0.5188968  1.26758275  2.917035500 1.0015659 4474.923
+## a[38]  3.8972652500 0.9072140  2.63982515  5.508591850 1.0012459 3004.701
+## a[39]  2.6974989445 0.6268090  1.74492005  3.751004950 0.9991983 3801.943
+## a[40]  2.3462939655 0.5804959  1.47061030  3.318163350 1.0087612 3756.208
+## a[41] -1.8135897265 0.4813845 -2.60774680 -1.085182300 1.0000863 3538.261
+## a[42] -0.5797062286 0.3540843 -1.15873190 -0.026373790 1.0025961 3932.502
+## a[43] -0.4553320681 0.3423639 -1.00197960  0.080289540 1.0064972 4788.740
+## a[44] -0.3294683952 0.3311178 -0.86400261  0.191963110 1.0099484 4098.959
+## a[45]  0.5781168532 0.3537311  0.02023151  1.152294850 1.0051871 4534.473
+## a[46] -0.5734202532 0.3340746 -1.11167870 -0.052582168 1.0045535 3855.996
+## a[47]  2.0729423255 0.5180042  1.30783735  2.935491000 1.0033394 3591.954
+## a[48] -0.0003544386 0.3378852 -0.52970810  0.533022400 1.0060391 4423.905
+## a_bar  1.3420237045 0.2527708  0.94567161  1.760416550 1.0011880 2994.562
+## sigma  1.6149891850 0.2052025  1.30750950  1.961327050 0.9998544 1674.452</code></pre>
+<p>Now, the output of <code>precis(m13.2, depth = 2)</code> additionally shows the posterior means
+and standard deviations of the hyperparameters <span class="math inline">\(\bar{\alpha}\)</span> (<code>a_bar</code>)
+and <span class="math inline">\(\sigma\)</span> (<code>sigma</code>).</p>
+</div>
+<div id="conceptual-difference-between-model-13.1-and-13.2" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Conceptual difference between model 13.1 and 13.2<a href="linear-mixed-models.html#conceptual-difference-between-model-13.1-and-13.2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Model 13.1</strong> is not a multilevel model, we just tell the model there are
+<span class="math inline">\(48\)</span> tanks and each tank has its own intercept. For each intercept, we use
+the same prior distribution (<span class="math inline">\(Normal (0, 1.5)\)</span>), but we could use different ones if
+we had knowledge about the survival probabilities of some of the tanks.
+Note that the priors themselves are not connected via another level.
+They do their think independently.
+- By <em>decreasing</em> the variance of these priors,
+we are dampening the influence of the data on the intercepts
+which are drawn towards to overall mean.
+- <em>Increasing</em> the variance of the priors
+to a value large enough will result in the raw survival probabilities for each tank.
+This would be the same as if we took indicator variables for each tank.
+See <a href="linear-mixed-models.html#exercise2_LMM">exercise 2</a>.</p>
+<p><strong>Model 13.2</strong> is a <strong>multilevel model</strong>. Now the model <em>learns from the data</em>
+from which overall
+mean and variance the intercepts are drawn (<span class="math inline">\(Normal(\bar{\alpha}, \sigma)\)</span>).
+The prior for <span class="math inline">\(\bar{\alpha}\)</span> expresses our belief about the mean survival probability,
+while the prior for <span class="math inline">\(\sigma\)</span> expresses our belief about the variability of the survival probabilities.</p>
+<p><strong>Figure 13.1 from the book</strong> depicts the pooling effect of model 13.2. with respect to
+tadpole tank size.</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>In <a href="linear-mixed-models.html#exercise2_LMM">exercise 2</a> we make the difference between the models 13.1 and 2 clearer.
+Figure 13.1 from the book shows the posterior survival probabilities for each tank from
+model 13.2 (black circles) and raw survival probabilities (blue filled points).
+What we can see is that the estimated survival probabilities for the hierarchical model
+are drawn towards the mean survival probability across all tanks
+(dashed line; <span class="math inline">\(logistic(\bar{\alpha}) \approx 0.79\)</span>).</p>
+<ul>
+<li>In large tanks, there is less shrinkage (enough information/observations), while in small tanks the estimates are
+pulled more towards the mean (information is used from other tanks).</li>
+<li>The more extreme the raw survival probability, the more it is pulled towards the mean.</li>
+</ul>
+<p>This is the <strong>pooling</strong> effect of the model. The phenomenon is called <strong>shrinkage</strong>.</p>
+<p>See also <a href="linear-mixed-models.html#exercise3_LMM">exercise 3</a> to improve your understanding of two models.</p>
+</div>
+<div id="compare-models-13.1-and-13.2-with-respect-to-predictive-ability-on-unseen-data" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Compare models 13.1 and 13.2 with respect to predictive ability on unseen data<a href="linear-mixed-models.html#compare-models-13.1-and-13.2-with-respect-to-predictive-ability-on-unseen-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/intro.html#explanatory-vs.-predictive-models">QM2</a>
+we talked about the difference between
+<a href="https://projecteuclid.org/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full">explanatory vs. predictive models</a>.
+If you are interested, you can read section 7.4 (p.217) in the book.</p>
+<p>In a <strong>prediciton context</strong> we ask ourselves:
+How well do the models <em>predict</em> the data
+(which was measured with residuals in regression)?</p>
+<p>There are many nuances but the <strong>main paradigm</strong> (also in classical machine learning) is to
+fit the model on a <strong>training set</strong> and evaluate the model on a <strong>test set</strong>.
+Should you be interested in the (admittedly very technical) details,
+I can recommend the book <em>Elements of Statistical Learning</em> by Hastie,
+Tibshirani and Friedman (free <a href="https://www.sas.upenn.edu/~fdiebold/NoHesitations/BookAdvanced.pdf">here</a>).</p>
+<p>During training, the model tries to learn the underlying structure of the data.
+The test set is used to evaluate the model’s performance on unseen data.
+This is the ultimate and brutally honest test of the model’s predictive ability.</p>
+<p>For instance, if you think back to our <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#adding_transformed_predictor_bayes">body height prediction example in QM2</a>,
+we would fit the model on 80% of people (training set) and see how precise the model is on
+the remaining 20% of people (test set). Let’s do this in <a href="linear-mixed-models.html#exercise7_LMM">exercise 7</a>.</p>
+<p>Remember, in prediction we do not care about interpretability of the model.
+We could have a blackbox model (e.g. neural networks) and still be happy with it.</p>
+<p>In order to estimate the predictive ability of a model, there are many
+criteria available. One of them is the <strong>WAIC</strong>:</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="linear-mixed-models.html#cb259-1" tabindex="-1"></a><span class="fu">WAIC</span>(m13<span class="fl">.1</span>)</span></code></pre></div>
+<pre><code>##       WAIC      lppd  penalty  std_err
+## 1 216.2614 -81.72813 26.40257 4.679153</code></pre>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="linear-mixed-models.html#cb261-1" tabindex="-1"></a><span class="fu">WAIC</span>(m13<span class="fl">.2</span>)</span></code></pre></div>
+<pre><code>##       WAIC      lppd  penalty  std_err
+## 1 200.3715 -79.18461 21.00113 7.205089</code></pre>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="linear-mixed-models.html#cb263-1" tabindex="-1"></a><span class="fu">compare</span>(m13<span class="fl">.1</span>, m13<span class="fl">.2</span>, <span class="at">func =</span> WAIC) <span class="co"># change func to other criteria if needed.</span></span></code></pre></div>
+<pre><code>##           WAIC       SE    dWAIC      dSE    pWAIC       weight
+## m13.2 200.3715 7.205089  0.00000       NA 21.00113 0.9996456832
+## m13.1 216.2614 4.679153 15.88993 3.798405 26.40257 0.0003543168</code></pre>
+<p><strong>WAIC</strong> stands for <em>Widely Applicable Information Criterion</em> and is a
+measure of prediction accuracy on new data (out of sample deviance); see
+p.219 and p.404 in Statistical Rethinking. As it is pointed out in the book “Using tools like
+<a href="https://sites.stat.columbia.edu/gelman/research/unpublished/VehtariGelmanGabry_PSIS_2017.pdf">PSIS</a>
+and <a href="https://en.wikipedia.org/wiki/Watanabe%E2%80%93Akaike_information_criterion">WAIC</a>
+is much easier than understanding them.”</p>
+<p>We do not go into the details of WAIC, but as a <strong>first dirty rule of thumb</strong>,
+the model with the lower WAIC is preferred. One should never solely rely on
+this criterion, especially not if one is interested in causal questions.</p>
+<p>What are the columns?</p>
+<ul>
+<li><code>WAIC</code>: guess of the out-of-sample deviance.</li>
+<li><code>SE</code>: standard error of the WAIC estimate.</li>
+<li><code>dWAIC</code>: difference of each WAIC from the best model (with the <em>smallest</em> WAIC).</li>
+<li><code>dSE</code>: standard error of this difference. Here, the standard error of the
+difference (<span class="math inline">\(3.79\)</span>) is much smaller compared to the difference in WAIC
+between the models (<span class="math inline">\(15.88993\)</span>). <strong>Here, one can distinguish between the models using WAIC.
+<span class="math inline">\(\rightarrow\)</span> m13.2 is preferred</strong> (with respect to predictive ability on unseen data).</li>
+<li><code>pWAIC</code>: prediction penalty. This is close to the number of parameters in the posterior.</li>
+<li><code>weight</code>: the Akaike weight, a measure of relative support for each model. In our case,
+it is almost 1 for model 13.2 and almost 0 for model 13.1.</li>
+</ul>
+<p>Feel free to read p.227 in the book, specifically before you use WAIC
+in a publication or thesis.</p>
+<p>One can also plot this information for a better overview:</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="linear-mixed-models.html#cb265-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">compare</span>(m13<span class="fl">.1</span>, m13<span class="fl">.2</span>, <span class="at">func =</span> WAIC))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>The filled points show how the model performs on the data it was trained on.
+Typically, this is lower compared to the out-of-sample deviance (open points)
+for both models.
+Section 13.2 (especially Figure 13.3.) in the book shows that partial pooling also yields (on average) better
+predictions compared to no pooling, it’s a tradeoff between over- and underfitting.</p>
+<div id="frequentist13_2" class="section level4 hasAnchor" number="3.1.4.1">
+<h4><span class="header-section-number">3.1.4.1</span> Frequentist version model 13.2<a href="linear-mixed-models.html#frequentist13_2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In the Frequentist setting we can use the <code>lme4</code> package to fit the analog
+to model 13.2. To be more specific,
+we use a <a href="https://en.wikipedia.org/wiki/Generalized_linear_mixed_model">generalized linear mixed model (GLMM)</a>.
+<em>Generalized</em> because we assume a binomial distribution for the response variable,
+while usually we have a continuous outcome variable (like body height in cm).</p>
+<p>Let’s fit the model and explain the outcome first. <span class="math inline">\(S\)</span> is the number of surviving tadpoles,
+<span class="math inline">\(N\)</span> is the number of tadpoles in the tank.</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="linear-mixed-models.html#cb266-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb266-2"><a href="linear-mixed-models.html#cb266-2" tabindex="-1"></a></span>
+<span id="cb266-3"><a href="linear-mixed-models.html#cb266-3" tabindex="-1"></a>m_lmer <span class="ot">&lt;-</span> <span class="fu">glmer</span>(</span>
+<span id="cb266-4"><a href="linear-mixed-models.html#cb266-4" tabindex="-1"></a>  <span class="fu">cbind</span>(S, N <span class="sc">-</span> S) <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> tank),</span>
+<span id="cb266-5"><a href="linear-mixed-models.html#cb266-5" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb266-6"><a href="linear-mixed-models.html#cb266-6" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb266-7"><a href="linear-mixed-models.html#cb266-7" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">glmerControl</span>(<span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</span>
+<span id="cb266-8"><a href="linear-mixed-models.html#cb266-8" tabindex="-1"></a>)</span>
+<span id="cb266-9"><a href="linear-mixed-models.html#cb266-9" tabindex="-1"></a><span class="fu">summary</span>(m_lmer)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: cbind(S, N - S) ~ (1 | tank)
+##    Data: dat
+## Control: glmerControl(optimizer = &quot;bobyqa&quot;)
+## 
+##       AIC       BIC    logLik -2*log(L)  df.resid 
+##     271.6     275.3    -133.8     267.6        46 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -0.5981 -0.2255  0.1267  0.2457  0.9677 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  tank   (Intercept) 2.459    1.568   
+## Number of obs: 48, groups:  tank, 48
+## 
+## Fixed effects:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   1.3786     0.2505   5.503 3.74e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>For convergence reasons (after trial and error), we used the <code>bobyqa</code> optimizer.
+We do not care so much about the technical details behind the model fitting procedure.
+Briefly, the model is not fitted using the least squares method anymore,
+but the <a href="https://www.youtube.com/watch?v=XepXtl9YKwc&amp;ab_channel=StatQuestwithJoshStarmer">maximum likelihood method</a>
+(see also Westfall p.43-52),
+which is another way of finding model parameters in parametric statistics.
+Interestingly, the way to fit the model in front of us is outlined in the help file of the command
+<code>glmer</code> (see <code>?glmer</code>).</p>
+<p>The syntax <code>(1 | tank)</code> means that we fit a random intercept for each tank.
+For details on the random effect structure definition see
+<a href="https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf">p.7 here</a>.
+You will always see such a term if you model clustered data in the Frequentist
+setting (at least in R).</p>
+<p><a href="https://en.wikipedia.org/wiki/Akaike_information_criterion">AIC (Akaike Information Criterion)</a>
+and <a href="https://en.wikipedia.org/wiki/Bayesian_information_criterion">BIC (Bayesian Information Criterion)</a>
+are two measures of model fit which both consider the model fit and the number
+of parameters simultaneously. Both punish the number of parameters in the model,
+but not equally strong.</p>
+<p>In the summary output, we see the values for AIC, BIC and the log-likelihood.
+The latter is used to fit the model. <code>-2logLik</code> is the so-called <em>deviance</em> of
+the model and has - under <span class="math inline">\(H_0\)</span> - a <span class="math inline">\(\chi^2\)</span> distribution that can be exploited
+for hypothesis testing. This term takes the place of the residual sum of squares
+in least squares regression.</p>
+<p>The <code>Std.Dev.</code> of the <code>Random effect</code> <code>tank</code> is <span class="math inline">\(1.568\)</span> which schould be somewhat similar
+to the <code>sigma</code> in the Bayesian model (<span class="math inline">\(1.614989185\)</span>), which is the case here.
+The major difference is that in the Frequentist model, this <span class="math inline">\(\sigma\)</span> is only
+learned from the data, while in the Bayesian model we have priors too.</p>
+<p>The <code>Fixed effect</code> <code>(Intercept)</code> (<span class="math inline">\(1.3786\)</span>) is the <code>logit</code> of the mean survival probability
+across all tanks and analog to the <code>a_bar</code> (<span class="math inline">\(1.3420237045\)</span>) in the Bayesian model.</p>
+<p><code>df.resid</code>is <span class="math inline">\(46\)</span>, sample size is <span class="math inline">\(48\)</span>. Two degrees of freedom are lost due
+to the estimation of the overall <code>(Intercept)</code> and the random effect (the standard
+deviation <span class="math inline">\(\sigma\)</span> of <code>tank</code>).</p>
+<p>And of course, at the bottom of the summary output, for the <em>stargazers</em> among us, are the <code>Signif. codes</code>.</p>
+<p>In summary, both (Frequentist and Bayesian) models deliver rather similar results.</p>
+<p>We leave it as an <a href="linear-mixed-models.html#exercise4_LMM">exercise</a> (4) to compare the model-estimated survival probabilities
+in the tanks for both models.</p>
+<p>Section 13.2. in the book shows that partial pooling also yields (on average) better
+predictions compared to no pooling, it’s a tradeoff between over- and underfitting
+(i.e. the raw probabilities in each tank without knowledge of the other tanks and one
+overall survival probability that ignores differences between tanks completely).</p>
+<p>Again, we can have:</p>
+<ul>
+<li><strong>Complete pooling</strong>: all tanks share the same intercept (no random effect)</li>
+<li><strong>No pooling</strong>: each tank has its own intercept (random effect)</li>
+<li><strong>Partial pooling</strong>: tanks share information, but not completely
+(random effect with priors)</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Exercises<a href="linear-mixed-models.html#exercises-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Solutions to the exercises can be found
+<a href="https://github.com/jdegenfellner/Script_QM3_ZHAW/tree/main/Solutions_Exercises">here</a>.</p>
+<div id="exercise1_LMM" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Exercise 1<a href="linear-mixed-models.html#exercise1_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Do some descriptive statistics on the data set reedfrogs.</li>
+<li>Use the <code>dplyr</code> and <code>tidyr</code> packages to create a new data set with one row per individual tadpole.
+For every tadpole, we want the variable <em>surv_bin</em> to be <span class="math inline">\(1\)</span> if the tadpole survived and <span class="math inline">\(0\)</span> if it died.</li>
+<li>Feel free to check out the solution and ask a LLM (e.g., GPT) to explain the code -
+in this case it does a good job.</li>
+</ul>
+</div>
+<div id="exercise2_LMM" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Exercise 2<a href="linear-mixed-models.html#exercise2_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We want to better undestand the pooling effect of model 13.2 vs. model 13.1.</p>
+<ul>
+<li>Calculate the mean survival probability for each tank in model 13.1/2. Use the function <code>logistic</code>
+(or equivalently <code>inv_logit</code>) from the <code>rethinking</code> package to transform the <span class="math inline">\(48\)</span> intercepts to probabilities.</li>
+<li>Calculate the raw survival probability for each tank by dividing the number of surivals (S) by
+the tank size (N). Or you can just use the column <code>propsurv</code>, which is the same.</li>
+<li>Plot the mean survival probability for each tank from model 13.1 against the raw survival probability.
+What do you see?</li>
+<li>Do the same for model 13.2.
+What do you see?</li>
+<li>In the model definition of 13.1 change the priors for the intercepts and
+play with different large/small values for XX: <code>a[tank] ~ dnorm(0, XX)</code>.
+What do you see?</li>
+<li>In the model definition of 13.2 change the priors for the intercepts and
+play with different large/small values for XX: <code>a[tank] ~ dnorm(0, XX)</code> and
+also the prior for <span class="math inline">\(\sigma\)</span> (which regulates the pooling): <code>sigma ~ dexp(XX)</code>.</li>
+</ul>
+</div>
+<div id="exercise3_LMM" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Exercise 3<a href="linear-mixed-models.html#exercise3_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We want to check the correlation of the posterior estimates of the intercepts (<code>a[tank]</code>) for model 13.1 and 2.</p>
+<ul>
+<li>Use the <code>extract.samples</code> function to extract the posterior samples of the intercepts.</li>
+<li>Use the <code>cor</code> function to calculate the correlation between the first <span class="math inline">\(2\)</span> intercepts for both models.</li>
+<li>Is there a correlation of the posterior samples for <code>a[1]</code> and <code>a[2]</code> in either model?</li>
+<li>Reason about the results.</li>
+</ul>
+</div>
+<div id="exercise4_LMM" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Exercise 4<a href="linear-mixed-models.html#exercise4_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Go back to the Frequentist version of the tadpole model 13.2 <a href="linear-mixed-models.html#frequentist13_2">above</a>.</p>
+<ul>
+<li>Calculate and compare the model-estimated survival probabilities in the tanks for
+both models (Frequentist and and Bayesian model 13.2).</li>
+<li>What would be the Frequentist equivalent of model 13.1?
+Compare the model-estimated survival probabilities again.</li>
+</ul>
+</div>
+<div id="exercise5_LMM" class="section level3 hasAnchor" number="3.2.5">
+<h3><span class="header-section-number">3.2.5</span> Exercise 5<a href="linear-mixed-models.html#exercise5_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Verify with R that the <code>logit</code> and <code>logistic</code> (=<code>inv_logit</code>) functions are indeed
+inverse functions of each other.</li>
+<li>Also plot both functions for clarity.</li>
+</ul>
+</div>
+<div id="exercise6_LMM" class="section level3 hasAnchor" number="3.2.6">
+<h3><span class="header-section-number">3.2.6</span> Exercise 6<a href="linear-mixed-models.html#exercise6_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the <a href="linear-mixed-models.html#tadpole">tadpole data</a> set again.</p>
+<ul>
+<li>Fit a model with complete pooling, i.e. one intercept for all tanks, without a regularizing prior.
+Hence, the tanks to not “know” anything from one another. Use the <code>rethinking</code> package.</li>
+</ul>
+</div>
+<div id="exercise7_LMM" class="section level3 hasAnchor" number="3.2.7">
+<h3><span class="header-section-number">3.2.7</span> Exercise 7<a href="linear-mixed-models.html#exercise7_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider our regression model (<span class="math inline">\(\mu_i = \alpha + \beta_1 x_i + \beta_2 x_i^2\)</span>)
+for the <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#adding_transformed_predictor_bayes">body height of the !Kung San people in QM2</a>.</p>
+<ul>
+<li>Randomly select 80% of your obervations (rows in the data set).</li>
+<li>Fit the model again using the <code>rethinking</code> package on the 80% of observations.</li>
+<li>Predict the body height of the remaining 20% of observations using the model.</li>
+<li>Calculate the root mean squared error (RMSE) of the predictions:
+<span class="math display">\[ \text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^n (h_i - \hat{h}_i)^2}\]</span>
+where <span class="math inline">\(h_i\)</span> is the observed body height and <span class="math inline">\(\hat{h}_i\)</span> is the predicted body height.</li>
+<li>Calculate the RMSE for the 80% of obervations as well and compare the two RMSEs.
+What do you oberve? Was this an accident?</li>
+<li>Repeat creating a training and test set and calculating the RMSE
+for both the training and the test set <span class="math inline">\(100\)</span> times. Draw a histogram of the RMSEs for training and
+test set. What do you observe?</li>
+</ul>
+</div>
+</div>
+<div id="todos" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> TODOS<a href="linear-mixed-models.html#todos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Create many practically relevant ICC examples</li>
+<li>Create many practically relevant validity examples</li>
+<li>Application movement detection with R/Python as example of machine learning/AI.</li>
+<li>AI Example, Claude and LEAN with <a href="https://www.youtube.com/watch?v=zZr54G7ec7A&amp;t=714s&amp;ab_channel=TerenceTao">Terence</a></li>
+<li>Examples of Reliability studies - eLearning?</li>
+<li>Last Chapter - Introduction to AI. Previous statistical analyses is a special case of neuronal networks.</li>
+<li>Practical examples, one can use LMMs for (shinyapps (Resolve), coding in general…).</li>
+<li><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I">table 2 fallacy</a></li>
+<li>mention missing values, missingness mechanisms</li>
+<li>Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test</li>
+<li>AIC, BIC, cross-validation, Model selection (best subset, leaps….), Variable selection</li>
+<li>More on bias variance tradeoff, show for polynomial regression?</li>
+<li>Restrictive cubic splines?</li>
+<li>Causal inference, DAGs, counterfactuals</li>
+<li><strong>Create final chapter</strong> with “topics we have not covered for time reasons: some known unknowns.”
+Topics: Sample size calculations, missing data, composition data,
+causal inference,…
+Frequently asked master thesis questions:
+<ul>
+<li>How to deal with missing data?</li>
+<li>How calculate the sample size for XX?</li>
+</ul></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reliability-and-validity.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/rstudio/bookdown-demo/edit/master/02-Linear_Mixed_Models.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

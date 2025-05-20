@@ -1,0 +1,13 @@
+book_filename: "bookdown-demo"
+output_dir: docs
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+rmd_files:
+  - index.Rmd
+  - 01-Reliability_Validity.Rmd
+  - 02-Linear_Mixed_Models.Rmd
+  #- 03-Multiple_Linear_Regression.Rmd
+  #- 04-Reliability_Validity.Rmd
+  # Add more Rmd files here as needed

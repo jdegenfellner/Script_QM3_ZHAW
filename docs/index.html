@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Quantitative Methods 3, ZHAW</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Quantitative Methods 3, ZHAW" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Quantitative Methods 3, ZHAW" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Jürgen Degenfellner" />
+
+
+<meta name="date" content="2025-05-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="reliability-and-validity.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Quantitative Methods 3</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preamble</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#pdfs-of-this-script-might-not-be-up-to-date"><i class="fa fa-check"></i><b>1.1</b> PDFs of this script (might not be up to date)</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#books-we-will-borrow-from-are"><i class="fa fa-check"></i><b>1.2</b> Books we will borrow from are:</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#if-you-need-a-good-reason-to-buy-great-books"><i class="fa fa-check"></i><b>1.3</b> If you need a good reason to buy great books…</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html"><i class="fa fa-check"></i><b>2</b> Reliability and Validity</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#reliability"><i class="fa fa-check"></i><b>2.1</b> Reliability</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#peter-and-marys-rom-measurements"><i class="fa fa-check"></i><b>2.1.1</b> Peter and Mary’s ROM measurements</a></li>
+<li class="chapter" data-level="2.1.2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#ICC"><i class="fa fa-check"></i><b>2.1.2</b> Intraclass Correlation Coefficient (ICC)</a></li>
+<li class="chapter" data-level="2.1.3" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#explanation-of-iccs-in-the-psych-output"><i class="fa fa-check"></i><b>2.1.3</b> Explanation of ICCs in the <code>psych</code> output</a></li>
+<li class="chapter" data-level="2.1.4" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#summary-peter-and-mary-with-and-without-bias-icc1-3"><i class="fa fa-check"></i><b>2.1.4</b> Summary Peter and Mary, with and without bias (ICC1-3)</a></li>
+<li class="chapter" data-level="2.1.5" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#difference-between-correlation-and-icc"><i class="fa fa-check"></i><b>2.1.5</b> Difference between correlation and ICC</a></li>
+<li class="chapter" data-level="2.1.6" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#badnews"><i class="fa fa-check"></i><b>2.1.6</b> Bad news about the ICC?</a></li>
+<li class="chapter" data-level="2.1.7" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#standard-error-of-measurement-sem"><i class="fa fa-check"></i><b>2.1.7</b> Standard Error of Measurement (SEM)</a></li>
+<li class="chapter" data-level="2.1.8" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#bland-altman-plot"><i class="fa fa-check"></i><b>2.1.8</b> Bland-Altman Plot</a></li>
+<li class="chapter" data-level="2.1.9" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#example_RELStudy"><i class="fa fa-check"></i><b>2.1.9</b> Example of a Reliability Study</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise1"><i class="fa fa-check"></i><b>2.2.1</b> [E] Exercise 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise2"><i class="fa fa-check"></i><b>2.2.2</b> [M] Exercise 2</a></li>
+<li class="chapter" data-level="2.2.3" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise3"><i class="fa fa-check"></i><b>2.2.3</b> [E] Exercise 3</a></li>
+<li class="chapter" data-level="2.2.4" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise4"><i class="fa fa-check"></i><b>2.2.4</b> [M] Exercise 4</a></li>
+<li class="chapter" data-level="2.2.5" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise5"><i class="fa fa-check"></i><b>2.2.5</b> [M] Exercise 5</a></li>
+<li class="chapter" data-level="2.2.6" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise6"><i class="fa fa-check"></i><b>2.2.6</b> [H] Exercise 6</a></li>
+<li class="chapter" data-level="2.2.7" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise7"><i class="fa fa-check"></i><b>2.2.7</b> [M] Exercise 7</a></li>
+<li class="chapter" data-level="2.2.8" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise8"><i class="fa fa-check"></i><b>2.2.8</b> [H] Exercise 8</a></li>
+<li class="chapter" data-level="2.2.9" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise9"><i class="fa fa-check"></i><b>2.2.9</b> [M] Exercise 9</a></li>
+<li class="chapter" data-level="2.2.10" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#exercise10"><i class="fa fa-check"></i><b>2.2.10</b> [E] Exercise 10</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html#elearning"><i class="fa fa-check"></i><b>2.3</b> eLearning</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>3</b> Linear Mixed Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#tadpole"><i class="fa fa-check"></i><b>3.1</b> Example: Reed Frog tadpole mortality - two levels</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#model13_1"><i class="fa fa-check"></i><b>3.1.1</b> Model 13.1. Partial pooling using regularizing priors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#model13_2"><i class="fa fa-check"></i><b>3.1.2</b> Model 13.2: Partial pooling using adaptive pooling</a></li>
+<li class="chapter" data-level="3.1.3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#conceptual-difference-between-model-13.1-and-13.2"><i class="fa fa-check"></i><b>3.1.3</b> Conceptual difference between model 13.1 and 13.2</a></li>
+<li class="chapter" data-level="3.1.4" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#compare-models-13.1-and-13.2-with-respect-to-predictive-ability-on-unseen-data"><i class="fa fa-check"></i><b>3.1.4</b> Compare models 13.1 and 13.2 with respect to predictive ability on unseen data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercises-1"><i class="fa fa-check"></i><b>3.2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise1_LMM"><i class="fa fa-check"></i><b>3.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.2.2" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise2_LMM"><i class="fa fa-check"></i><b>3.2.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.2.3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise3_LMM"><i class="fa fa-check"></i><b>3.2.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="3.2.4" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise4_LMM"><i class="fa fa-check"></i><b>3.2.4</b> Exercise 4</a></li>
+<li class="chapter" data-level="3.2.5" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise5_LMM"><i class="fa fa-check"></i><b>3.2.5</b> Exercise 5</a></li>
+<li class="chapter" data-level="3.2.6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise6_LMM"><i class="fa fa-check"></i><b>3.2.6</b> Exercise 6</a></li>
+<li class="chapter" data-level="3.2.7" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#exercise7_LMM"><i class="fa fa-check"></i><b>3.2.7</b> Exercise 7</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#todos"><i class="fa fa-check"></i><b>3.3</b> TODOS</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quantitative Methods 3, ZHAW</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Quantitative Methods 3, ZHAW</h1>
+<p class="author"><em>Jürgen Degenfellner</em></p>
+<p class="date"><em>2025-05-20</em></p>
+</div>
+<div id="intro0" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Preamble<a href="index.html#intro0" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<!--- Rscript -e 'bookdown::render_book("index.Rmd")' -->
+<p>This script is a continuation of Quantitative Methods
+<a href="https://jdegenfellner.github.io/Script_QM1_ZHAW/">1</a> and
+<a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/">2</a> at ZHAW.</p>
+<p>In the second part, we learned about the basics of statistical modeling,
+specifically, using Bayesian and Frequentist approaches.</p>
+<p>In this script, we will continue with Reliability, Validity, do a short introduction
+into artificial intelligence (AI) and also continue to expand our classical
+statistical toolbox.</p>
+<p>This is a first draft as you are the first group to be working with it.</p>
+<p>Please feel free to send me suggestions for improvements or corrections.</p>
+<p>This <strong>should be a collaborative effort</strong> and will (hopefully)
+never be finished as our insights on how to present which topic grows over time.</p>
+<p>The script can also be seen as a pointer to great sources which are
+suited to deepen your understanding of the topics. Knowledge is decentralized,
+and there are many great resources out there - in books, on websites and on YouTube.</p>
+<p>For the working setup with R, please
+see <a href="https://jdegenfellner.github.io/Script_QM1_ZHAW/index.html#section">this</a>
+and the following sections in the first script.</p>
+<p>The complete code for this script can be found
+<a href="https://github.com/jdegenfellner/Script_QM3_ZHAW">here</a>.
+Feel free to copy and modify it for your own purposes.</p>
+<div id="pdfs-of-this-script-might-not-be-up-to-date" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> PDFs of this script (might not be up to date)<a href="index.html#pdfs-of-this-script-might-not-be-up-to-date" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://github.com/jdegenfellner/Script_QM3_ZHAW/blob/main/01-Reliability_Validity.pdf">Chapter Reliability and Validity</a>
+….</p>
+</div>
+<div id="books-we-will-borrow-from-are" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Books we will borrow from are:<a href="index.html#books-we-will-borrow-from-are" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>(older online version is Free; current version in ZHAW Library) <a href="https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf">Statistical Rethinking</a>, YouTube-Playlist: <a href="https://youtu.be/FdnMWdICdRs?si=q2py5QVY_L299hEa">Statistical Rethinking 2023</a></li>
+<li>(Free) <a href="https://vdoc.pub/documents/understanding-regression-analysis-a-conditional-distribution-approach-84oqjr8sqva0">Understanding Regression Analysis: A Conditional Distribution Approach</a></li>
+<li><a href="https://www.cambridge.org/core/books/measurement-in-medicine/8BD913A1DA0ECCBA951AC4C1F719BCC5">Measurement in Medicine</a></li>
+<li>(3rd edition is free) <a href="http://repo.darmajaya.ac.id/5272/1/Artificial%20Intelligence-A%20Modern%20Approach%20%283rd%20Edition%29%20%28%20PDFDrive%20%29.pdf">Artificial Intelligence A Modern Approach</a></li>
+<li><a href="https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview">Data Analysis Using Regression and Multilevel/Hierarchical Models</a></li>
+</ul>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="if-you-need-a-good-reason-to-buy-great-books" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> If you need a good reason to buy great books…<a href="index.html#if-you-need-a-good-reason-to-buy-great-books" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Think of the total costs of your education. You want to extract maximum
+benefit from it. In the US, an education costs <a href="https://www.finaid.ucsb.edu/docs/default-source/default-document-library/2024-2025-undergrad-coa.pdf?sfvrsn=fb791f8a_4">a lot</a>.
+In beautiful Switzerland, the <a href="https://www.zhaw.ch/de/sml/studium/master/kosten">tuition fees</a> (if applicable) are nowhere near these figures.
+Costs you could consider are opportunity costs of not working.
+A comparison with both, a foreign education or opportunity costs,
+justifies the investment in good books.
+Or: The costs of all the good books of your education combined are probably less than an iPhone Pro.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="reliability-and-validity.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

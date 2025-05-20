@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{align*}
+ICC &= \frac{\sigma_{\eta}^{2}}{\sigma_{\eta}^{2} + \sigma_{\varepsilon}^{2}}, \\[6pt]
+1 - ICC &= \frac{\sigma_{\eta}^{2} + \sigma_{\varepsilon}^{2} - \sigma_{\eta}^{2}}
+               {\sigma_{\eta}^{2} + \sigma_{\varepsilon}^{2}}
+         = \frac{\sigma_{\varepsilon}^{2}}
+                {\sigma_{\eta}^{2} + \sigma_{\varepsilon}^{2}}, \\[6pt]
+\sqrt{1 - ICC} &= 
+       \frac{\sigma_{\varepsilon}}
+            {\sqrt{\sigma_{\eta}^{2} + \sigma_{\varepsilon}^{2}}}. \\[12pt]
+\intertext{Sei nun der gepoolte Standard­ab­weichung definiert als}
+SD_{\text{pooled}} &= \sqrt{\sigma_{\eta}^{2} + \sigma_{\varepsilon}^{2}}. \\[12pt]
+\intertext{Damit folgt unmittelbar}
+SEM &= \sqrt{\sigma_{\varepsilon}^{2}}
+      = \sigma_{\varepsilon}
+      = SD_{\text{pooled}} \,\sqrt{1 - ICC}.
+\end{align*}
+
+\end{document}

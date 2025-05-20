@@ -1,0 +1,1064 @@
+# Reliability and Validity
+
+For this chapter we refer to the book 
+[Measurement in Medicine](https://www.cambridge.org/core/books/measurement-in-medicine/8BD913A1DA0ECCBA951AC4C1F719BCC5).
+
+I invite you to read the introductory chapters 1 and 2 about concepts,
+theories and models, and types of measurement.
+
+In general, when conducting a measurement of any sort 
+(laboratory measurements, scores from questionnaires, etc.), 
+we want to be reasonably sure
+
+- that we actually **measure what we intend to measure**; 
+  ([validity](https://en.wikipedia.org/wiki/Validity_(statistics)); 
+  chapter 6 in the book);
+- that the measurement does **not change too much** if the 
+  underlying **conditions are the same**
+  ([reliability](https://en.wikipedia.org/wiki/Reliability_(statistics)); 
+  chapter 5 in the book); and
+- that we are able to detect a **change** if the underlying conditions change 
+  ([responsiveness](https://tinyurl.com/3vdcxy49); chapter 7 in the book); and
+- that we understand the meaning of a change in the measurement
+  (interpretability; chapter 8 in the book).
+
+In this [video](https://www.youtube.com/watch?v=KuT2n1w0Ixc&ab_channel=Physiotutors), 
+Kai jump starts you on reliability and validity.
+
+
+## Reliability
+You can watch this [video](https://www.youtube.com/watch?v=9HSoWaRpcys&ab_channel=Physiotutors) 
+to get started.
+
+Imagine, you measure a patient (pick your favorite measurement), for example,
+the range of motion (ROM) of the shoulder. 
+
+- If you are interested in how
+  similar your measurements are in comparison to your colleagues, you are 
+  trying to determine the so-called **inter-rater reliability**.
+- If you are interested in how similar your measurements are when you measure
+  the same patient twice, you are trying to determine the so-called 
+  **intra-rater reliability**.
+
+Assuming there is a true (but unknown) underlying value (of Range of Motion, ROM), 
+it is clear that measurements will not be *exactly* the same. 
+Possible influences (potentially) causing different results are:
+
+- the measurement instrument itself (e.g., the goniometer),
+- the patient (e.g., mood/motivation),
+- the examiner (e.g., mood, influence on patient),
+- the environment (e.g., the room temperature).
+
+Note that the **true score** is defined in our context as the average of all measurements
+if we would measure repeatedly an infinite number of times.
+
+### Peter and Mary's ROM measurements
+
+The data can be found [here](http://www.clinimetrics.nl/answers-to-the-assignments-in-textbook_22_0.html).
+We randomly select 50 measurements from Peter and Mary in 50 different patients,
+plot their measurements and annotate the absolutely largest one(s). At first the
+*not affected shoulder* (nas) and then the *affected shoulder* (as).
+
+```{r}
+library(pacman)
+p_load(tidyverse, readxl)
+
+# Read file
+url <- "https://raw.githubusercontent.com/jdegenfellner/Script_QM2_ZHAW/main/data/chapter%205_assignment%201_2_wide.xls"
+temp_file <- tempfile(fileext = ".xls")
+download.file(url, temp_file, mode = "wb")  # mode="wb" is important for binary files
+df <- read_excel(temp_file)
+
+head(df)
+dim(df)
+
+# As in the book, let's randomly select 50 patients.
+set.seed(123)
+df <- df %>% sample_n(50)
+dim(df)
+
+# "as" = affected shoulder
+# "nas" = not affected shoulder
+
+df <- df %>%
+  mutate(diff = abs(ROMnas.Peter - ROMnas.Mary))  # Compute absolute difference
+
+max_diff_point <- df %>%
+  dplyr::filter(diff == max(diff, na.rm = TRUE))  # Find the row with the max difference
+
+df %>%
+ggplot(aes(x = ROMnas.Peter, y = ROMnas.Mary)) +
+  geom_point() + 
+  geom_point(data = max_diff_point, aes(x = ROMnas.Peter, y = ROMnas.Mary), 
+             color = "blue", size = 4) +  # Highlight max difference point
+  geom_abline(intercept = 0, slope = 1, color = "red") +
+  theme_minimal() +
+  ggtitle("ROMnas.Peter vs. ROMnas.Mary") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  annotate("text", x = max_diff_point$ROMnas.Peter, 
+           y = max_diff_point$ROMnas.Mary, 
+           label = paste0("Max Diff: ", round(max_diff_point$diff, 2)), 
+           vjust = -1, color = "blue", size = 4)
+
+# average abs. difference:
+mean(df$diff, na.rm = TRUE) # 7.2
+
+cor(df$ROMnas.Peter, df$ROMnas.Mary, use = "complete.obs") 
+```
+
+The red line represents the line of equality ($y=x$). If the measurements are 
+exactly the same,
+all points would lie on this line. The blue point represents the largest 
+absolute difference in measured Range of Motion (ROM) values between Peter and Mary
+from the randomly chosen 50 people. Note that the maximum difference in 
+all 155 patients is 35 degrees.
+
+The first simple measure of agreement we could use is the (Pearson) correlation, which
+measures the **strength and direction of a linear relationship between two variables**.
+But correlation does not exactly measure what we want. If there was a bias 
+(e.g., Mary systematically measures 5 degrees more than Peter), correlation would not 
+notice this. (-> exercise later...). It actually is too optimistic about 
+the agreement since it only cares about the linearity and not about a potential bias.
+$r=0.2403213$ which indicates a weak positive correlation. Higher values of Peter's
+are associated with higher values of Mary's measurements.
+But: Knowing Peter's measurement does not help us to [*predict*](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Interpretation_of_the_size_of_a_correlation) 
+Mary's measurement at such a low correlation (-> exercise later).
+So, on the *not affected shoulder* (nas), agreement is really bad.
+
+What about the affected shoulder (as)?
+
+```{r}
+library(ggExtra)
+df <- df %>%
+  mutate(diff = abs(ROMas.Peter - ROMas.Mary))  # Compute absolute difference
+
+max_diff_point <- df %>%
+  dplyr::filter(diff == max(diff, na.rm = TRUE))  # Find the row with the max difference
+
+p <- df %>%
+ggplot(aes(x = ROMas.Peter, y = ROMas.Mary)) +
+  geom_point() + 
+  geom_point(data = max_diff_point, aes(x = ROMas.Peter, y = ROMas.Mary), 
+             color = "blue", size = 4) +  # Highlight max difference point
+  geom_abline(intercept = 0, slope = 1, color = "red") +
+  theme_minimal() +
+  ggtitle("ROMas.Peter vs. ROMas.Mary") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  annotate("text", x = max_diff_point$ROMas.Peter, 
+           y = max_diff_point$ROMas.Mary, 
+           label = paste0("Max Diff: ", round(max_diff_point$diff, 2)), 
+           vjust = -1, color = "blue", size = 4)
+# Add marginal histograms
+ggMarginal(p, type = "density", fill = "gray", color = "black")
+
+# average abs. difference:
+mean(df$diff, na.rm = TRUE) # 7.2
+cor(df$ROMas.Peter, df$ROMas.Mary, use = "complete.obs") 
+
+# mean difference
+mean(df$ROMas.Peter - df$ROMas.Mary, na.rm = TRUE) 
+```
+
+In the affected side, the average absolute difference is even larger ($7.78$)
+with a maximum absolute difference of 37 degrees,
+but the correlation is much higher ($r=0.8516653$). See Figure 5.2 in the book.
+
+Btw, this is an an example for using the correlation coefficient even though
+the marginal distributions are not normal: There are much more measurements in the higher
+values around 80 than below, say, 60. But the correlation coefficient makes sense
+for descriptive purposes.
+
+In this case, knowing Peter's measurement *does* help us to predict 
+Mary's measurement (-> exercise later).
+
+### Intraclass Correlation Coefficient (ICC)
+
+One way to measure reliability is to use the intraclass correlation coefficient (ICC).
+
+This measure is based on the idea that the observed score $Y_i$ consists of the true score 
+(ROM) ($\eta_i$) and a measurement error (for each person).
+The proportion of the true score variability to the total variability is the ICC.
+
+In the background one thinks of a statistical model from the 
+[Classical Test Theory (CTT)](https://en.wikipedia.org/wiki/Classical_test_theory).
+There is 
+
+- a true underlying score $\eta_i$ (for each patient i) and 
+- an error term $\varepsilon_i \sim N(0, \sigma_i)$ which is the difference between the true
+score and 
+- the observed score $Y_i$.
+
+$$Y_i = \eta_i + \varepsilon_i$$
+
+It is assumed that $\eta_i$ and $\varepsilon_i$ are independent: ($\mathbb{C}ov(\eta_i, \varepsilon_i)=0$).
+This is a nice assumption because now we know (see [here](https://en.wikipedia.org/wiki/Variance#Addition_and_multiplication_by_a_constant)) 
+that the variance
+of the observed score $Y_i$ is just the sum of the variance of the true score $\eta_i$
+and the variance of the error term $\varepsilon_i$:
+
+$$\mathbb{V}ar(Y_i) = \mathbb{V}ar(\eta_i) + \mathbb{V}ar(\varepsilon_i)$$
+$$\sigma_{Y_i}^2 = \sigma_{\eta_i}^2 + \sigma_{\varepsilon_i}^2$$
+
+We want most of the variability in our observed scores $Y_i$ to be explained by the 
+true but unobservable scores $\eta_i$. The measurement error $\varepsilon_i$ should be
+be comparatively small. If it is large, we are mostly measuring noise or at least not
+what we want to measure. 
+
+**How do we get to the theoretical definition of the ICC?**
+
+If you either pull two people with the same true but unobservable score $\eta$ out of the population
+or measure the same person twice and the score ($\eta$) does not change in between, we can 
+**define reliability as correlation between these two measurements**:
+
+$$Y_1 = \eta + \varepsilon_1$$
+$$Y_2 = \eta + \varepsilon_2$$
+
+$$cor(Y_1, Y_2) = cor(\eta + \varepsilon_1, \eta + \varepsilon_2) = \frac{Cov(\eta + \varepsilon_1, \eta + \varepsilon_2)}{\sigma_{Y_1}\sigma_{Y_2}}  =$$
+
+If we use 
+
+- the [properties of the covariance](https://en.wikipedia.org/wiki/Covariance#Properties), 
+- the fact that the true score $\eta$ and the errors $\varepsilon_i$ are independent, and 
+- the fact that the errors $\varepsilon_1$ and $\varepsilon_2$ are independent, we get:
+
+$$\frac{Cov(\eta, \eta) + Cov(\eta, \varepsilon_2) + Cov(\varepsilon_1, \eta) + Cov(\varepsilon_1, \varepsilon_2)}{\sigma_{Y_1} \sigma_{Y_2}}  =$$
+$$\frac{\sigma_{\eta}^2 + 0 + 0 + 0}{\sigma_{Y_1} \sigma_{Y_2}}$$
+
+Since $\eta$ is a random variable (we draw a person randomly from the population),
+it is well defined to talk about the variance of $\eta$ (i.e., $\sigma_{\eta}^2$).
+I think this aspect may not come across in the book quite so clearly.
+
+Furthermore, it does not matter if I call the measurement $Y_1$, $Y_2$ or more general
+$Y$, since they have the same variance and true score: 
+
+$$\sigma_{Y} = \sigma_{Y_1} = \sigma_{Y_2}$$
+
+Hence, it follows that:
+
+$$cor(Y_1, Y_2) = \frac{\sigma_{\eta}^2}{\sigma_{Y_1}^2} = \frac{\sigma_{\eta}^2}{\sigma_{Y}^2} =  \frac{\sigma_{\eta}^2}{\sigma_{Y}^2} = \frac{\sigma_{\eta}^2}{\sigma_{\eta}^2 + \sigma_{\varepsilon}^2}$$
+
+This is the **intraclass correlation coefficient (ICC)**. 
+It is (as seen in the formula above) the proportion of the
+true score variability to the total variability. 
+It ranges from 0 and 1 (think about why!).
+
+A little manipulation to improve understanding:
+
+Let's look again at the term for the ICC above and divide the numerator and the denominator by
+$\sigma_{\eta}^2$, which we can do, since it is a positive number:
+
+$$\frac{\sigma_{\eta}^2}{\sigma_{\eta}^2 + \sigma_{\varepsilon}^2} = \frac{1}{1 + \frac{\sigma_{\varepsilon}^2}{\sigma_{\eta}^2}}$$
+
+We could call the term $\frac{\sigma_{\varepsilon}^2}{\sigma_{\eta}^2}$ the noise-to-signal ratio.
+The higher this ratio, the lower the ICC. The lower the ratio, the higher the ICC.
+
+- If you increase the noise (measurement error $\sigma_{\varepsilon}^2$) for fixed 
+  true score variability $\sigma_{\eta}^2$, the ICC decreases, because the denominator
+  increases.
+- If you increase the true score variability $\sigma_{\eta}^2$ for fixed noise $\sigma_{\varepsilon}^2$, 
+  the ICC increases, since the denominator decreases.
+
+Btw, we could also divide by $\sigma_{\varepsilon}^2$ and get the signal-to-noise ratio.
+
+At first glance, the following statement seems wrong:
+
+In a very **homogeneous population** (patients have very similar scores/measurements),
+the **ICC might be very low**. The reason is that the patient variability $\sigma_{\eta}^2$ is low
+and you probably have some measurement error $\sigma_{\varepsilon}^2$.
+Hence, if you look at the formula, ICC must be low (for a given measurement error).
+
+On the other hand, if you have a very **heterogeneous population** (patients have rather different 
+scores/measurements), the **ICC might be very high**.
+The reason is that the patient variability $\sigma_{\eta}^2$ is high and you probably 
+have some measurement error $\sigma_{\varepsilon}^2$.
+
+**What matters is the ratio of the two**, as can be seen from the formula above.
+
+Let's try to calculate the ICC for our data using a statistical model. There are a couple of different
+R packages to do this. We will use the `irr` package.
+
+```{r}
+library(irr)
+irr::icc(as.matrix(df[, c("ROMas.Peter", "ROMas.Mary")]), 
+    model = "oneway", type = "consistency")
+```
+
+We get the result: $ICC(1) = 0.851$, which is identical to the correlation coefficient
+because there is no systematic difference between Peter and Mary.
+
+Since we are forward looking and modern regression model experts, 
+we would like to see if we can get the result using the Bayesian 
+framework. 
+
+Below is the model structure. 
+
+\[
+\begin{array}{rcl}
+ROM_i &\sim& N(\mu_i, \sigma_{\varepsilon}) \\
+\mu_i &=& \alpha[ID] \\
+\alpha[ID] &\sim& \text{Normal}(\mu_{\alpha}, \sigma_{\alpha}) \\
+\mu_{\alpha} &\sim& \text{Normal}(66, 20) \\
+\sigma_{\alpha} &\sim& \text{Uniform}(0,20) \\
+\sigma_{\varepsilon} &\sim& \text{Uniform}(0,20)
+\end{array}
+\]
+
+**Model details:**
+
+- $ROM_i$ is the observed ROM-score for patient $i$. 
+  Every patient has two observations (one each from Mary and Peter). 
+  So, for instance $i=1,2$ could be patient $ID=1$.
+- $\mu_i$ is the expected value of the observed score for patient $ID$.
+- $\sigma_{\varepsilon}$ is the standard deviation of the measurement error.
+- $\alpha[ID]$ is the patient-specific intercept ($=\eta_i$). 
+  Since every patient has a different intercept and they
+  come from a normal distribution, we have a **random intercepts model**.
+- $\mu_{\alpha}$ is the mean of the prior for the patient-specific intercepts.
+  This is the overall mean of the scores.
+- $\sigma_{\alpha}$ is the standard deviation of the patient-specific intercepts.
+  **This is the patient variability**! The nice thing about presenting a model in this 
+  way is that it's easier to interpret. $\sigma_{\alpha}$ says how much 
+  the scores of the patients vary in relation to their respective level $\alpha[ID]$.
+- The prior distributions express (as always) our prior beliefs about the parameters.
+
+The **ICC** is then calculated as the ratio of the between-patient variance and
+the total variance: 
+
+  $$\frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2 + \sigma_{\varepsilon}^2}$$
+
+We did not even notice it, but this was our first **multilevel regression model**.
+It is multilevel due to the extra layer of patient-specific intercepts.
+The **observations** are obviously **clustered within patients**, since observations
+from the **same patient** are **more similar than observations from different patients**.
+If one would run a normal linear regression model, one would ignore this clustering
+and the assumption of independent error terms would be violated.
+
+Draw model structure ... exercise..
+
+This time we fire up the `rethinking` package and use the `ulam` function 
+to fit the model.
+This uses Markov Chain Monte Carlo (MCMC) to sample from the posterior 
+distribution of the parameters.
+
+- The `chains` argument specifies how many chains we want to run.
+  A *chain* is a sequence of points in a space with as many dimensions as there 
+  are parameters in the model. It jumps from one point to the next in this parameter 
+  space and in doing so, visits the points of the posterior approximately in the correct 
+  frequency. [Here](https://blog.revolutionanalytics.com/2013/09/an-animated-peek-into-the-workings-of-bayesian-statistics.html) 
+  is an excellent visualization.
+
+- The `cores` argument specifies how many CPU cores we want to use. 
+  For larger jobs, one can try to parallelize
+  the chains, which saves some time.
+
+```{r}
+library(rethinking)
+library(tictoc)
+
+df_long <- df %>% 
+  mutate(ID = row_number()) %>%
+  dplyr::select(ID,ROMas.Peter, ROMas.Mary) %>% 
+  pivot_longer(cols = c(ROMas.Peter, ROMas.Mary), 
+               names_to = "Rater", values_to = "ROM") %>% 
+  mutate(Rater = factor(Rater))
+
+tic()
+m5.1 <- ulam(
+  alist(
+    # Likelihood
+    ROM ~ dnorm(mu, sigma),
+    
+    # Patient-specific intercepts (random effects)
+    mu <- a[ID],  
+    a[ID] ~ dnorm(mu_a, sigma_ID),  # Hierarchical structure for patients
+    
+    # Priors for hyperparameters
+    mu_a ~ dnorm(66, 20),  # Population-level mean
+    sigma_ID ~ dunif(0,20),  # Between-patient standard deviation
+    sigma ~ dunif(0,20)  # Residual standard deviation
+  ), 
+  data = df_long, 
+  chains = 8, cores = 4
+)
+toc() # 7s
+
+precis(m5.1, depth = 2)
+
+post <- extract.samples(m5.1)
+var_patients <- mean(post$sigma_ID^2)  # Between-patient variance
+var_residual <- mean(post$sigma^2)     # Residual variance
+var_patients / (var_patients + var_residual) # ICC
+# 0.846
+# not too bad; very close to the result from the irr package
+```
+
+In the output from `precis(m5.1, depth = 2)` above we see 
+
+- all 50 intercept estimates for each patient: `a[ID]` 
+- `mu_a`is the overall intercept.
+- `sigma_ID` is the **patient variability**.
+- `sigma` is the **residual variability**.
+
+We just square the sigmas to get the variances. 
+
+Remember: In the background, there is just a statistical model to predict
+the outcome. Depending on the predictors, we get different models and 
+probably different ICCs.
+
+We can also estimate a **random intercept model** with the `lme4` package using
+the command `lmer`in the Frequentist framework. No priors.
+
+```{r}
+library(lme4)
+m5.2 <- lmer(ROM ~ (1|ID), data = df_long)
+summary(m5.2)
+print(VarCorr(m5.2), comp = "Variance")
+
+# ICC = 
+270.99 / (270.99 + 47.35) # 
+# 0.8512597
+# -> exactly the same result as the irr package
+```
+
+The expression `Formula: ROM ~ (1 | ID)` specifies that we want to fit a model with 
+a random intercept. This means that every patient (ID) gets its own intercept
+which is drawn from a normal distribution. We will probably talk about this in the
+next lecture (Methodenvertiefung) in greater detail.
+
+So far, we have only looked at the general **$ICC$** (ICC1 in the `psych`output) 
+(see also page 106 in the book). 
+
+There, we have not yet explicitely considered a bias (=systematic difference 
+between the raters) that the raters could have. In the book,
+they introduce a bias of 5 degrees (Mary measures 5 degrees more than Peter on average).
+
+The model für ICC 2 and 3 in the `psych` output explicitely considers this
+(systematic) difference that could occur between the raters. 
+This results in an extra term in the denominator
+of the ICC, an additional variance component.
+
+From the same statistical model (!) we take the variance components to calculate:
+
+$$ICC_{agreement} = \frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2 + \mathbf{\sigma_{rater}^2} + \sigma_{\varepsilon}^2}$$
+
+where $\sigma_{rater}^2$ is the variance due to systematic rater differences.
+
+$$ICC_{consistency} = \frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2 + \sigma_{\varepsilon}^2}$$
+
+We will now introduce the 5 degree bias and use our Bayesian 
+framework to estimate the ICC.
+By introducing a bias, we should see
+a lower ICC. Note, that the prediction quality of Mary's scores
+given Peter's scores should not change, since we would only shift Mary's scores
+down by 5 degrees, which would not disturb the linear regression model. We can
+always shift the points to where we want them to be. We do that for instance
+when we scale or standardize the data.
+
+Admitted, the Bayesian version in this case takes longer and is more complex.
+The advantage is still that it's fully probabilistic and one could work with 
+detailed prior information, especially for smaller smaple sizes.
+
+Anyhow, let's try to give the model equations considering
+the introduced bias. This is the model for both 
+$ICC_{agreement}$ and $ICC_{consistency}$!
+
+\[
+\begin{array}{rcl}
+ROM_i &\sim& N(\mu_i, \sigma_{\varepsilon}) \\
+\mu_i &=& \alpha[ID] + \beta[Rater] \\
+\alpha[ID] &\sim& \text{Normal}(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta[Rater] &\sim& \text{Normal}(0, \sigma_{\beta}) \\
+\mu_{\alpha} &\sim& \text{Normal}(66, 20) \\
+\sigma_{\alpha} &\sim& \text{Exp}(0.5) \\
+\sigma_{\beta} &\sim& \text{Exp}(1) \\
+\sigma_{\varepsilon} &\sim& \text{Exp}(1)
+\end{array}
+\]
+
+As you can see, $\mu_i$ now consists of the patient-specific intercept $\alpha[ID]$
+(everyone of the 50 patients gets one)
+and the rater-specific effect $\beta[Rater]$ (Mary and Peter get one). 
+So, in total, we have **three sources of variability**: 
+
+- the patient variability $\sigma_{\alpha}$, 
+- the rater variability $\sigma_{\beta}$,
+- and the residual variability $\sigma_{\varepsilon}$.
+
+Note, that if Peter measures each of the 50 patients twice, 
+the systematic difference between Peter's measurements would 
+be zero. Of course, one could be creative and think of 
+a learning effect or something.
+
+Draw model structure ... exercise..
+
+```{r}
+library(rethinking)
+library(conflicted)
+conflicts_prefer(posterior::sd)
+df_long_bias <- df_long %>%
+  mutate(ROM = ROM + ifelse(Rater == "ROMas.Mary", 5, 0))
+head(df_long_bias)
+
+set.seed(123)
+m5.2 <- ulam(
+  alist(
+    # Likelihood
+    ROM ~ dnorm(mu, sigma_eps),
+    
+    # Model for mean ROM with patient and rater effects
+    mu <- alpha[ID] + beta[Rater],
+    
+    # Patient-specific random effects
+    alpha[ID] ~ dnorm(mu_alpha, sigma_alpha),
+    
+    # Rater effect (Peter/Mary)
+    beta[Rater] ~ dnorm(0, sigma_beta),
+    
+    # Priors for hyperparameters
+    mu_alpha ~ dnorm(66, 10),  # Population mean ROM
+    sigma_alpha ~ dexp(0.5),  # Between-patient SD (less aggressive shrinkage)
+    sigma_beta ~ dexp(1),   # Rater SD (better regularization)
+    sigma_eps ~ dexp(1)     # Residual SD (prevents over-shrinkage)
+  ), 
+  data = df_long_bias, 
+  chains = 8, cores = 4
+)
+
+precis(m5.2, depth = 2)
+precis(m5.2)
+
+# check systematic difference for rater in posterior
+post <- extract.samples(m5.2)
+mean(post$beta[,1] - post$beta[,2])
+
+# ICC agreement:
+post <- extract.samples(m5.2)
+(var_patients <- mean(post$sigma_alpha^2))  # Between-patient variance
+(var_raters <- mean(post$sigma_beta^2))     # Rater variance
+(var_residual <- mean(post$sigma_eps^2))    # Residual variance
+
+# ICC_agreement = 
+var_patients / (var_patients + var_raters + var_residual)
+# 0.8033613 (sigma_alpha ~ dexp(1))
+# 0.83 (sigma_alpha ~ dexp(0.5))
+
+# ICC (Single_fixed_raters) = ICC3 in psych output = 
+var_patients / (var_patients + var_residual)
+# 0.8415256
+```
+
+It should be noted that this ICC is very sensitive to the choice of the prior.
+If you choose too agressive priors for the standard deviations $\sigma_{\alpha}, 
+\sigma_{\beta}, \sigma_{\varepsilon}$, you will get a too low ICC.
+
+We will probably talk about this in the next lecture (Methodenvertiefung) in greater detail.
+I have played around a little with the parameters in the exponential priors 
+to get the desired result which compares nicely to the two alternative methods below:
+using the `psych` package and with the `lmer`
+package. Both use a Frequentist random intercept model in the background.
+Using a package like `psych` just gives a more convenient interface to 
+elicit the ICC. 
+
+**`psych` package**:
+```{r}
+library(psych)
+library(conflicted)
+# needs wide format
+#conflicts_prefer(dplyr::select)
+df_wide <- df_long_bias %>%
+  pivot_wider(names_from = Rater, values_from = ROM)
+df_wide_values <- df_wide %>% dplyr::select(-ID)
+psych::ICC(df_wide_values) # ICC1 = 0.83
+```
+
+**`lmer` package**:
+```{r}
+# _lmer------
+m5.3 <- lmer(ROM ~ (1 | ID) + (1 | Rater), data = df_long_bias)
+summary(m5.3)
+print(VarCorr(m5.3), comp = "Variance")
+# Groups   Name        Variance
+# ID       (Intercept) 270.882 
+# Rater    (Intercept)   6.193 
+# Residual              47.557 
+
+
+# ICC (Single_random_raters) = ICC2 in psych output
+270.882 / (270.882 + 6.193 + 47.557) # 
+# 0.8344279
+
+# ICC (Single_fixed_raters) = ICC3 in psych output
+270.882 / (270.882 + 47.557) #
+# 0.85
+```
+
+### Explanation of ICCs in the `psych` output
+
+If you want to know all the details, refer to [Shrout and Fleiss (1979)](https://d1wqtxts1xzle7.cloudfront.net/50483847/syarat_reliabilitas_icc-libre.pdf?1479841049=&response-content-disposition=inline%3B+filename%3DIntraclass_Correlations_Uses_in_Assessin.pdf&Expires=1740684631&Signature=hHiFbcQD3PDVIyWDJ-bUhcm3WtsK19YhHm6FKtnafNdqsm9NhR6cr9lbCf~gVV5SYG1XlTwLlcfJkQ9Z-ahjmmNV893aWi5plo~yL4oZBEjrmFa9WCd7k6vzFTkri1Xbgfh~GyPARWXBtqABytovtL-RD1420Kw9qk150nw3-kUWcuvRiIc~r0y65XQaXf-V9mm~uXRFdUqec4Vs-Bwh~IrJfHWQASGgp8wZjzh2130MCP3-iaorxNn~79c~nm2f1aIl5WRqRXB6EIy8HlrNFpxNSt1pgTPZoZadEECM4qH395KLY5ijUnhoCDT9AmcOplPnFiC5t8dKW-n25ziofQ__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA).
+The help-function `?psych::ICC` contains a relatively good and much shorter explanation.
+The variance formulae given in the help-file are probably somewhat confusing.
+We try to stick to the notation of the book.
+
+Let's talk about the first three **ICCs in the `psych` output**:.
+
+- **Single_raters_absolute ICC1:**
+  According to the help file: "Each target [i.e. patient] is rated by a different 
+  judge [i.e. rater] and the judges are selected at random." So, variability due to raters
+  is implied and cannot be disentangled. 
+  This is formally not our situation, since we have only two raters and
+  50 patients. But for this case, we do not care who measures, since we do not
+  model it, hence, we cannot know if there are systematic differences between
+  the raters. There might as well be 50 raters doing their thing, or just 2 as in our case. 
+  This is the ICC we calculated above; the overall ICC. 
+  in the book and based on the following model:
+  
+  $$Y_{ij} = \eta_i + \varepsilon_i$$
+  where $i \in {1,...,50}$ is the patient and $j \in {1,2}$ is the *measurement* 
+  ($=50*2=100$ rows in long format).
+  Note that we do not mention a rater here, since we do not care who took the
+  measurement. It is not part of the model. The ICC is then calculated as:
+
+  $$ICC = \frac{\sigma_{\eta}^2}{\sigma_{\eta}^2 + \sigma_{\varepsilon}^2}$$
+  
+  whereas we could get the variance components from either the posterior in the Bayesian
+  setting or from the `lmer` output in the Frequentist setting.
+
+- **Single_random_raters ICC2:** 
+  ICC2 ($=ICC_{agreement}$ in the book) and ICC3 ($=ICC_{consistency}$ in the book) 
+  are based on the **same** statistical model. The only difference is
+  that ICC2 assumes that the (in our case) 2 raters are randomly selected from a larger pool of raters,
+  hence, the rater variability must be explicitely considered and yields a potentially smaller
+  value for the ICC. Compared to ICC1, we have repeated measurements from the same raters
+  in 50 patients. That's why we can model their bias. One observation would not be enough.
+  The help file says: "A random sample of k judges rate each target. 
+  The measure is one of absolute agreement in the ratings."
+  A random sample of k (2 in our case) judges means that we cannot rule out the variability
+  due to raters (you get a variety of them and their biases are different).
+  
+  $$Y_{ij} = \eta_i + \beta_j + \varepsilon_i$$
+  where $i \in {1,...,50}$ is the patient, $j \in {1,2}$ is the **rater** 
+  (doing one measurement in each patient). The ICC is then calculated as:
+  
+  $$ICC_{agreement} = \frac{\sigma_{\eta}^2}{\sigma_{\eta}^2 +\mathbf{\sigma_{rater}^2} + \sigma_{\varepsilon}^2}$$
+
+- **Single_fixed_raters ICC3:**
+  ICC3 ($=ICC_{consistency}$ in the book) is based on the **same model as ICC2**, 
+  but assumes that the raters are fixed. 
+  This means that **the raters are the same for all patients** in the future study. 
+  So, we have considered the rater variability in the model 
+  (which was possible due to the repeated measurements from the same raters in 50 patients), 
+  but do not care since Mary and Peter will be the people doing the future
+  measurements, not other therapists. If you fix a random variable 
+  (raters in this case), variance is zero. The help file says: 
+  "A fixed set of k judges rate each target. 
+  There is no generalization to a larger population of judges."
+  The ICC is then calculated as:
+
+  $$ICC_{consistency} = \frac{\sigma_{\eta}^2}{\sigma_{\eta}^2 + \sigma_{\varepsilon}^2}$$
+
+  ICC1 and ICC3 are **not** identical, since ICC1 does not consider the rater variability
+  in the model. They are based on *different* statistiacal models.
+  ICC2 and ICC3 are based on the *same* model.
+
+If there is no systematic difference between raters, all 3 ICCs and the Pearson 
+correlation (r) are the same (see Figure 5.3 in the book).
+
+$ICC_{consistency}$ vs. $ICC_{agreement}$:
+The latter is used, when we need Peter and Mary to concur in their measurements.
+Patients coming to Peters practice will get the same (or very similar) "diagnosis" (ROM-value)
+from Mary. When there is systematic difference (line is shifted downwards in Figure 5.3), 
+this cannot be guaranteed.
+If we only need Peter and Mary to *rank* the patients in the same order,
+we can use $ICC_{consistency}$.
+
+### Summary Peter and Mary, with and without bias
+
+Below, we summarize the results for the ICCs (calculated with `psych`)
+for the unbiased and biased case (Mary measures on average 5 degrees more than peter).
+
+```{r}
+library(pacman)
+p_load(conflicted, tidyverse, flextable)
+
+# Ensure select() from dplyr is used
+#conflicted::conflicts_prefer("select", "dplyr")
+
+# Unbiased ICC Calculation
+df_wide_unbiased <- df_long %>%
+  pivot_wider(names_from = Rater, values_from = ROM)
+df_wide_values_unbiased <- df_wide_unbiased %>% dplyr::select(-ID)
+icc_results_unbiased <- psych::ICC(df_wide_values_unbiased)
+
+# Extract relevant ICC values
+icc_unbiased_df <- icc_results_unbiased$results %>%
+  dplyr::select(type, ICC) %>%
+  rename(`Unbiased ICC` = ICC)
+
+# Biased ICC Calculation
+df_wide_biased <- df_long_bias %>%
+  pivot_wider(names_from = Rater, values_from = ROM)
+df_wide_values_biased <- df_wide_biased %>% dplyr::select(-ID)
+icc_results_biased <- psych::ICC(df_wide_values_biased)
+
+# Extract relevant ICC values
+icc_biased_df <- icc_results_biased$results %>%
+  dplyr::select(type, ICC) %>%
+  dplyr::rename(`Biased ICC` = ICC)
+
+icc_merged_df <- left_join(icc_unbiased_df, 
+                           icc_biased_df, 
+                           by = "type") %>%
+  slice(1:3)
+
+ft <- flextable(icc_merged_df) %>%
+  flextable::set_header_labels(type = "ICC Type") %>%
+  flextable::set_caption("Intraclass Correlation Coefficients - Unbiased vs. Biased") %>%
+  flextable::set_table_properties(width = .5, layout = "autofit")
+ft
+```
+
+The **left column** shows that the ICCs are identical for the **unbiased case**.
+Specifically, ICC2 (=$ICC_{agreement}$ in the book) and 
+ICC3 ($ICC_{consistency}$ in the book) are based on the same model which explicitely 
+considers a potential bias between the raters. Since there is none,
+the ICCs are the same.
+
+In the **biased case**, there *is* as systematic difference between Mary and Peter.
+
+**ICC1** does not care about it and shows a somewhat lower value compared to 
+before ($0.833$). The reason is because the agreement line is in a plot with 
+Mary on Y and Peter on X shifted upwards by 5 degrees.
+If you would introduce a bias of 15 degrees, the ICC would
+be even lower ($ICC1 = 0.61$, $ICC2 = 0.65$ -> verify as exercise). 
+The unbiased column would of course stay the same.
+
+**ICC2** now considers the bias of 5 degrees. The model knows about the shift.
+If we compare the variance components of ICC1 and ICC2, we see:
+  
+```{r, echo=FALSE}
+print("Model for ICC1: ROM ~ (1 | ID)")
+m_ICC1 <- lmer(ROM ~ (1 | ID), data = df_long_bias)
+print(VarCorr(m_ICC1), comp = "Variance")
+
+print("Model for ICC2 (and 3): ROM ~ (1 | ID) + (1 | Rater)")
+m_ICC2 <- lmer(ROM ~ (1 | ID) + (1 | Rater), data = df_long_bias)
+print(VarCorr(m_ICC2), comp = "Variance")
+```
+
+The residual variance is smaller in the model with the rater effect.
+The model explains the data better, since it knows about the bias.
+
+Look at the $\sigma_{\varepsilon}$ of the two models, they add up:
+
+$$\sigma_{\varepsilon, ICC1}^2 = \sigma_{\varepsilon, ICC23}^2 + \sigma_{Rater}^2$$
+$$53.75 = 47.557 + 6.193$$
+
+Hence, we just split up the error differently by considering the bias.
+The patient variability (`ID Variance` in the output) is slightly higher: 
+$270.882$ compared to $267.79$ before.
+In the first model, patient variability was conflated with rater variation because rater effects 
+were not explicitly modeled. For this reason, `ID Variance` increases slightly.
+It is a rather small increase, so ICC1 and ICC2 are not that different.
+
+For a bias of 15 degrees, the additivity of the variances remains.
+The patient variability increases from $223.89$ (ICC1) to $270.882$ (ICC2),
+hence the difference in ICCs is larger ($ICC1=0.613$ vs. $ICC2=0.657$).
+
+**ICC3** considers the bias in the model but does not include it in the measurement 
+error since the raters are fixed.
+
+
+### Difference between correlation and ICC
+
+If we do not introduce a bias in the data, the correlation coefficient
+is the same as the ICC (as seen above). On page 110, Figure 5.3, the authors show nicely 
+what the difference is between the correlation coefficient and the ICC. 
+It is also shown how $ICC_{agreement}$ and $ICC_{consistency}$ change with the bias.
+
+$ICC_{consistency}$ stays $1$ if bias is introduced (assuming a hypothetical 
+perfect agreement before). Peter and Mary still rank the patients
+in the same order.
+
+Correlation $r$ is always 1, no matter at what slope ($\ne 0$) the line is.
+It measures the strength and direction of the *linear* relationship between two variables.
+
+$ICC_{agreement}$ changes as soon as you depart from the 45 degree line
+with respect to slope or 
+shift the line up or down (i.e., introduce a bias).
+
+This is a good point in time to think for a moment about the type of measurement
+for agreement with respect to **costs**. The ICC below weights each measurement
+equally, although one larger outlier (large discrepancy between Peter and Mary)
+may influence the ICC notably (exercise later). One could easily think of a situation where 
+overall agreement measure like the ICC is not adequate since, 
+for instance, exceeding a certain
+difference threshold could decide between life and death. 
+
+### Bad news about the ICC?
+
+Let's try to expand our intuitive understanding of what an ICC of 0.8 or so means.
+For simplicity, we take the overall ICC, which is equal to the correlation coefficient,
+if there is no bias present.
+
+The following example demonstrates the meaning of the Test-Retest reliability of 
+the Hospital Anxiety and Depression Scale - Anxiety subscale (HADS-A). We could take 
+all kinds of other scores where ICC values and a 
+[minimally clinically important difference (MCID)](https://en.wikipedia.org/wiki/Minimal_important_difference)
+is given. Briefly, the MCID is the smallest change in a score that is considered
+important to the patient. For example, a 5% change in BMI is (in some populations)
+considered meaningful.
+
+Specifically, we:
+
+- Simulate two correlated measurement at two time points (TP1 and TP2) 
+  to get predetermined ICC ($=\rho$).
+- Calculate the Intraclass Correlation Coefficient (ICC).
+- Compare the Minimal Clinically Important Difference (MCID) to prediction intervals.
+- Visualize how often a clinically meaningful change of 1.68 points is 
+  detected, even if no real change has occurred.
+
+The code can be found [here](https://github.com/jdegenfellner/ICC_MCID/blob/main/ICC_MCID.R)
+and in the github repo of the script. In the code, the sources for the ICC and MCID are
+cited.
+
+```{r}
+# ICC and Test-Retest-Reliability
+
+library(pacman)
+p_load(tidyverse, lme4, conflicted, psych, MASS)
+
+# MCID Minimal Clinically Important Difference---------
+
+# HADS score---------
+# The Hospital Anxiety and Depression Scale 
+
+# Test-Retest-Reliability:
+# https://doi.org/10.1016/S1361-9004(02)00029-8
+
+# Use the numbers from here (Table 1):
+# https://www.sciencedirect.com/science/article/abs/pii/S1361900402000298
+# for demonstration purposes.
+
+# Minimal Clinically Important Difference (MCID) for HADS-A:
+# https://pmc.ncbi.nlm.nih.gov/articles/PMC2459149/
+# Not exactly the same population as shift workers, but suffices for demonstration purposes.
+# MCID HADS anxiety score and 1.68 (1.48–1.87)
+
+# Simplification: Score is deemed to be continuous.
+
+# Create 2 correlated measurements:
+# Use HADS-A Anxiety subscale
+# Use n=100, instead of n=24 for more stability
+
+sigma1 <- 3.93  # Standard deviation of variable 1
+sigma2 <- 3.52  # Standard deviation of variable 2
+rho <- 0.82    # Correlation
+cov_matrix <- matrix(c(sigma1^2, rho * sigma1 * sigma2,
+                       rho * sigma1 * sigma2, sigma2^2), nrow = 2)
+n <- 100
+
+set.seed(188)  # For reproducibility
+samples <- mvrnorm(n = n, mu = c(7.92, 7.83), Sigma = cov_matrix)
+df <- as.data.frame(samples)
+colnames(df) <- c("TP1", "TP2")
+
+plot(df, main = "Scatterplot of Multivariate Normal Samples",
+     xlab = "TP1", ylab = "TP2", pch = 19, col = rgb(0, 0, 1, alpha = 0.5))
+
+# https://en.wikipedia.org/wiki/Intraclass_correlation#Modern_ICC_definitions:_simpler_formula_but_positive_bias
+# ICC should be the correlation within the group (i.e. patient)
+
+cor(df$TP1, df$TP2, method = "pearson") # ~0.8-0.9
+ICC(df) # 0.82
+
+# check manually
+df_mod <- data.frame(id = 1:n, df$TP1, df$TP2)
+names(df_mod) <- c("id", "TP1", "TP2")
+df_mod_long <- df_mod %>% pivot_longer(cols = c(TP1, TP2), names_to = "time_point", values_to = "score")
+mod <- lme4::lmer(score ~ time_point + (1|id), data = df_mod_long)
+variance_df <- as.data.frame(summary(mod)$varcor)
+# ICC=
+variance_df$sdcor[1]^2 / (variance_df$sdcor[1]^2 + variance_df$sdcor[2]^2) # ~0.9
+# cor and ICC are very very similar, should actually be identical.
+
+# check
+mean(df$TP1)
+mean(df$TP2) 
+
+#data.frame(TP1 = df$TP1, TP2 = df$TP2) %>% 
+#  ggplot(aes(x = TP1, y = TP2)) +
+#  geom_point() +
+#  xlab("Measurement of patients at time point 1") +
+#  ylab("Measurement of the same patients at time point 2")
+
+# Range for HADS-A should be 0-21 
+# (according to "The Hospital Anxiety and Depression Scale, Zigmond & Snaith, 1983")
+
+df <- data.frame(TP1 = df$TP1, TP2 = df$TP2) %>% 
+  dplyr::filter(TP1 >= 0) %>%
+  dplyr::filter(TP2 >= 0) %>% # negative not possible
+  dplyr::filter(TP1 <= 21) %>%
+  dplyr::filter(TP2 <= 21) # max. score is 21
+df
+
+mod <- lm(TP2 ~ TP1, data = df)
+pred <- predict(mod, df, interval = "prediction")
+
+# How wide are the prediction intervals for a patient?
+as.data.frame(pred) %>% mutate(width_prediction_interval = upr - lwr) # width of the prediction interval 8-10 points!
+
+# Example:
+predict(mod, newdata = data.frame(TP1 = 10), interval = "prediction") # 95% prediction interval for a patient with a score of 10 at time point 1.
+(13.56369 - 5.226282)/1.68
+
+# Prediction interval width is ~5 times our minimally clinically important 
+# change of 1.68 for HADS-A.
+
+df %>% 
+  ggplot(aes(x = TP1, y = TP2)) +
+  # Color points conditionally
+  geom_point(aes(color = ifelse(TP2 > TP1 + 1.68 | TP2 < TP1 - 1.68, "red", "black"))) +
+  scale_color_manual(values = c("red" = "red", "black" = "black"), guide = "none") +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2]) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_ribbon(aes(ymin = pred[,2], ymax = pred[,3]), alpha = 0.2) + 
+  ggtitle("HADS-A and 95% Prediction Interval for TP2") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_abline(intercept = 0, slope = 1, color = "green", linetype = "dashed") +
+  geom_abline(intercept = 1.68, slope = 1, color = "red", linetype = "dashed") +
+  geom_abline(intercept = -1.68, slope = 1, color = "red", linetype = "dashed")
+
+# How often is TP2 within the MCIC of 1.68 points?---------
+df$abs_diff <- abs(df$TP1 - df$TP2)
+hist(df$abs_diff)
+abline(v = 1.68, col = "red")
+
+table(df$abs_diff > 1.68)/sum(table(df$abs_diff > 1.68)) # 
+# -> in ~46% of cases we detect a minimally clinically important change of 1.68 points.
+# even though the underlying truth did not change.
+
+# This result is near random guessing
+```
+
+The example shows that for the given value of ICC ($>0.8$) and MCID, the test retest reliability 
+is near random guessing with respect to detecting a change, since the second prediction is 
+very often outside the MCID (red dashed lines). Or in short: Even if Mary measures twice 
+with this ICC value, she will detect a clinically meaningful change in almost half of the cases, 
+although the underlying
+truth did not change. 
+
+One could play around a little bit with the parameters here 
+(and maybe make the argument more rigorous),
+but my guess would be that the main message remains stable.
+
+What do you think? Can you find literature or logical arguments against this
+simulation? I would be pleased to hear your thoughts.
+
+
+### Standard Error of Measurement (SEM)
+ Above, we defined the overall ICC as:
+
+$$ICC = \frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2 + \sigma_{\varepsilon}^2}$$
+
+The SEM is defined as: $\sqrt{\sigma_{\varepsilon}^2}$.
+
+This is a measure for the precision of the model. If this number is small,
+we know the true but unknown score ($\eta$) very precisely. As we have seen, for the
+$ICC_{agreement}$ the error term includes the rater variability $\sigma_{rater}$.
+
+For ICC2 and 3 the model is the same and:
+
+$$Y_{ij} = \eta_i + \beta_j + \varepsilon_i$$
+
+For $ICC_{agreement}$, the SEM is then:
+$$\sigma_{Y_i}^2 = \sigma_{\eta}^2 + \underbrace{\sigma_{\text{rater}}^2 + \sigma_{\varepsilon}^2}_{SEM_{agreement}^2}$$
+
+
+For $ICC_{consistency}$, the SEM is then:
+$$\sigma_{Y_i}^2 = \sigma_{\eta}^2 + \underbrace{\sigma_{\varepsilon}^2}_{SEM_{consistency}^2}$$
+
+And since ICC 2 and 3 are based on the same model:
+$$SEM_{consistency} \le SEM_{agreement}$$
+(equality if there is no bias)
+
+This yields the **first method** of getting the SEM: Estimate the 
+model (as we did above) and take the square root of the respective error term
+(with or without the rater variability).
+
+One can also show (excercise...) that we can find the $SEM_{consistency}$ by using
+the standard deviation of the differences between the two measurements
+of Peter and Mary:
+
+We verify this immediately:
+
+$$SEM_{consistency} = \frac{SD_{difference}}{\sqrt{2}}$$
+
+```{r}
+mod <- lmer(ROM ~ (1 | ID) + (1 | Rater), data = df_long_bias)
+print(VarCorr(mod))
+```
+
+$$SEM_{consistency} = \sigma_{residual} = 6.8961$$
+
+Let's calculate the SEM from the differences between the two measurements:
+
+```{r}
+# SEM from differences
+sd(df_long_bias$ROM[df_long_bias$Rater == "ROMas.Mary"] -
+   df_long_bias$ROM[df_long_bias$Rater == "ROMas.Peter"]) / sqrt(2)
+```
+
+This is a perfect match! 
+
+### Bland-Altman Plot
+
+The Bland-Altman plot is a graphical method to compare two measurements
+techniques or raters. The goal is to spot systematic differences between the two
+methods/raters. On the x axis, we plot the average of the two measurements
+and on the y axis the difference between the two measurements. So, we could 
+for instance see larger variability in points with higher average values,
+indicating that Peter and Mary disagree more for higher values.
+
+Let's quickly draw one and explain it:
+
+```{r}
+library(BlandAltmanLeh)
+library(data.table)
+df_long_bias <- as.data.table(df_long_bias)
+# https://cran.r-project.org/web/packages/BlandAltmanLeh/BlandAltmanLeh.pdf
+bland.altman.plot(df_long_bias[Rater == "ROMas.Mary", ]$ROM,
+                  df_long_bias[Rater == "ROMas.Peter", ]$ROM,
+                  two = 1.96,
+                  mode = 1,
+                  conf.int = 0.95)
+# "two": Lines are drawn "two" standard deviations from mean differences. 
+# This defaults to 1.96 for proper 95 percent confidence interval 
+# estimation but can be set to 2.0 for better agreement with e. g. 
+# the Bland Altman publication. 
+
+# "mode": if 1 then difference group1 minus group2 is used,
+# if 2 then group2 minus group1 is used. Defaults to 1.
+```
+
+... describe.. LOA ... and so on.
+
+## Validity
+...
+
+## TODOS
+
+- [table 2 fallacy](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I)
+- mention missing values, missingness mechanisms -> Methodenvertiefung
+- Logistic Regression, Poisson, -> Methodenvertiefung
+- Exercise: Show by simulation what Gelman talks about with significant p values. So I scan the data
+  for significant p values and then simulate data with the same effect size and see how often
+  I get significant p values. Especially the next effect would be probably smaller,
+  especially, if one did p-hacking! Calculate a priori probability for replication (def?).
+- Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test
+- Chapter about Reliability, Validity and ICCs (incl. simulation of what an ICC of 0.9 or so means), but maybe reduced
+- Angenommen man hat ein masking eines Effekts und der Model fit ist aber gut (keine Voraussetzung verletzt), 
+  ist diese Situation möglich?
+- What about papers? -> eLearning
+- AIC, BIC, cross-validation, Model selection (best subset, leaps....), Variable selection
+- More on bias variance tradeoff, show for polynomial regression?
+- include eLearning tasks in script.
