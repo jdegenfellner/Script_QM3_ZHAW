@@ -1332,7 +1332,7 @@ mean(df_1$retest - df_1$test, na.rm = TRUE)
 sd(df_1$retest - df_1$test, na.rm = TRUE)
 # 8.160476 check
 
-# The p-value colum is not needed, as well as the d (effect size)
+# The p-value column is not needed, as well as the d (effect size)
 
 # create long format for ICC calculation
 df_long <- df_1 %>%
