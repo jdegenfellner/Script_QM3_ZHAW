@@ -1425,8 +1425,8 @@ Consider the $50$ ROM measurements from Peter and Mary (see above) on the non af
 - Regress Mary's measurements on Peter's measurements using the simple
   linear regression model in R.
 - How precisely can we predict Mary's measurements from Peter's, i.e. analyse the resdiuals.
-- Calculate the mean absolute deviation MAD, i.e. 
-  $$MAD = \frac{1}{n} \sum_{i=1}^n |ROM_i - \widehat{ROM}_i|$$
+- Calculate the mean absolute deviation MAE, i.e. 
+  $$MAE = \frac{1}{n} \sum_{i=1}^n |ROM_i - \widehat{ROM}_i|$$
   where $ROM_i$ is the true value and $\widehat{ROM}_i$ is the model-predicted value.
 
 ### [E] Exercise 3 {#exercise3}
