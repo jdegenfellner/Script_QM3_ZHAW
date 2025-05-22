@@ -829,7 +829,7 @@ ICC3 ($ICC_{consistency}$ in the book) are based on the same model which explici
 considers a potential bias between the raters. Since there is none,
 the ICCs are the same.
 
-In the **biased case** (right column), there *is* as systematic difference between Mary and Peter - 
+In the **biased case** (right column), there *is* a systematic difference between Mary and Peter - 
 5 degrees in our case.
 
 **ICC1** does not care about it and shows a somewhat lower value compared to 
@@ -864,7 +864,7 @@ Hence, we just split up the error differently by considering the bias.
 The patient variability (`ID Variance` in the output) is slightly higher: 
 $270.882$ compared to $267.79$ before.
 In the first model, patient variability was conflated with rater variation/systematic difference
-because rater effects were not explicitly modeled. For this reason, 
+because rater effects were not explicitely modeled. For this reason, 
 `ID Variance` increases slightly.
 It is a rather small increase, so ICC1 and ICC2 are not that different.
 
@@ -1070,7 +1070,7 @@ See [exercise 4](#exercise4) to try the above code with a score of your choosing
 ### Standard Error of Measurement (SEM)
 Above, we defined the overall ICC as:
 
-$$ICC = \frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2 + \sigma_{\varepsilon}^2}$$
+$$ICC = \frac{\sigma_{\eta}^2}{\sigma_{\eta}^2 + \sigma_{\varepsilon}^2}$$
 
 The SEM is defined as: $\sqrt{\sigma_{\varepsilon}^2}$.
 
