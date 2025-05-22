@@ -1101,7 +1101,7 @@ One can also show that we can find the $SEM_{consistency}$ by using
 the standard deviation of the differences between the two measurements
 of Peter and Mary:
 
-We verify this immediately:
+**We verify this immediately**:
 
 $$SEM_{consistency} = \frac{SD_{difference}}{\sqrt{2}}$$
 
@@ -1112,7 +1112,7 @@ print(VarCorr(mod))
 
 $$SEM_{consistency} = \sigma_{residual} = 6.8961$$
 
-Let's calculate the SEM from the differences between the two measurements:
+Let's calculate the **SEM from the differences** between the two measurements:
 
 ```{r}
 # SEM from differences
@@ -1162,7 +1162,7 @@ bland.altman.plot(df_long_bias[Rater == "ROMas.Mary", ]$ROM,
 # see ?bland.altman.plot
 ```
 
-The *Limits of Agreement* (LoA) are derived from data and represents
+The *Limits of Agreement* (LoA) are derived from data and represent
 the "usual" values for the difference between the two measurements. 
 The $1.96$ in the formula is (as always)
 a hint that we assume the difference is normally distributed. This is not 
@@ -1180,7 +1180,7 @@ within the LoA, it does not mean that it is a good measurement. Maybe $\pm 20$ d
 The LoA is a statistical measure, not a clinical one.
 
 To remember the fact that a normal distribution is assumed for the differences
-$\bar{d}$ is assumed, we draw the limits of agreement for our data:
+$\bar{d}$, we draw the limits of agreement for our data:
 
 ```{r, echo=FALSE}
 # ────────────────────────── Pakete ──────────────────────────
@@ -1266,7 +1266,8 @@ Some comments after a quick glance at the paper:
   As a consequence, results (for instance for the $t$-test) are to be interpreted exploratively.
 
 - Multiple testing is not considered.
-  From the first $28$ $p$-values in Table 1 and 2 of the paper, two are "significant",
+  From the first $28$ $p$-values in Table 1 and 2 of the paper, two are "significant"
+  ($p=0.049$, both marked with a star of course),
   which is well within the expected number of false positives. Remember,
   under $H_0$ every $20$th test is "significant".
   Fortunately, the authors do not overinterpret the results and 
