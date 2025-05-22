@@ -507,8 +507,6 @@ a learning effect or something.
 
 Draw the model structure as [exercise 5](#exercise5).
 
-We could again try to use a non-normal distribution for the $ROMs$.
-
 ```{r}
 library(rethinking)
 library(conflicted)
@@ -614,7 +612,7 @@ There are basically **two different random effects**:
 - **Nested random effects**: The patients (respectively their $ROMs$) would cluster within the raters.
   This would mean, a patient would only be measured by Peter twice or by Mary twice.
   In that case, the $ROMs$ would cluster within the patients (because of the repeated measurement)
-  and all patients measured by (for instance) Mary would cluster together (and potentially more similar).
+  and all patients measured by (for instance) Mary would cluster together (and be potentially more similar).
   In this case all patients are measured by Peter and Mary, so we do not have nested random effects.
   In `lmer` this would be specified as `ROM ~ (1|Rater/ID)`.
 - **Crossed random effects**: 
@@ -701,7 +699,7 @@ If we only need Peter and Mary to *rank* the patients in the same order,
 we can use $ICC_{consistency}$.
 
 - **Average_raters_absolute ICC1k:**
-  According to the help file "ICC1k, ICC2k, ICC3K reflect the means of k raters."
+  According to the help file "ICC1k, ICC2k, ICC3k reflect the means of k raters."
   In general, if you take the mean, you get an estimate with lower variance (central limit theorem). 
   In the book on page 109, we find the derivation of the ICC for the average of k raters.
   We do not need a new statistical model, although we take the sum (or equivalently, the mean) of the
@@ -711,7 +709,7 @@ we can use $ICC_{consistency}$.
 
   $$Y_{1} + Y_{2} = 2 \eta + \varepsilon_1 + \varepsilon_2$$ 
   for the same person with true $\eta$. Since ther errors $\varepsilon_i$ are 
-  independente and the true score $\eta$ is also independent from the errors, 
+  independent and the true score $\eta$ is also independent from the errors, 
   it follows that:
 
   $$\mathbb{Var}(Y_1 + Y_2) = \mathbb{Var}(2 \eta + \varepsilon_1 + \varepsilon_2)=$$
@@ -746,7 +744,7 @@ print(VarCorr(m), comp = "Variance")
 This is identical to the ICC1k in the `psych` output.
 
 ICC1k would approach $1$ if $k$ goes to infinity. 
-This makes sense, since the *true* measurement is *defined* as the average of 
+**This makes sense**, since the *true* measurement is *defined* as the average of 
 infinite measurements (of either infinitely many different raters or infinitely many 
 measurements from the same rater). 
 Also it makes intuitive sense, that 
