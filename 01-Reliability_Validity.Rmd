@@ -332,7 +332,7 @@ ROM_i &\sim& N(\mu_i, \sigma_{\varepsilon}) \\
 - $\sigma_{\alpha}$ is the standard deviation of the patient-specific intercepts.
   **This is the patient variability**! $\sigma_{\alpha}$ controls how much 
   the scores of the patients may vary.
-  In the extreme cases $\sigma_{\alpha} \rightarrow 0$ and $\sigma_{\varepsilon} \rightarrow \infty$,
+  In the extreme cases $\sigma_{\alpha} \rightarrow 0$ and $\sigma_{\alpha} \rightarrow \infty$,
   we have *complete-pooling* (all $\mu_i$ are identical) and *no-pooling* 
   (all $\mu_i$ are different and there is no shared information), respectively.
   We are using **partial pooling** here.
