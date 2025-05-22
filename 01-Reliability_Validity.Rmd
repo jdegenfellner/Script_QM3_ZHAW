@@ -1484,7 +1484,7 @@ Consider the example reliability study [above](#example_RELStudy).
   What can the chosen ICC be used for?
 - Verify the ICC for the "Raw elongation (mm)" in Table 1 of the paper.
 
-### [E] Exercise 10 {#exercise10}
+### [H] Exercise 10 {#exercise10}
 
 We want to see where formula 5.7 for the SEM in the book comes from.
  $$SEM = SD_{pooled} \cdot \sqrt{1 - ICC}$$
