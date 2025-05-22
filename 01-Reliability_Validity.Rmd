@@ -461,7 +461,7 @@ where $\sigma_{rater}^2$ is the variance due to systematic rater differences.
 
 $$ICC_{consistency} = \frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2 + \sigma_{\varepsilon}^2}$$
 
-We will now introduce the 5 degree bias and use our Bayesian 
+**We will now introduce the 5 degree bias** and use our Bayesian 
 framework to estimate the ICC.
 By introducing a bias, we should see
 a lower ICC. Note, that the prediction quality of Mary's scores
