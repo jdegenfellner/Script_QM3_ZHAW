@@ -1172,7 +1172,7 @@ The formula for the LoA is (due to the connection between the SEM and the
 SD of the differences above):
 
 $$LoA = \bar{d} \pm 1.96 \cdot SD_{difference} = 
-\bar{d} \pm 1.96 \cdot \sqrt{2} \cdot SEM_{consistency} \cdot SD_{difference}$$
+\bar{d} \pm 1.96 \cdot \sqrt{2} \cdot SEM_{consistency}$$
 
 Let us not get confused by the name. Just because a data point is shown
 within the LoA, it does not mean that it is a good measurement. Maybe $\pm 20$ degrees
