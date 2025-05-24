@@ -1527,3 +1527,6 @@ Additionally, look for at least two reliability and validity articles in your fi
 (either Reliabiilty alone or Reliability and Validity together) and try to understand what
 they did. Did the authors provide code and data to aid reproducibility?
 
+Please also go through the [last part](https://jdegenfellner.github.io/Script_QM3_ZHAW/reliability-and-validity.html#example_RELStudy) 
+of the reliability chapter in our skript.
+
