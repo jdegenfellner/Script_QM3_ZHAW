@@ -23,7 +23,7 @@
 <meta name="author" content="Jürgen Degenfellner" />
 
 
-<meta name="date" content="2025-05-24" />
+<meta name="date" content="2025-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,7 +229,9 @@ In Gelman’s Book, see ” Part 2A: Multilevel Models” and the following.</p>
 <p>We have already come across a <a href="https://en.wikipedia.org/wiki/Mixed_model">Linear Mixed Model (LMM)</a>
 in the first chapter, where we used the <code>rethinking</code> and <code>lme4</code> packages to fit a model with
 random intercepts to determine our
-<a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/reliability-and-validity.html#ICC">Intraclass Correlation Coefficients (ICCs)</a>.</p>
+<a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/reliability-and-validity.html#ICC">Intraclass Correlation Coefficients (ICCs)</a>.
+The are called <em>random</em> intercept since they are drawn from a common normal distribution,
+of which the parameters (mean and standard deviation) are estimated from the data.</p>
 <p>The <strong>main reason</strong> for using LMMs is that they allow us to model data
 with hierarchical structure, such as repeated measures (of the same subject)
 or nested data (math scores in different schools within different school districts).</p>
@@ -276,7 +278,7 @@ Obviously, the tanks are one option for <em>clustering</em> the data, assuming t
 tank live in a more similar environment than those in different tanks (or get a more similiar “treatment”).
 We could rewrite the data set to have one row per individual tadpole
 (instead of number of survived a binary variable) and the cluster variable
-called <em>tank</em> (<a href="linear-mixed-models.html#exercise1_LMM">exercise 1</a>). We would then model the survival<br />
+called <em>tank</em> (<a href="linear-mixed-models.html#exercise1_LMM">exercise 1</a>). We would then model the survival
 of each individual tadpole (<span class="math inline">\(1\)</span> could mean <em>survived</em> and <span class="math inline">\(0\)</span> could mean <em>died</em>). Formally,
 this would be a so-called <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a>,
 since our outcome is binary (<em>survided</em>/<em>died</em>).</p>
@@ -328,12 +330,12 @@ the normal distribution with a standard deviation of <span class="math inline">\
 This means that the survival probabilities in the tanks are in:</p>
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="linear-mixed-models.html#cb241-1" tabindex="-1"></a><span class="fu">c</span>(rethinking<span class="sc">::</span><span class="fu">inv_logit</span>(<span class="sc">-</span><span class="dv">3</span>), rethinking<span class="sc">::</span><span class="fu">inv_logit</span>(<span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## [1] 0.04742587 0.95257413</code></pre>
-<p>This assumption seems rather reasonable.</p>
+<p>This assumption seems rather reasonable and survival probabilities are not constrained very much.</p>
 <p>Next we define the data set for the model and use the <code>ulam</code> function
 from the <code>rethinking</code> package to fit the model.</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="linear-mixed-models.html#cb243-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
-<span id="cb243-2"><a href="linear-mixed-models.html#cb243-2" tabindex="-1"></a>d<span class="sc">$</span>tank <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d)</span>
-<span id="cb243-3"><a href="linear-mixed-models.html#cb243-3" tabindex="-1"></a></span>
+<span id="cb243-2"><a href="linear-mixed-models.html#cb243-2" tabindex="-1"></a></span>
+<span id="cb243-3"><a href="linear-mixed-models.html#cb243-3" tabindex="-1"></a>d<span class="sc">$</span>tank <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d)</span>
 <span id="cb243-4"><a href="linear-mixed-models.html#cb243-4" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">S =</span> d<span class="sc">$</span>surv,</span>
 <span id="cb243-5"><a href="linear-mixed-models.html#cb243-5" tabindex="-1"></a>            <span class="at">N =</span> d<span class="sc">$</span>density,</span>
 <span id="cb243-6"><a href="linear-mixed-models.html#cb243-6" tabindex="-1"></a>            <span class="at">tank =</span> d<span class="sc">$</span>tank)</span>
@@ -475,6 +477,7 @@ The <code>inv_logit</code>function does the same.</p>
 <div id="model13_2" class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Model 13.2: Partial pooling using adaptive pooling<a href="linear-mixed-models.html#model13_2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Next</strong>, we use <strong>adaptive pooling</strong>. For this, we use priors for the <code>a[tank]</code> parameters.
+This model learns from the data how much the intercepts should be pulled towards a common mean.
 Now we have an additional level in the model hierarchy:</p>
 <ul>
 <li>In the <strong>top level</strong>, the outcome is <span class="math inline">\(S\)</span>, the parameters are the intercepts
@@ -574,7 +577,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpnLzRJ2/model-f17a24fca5a3.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpX4XnPv/model-92a938a9b293.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -649,14 +652,16 @@ and <span class="math inline">\(\sigma\)</span> (<code>sigma</code>).</p>
 the same prior distribution (<span class="math inline">\(Normal (0, 1.5)\)</span>), but we could use different ones if
 we had knowledge about the survival probabilities of some of the tanks.
 Note that the priors themselves are not connected via another level.
-They do their think independently.
-- By <em>decreasing</em> the variance of these priors,
+They do their thing independently.</p>
+<ul>
+<li><p>By <em>decreasing</em> the variance of these priors,
 we are dampening the influence of the data on the intercepts
-which are drawn towards to overall mean.
-- <em>Increasing</em> the variance of the priors
+which are drawn towards to overall mean.</p></li>
+<li><p><em>Increasing</em> the variance of the priors
 to a value large enough will result in the raw survival probabilities for each tank.
 This would be the same as if we took indicator variables for each tank.
-See <a href="linear-mixed-models.html#exercise2_LMM">exercise 2</a>.</p>
+See <a href="linear-mixed-models.html#exercise2_LMM">exercise 2</a>.</p></li>
+</ul>
 <p><strong>Model 13.2</strong> is a <strong>multilevel model</strong>. Now the model <em>learns from the data</em>
 from which overall
 mean and variance the intercepts are drawn (<span class="math inline">\(Normal(\bar{\alpha}, \sigma)\)</span>).
@@ -669,12 +674,13 @@ tadpole tank size.</p>
 Figure 13.1 from the book shows the posterior survival probabilities for each tank from
 model 13.2 (black circles) and raw survival probabilities (blue filled points).
 What we can see is that the estimated survival probabilities for the hierarchical model
-are drawn towards the mean survival probability across all tanks
+are drawn towards the mean overall survival probability across all tanks
 (dashed line; <span class="math inline">\(logistic(\bar{\alpha}) \approx 0.79\)</span>).</p>
 <ul>
 <li>In large tanks, there is less shrinkage (enough information/observations), while in small tanks the estimates are
 pulled more towards the mean (information is used from other tanks).</li>
-<li>The more extreme the raw survival probability, the more it is pulled towards the mean.</li>
+<li>The more extreme the raw survival probability (with respect to the overall survival probability),
+the more it is pulled towards the mean.</li>
 </ul>
 <p>This is the <strong>pooling</strong> effect of the model. The phenomenon is called <strong>shrinkage</strong>.</p>
 <p>See also <a href="linear-mixed-models.html#exercise3_LMM">exercise 3</a> to improve your understanding of two models.</p>
@@ -687,7 +693,7 @@ we talked about the difference between
 If you are interested, you can read section 7.4 (p.217) in the book.</p>
 <p>In a <strong>prediciton context</strong> we ask ourselves:
 How well do the models <em>predict</em> the data
-(which was measured with residuals in regression)?</p>
+(which was measured using residuals <span class="math inline">\(y_i - \hat{y}_i\)</span> in regression)?</p>
 <p>There are many nuances but the <strong>main paradigm</strong> (also in classical machine learning) is to
 fit the model on a <strong>training set</strong> and evaluate the model on a <strong>test set</strong>.
 Should you be interested in the (admittedly very technical) details,
@@ -700,7 +706,11 @@ This is the ultimate and brutally honest test of the model’s predictive abilit
 we would fit the model on 80% of people (training set) and see how precise the model is on
 the remaining 20% of people (test set). Let’s do this in <a href="linear-mixed-models.html#exercise7_LMM">exercise 7</a>.</p>
 <p>Remember, in prediction we do not care about interpretability of the model.
-We could have a blackbox model (e.g. neural networks) and still be happy with it.</p>
+We could have a blackbox model (e.g. neural networks) and still be happy with it.
+This performance can often be surprisingly good (like in the case of hand digit
+recognition reaching error rates as low as 0.09%), or surprisingly bad (like in the case of
+trying to predict some binary outcome using logistig regression in applied health research where
+the performance is often not far away from the base rate probability).</p>
 <p>In order to estimate the predictive ability of a model, there are many
 criteria available. One of them is the <strong>WAIC</strong>:</p>
 <div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="linear-mixed-models.html#cb259-1" tabindex="-1"></a><span class="fu">WAIC</span>(m13<span class="fl">.1</span>)</span></code></pre></div>
