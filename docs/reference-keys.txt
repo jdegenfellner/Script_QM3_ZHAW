@@ -26,13 +26,18 @@ exercise8
 exercise9
 exercise10
 elearning
-linear-mixed-models
+further-regression-methods
+linear-mixed-models-lmms
 tadpole
 model13_1
 model13_2
 conceptual-difference-between-model-13.1-and-13.2
 compare-models-13.1-and-13.2-with-respect-to-predictive-ability-on-unseen-data
 frequentist13_2
+mulligan
+frequentist-attempt-to-replicate-the-results.
+logistic-regression
+poisson-regression
 exercises-1
 exercise1_LMM
 exercise2_LMM
@@ -41,4 +46,6 @@ exercise4_LMM
 exercise5_LMM
 exercise6_LMM
 exercise7_LMM
+exercise8_LMM
+exercise9_LMM
 todos

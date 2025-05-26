@@ -3,7 +3,9 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Linear Mixed Models
+# Further Regression Methods
+
+## Linear Mixed Models (LMMs)
 
 In Richard McElreath's book "Statistical Rethinking", 
 chapters 13 and 14 deal with multilevel models. 
@@ -42,7 +44,7 @@ or nested data (math scores in different schools within different school distric
   are nested within the physiotherapy offices 
   (assuming they only work for one office).
 
-## Example: Reed Frog tadpole mortality - two levels {#tadpole}
+### Example: Reed Frog tadpole mortality - two levels {#tadpole}
 Let's start with Example 13.1 from McElreath's book (p.401) (Tadpoles in tanks, image by GPT4o).
 
 ![](./images/tadpoles_in_tanks.png)
@@ -83,7 +85,7 @@ When estimating the number of surviving tadpoles we could consider the following
 - **Partial pooling**: Estimate the survival probability for each tank, 
   but use information from the other tanks.
 
-### Model 13.1. Partial pooling using regularizing priors {#model13_1}
+#### Model 13.1. Partial pooling using regularizing priors {#model13_1}
 
 Let's start with the second model (intercept for each tank) with a regularizing prior. 
 We want to model the
@@ -172,7 +174,7 @@ $$\text{logit}(p) = \log\left( \frac{p}{1 - p} \right)$$
 
 Let's quickly see if these are indeed inverse functions of each other -> [exercise 5](#exercise5_LMM).
 
-### Model 13.2: Partial pooling using adaptive pooling {#model13_2}
+#### Model 13.2: Partial pooling using adaptive pooling {#model13_2}
 
 **Next**, we use **adaptive pooling**. For this, we use priors for the `a[tank]` parameters.
 This model learns from the data how much the intercepts should be pulled towards a common mean.
@@ -234,7 +236,7 @@ and standard deviations of the hyperparameters $\bar{\alpha}$ (`a_bar`)
 and $\sigma$ (`sigma`).
 
 
-### Conceptual difference between model 13.1 and 13.2
+#### Conceptual difference between model 13.1 and 13.2
 
 **Model 13.1** is not a multilevel model, we just tell the model there are 
 $48$ tanks and each tank has its own intercept. For each intercept, we use
@@ -303,7 +305,7 @@ This is the **pooling** effect of the model. The phenomenon is called **shrinkag
 
 See also [exercise 3](#exercise3_LMM) to improve your understanding of two models.
 
-### Compare models 13.1 and 13.2 with respect to predictive ability on unseen data
+#### Compare models 13.1 and 13.2 with respect to predictive ability on unseen data
 
 In [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/intro.html#explanatory-vs.-predictive-models) 
 we talked about the difference between 
@@ -383,7 +385,7 @@ for both models.
 Section 13.2 (especially Figure 13.3.) in the book shows that partial pooling also yields (on average) better
 predictions compared to no pooling, it's a tradeoff between over- and underfitting.
 
-#### Frequentist version model 13.2 {#frequentist13_2}
+##### Frequentist version model 13.2 {#frequentist13_2}
 
 In the Frequentist setting we can use the `lme4` package to fit the analog 
 to model 13.2. To be more specific, 
@@ -456,6 +458,81 @@ Section 13.2. in the book shows that partial pooling also yields (on average) be
 predictions compared to no pooling, it's a tradeoff between over- and underfitting 
 (i.e. the raw probabilities in each tank without knowledge of the other tanks and one 
 overall survival probability that ignores differences between tanks completely).
+
+### Mulligan manual therapy - paper {#mulligan}
+
+We want to replicate the main result of the paper 
+["Mulligan manual therapy added to exercise improves headache frequency,
+intensity and disability more than exercise alone in people with cervicogenic
+headache: a randomised trial"](https://doi.org/10.1016/j.jphys.2024.06.002).
+
+This randomized clinical trial evaluated the effectiveness of adding Mulligan manual therapy 
+to exercise in patients with cervicogenic headache. The study found that combining 
+Mulligan therapy with exercise led to greater improvements in headache frequency, 
+intensity, and disability compared to exercise alone or a control group.
+
+Some comments:
+
+- They used SPSS for data analysis. Unfortunately,
+  no code was provided or another convenient way replicate the
+  results.
+
+- Data *was* provided as Excel file in the 
+  [appendix](https://www.sciencedirect.com/science/article/pii/S1836955324000572?via%3Dihub#appsec1).
+
+- At first glance, I could not find a method for sample size calculation
+  in the referenced [literature](https://journals.sagepub.com/doi/epub/10.1177/0333102417738202).
+  Let's research this more as an [exercise](#exercise8_LMM).
+
+- The primary outcome is the variable *headache frequency*
+  (headache days per month). Ad hoc, such a count variable is not very likely 
+  to be normally distributed. In the methods section they state "For outcomes with
+  normally distributed data, means and standard deviations were calculated".
+  Table 2 in the paper implies that the primary outcome should be normally distributed.
+  Verify this as [exercise](#exercise9_LMM) using the `shapiro.test` function in R.
+  We do this, since they as well used a version of this test.
+  The primary outcome variable has only $6$ unique values ($4-9$) at week $0$
+  and can therefore not be normally distributed 
+  (normal distribution takes infinitely many values).
+
+- I am not sure what the authors mean exactly with the term "general linear model". 
+  [Here](https://books.google.at/books?hl=en&lr=&id=G_qdEsDlkp0C&oi=fnd&pg=PA101&dq=%22general+linear+model%22&ots=Xo0OAwX2UL&sig=TRvLmI4G9oti296S5wjmiWjfWVY&redir_esc=y#v=onepage&q=%22general%20linear%20model%22&f=false)
+  (p.102) a general linear model is just a multiple linear regression model.
+  My guess is that they did a two-way repeated measures ANOVA.
+
+- There seems to be no checking of the 
+  [model assumptions](https://statistics.laerd.com/spss-tutorials/two-way-repeated-measures-anova-using-spss-statistics.php) 
+  in the paper. 
+
+- There seems to be no description of handling missing data.
+
+#### Frequentist attempt to replicate the results.
+
+We could try to use [this](https://www.r-bloggers.com/2021/04/repeated-measures-of-anova-in-r-complete-tutorial/) 
+as guideline if we wanted to replicate the two-way repeated measures ANOVA.
+
+Maybe we try to use the `lme4` package first to fit a linear mixed model (LMM).
+
+The model equation should be:
+
+\[
+\begin{array}{rcl}
+\text{headache frequency}_{ij} &\sim& \text{Normal}(\mu_{ij}, \sigma) \\
+\mu_{ij} &=& \alpha + \beta_1 \text{group}_i + \beta_2 \text{time}_j + \beta_3 (\text{group}_i \times \text{time}_j) + u_i + \varepsilon_{ij}
+\end{array}
+\]
+
+- $i = 1, \ldots, 99$ are the $99$ participants
+- $j$ is the time point (week $0$, $4$, $13$, $26$)
+- $u_i$ is the random effect for participant $i$ (intercept), which comes from a normal distribution of course
+- $\varepsilon_{ij}$ is the residual error term, which is also normally distributed
+
+
+
+
+## Logistic Regression
+
+## Poisson Regression
 
 ## Exercises
 
@@ -537,7 +614,19 @@ for the [body height of the !Kung San people in QM2](https://jdegenfellner.githu
   for both the training and the test set $100$ times. Draw a histogram of the RMSEs for training and 
   test set. What do you observe?
 
+### Exercise 8 {#exercise8_LMM}
 
+Consider the [Mulligan manual therapy paper](#mulligan).
+
+- Try to find the method for sample size calculation in the 
+  referenced literature [literature](https://journals.sagepub.com/doi/epub/10.1177/0333102417738202).
+
+### Exercise 9 {#exercise9_LMM}
+
+Consider the [Mulligan manual therapy paper](#mulligan).
+
+- Verify for the groups "Ex" and "MMT+ex" that the primary outcome *headache frequency* 
+  is normally distributed at Week $0$ using the `shapiro.test` function in R.
 
 ## TODOS
 
