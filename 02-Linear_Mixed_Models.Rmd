@@ -547,7 +547,6 @@ for the [body height of the !Kung San people in QM2](https://jdegenfellner.githu
 - AI Example, Claude and LEAN with [Terence](https://www.youtube.com/watch?v=zZr54G7ec7A&t=714s&ab_channel=TerenceTao)
 - Examples of Reliability studies - eLearning?
 - Last Chapter - Introduction to AI. Previous statistical analyses is a special case of neuronal networks.
-- Practical examples, one can use LMMs for (shinyapps (Resolve), coding in general...).
 - [table 2 fallacy](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I)
 - mention missing values, missingness mechanisms
 - Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test
