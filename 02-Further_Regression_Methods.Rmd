@@ -459,7 +459,7 @@ predictions compared to no pooling, it's a tradeoff between over- and underfitti
 (i.e. the raw probabilities in each tank without knowledge of the other tanks and one 
 overall survival probability that ignores differences between tanks completely).
 
-### Mulligan manual therapy - paper {#mulligan}
+### Example: Mulligan manual therapy - paper {#mulligan}
 
 We want to replicate the main result of the paper 
 ["Mulligan manual therapy added to exercise improves headache frequency,
@@ -527,8 +527,241 @@ The model equation should be:
 - $u_i$ is the random effect for participant $i$ (intercept), which comes from a normal distribution of course
 - $\varepsilon_{ij}$ is the residual error term, which is also normally distributed
 
+Let's first bring our data in shape and (for simplicity) kill all rows with missing values.
+
+```{r}
+library(readxl)
+
+url <- "https://raw.githubusercontent.com/jdegenfellner/Script_QM3_ZHAW/main/data/Chapter_Further_Regression/Paper_Mulligan%20manual%20therapy%20added%20to%20exercise/1-s2.0-S1836955324000572-mmc1.xls"
+temp_file <- tempfile(fileext = ".xls")
+download.file(url, destfile = temp_file, mode = "wb")
+df <- suppressMessages(
+  suppressWarnings(
+    read_excel(temp_file, sheet = 2)
+  )
+)
+
+df <- df[3:dim(df)[1], 1:6]
+head(df)
+dim(df)
+colnames(df) <- c("ID", "Group", "Week_0", 
+                "Week_4", "Week_13", "Week_26")
+df
+
+# Omit missing values since they will be thrown out anyways when using lmer!
+df <- na.omit(df) # 8 rows (patients) are out!
+
+# assuming your data has columns:
+# - headache_frequency (numeric)
+# - time (factor or numeric)
+# - group (factor)
+# - subject (factor or numeric ID)
+
+df_long <- df %>%
+  pivot_longer(
+    cols = starts_with("Week_"),
+    names_to = "time",
+    values_to = "headache_frequency"
+  ) %>%
+  mutate(
+    headache_frequency = as.numeric(headache_frequency),
+    time = recode(time,
+                  "Week_0" = 0,
+                  "Week_4" = 4,
+                  "Week_13" = 13,
+                  "Week_26" = 26)
+  )
+
+df_long$ID <- as.factor(df_long$ID)
+df_long$time_f <- factor(df_long$time, levels = c(0, 4, 13, 26))
+df_long
+```
+
+This seems to be okay. Note that we have 364 lines because of the long format:
+$91$ participants (with complete observations) times $4$ time points 
+($0, 4,13,26$ weeks).
+
+Next, we look at the raw data with a spaghetti plot.
+```{r}
+ggplot(df_long, aes(x = time, y = headache_frequency, group = ID, color = Group)) +
+  geom_line(alpha = 0.6, linewidth = 1) +
+  geom_point(size = 2) +
+  scale_x_continuous(breaks = c(0, 4, 13, 26)) +
+  labs(
+    title = "Spaghetti Plot: Headache Frequency Over Time",
+    x = "Week",
+    y = "Headache Frequency",
+    color = "Group"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "top"
+  ) + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+It seems that the 3 different groups have different slopes which is indicative 
+of an interaction effect between group and time. This means,
+treatments may differ in their effectiveness.
+"MMT+ex" seems to be clearly better compared to the other two groups 
+("Ex" and "Sham+ex").
+
+With respect to our **clustering**, in our long data set,
+we have repeated measures for each participant (ID) at different time points.
+There are no repeated treatments though, since each participant
+is only in one group (of the three) and they do not crossover.
+
+Hence, we only consider the random intercept for each participant.
+
+Let's fit the model using the `lme4` package:
+```{r}
+library(lme4)
+library(emmeans)
+model <- lmer(headache_frequency ~ Group * time_f + (1 | ID),
+              data = df_long)
+summary(model) # ref for time: week 0
+
+# constrasts:
+emm <- emmeans(model, ~ Group | time_f)  #
+summary(contrast(emm, method = "pairwise",
+                adjust = "bonferroni"),
+                infer = c(TRUE, FALSE))  # TRUE for CI and FALSE for p-values
+```
+
+We are estimating headache frequency while considering repeated measures within patients.
+
+In the random effects part of the output, we see again the standard 
+deviation of the random intercept for each patient ($0.5872$),
+which is a measure of the variability of headache frequency between patients.
+Residual variance is high compared to this.
+
+The so-called `Fixed effects` give the overall intercept in all
+our factor combinations: `(Intercept)` is the overall mean headache frequency at week $0$ (reference week)
+and Group `Ex` (reference group).
+
+Important for us are the so-called **contrasts**. 
+This gives us the model-estimated differences in (expected) headache frequency between 
+the groups at each time point.
+
+Bonferroni correction is used to adjust the $p$-values for multiple comparisons
+(one just divides the "significance"-level by the number of comparisons).
+
+We now look at Table 3 in the paper, first row, first column.
+There we see the mean between-group difference in headache frequency
+at week $4$ compared to week $0$ and the two groups "MMT + ex" and "MMT Sham + ex"
+are compared. The mean difference is $-3 (-3 \text{ to } -2)$ days/month in Table 3. 
+In our `lmer` output, we find the row
+`(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070`.
+Rounding to integers results in the same result.
+
+If you want to see the **random effects** of all $91$ participants:
+
+```{r}
+ranef(model)  # random effects
+re <- ranef(model)
+str(re$ID) # 91 obs, 91 participants
+```
+
+**Posterior Predictive checks** and **residuals** look surprisingly good:
+
+```{r}
+library(car)
+library(performance)
+qqPlot(residuals(model))
+check_model(model, check = "pp_check")
+```
 
 
+#### Bayesian attempt to replicate the results
+
+We can also try to fit the model using the `rethinking` package.
+
+Model equations and priors:
+
+TODO - adapt model... beta_1[group]...3 different betas...
+
+\[
+\begin{array}{rcl}
+\text{headache frequency}_{ij} &\sim& \text{Normal}(\mu_{ij}, \sigma) \\
+\mu_{ij} &=& \alpha + \beta_1 \text{group}_i + \beta_2 \text{time}_j + 
+              \beta_3 (\text{group}_i \times \text{time}_j) + u_i + \varepsilon_{ij}\\
+u_i &\sim& \text{Normal}(0, \sigma_u) \\
+\sigma_u &\sim& \text{Exponential}(1) \\
+\alpha &\sim& \text{Normal}(5, 1.5) \\
+\beta_1 &\sim& \text{Normal}(0, 1.5) \\
+\beta_2 &\sim& \text{Normal}(0, 1.5) \\
+\beta_3 &\sim& \text{Normal}(0, 1.5) \\ 
+\varepsilon_{ij} &\sim& \text{Normal}(0, \sigma) \\
+\end{array}
+\]
+
+The prior for $\beta_3$ is hard since there is no natural meaning to it.
+
+```{r}
+library(rethinking)
+
+dat <- list(
+  H = df_long$headache_frequency,
+  group = as.integer(as.factor(df_long$Group)),   # 1 = Ex, 2 = MMT+ex, 3 = Sham+ex
+  time = as.integer(df_long$time_f),              # 1 = Woche 0, ..., 4 = Woche 26
+  ID = as.integer(as.factor(df_long$ID)),
+  N = nrow(df_long),
+  N_ID = length(unique(df_long$ID)),
+  N_group = length(unique(df_long$Group)),
+  N_time = length(unique(df_long$time_f))
+)
+
+# interaction index
+dat$interaction <- (dat$group - 1) * dat$N_time + dat$time
+
+m <- ulam(
+  alist(
+    H ~ normal(mu, sigma),
+    mu <- alpha +
+      beta_group[group] + beta_time[time] + beta_interaction[interaction] + u[ID],
+    # random intercept for each participant
+    u[ID] ~ normal(0, sigma_ID),
+    # Priors
+    alpha ~ normal(0, 10),
+    beta_group[group] ~ normal(0, 2),
+    beta_time[time] ~ normal(0, 2),
+    beta_interaction[interaction] ~ normal(0, 2), # difficult
+    sigma ~ exponential(1),
+    sigma_ID ~ exponential(1)
+  ),
+  data = dat,
+  chains = 4,
+  cores = 4
+)
+
+precis(m, depth = 2)
+
+# mean treatment effect: week4,  (MMT+ex) - (Sham+ex)----------
+post <- extract.samples(m)
+#lapply(post, head)
+
+# MMT+ex (group = 2), time = 2 → index = (2−1)×4 + 2 = 6
+# Sham+ex (group = 3), time = 2 → index = (3−1)×4 + 2 = 10
+
+group_diff <- post$beta_group[,2] - post$beta_group[,3]
+interaction_diff <- post$beta_interaction[,6] - post$beta_interaction[,10]
+treatment_diff_week4 <- group_diff + interaction_diff
+precis(data.frame(treatment_diff_week4), prob = 0.95)
+```
+
+`precis(m, depth = 2)` confirms that `sigma`and `sigma_ID` are in line with `lmer`.
+
+Next, we want to know the posterior distribution (respectively the mean and credible interval)
+of the treatment effect of MMT+ex compared to Sham+ex at week $4$.
+
+For this, we calculate the distribution of group $2$ (MMT+ex) minus group 
+$3$ (Sham+ex) at week $4$.
+Then, we calculate the correct interaction index to give us the required difference.
+Finally, we add up the two posterior distributions to get the posterior distribution 
+of the treatment effect.
+
+The result is rather similar to the Frequentist model. 
 
 ## Logistic Regression
 

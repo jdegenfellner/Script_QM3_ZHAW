@@ -183,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#linear-mixed-models-lmms"><i class="fa fa-check"></i><b>3.1</b> Linear Mixed Models (LMMs)</a>
 <ul>
 <li class="chapter" data-level="3.1.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#tadpole"><i class="fa fa-check"></i><b>3.1.1</b> Example: Reed Frog tadpole mortality - two levels</a></li>
-<li class="chapter" data-level="3.1.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#mulligan"><i class="fa fa-check"></i><b>3.1.2</b> Mulligan manual therapy - paper</a></li>
+<li class="chapter" data-level="3.1.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#mulligan"><i class="fa fa-check"></i><b>3.1.2</b> Example: Mulligan manual therapy - paper</a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic Regression</a></li>
 <li class="chapter" data-level="3.3" data-path="further-regression-methods.html"><a href="further-regression-methods.html#poisson-regression"><i class="fa fa-check"></i><b>3.3</b> Poisson Regression</a></li>
@@ -581,7 +581,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpgqQkpB/model-e79c21d85993.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Opcqc/model-11182747e32f.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -845,7 +845,7 @@ overall survival probability that ignores differences between tanks completely).
 </div>
 </div>
 <div id="mulligan" class="section level3 hasAnchor" number="3.1.2">
-<h3><span class="header-section-number">3.1.2</span> Mulligan manual therapy - paper<a href="further-regression-methods.html#mulligan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3><span class="header-section-number">3.1.2</span> Example: Mulligan manual therapy - paper<a href="further-regression-methods.html#mulligan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We want to replicate the main result of the paper
 <a href="https://doi.org/10.1016/j.jphys.2024.06.002">“Mulligan manual therapy added to exercise improves headache frequency,
 intensity and disability more than exercise alone in people with cervicogenic
@@ -887,16 +887,732 @@ in the paper.</p></li>
 <h4><span class="header-section-number">3.1.2.1</span> Frequentist attempt to replicate the results.<a href="further-regression-methods.html#frequentist-attempt-to-replicate-the-results." class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We could try to use <a href="https://www.r-bloggers.com/2021/04/repeated-measures-of-anova-in-r-complete-tutorial/">this</a>
 as guideline if we wanted to replicate the two-way repeated measures ANOVA.</p>
-<p>Maybe we try to use the <code>lme4</code> package first to fit a linear mixed model (LMM) first.</p>
+<p>Maybe we try to use the <code>lme4</code> package first to fit a linear mixed model (LMM).</p>
 <p>The model equation should be:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
 \text{headache frequency}_{ij} &amp;\sim&amp; \text{Normal}(\mu_{ij}, \sigma) \\
-\mu_{ij} &amp;=&amp; \alpha + \beta_1 \text{group}_i + \beta_2 \text{time}_j + \beta_3 (\text{group}_i \times \text{time}_j) + \varepsilon_i
+\mu_{ij} &amp;=&amp; \alpha + \beta_1 \text{group}_i + \beta_2 \text{time}_j + \beta_3 (\text{group}_i \times \text{time}_j) + u_i + \varepsilon_{ij}
 \end{array}
 \]</span></p>
-<p><span class="math inline">\(i = 1, \ldots, 99\)</span> are the 99 participants,</p>
-<p>where <span class="math inline">\(i\)</span> is the group (control, exercise, Mulligan) and <span class="math inline">\(j\)</span> is the time point (week <span class="math inline">\(0\)</span>, <span class="math inline">\(4\)</span>, <span class="math inline">\(8\)</span>).</p>
+<ul>
+<li><span class="math inline">\(i = 1, \ldots, 99\)</span> are the <span class="math inline">\(99\)</span> participants</li>
+<li><span class="math inline">\(j\)</span> is the time point (week <span class="math inline">\(0\)</span>, <span class="math inline">\(4\)</span>, <span class="math inline">\(13\)</span>, <span class="math inline">\(26\)</span>)</li>
+<li><span class="math inline">\(u_i\)</span> is the random effect for participant <span class="math inline">\(i\)</span> (intercept), which comes from a normal distribution of course</li>
+<li><span class="math inline">\(\varepsilon_{ij}\)</span> is the residual error term, which is also normally distributed</li>
+</ul>
+<p>Let’s first bring our data in shape and (for simplicity) kill all rows with missing values.</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="further-regression-methods.html#cb268-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb268-2"><a href="further-regression-methods.html#cb268-2" tabindex="-1"></a></span>
+<span id="cb268-3"><a href="further-regression-methods.html#cb268-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/jdegenfellner/Script_QM3_ZHAW/main/data/Chapter_Further_Regression/Paper_Mulligan%20manual%20therapy%20added%20to%20exercise/1-s2.0-S1836955324000572-mmc1.xls&quot;</span></span>
+<span id="cb268-4"><a href="further-regression-methods.html#cb268-4" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xls&quot;</span>)</span>
+<span id="cb268-5"><a href="further-regression-methods.html#cb268-5" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="at">destfile =</span> temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
+<span id="cb268-6"><a href="further-regression-methods.html#cb268-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">suppressMessages</span>(</span>
+<span id="cb268-7"><a href="further-regression-methods.html#cb268-7" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
+<span id="cb268-8"><a href="further-regression-methods.html#cb268-8" tabindex="-1"></a>    <span class="fu">read_excel</span>(temp_file, <span class="at">sheet =</span> <span class="dv">2</span>)</span>
+<span id="cb268-9"><a href="further-regression-methods.html#cb268-9" tabindex="-1"></a>  )</span>
+<span id="cb268-10"><a href="further-regression-methods.html#cb268-10" tabindex="-1"></a>)</span>
+<span id="cb268-11"><a href="further-regression-methods.html#cb268-11" tabindex="-1"></a></span>
+<span id="cb268-12"><a href="further-regression-methods.html#cb268-12" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="dv">3</span><span class="sc">:</span><span class="fu">dim</span>(df)[<span class="dv">1</span>], <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb268-13"><a href="further-regression-methods.html#cb268-13" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   `Subject no.` Group `Headache frequency` ...4  ...5  ...6 
+##           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1             1 Ex    5                    4     5     4    
+## 2             2 Ex    7                    6     6     5    
+## 3             3 Ex    6                    4     7     6    
+## 4             4 Ex    7                    5     6     5    
+## 5             5 Ex    7                    7     5     &lt;NA&gt; 
+## 6             6 Ex    4                    4     4     4</code></pre>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="further-regression-methods.html#cb270-1" tabindex="-1"></a><span class="fu">dim</span>(df)</span></code></pre></div>
+<pre><code>## [1] 99  6</code></pre>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="further-regression-methods.html#cb272-1" tabindex="-1"></a><span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Group&quot;</span>, <span class="st">&quot;Week_0&quot;</span>, </span>
+<span id="cb272-2"><a href="further-regression-methods.html#cb272-2" tabindex="-1"></a>                <span class="st">&quot;Week_4&quot;</span>, <span class="st">&quot;Week_13&quot;</span>, <span class="st">&quot;Week_26&quot;</span>)</span>
+<span id="cb272-3"><a href="further-regression-methods.html#cb272-3" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 99 × 6
+##       ID Group Week_0 Week_4 Week_13 Week_26
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  
+##  1     1 Ex    5      4      5       4      
+##  2     2 Ex    7      6      6       5      
+##  3     3 Ex    6      4      7       6      
+##  4     4 Ex    7      5      6       5      
+##  5     5 Ex    7      7      5       &lt;NA&gt;   
+##  6     6 Ex    4      4      4       4      
+##  7     7 Ex    6      5      5       6      
+##  8     8 Ex    7      4      4       4      
+##  9     9 Ex    6      7      7       5      
+## 10    10 Ex    6      7      6       5      
+## # ℹ 89 more rows</code></pre>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="further-regression-methods.html#cb274-1" tabindex="-1"></a><span class="co"># Omit missing values since they will be thrown out anyways when using lmer!</span></span>
+<span id="cb274-2"><a href="further-regression-methods.html#cb274-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df) <span class="co"># 8 rows (patients) are out!</span></span>
+<span id="cb274-3"><a href="further-regression-methods.html#cb274-3" tabindex="-1"></a></span>
+<span id="cb274-4"><a href="further-regression-methods.html#cb274-4" tabindex="-1"></a><span class="co"># assuming your data has columns:</span></span>
+<span id="cb274-5"><a href="further-regression-methods.html#cb274-5" tabindex="-1"></a><span class="co"># - headache_frequency (numeric)</span></span>
+<span id="cb274-6"><a href="further-regression-methods.html#cb274-6" tabindex="-1"></a><span class="co"># - time (factor or numeric)</span></span>
+<span id="cb274-7"><a href="further-regression-methods.html#cb274-7" tabindex="-1"></a><span class="co"># - group (factor)</span></span>
+<span id="cb274-8"><a href="further-regression-methods.html#cb274-8" tabindex="-1"></a><span class="co"># - subject (factor or numeric ID)</span></span>
+<span id="cb274-9"><a href="further-regression-methods.html#cb274-9" tabindex="-1"></a></span>
+<span id="cb274-10"><a href="further-regression-methods.html#cb274-10" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb274-11"><a href="further-regression-methods.html#cb274-11" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb274-12"><a href="further-regression-methods.html#cb274-12" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;Week_&quot;</span>),</span>
+<span id="cb274-13"><a href="further-regression-methods.html#cb274-13" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;time&quot;</span>,</span>
+<span id="cb274-14"><a href="further-regression-methods.html#cb274-14" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;headache_frequency&quot;</span></span>
+<span id="cb274-15"><a href="further-regression-methods.html#cb274-15" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb274-16"><a href="further-regression-methods.html#cb274-16" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb274-17"><a href="further-regression-methods.html#cb274-17" tabindex="-1"></a>    <span class="at">headache_frequency =</span> <span class="fu">as.numeric</span>(headache_frequency),</span>
+<span id="cb274-18"><a href="further-regression-methods.html#cb274-18" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">recode</span>(time,</span>
+<span id="cb274-19"><a href="further-regression-methods.html#cb274-19" tabindex="-1"></a>                  <span class="st">&quot;Week_0&quot;</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb274-20"><a href="further-regression-methods.html#cb274-20" tabindex="-1"></a>                  <span class="st">&quot;Week_4&quot;</span> <span class="ot">=</span> <span class="dv">4</span>,</span>
+<span id="cb274-21"><a href="further-regression-methods.html#cb274-21" tabindex="-1"></a>                  <span class="st">&quot;Week_13&quot;</span> <span class="ot">=</span> <span class="dv">13</span>,</span>
+<span id="cb274-22"><a href="further-regression-methods.html#cb274-22" tabindex="-1"></a>                  <span class="st">&quot;Week_26&quot;</span> <span class="ot">=</span> <span class="dv">26</span>)</span>
+<span id="cb274-23"><a href="further-regression-methods.html#cb274-23" tabindex="-1"></a>  )</span>
+<span id="cb274-24"><a href="further-regression-methods.html#cb274-24" tabindex="-1"></a></span>
+<span id="cb274-25"><a href="further-regression-methods.html#cb274-25" tabindex="-1"></a>df_long<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_long<span class="sc">$</span>ID)</span>
+<span id="cb274-26"><a href="further-regression-methods.html#cb274-26" tabindex="-1"></a>df_long<span class="sc">$</span>time_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(df_long<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">13</span>, <span class="dv">26</span>))</span>
+<span id="cb274-27"><a href="further-regression-methods.html#cb274-27" tabindex="-1"></a>df_long</span></code></pre></div>
+<pre><code>## # A tibble: 364 × 5
+##    ID    Group  time headache_frequency time_f
+##    &lt;fct&gt; &lt;chr&gt; &lt;dbl&gt;              &lt;dbl&gt; &lt;fct&gt; 
+##  1 1     Ex        0                  5 0     
+##  2 1     Ex        4                  4 4     
+##  3 1     Ex       13                  5 13    
+##  4 1     Ex       26                  4 26    
+##  5 2     Ex        0                  7 0     
+##  6 2     Ex        4                  6 4     
+##  7 2     Ex       13                  6 13    
+##  8 2     Ex       26                  5 26    
+##  9 3     Ex        0                  6 0     
+## 10 3     Ex        4                  4 4     
+## # ℹ 354 more rows</code></pre>
+<p>This seems to be okay. Note that we have 364 lines because of the long format:
+<span class="math inline">\(91\)</span> participants (with complete observations) times <span class="math inline">\(4\)</span> time points
+(<span class="math inline">\(0, 4,13,26\)</span> weeks).</p>
+<p>Next, we look at the raw data with a spaghetti plot.</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="further-regression-methods.html#cb276-1" tabindex="-1"></a><span class="fu">ggplot</span>(df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> headache_frequency, <span class="at">group =</span> ID, <span class="at">color =</span> Group)) <span class="sc">+</span></span>
+<span id="cb276-2"><a href="further-regression-methods.html#cb276-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb276-3"><a href="further-regression-methods.html#cb276-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb276-4"><a href="further-regression-methods.html#cb276-4" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">13</span>, <span class="dv">26</span>)) <span class="sc">+</span></span>
+<span id="cb276-5"><a href="further-regression-methods.html#cb276-5" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb276-6"><a href="further-regression-methods.html#cb276-6" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Spaghetti Plot: Headache Frequency Over Time&quot;</span>,</span>
+<span id="cb276-7"><a href="further-regression-methods.html#cb276-7" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Week&quot;</span>,</span>
+<span id="cb276-8"><a href="further-regression-methods.html#cb276-8" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Headache Frequency&quot;</span>,</span>
+<span id="cb276-9"><a href="further-regression-methods.html#cb276-9" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Group&quot;</span></span>
+<span id="cb276-10"><a href="further-regression-methods.html#cb276-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb276-11"><a href="further-regression-methods.html#cb276-11" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb276-12"><a href="further-regression-methods.html#cb276-12" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb276-13"><a href="further-regression-methods.html#cb276-13" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb276-14"><a href="further-regression-methods.html#cb276-14" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb276-15"><a href="further-regression-methods.html#cb276-15" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb276-16"><a href="further-regression-methods.html#cb276-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>It seems that the 3 different groups have different slopes which is indicative
+of an interaction effect between group and time. This means,
+treatments may differ in their effectiveness.
+“MMT+ex” seems to be clearly better compared to the other two groups
+(“Ex” and “Sham+ex”).</p>
+<p>With respect to our <strong>clustering</strong>, in our long data set,
+we have repeated measures for each participant (ID) at different time points.
+There are no repeated treatments though, since each participant
+is only in one group (of the three) and they do not crossover.</p>
+<p>Hence, we only consider the random intercept for each participant.</p>
+<p>Let’s fit the model using the <code>lme4</code> package:</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="further-regression-methods.html#cb277-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb277-2"><a href="further-regression-methods.html#cb277-2" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code></pre></div>
+<pre><code>## Welcome to emmeans.
+## Caution: You lose important information if you filter this package&#39;s results.
+## See &#39;? untidy&#39;</code></pre>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="further-regression-methods.html#cb279-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(headache_frequency <span class="sc">~</span> Group <span class="sc">*</span> time_f <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID),</span>
+<span id="cb279-2"><a href="further-regression-methods.html#cb279-2" tabindex="-1"></a>              <span class="at">data =</span> df_long)</span>
+<span id="cb279-3"><a href="further-regression-methods.html#cb279-3" tabindex="-1"></a><span class="fu">summary</span>(model) <span class="co"># ref for time: week 0</span></span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: headache_frequency ~ Group * time_f + (1 | ID)
+##    Data: df_long
+## 
+## REML criterion at convergence: 993.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.0566 -0.5788 -0.0496  0.5513  3.7147 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  ID       (Intercept) 0.3449   0.5872  
+##  Residual             0.6619   0.8136  
+## Number of obs: 364, groups:  ID, 91
+## 
+## Fixed effects:
+##                       Estimate Std. Error t value
+## (Intercept)            5.63333    0.18319  30.751
+## GroupMMT+ex           -0.06667    0.25907  -0.257
+## GroupSham+ex          -0.05269    0.25697  -0.205
+## time_f4               -0.63133    0.21007  -3.005
+## time_f13              -0.63333    0.21007  -3.015
+## time_f26              -1.26667    0.21007  -6.030
+## GroupMMT+ex:time_f4   -2.30200    0.29708  -7.749
+## GroupSham+ex:time_f4   0.37327    0.29467   1.267
+## GroupMMT+ex:time_f13  -3.33333    0.29708 -11.220
+## GroupSham+ex:time_f13 -0.01183    0.29467  -0.040
+## GroupMMT+ex:time_f26  -3.53333    0.29708 -11.894
+## GroupSham+ex:time_f26  0.07312    0.29467   0.248
+## 
+## Correlation of Fixed Effects:
+##             (Intr) GrMMT+ GrpSh+ tim_f4 tm_f13 tm_f26 GMMT+:_4 GS+:_4 GMMT+:_1
+## GroupMMT+ex -0.707                                                            
+## GroupSham+x -0.713  0.504                                                     
+## time_f4     -0.573  0.405  0.409                                              
+## time_f13    -0.573  0.405  0.409  0.500                                       
+## time_f26    -0.573  0.405  0.409  0.500  0.500                                
+## GrpMMT+x:_4  0.405 -0.573 -0.289 -0.707 -0.354 -0.354                         
+## GrpShm+x:_4  0.409 -0.289 -0.573 -0.713 -0.356 -0.356  0.504                  
+## GrpMMT+:_13  0.405 -0.573 -0.289 -0.354 -0.707 -0.354  0.500    0.252         
+## GrpShm+:_13  0.409 -0.289 -0.573 -0.356 -0.713 -0.356  0.252    0.500  0.504  
+## GrpMMT+:_26  0.405 -0.573 -0.289 -0.354 -0.354 -0.707  0.500    0.252  0.500  
+## GrpShm+:_26  0.409 -0.289 -0.573 -0.356 -0.356 -0.713  0.252    0.500  0.252  
+##             GS+:_1 GMMT+:_2
+## GroupMMT+ex                
+## GroupSham+x                
+## time_f4                    
+## time_f13                   
+## time_f26                   
+## GrpMMT+x:_4                
+## GrpShm+x:_4                
+## GrpMMT+:_13                
+## GrpShm+:_13                
+## GrpMMT+:_26  0.252         
+## GrpShm+:_26  0.500  0.504</code></pre>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="further-regression-methods.html#cb281-1" tabindex="-1"></a><span class="co"># constrasts:</span></span>
+<span id="cb281-2"><a href="further-regression-methods.html#cb281-2" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model, <span class="sc">~</span> Group <span class="sc">|</span> time_f)  <span class="co">#</span></span>
+<span id="cb281-3"><a href="further-regression-methods.html#cb281-3" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">contrast</span>(emm, <span class="at">method =</span> <span class="st">&quot;pairwise&quot;</span>,</span>
+<span id="cb281-4"><a href="further-regression-methods.html#cb281-4" tabindex="-1"></a>                <span class="at">adjust =</span> <span class="st">&quot;bonferroni&quot;</span>),</span>
+<span id="cb281-5"><a href="further-regression-methods.html#cb281-5" tabindex="-1"></a>                <span class="at">infer =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))  <span class="co"># TRUE for CI and FALSE for p-values</span></span></code></pre></div>
+<pre><code>## time_f = 0:
+##  contrast             estimate    SE  df lower.CL upper.CL
+##  Ex - (MMT+ex)          0.0667 0.259 260   -0.558    0.691
+##  Ex - (Sham+ex)         0.0527 0.257 260   -0.567    0.672
+##  (MMT+ex) - (Sham+ex)  -0.0140 0.257 260   -0.633    0.605
+## 
+## time_f = 4:
+##  contrast             estimate    SE  df lower.CL upper.CL
+##  Ex - (MMT+ex)          2.3687 0.259 260    1.744    2.993
+##  Ex - (Sham+ex)        -0.3206 0.257 260   -0.940    0.299
+##  (MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070
+## 
+## time_f = 13:
+##  contrast             estimate    SE  df lower.CL upper.CL
+##  Ex - (MMT+ex)          3.4000 0.259 260    2.776    4.024
+##  Ex - (Sham+ex)         0.0645 0.257 260   -0.555    0.684
+##  (MMT+ex) - (Sham+ex)  -3.3355 0.257 260   -3.955   -2.716
+## 
+## time_f = 26:
+##  contrast             estimate    SE  df lower.CL upper.CL
+##  Ex - (MMT+ex)          3.6000 0.259 260    2.976    4.224
+##  Ex - (Sham+ex)        -0.0204 0.257 260   -0.640    0.599
+##  (MMT+ex) - (Sham+ex)  -3.6204 0.257 260   -4.240   -3.001
+## 
+## Degrees-of-freedom method: kenward-roger 
+## Confidence level used: 0.95 
+## Conf-level adjustment: bonferroni method for 3 estimates</code></pre>
+<p>We are estimating headache frequency while considering repeated measures within patients.</p>
+<p>In the random effects part of the output, we see again the standard
+deviation of the random intercept for each patient (<span class="math inline">\(0.5872\)</span>),
+which is a measure of the variability of headache frequency between patients.
+Residual variance is high compared to this.</p>
+<p>The so-called <code>Fixed effects</code> give the overall intercept in all
+our factor combinations: <code>(Intercept)</code> is the overall mean headache frequency at week <span class="math inline">\(0\)</span> (reference week)
+and Group <code>Ex</code> (reference group).</p>
+<p>Important for us are the so-called <strong>contrasts</strong>.
+This gives us the model-estimated differences in (expected) headache frequency between
+the groups at each time point.</p>
+<p>Bonferroni correction is used to adjust the <span class="math inline">\(p\)</span>-values for multiple comparisons
+(one just divides the “significance”-level by the number of comparisons).</p>
+<p>We now look at Table 3 in the paper, first row, first column.
+There we see the mean between-group difference in headache frequency
+at week <span class="math inline">\(4\)</span> compared to week <span class="math inline">\(0\)</span> and the two groups “MMT + ex” and “MMT Sham + ex”
+are compared. The mean difference is <span class="math inline">\(-3 (-3 \text{ to } -2)\)</span> days/month in Table 3.
+In our <code>lmer</code> output, we find the row
+<code>(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070</code>.
+Rounding to integers results in the same result.</p>
+<p>If you want to see the <strong>random effects</strong> of all <span class="math inline">\(91\)</span> participants:</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="further-regression-methods.html#cb283-1" tabindex="-1"></a><span class="fu">ranef</span>(model)  <span class="co"># random effects</span></span></code></pre></div>
+<pre><code>## $ID
+##      (Intercept)
+## 1  -0.3382077044
+## 2   0.6754017992
+## 3   0.5064668819
+## 4   0.5064668819
+## 6  -0.6760775389
+## 7   0.3375319647
+## 8  -0.1692727871
+## 9   0.8443367165
+## 10  0.6754017992
+## 12  0.5064668819
+## 13 -0.0003378698
+## 14  1.0132716337
+## 15  0.1685970474
+## 16 -1.1828822907
+## 17 -0.5071426216
+## 18  0.3375319647
+## 19 -0.1692727871
+## 20 -0.6760775389
+## 21 -0.1692727871
+## 22 -0.0003378698
+## 23 -0.6760775389
+## 24 -0.6760775389
+## 25 -0.8450124561
+## 26  0.3375319647
+## 28  0.6754017992
+## 29  0.3375319647
+## 30 -0.1692727871
+## 31 -0.3382077044
+## 32 -0.0003378698
+## 33 -0.3280716093
+## 34 -0.6025345382
+## 35  0.5800098826
+## 36  0.5800098826
+## 37  0.0732051308
+## 39  0.4110749653
+## 40  0.4110749653
+## 41  0.2421400481
+## 42  0.0732051308
+## 43 -0.0957297864
+## 44  0.4110749653
+## 46 -0.2646647037
+## 47 -0.6025345382
+## 48  0.5800098826
+## 49  0.2421400481
+## 50 -0.2646647037
+## 51  0.2421400481
+## 52 -0.2646647037
+## 53 -0.6025345382
+## 54  0.0732051308
+## 55 -0.0957297864
+## 56 -0.2646647037
+## 57 -0.6025345382
+## 58  0.9178797171
+## 60 -0.0957297864
+## 61  0.0732051308
+## 62 -0.2646647037
+## 63 -0.4335996210
+## 64  0.2421400481
+## 65 -0.2646647037
+## 66 -0.4335996210
+## 67 -0.2070815115
+## 68 -0.2070815115
+## 69 -0.3760164287
+## 70 -0.2070815115
+## 71  0.2997232403
+## 72  0.2997232403
+## 73 -0.3760164287
+## 74  0.4686581576
+## 75 -0.2070815115
+## 76 -0.2070815115
+## 77  0.4686581576
+## 78  0.9754629093
+## 79  0.4686581576
+## 81 -0.0381465942
+## 82  0.2997232403
+## 83 -0.0381465942
+## 84 -0.3760164287
+## 85 -0.0381465942
+## 86 -0.5449513460
+## 87 -0.0381465942
+## 88  0.4686581576
+## 90 -0.2070815115
+## 91  0.9754629093
+## 92 -0.2070815115
+## 93  0.4686581576
+## 94 -0.5449513460
+## 95  0.8065279921
+## 96 -0.7138862633
+## 97 -0.2070815115
+## 98 -0.7138862633
+## 99 -0.5449513460
+## 
+## with conditional variances for &quot;ID&quot;</code></pre>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="further-regression-methods.html#cb285-1" tabindex="-1"></a>re <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model)</span>
+<span id="cb285-2"><a href="further-regression-methods.html#cb285-2" tabindex="-1"></a><span class="fu">str</span>(re<span class="sc">$</span>ID) <span class="co"># 91 obs, 91 participants</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    91 obs. of  1 variable:
+##  $ (Intercept): num  -0.338 0.675 0.506 0.506 -0.676 ...
+##  - attr(*, &quot;postVar&quot;)= num [1, 1, 1:91] 0.112 0.112 0.112 0.112 0.112 ...</code></pre>
+<p><strong>Posterior Predictive checks</strong> and <strong>residuals</strong> look surprisingly good:</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="further-regression-methods.html#cb287-1" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
+<pre><code>## Loading required package: carData</code></pre>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="further-regression-methods.html#cb289-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb289-2"><a href="further-regression-methods.html#cb289-2" tabindex="-1"></a><span class="fu">qqPlot</span>(<span class="fu">residuals</span>(model))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<pre><code>## [1] 137 133</code></pre>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="further-regression-methods.html#cb291-1" tabindex="-1"></a><span class="fu">check_model</span>(model, <span class="at">check =</span> <span class="st">&quot;pp_check&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
+</div>
+<div id="bayesian-attempt-to-replicate-the-results" class="section level4 hasAnchor" number="3.1.2.2">
+<h4><span class="header-section-number">3.1.2.2</span> Bayesian attempt to replicate the results<a href="further-regression-methods.html#bayesian-attempt-to-replicate-the-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can also try to fit the model using the <code>rethinking</code> package.</p>
+<p>Model equations and priors:</p>
+<p>TODO - adapt model… beta_1[group]…3 different betas…</p>
+<p><span class="math display">\[
+\begin{array}{rcl}
+\text{headache frequency}_{ij} &amp;\sim&amp; \text{Normal}(\mu_{ij}, \sigma) \\
+\mu_{ij} &amp;=&amp; \alpha + \beta_1 \text{group}_i + \beta_2 \text{time}_j +
+              \beta_3 (\text{group}_i \times \text{time}_j) + u_i + \varepsilon_{ij}\\
+u_i &amp;\sim&amp; \text{Normal}(0, \sigma_u) \\
+\sigma_u &amp;\sim&amp; \text{Exponential}(1) \\
+\alpha &amp;\sim&amp; \text{Normal}(5, 1.5) \\
+\beta_1 &amp;\sim&amp; \text{Normal}(0, 1.5) \\
+\beta_2 &amp;\sim&amp; \text{Normal}(0, 1.5) \\
+\beta_3 &amp;\sim&amp; \text{Normal}(0, 1.5) \\
+\varepsilon_{ij} &amp;\sim&amp; \text{Normal}(0, \sigma) \\
+\end{array}
+\]</span></p>
+<p>The prior for <span class="math inline">\(\beta_3\)</span> is hard since there is no natural meaning to it.</p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="further-regression-methods.html#cb292-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb292-2"><a href="further-regression-methods.html#cb292-2" tabindex="-1"></a></span>
+<span id="cb292-3"><a href="further-regression-methods.html#cb292-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb292-4"><a href="further-regression-methods.html#cb292-4" tabindex="-1"></a>  <span class="at">H =</span> df_long<span class="sc">$</span>headache_frequency,</span>
+<span id="cb292-5"><a href="further-regression-methods.html#cb292-5" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(df_long<span class="sc">$</span>Group)),   <span class="co"># 1 = Ex, 2 = MMT+ex, 3 = Sham+ex</span></span>
+<span id="cb292-6"><a href="further-regression-methods.html#cb292-6" tabindex="-1"></a>  <span class="at">time =</span> <span class="fu">as.integer</span>(df_long<span class="sc">$</span>time_f),              <span class="co"># 1 = Woche 0, ..., 4 = Woche 26</span></span>
+<span id="cb292-7"><a href="further-regression-methods.html#cb292-7" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(df_long<span class="sc">$</span>ID)),</span>
+<span id="cb292-8"><a href="further-regression-methods.html#cb292-8" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(df_long),</span>
+<span id="cb292-9"><a href="further-regression-methods.html#cb292-9" tabindex="-1"></a>  <span class="at">N_ID =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>ID)),</span>
+<span id="cb292-10"><a href="further-regression-methods.html#cb292-10" tabindex="-1"></a>  <span class="at">N_group =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>Group)),</span>
+<span id="cb292-11"><a href="further-regression-methods.html#cb292-11" tabindex="-1"></a>  <span class="at">N_time =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>time_f))</span>
+<span id="cb292-12"><a href="further-regression-methods.html#cb292-12" tabindex="-1"></a>)</span>
+<span id="cb292-13"><a href="further-regression-methods.html#cb292-13" tabindex="-1"></a></span>
+<span id="cb292-14"><a href="further-regression-methods.html#cb292-14" tabindex="-1"></a><span class="co"># interaction index</span></span>
+<span id="cb292-15"><a href="further-regression-methods.html#cb292-15" tabindex="-1"></a>dat<span class="sc">$</span>interaction <span class="ot">&lt;-</span> (dat<span class="sc">$</span>group <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> dat<span class="sc">$</span>N_time <span class="sc">+</span> dat<span class="sc">$</span>time</span>
+<span id="cb292-16"><a href="further-regression-methods.html#cb292-16" tabindex="-1"></a></span>
+<span id="cb292-17"><a href="further-regression-methods.html#cb292-17" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb292-18"><a href="further-regression-methods.html#cb292-18" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb292-19"><a href="further-regression-methods.html#cb292-19" tabindex="-1"></a>    H <span class="sc">~</span> <span class="fu">normal</span>(mu, sigma),</span>
+<span id="cb292-20"><a href="further-regression-methods.html#cb292-20" tabindex="-1"></a>    mu <span class="ot">&lt;-</span> alpha <span class="sc">+</span></span>
+<span id="cb292-21"><a href="further-regression-methods.html#cb292-21" tabindex="-1"></a>      beta_group[group] <span class="sc">+</span> beta_time[time] <span class="sc">+</span> beta_interaction[interaction] <span class="sc">+</span> u[ID],</span>
+<span id="cb292-22"><a href="further-regression-methods.html#cb292-22" tabindex="-1"></a>    <span class="co"># random intercept for each participant</span></span>
+<span id="cb292-23"><a href="further-regression-methods.html#cb292-23" tabindex="-1"></a>    u[ID] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, sigma_ID),</span>
+<span id="cb292-24"><a href="further-regression-methods.html#cb292-24" tabindex="-1"></a>    <span class="co"># Priors</span></span>
+<span id="cb292-25"><a href="further-regression-methods.html#cb292-25" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
+<span id="cb292-26"><a href="further-regression-methods.html#cb292-26" tabindex="-1"></a>    beta_group[group] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb292-27"><a href="further-regression-methods.html#cb292-27" tabindex="-1"></a>    beta_time[time] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb292-28"><a href="further-regression-methods.html#cb292-28" tabindex="-1"></a>    beta_interaction[interaction] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="co"># difficult</span></span>
+<span id="cb292-29"><a href="further-regression-methods.html#cb292-29" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">exponential</span>(<span class="dv">1</span>),</span>
+<span id="cb292-30"><a href="further-regression-methods.html#cb292-30" tabindex="-1"></a>    sigma_ID <span class="sc">~</span> <span class="fu">exponential</span>(<span class="dv">1</span>)</span>
+<span id="cb292-31"><a href="further-regression-methods.html#cb292-31" tabindex="-1"></a>  ),</span>
+<span id="cb292-32"><a href="further-regression-methods.html#cb292-32" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb292-33"><a href="further-regression-methods.html#cb292-33" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb292-34"><a href="further-regression-methods.html#cb292-34" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span></span>
+<span id="cb292-35"><a href="further-regression-methods.html#cb292-35" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Running MCMC with 4 parallel chains, with 1 thread(s) per chain...
+## 
+## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
+<pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Opcqc/model-1118972ccef.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
+<pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
+<pre><code>## Chain 1</code></pre>
+<pre><code>## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 4 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 4 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.1 seconds.
+## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 4 finished in 4.2 seconds.
+## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 1 finished in 4.4 seconds.
+## 
+## All 4 chains finished successfully.
+## Mean chain execution time: 4.2 seconds.
+## Total execution time: 4.4 seconds.</code></pre>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##                              mean         sd        5.5%        94.5%      rhat
+## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
+## u[2]                  0.674342075 0.35125639  0.11962043  1.244117500 1.0031747
+## u[3]                  0.491657427 0.34898385 -0.06927222  1.059163300 1.0052700
+## u[4]                  0.497952044 0.33483891 -0.03150310  1.027160500 1.0009816
+## u[5]                 -0.670080220 0.35976361 -1.24808295 -0.097855198 1.0070188
+## u[6]                  0.329085035 0.34407160 -0.21335876  0.873768540 1.0017772
+## u[7]                 -0.170025941 0.35656416 -0.74680623  0.386595810 1.0052362
+## u[8]                  0.838927993 0.34992731  0.29131198  1.402978700 1.0030951
+## u[9]                  0.670779191 0.35925771  0.11371105  1.235624300 0.9998655
+## u[10]                 0.496734418 0.34734841 -0.05229111  1.044467650 1.0010689
+## u[11]                -0.006990641 0.34314778 -0.54261154  0.554184980 1.0012468
+## u[12]                 1.003282898 0.35805482  0.43562923  1.591864200 1.0000800
+## u[13]                 0.169631558 0.33674672 -0.38062077  0.700714635 1.0082336
+## u[14]                -1.186208388 0.36995610 -1.79068940 -0.585241545 1.0012515
+## u[15]                -0.512298440 0.34365921 -1.03975035  0.039454993 1.0041191
+## u[16]                 0.332723045 0.33549826 -0.21504814  0.860813935 1.0003011
+## u[17]                -0.174759220 0.36312307 -0.75137590  0.402268330 0.9989290
+## u[18]                -0.676208426 0.35967626 -1.26383760 -0.095767189 1.0059114
+## u[19]                -0.170374298 0.33194972 -0.70326458  0.369975015 1.0092759
+## u[20]                -0.003196991 0.35575212 -0.56601115  0.559372810 1.0017752
+## u[21]                -0.679477365 0.34249532 -1.22262290 -0.130318355 1.0007932
+## u[22]                -0.673394355 0.34111803 -1.22198145 -0.132575645 1.0008262
+## u[23]                -0.848459927 0.35540468 -1.40995260 -0.303205295 1.0022640
+## u[24]                 0.339492360 0.35522959 -0.21720090  0.921766215 1.0035994
+## u[25]                 0.659402833 0.35378237  0.08631138  1.196533900 1.0030242
+## u[26]                 0.340822754 0.34130561 -0.20853252  0.880764200 1.0068952
+## u[27]                -0.179408642 0.35703297 -0.74347031  0.391867855 1.0023312
+## u[28]                -0.342911514 0.34164149 -0.88958953  0.211778335 1.0028246
+## u[29]                -0.003645727 0.35646968 -0.56116811  0.598281270 0.9990745
+## u[30]                -0.329120594 0.37162675 -0.93867122  0.252788045 0.9992046
+## u[31]                -0.606169535 0.35887932 -1.17946550 -0.034321859 1.0022508
+## u[32]                 0.570678899 0.35406015  0.01885522  1.149743700 1.0019715
+## u[33]                 0.577722808 0.33788489  0.04612221  1.126430600 1.0008750
+## u[34]                 0.067801066 0.33541390 -0.48123591  0.598514165 0.9992811
+## u[35]                 0.407549683 0.33577145 -0.12118522  0.945824120 1.0072372
+## u[36]                 0.408973984 0.35574410 -0.13742707  0.958021505 0.9997201
+## u[37]                 0.233988305 0.34328821 -0.30284449  0.787055150 1.0043536
+## u[38]                 0.069778657 0.33824633 -0.47036092  0.626452770 1.0009169
+## u[39]                -0.104982899 0.34687704 -0.65537833  0.465851015 0.9991588
+## u[40]                 0.401220184 0.35403523 -0.16590124  0.962760120 1.0021123
+## u[41]                -0.267422615 0.34554958 -0.81570580  0.270627900 1.0048218
+## u[42]                -0.601348301 0.36115498 -1.19242190 -0.022099343 1.0012401
+## u[43]                 0.578815033 0.35573172  0.02981857  1.128717050 1.0064939
+## u[44]                 0.230252398 0.33575334 -0.29262760  0.752231225 1.0005750
+## u[45]                -0.263098507 0.35819708 -0.84565283  0.295185445 0.9991398
+## u[46]                 0.234821740 0.34872834 -0.31475964  0.790490705 1.0028769
+## u[47]                -0.268265025 0.34821049 -0.82714671  0.279794470 1.0021875
+## u[48]                -0.597613448 0.35751500 -1.16591385 -0.008009208 0.9991286
+## u[49]                 0.080071408 0.35514759 -0.47879174  0.656419440 1.0031102
+## u[50]                -0.094905409 0.33672574 -0.60775762  0.452160590 1.0029882
+## u[51]                -0.266431370 0.33375453 -0.81188447  0.258864415 1.0013264
+## u[52]                -0.605389263 0.34233355 -1.15478245 -0.052617640 1.0002843
+## u[53]                 0.913967093 0.35936945  0.36223567  1.503156650 1.0049616
+## u[54]                -0.094259729 0.34229201 -0.64496014  0.459361660 1.0024303
+## u[55]                 0.071237087 0.34062302 -0.48547989  0.602445810 1.0025961
+## u[56]                -0.265471686 0.33791738 -0.81450508  0.275555105 1.0027965
+## u[57]                -0.437171439 0.34171970 -0.99169718  0.106894200 1.0020578
+## u[58]                 0.235589746 0.34373466 -0.30753506  0.779752095 1.0025677
+## u[59]                -0.264957986 0.34166227 -0.80043977  0.289044265 1.0002387
+## u[60]                -0.434860207 0.35231561 -1.02551070  0.125031020 1.0006584
+## u[61]                -0.211657616 0.35694504 -0.78402871  0.356888035 1.0011604
+## u[62]                -0.204951313 0.33923523 -0.74204415  0.348087130 1.0013705
+## u[63]                -0.369092767 0.33889663 -0.90803666  0.179362200 0.9995762
+## u[64]                -0.210113713 0.35854192 -0.78325608  0.339609505 1.0016976
+## u[65]                 0.297584435 0.34160535 -0.24819650  0.820526535 1.0054150
+## u[66]                 0.293148426 0.34625405 -0.26275153  0.856682950 1.0022401
+## u[67]                -0.368874502 0.35930948 -0.94006124  0.207946960 1.0039553
+## u[68]                 0.467242119 0.33855613 -0.08058247  0.995832900 1.0001017
+## u[69]                -0.213195545 0.35650653 -0.77835188  0.360084900 1.0068283
+## u[70]                -0.204576019 0.33595236 -0.73389874  0.330641950 1.0027028
+## u[71]                 0.458132769 0.35804702 -0.09809696  1.026747400 1.0015276
+## u[72]                 0.967604120 0.35150263  0.41228810  1.544895350 1.0036365
+## u[73]                 0.467311564 0.35026389 -0.11485745  1.025121150 1.0008388
+## u[74]                -0.033076253 0.35060544 -0.59562588  0.507460800 1.0043722
+## u[75]                 0.303074556 0.35613252 -0.26112126  0.880553325 1.0054639
+## u[76]                -0.036929163 0.35367922 -0.58573388  0.511903855 1.0029966
+## u[77]                -0.373287324 0.35840503 -0.95037028  0.193829730 1.0010101
+## u[78]                -0.032458450 0.34698370 -0.58446753  0.521201860 1.0040202
+## u[79]                -0.546493613 0.36181763 -1.14313820  0.034444768 1.0001499
+## u[80]                -0.038379977 0.34995873 -0.58714573  0.503523295 1.0024587
+## u[81]                 0.467896545 0.34079246 -0.08699699  1.016716800 1.0042446
+## u[82]                -0.211755342 0.34951586 -0.75844506  0.343520360 1.0085883
+## u[83]                 0.974388486 0.35764266  0.40732480  1.548196150 1.0056134
+## u[84]                -0.211505140 0.33609252 -0.73853546  0.315226090 1.0003503
+## u[85]                 0.466157139 0.33864727 -0.07700219  1.006821550 1.0001420
+## u[86]                -0.543142722 0.35006748 -1.08433140 -0.001150085 1.0038356
+## u[87]                 0.805065455 0.35506798  0.26339479  1.378855400 1.0007497
+## u[88]                -0.720224151 0.34494004 -1.28103730 -0.174145445 1.0024170
+## u[89]                -0.202983321 0.35161723 -0.77552749  0.363461965 1.0096548
+## u[90]                -0.705823656 0.36545582 -1.30790325 -0.117473225 1.0003789
+## u[91]                -0.544537274 0.35447761 -1.09764655  0.016453738 1.0010408
+## alpha                 4.073470673 1.63533357  1.39442940  6.621043850 1.0041581
+## beta_group[1]         0.700958560 1.36525094 -1.44879995  2.819580400 1.0046629
+## beta_group[2]        -1.223744607 1.40289182 -3.44550770  1.019537950 1.0030525
+## beta_group[3]         0.738168905 1.38288555 -1.50685520  2.926935750 1.0008938
+## beta_time[1]          1.086408581 1.30035282 -0.93246969  3.185274750 1.0047331
+## beta_time[2]          0.114308402 1.31153497 -1.98372220  2.189992650 1.0025640
+## beta_time[3]         -0.210912101 1.30929417 -2.30947925  1.873626000 1.0025946
+## beta_time[4]         -0.748129048 1.34076457 -2.91102320  1.447518600 0.9994714
+## beta_interaction[1]  -0.219857085 1.23184458 -2.18371195  1.729494650 1.0004486
+## beta_interaction[2]   0.114858528 1.25016076 -1.87413885  2.085342800 0.9993658
+## beta_interaction[3]   0.436410183 1.24523722 -1.53193140  2.430499150 1.0039685
+## beta_interaction[4]   0.341537666 1.20704123 -1.54806720  2.275814950 0.9996896
+## beta_interaction[5]   1.620060847 1.21874769 -0.34887801  3.548851750 1.0009216
+## beta_interaction[6]  -0.325934696 1.31831699 -2.42140110  1.847793300 1.0008627
+## beta_interaction[7]  -1.034910661 1.26638950 -2.99352605  1.061350100 1.0018636
+## beta_interaction[8]  -1.323765896 1.27747077 -3.36236510  0.738125685 1.0015855
+## beta_interaction[9]  -0.318879117 1.16928180 -2.06335695  1.582086250 1.0007553
+## beta_interaction[10]  0.392691800 1.26875161 -1.55963840  2.417551300 1.0016131
+## beta_interaction[11]  0.336247708 1.24056041 -1.59567965  2.320634000 1.0037643
+## beta_interaction[12]  0.321490710 1.24922681 -1.72515280  2.372296550 1.0006902
+## sigma                 0.816356153 0.03675947  0.76131098  0.878293245 1.0018290
+## sigma_ID              0.591733608 0.06760259  0.48848780  0.701842330 1.0055118
+##                      ess_bulk
+## u[1]                 4267.176
+## u[2]                 3674.808
+## u[3]                 4629.296
+## u[4]                 4581.993
+## u[5]                 4150.488
+## u[6]                 3298.611
+## u[7]                 5903.838
+## u[8]                 3980.020
+## u[9]                 3964.515
+## u[10]                4157.856
+## u[11]                4102.522
+## u[12]                3919.616
+## u[13]                4533.115
+## u[14]                3183.741
+## u[15]                3969.164
+## u[16]                3754.100
+## u[17]                4075.293
+## u[18]                4107.628
+## u[19]                3624.178
+## u[20]                6214.550
+## u[21]                3793.582
+## u[22]                3894.361
+## u[23]                4239.607
+## u[24]                3566.625
+## u[25]                3668.775
+## u[26]                4470.021
+## u[27]                5028.696
+## u[28]                4279.150
+## u[29]                5021.594
+## u[30]                6026.773
+## u[31]                3695.057
+## u[32]                4947.610
+## u[33]                4013.000
+## u[34]                4321.461
+## u[35]                5426.517
+## u[36]                4292.999
+## u[37]                3683.690
+## u[38]                3794.206
+## u[39]                4715.973
+## u[40]                4337.662
+## u[41]                4728.943
+## u[42]                4082.233
+## u[43]                3776.714
+## u[44]                4440.680
+## u[45]                4480.940
+## u[46]                4646.374
+## u[47]                3501.713
+## u[48]                3785.334
+## u[49]                4689.774
+## u[50]                4149.231
+## u[51]                4052.982
+## u[52]                3336.371
+## u[53]                3230.555
+## u[54]                3530.138
+## u[55]                4601.901
+## u[56]                3813.960
+## u[57]                4234.207
+## u[58]                4141.634
+## u[59]                4284.546
+## u[60]                4076.530
+## u[61]                3491.830
+## u[62]                3930.842
+## u[63]                3412.521
+## u[64]                3935.857
+## u[65]                3476.553
+## u[66]                3785.804
+## u[67]                3916.920
+## u[68]                3761.387
+## u[69]                3635.739
+## u[70]                3265.313
+## u[71]                3747.628
+## u[72]                2839.624
+## u[73]                4194.028
+## u[74]                3507.219
+## u[75]                3310.016
+## u[76]                4802.445
+## u[77]                3884.374
+## u[78]                4081.117
+## u[79]                3519.576
+## u[80]                3616.462
+## u[81]                3925.732
+## u[82]                4348.337
+## u[83]                3635.431
+## u[84]                3506.617
+## u[85]                3968.603
+## u[86]                3300.875
+## u[87]                3349.835
+## u[88]                3105.302
+## u[89]                3508.942
+## u[90]                4115.687
+## u[91]                3429.681
+## alpha                1217.547
+## beta_group[1]        1455.798
+## beta_group[2]        1785.893
+## beta_group[3]        1615.554
+## beta_time[1]         1616.171
+## beta_time[2]         1681.931
+## beta_time[3]         1744.552
+## beta_time[4]         1609.315
+## beta_interaction[1]  1917.639
+## beta_interaction[2]  1956.421
+## beta_interaction[3]  1637.661
+## beta_interaction[4]  1688.850
+## beta_interaction[5]  1852.717
+## beta_interaction[6]  1879.072
+## beta_interaction[7]  1799.741
+## beta_interaction[8]  1916.364
+## beta_interaction[9]  1872.211
+## beta_interaction[10] 1939.257
+## beta_interaction[11] 1594.497
+## beta_interaction[12] 1770.925
+## sigma                2361.132
+## sigma_ID             1199.424</code></pre>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="further-regression-methods.html#cb302-1" tabindex="-1"></a><span class="co"># mean treatment effect: week4,  (MMT+ex) - (Sham+ex)----------</span></span>
+<span id="cb302-2"><a href="further-regression-methods.html#cb302-2" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m)</span>
+<span id="cb302-3"><a href="further-regression-methods.html#cb302-3" tabindex="-1"></a><span class="co">#lapply(post, head)</span></span>
+<span id="cb302-4"><a href="further-regression-methods.html#cb302-4" tabindex="-1"></a></span>
+<span id="cb302-5"><a href="further-regression-methods.html#cb302-5" tabindex="-1"></a><span class="co"># MMT+ex (group = 2), time = 2 → index = (2−1)×4 + 2 = 6</span></span>
+<span id="cb302-6"><a href="further-regression-methods.html#cb302-6" tabindex="-1"></a><span class="co"># Sham+ex (group = 3), time = 2 → index = (3−1)×4 + 2 = 10</span></span>
+<span id="cb302-7"><a href="further-regression-methods.html#cb302-7" tabindex="-1"></a></span>
+<span id="cb302-8"><a href="further-regression-methods.html#cb302-8" tabindex="-1"></a>group_diff <span class="ot">&lt;-</span> post<span class="sc">$</span>beta_group[,<span class="dv">2</span>] <span class="sc">-</span> post<span class="sc">$</span>beta_group[,<span class="dv">3</span>]</span>
+<span id="cb302-9"><a href="further-regression-methods.html#cb302-9" tabindex="-1"></a>interaction_diff <span class="ot">&lt;-</span> post<span class="sc">$</span>beta_interaction[,<span class="dv">6</span>] <span class="sc">-</span> post<span class="sc">$</span>beta_interaction[,<span class="dv">10</span>]</span>
+<span id="cb302-10"><a href="further-regression-methods.html#cb302-10" tabindex="-1"></a>treatment_diff_week4 <span class="ot">&lt;-</span> group_diff <span class="sc">+</span> interaction_diff</span>
+<span id="cb302-11"><a href="further-regression-methods.html#cb302-11" tabindex="-1"></a><span class="fu">precis</span>(<span class="fu">data.frame</span>(treatment_diff_week4), <span class="at">prob =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##                          mean        sd      2.5%     97.5%  histogram
+## treatment_diff_week4 -2.68054 0.2522168 -3.190296 -2.191346 ▁▁▁▂▅▇▅▂▁▁</code></pre>
+<p><code>precis(m, depth = 2)</code> confirms that <code>sigma</code>and <code>sigma_ID</code> are in line with <code>lmer</code>.</p>
+<p>Next, we want to know the posterior distribution (respectively the mean and credible interval)
+of the treatment effect of MMT+ex compared to Sham+ex at week <span class="math inline">\(4\)</span>.</p>
+<p>For this, we calculate the distribution of group <span class="math inline">\(2\)</span> (MMT+ex) minus group
+<span class="math inline">\(3\)</span> (Sham+ex) at week <span class="math inline">\(4\)</span>.
+Then, we calculate the correct interaction index to give us the required difference.
+Finally, we add up the two posterior distributions to get the posterior distribution
+of the treatment effect.</p>
+<p>The result is rather similar to the Frequentist model.</p>
 </div>
 </div>
 </div>

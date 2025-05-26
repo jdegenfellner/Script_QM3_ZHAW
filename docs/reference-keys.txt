@@ -36,6 +36,7 @@ compare-models-13.1-and-13.2-with-respect-to-predictive-ability-on-unseen-data
 frequentist13_2
 mulligan
 frequentist-attempt-to-replicate-the-results.
+bayesian-attempt-to-replicate-the-results
 logistic-regression
 poisson-regression
 exercises-1
