@@ -577,7 +577,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpX4XnPv/model-92a938a9b293.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpV0tNDL/model-9ddc25526906.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -707,10 +707,10 @@ we would fit the model on 80% of people (training set) and see how precise the m
 the remaining 20% of people (test set). Let’s do this in <a href="linear-mixed-models.html#exercise7_LMM">exercise 7</a>.</p>
 <p>Remember, in prediction we do not care about interpretability of the model.
 We could have a blackbox model (e.g. neural networks) and still be happy with it.
-This performance can often be surprisingly good (like in the case of hand digit
-recognition reaching error rates as low as 0.09%), or surprisingly bad (like in the case of
-trying to predict some binary outcome using logistig regression in applied health research where
-the performance is often not far away from the base rate probability).</p>
+This performance can often be surprisingly good (like in the case of <a href="https://en.wikipedia.org/wiki/MNIST_database#Classifiers">hand digit
+recognition</a> reaching error rates as low as 0.09%),
+or surprisingly bad (when trying to predict some binary outcome using logistic regression in applied health
+research where the performance is often not far away from the base rate probability).</p>
 <p>In order to estimate the predictive ability of a model, there are many
 criteria available. One of them is the <strong>WAIC</strong>:</p>
 <div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="linear-mixed-models.html#cb259-1" tabindex="-1"></a><span class="fu">WAIC</span>(m13<span class="fl">.1</span>)</span></code></pre></div>
@@ -837,13 +837,6 @@ in the tanks for both models.</p>
 predictions compared to no pooling, it’s a tradeoff between over- and underfitting
 (i.e. the raw probabilities in each tank without knowledge of the other tanks and one
 overall survival probability that ignores differences between tanks completely).</p>
-<p>Again, we can have:</p>
-<ul>
-<li><strong>Complete pooling</strong>: all tanks share the same intercept (no random effect)</li>
-<li><strong>No pooling</strong>: each tank has its own intercept (random effect)</li>
-<li><strong>Partial pooling</strong>: tanks share information, but not completely
-(random effect with priors)</li>
-</ul>
 </div>
 </div>
 </div>

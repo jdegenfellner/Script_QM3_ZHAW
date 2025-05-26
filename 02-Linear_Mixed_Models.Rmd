@@ -457,14 +457,6 @@ predictions compared to no pooling, it's a tradeoff between over- and underfitti
 (i.e. the raw probabilities in each tank without knowledge of the other tanks and one 
 overall survival probability that ignores differences between tanks completely).
 
-Again, we can have:
-
-- **Complete pooling**: all tanks share the same intercept (no random effect)
-- **No pooling**: each tank has its own intercept (random effect)
-- **Partial pooling**: tanks share information, but not completely 
-  (random effect with priors)
-
-
 ## Exercises
 
 Solutions to the exercises can be found 
