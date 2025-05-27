@@ -645,13 +645,13 @@ We are estimating headache frequency while considering repeated measures within 
 In the random effects part of the output, we see again the standard 
 deviation of the random intercept for each patient ($0.5872$),
 which is a measure of the variability of headache frequency between patients.
-Residual variance is high compared to this.
+Residual variance ($0.6619$) is high compared to this.
 
 The so-called `Fixed effects` give the overall intercept in all
 our factor combinations: `(Intercept)` is the overall mean headache frequency at week $0$ (reference week)
 and Group `Ex` (reference group).
 
-Important for us are the so-called **contrasts**b (below). 
+Important for us are the so-called **contrasts** (below). 
 These give us the **model-estimated differences** in (expected) headache frequency between 
 the groups at each time point.
 
@@ -663,7 +663,8 @@ summary(contrast(emm, method = "pairwise",
                 infer = c(TRUE, FALSE))  # TRUE for CI and FALSE for p-values
 ```
 
-Bonferroni correction is used to adjust the $p$-values for multiple comparisons
+[Bonferroni correction](https://en.wikipedia.org/wiki/Bonferroni_correction) 
+is used to adjust the $p$-values for multiple comparisons
 (one just divides the "significance"-level by the number of comparisons).
 
 We now look at Table 3 in the paper, first row, first column.
@@ -671,7 +672,7 @@ There we see the mean between-group difference in headache frequency
 at week $4$ compared to week $0$ and the two groups *MMT + ex* and *MMT Sham + ex*
 are compared. 
 
-- The mean difference is $-3 (-3 \text{ to } -2)$ days/month. 
+- The mean difference is $-3$ (95% CI: $-3$ to $-2$) days/month. 
 - In our `lmer` output, we find the row
   `(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070`.
   
@@ -726,9 +727,16 @@ With this model we now fit intercepts for every group ($3$),
 every time point ($4$) and for all $3*4=12$ interaction combinations.
 Since we are not working with a reference level for the factors (as in `lmer`), you see
 all $3,4$ and $12$ (mean posterior) levels of the intercepts in the output of `precis(m)`. 
+Refer to section 5.3 (Categorical variables) in the book *Rethinking* for more details.
 
 ```{r}
 library(rethinking)
+
+df_long <- df_long %>%
+  dplyr::group_by(Group, time) %>%
+  dplyr::mutate(interaction = cur_group_id()) %>%
+  dplyr::ungroup()
+# cur_group_id() gives a unique numeric identifier for the current group.
 
 dat <- list(
   H = df_long$headache_frequency,
@@ -738,11 +746,9 @@ dat <- list(
   N = nrow(df_long),
   N_ID = length(unique(df_long$ID)),
   N_group = length(unique(df_long$Group)),
-  N_time = length(unique(df_long$time_f))
+  N_time = length(unique(df_long$time_f)),
+  interaction = df_long$interaction
 )
-
-# interaction index
-dat$interaction <- (dat$group - 1) * dat$N_time + dat$time
 
 m <- ulam(
   alist(
@@ -765,18 +771,6 @@ m <- ulam(
 )
 
 precis(m, depth = 2)
-
-# mean treatment effect: week4,  (MMT+ex) - (Sham+ex)----------
-post <- extract.samples(m)
-#lapply(post, head)
-
-# MMT+ex (group = 2), time = 2 → index = (2−1)×4 + 2 = 6
-# Sham+ex (group = 3), time = 2 → index = (3−1)×4 + 2 = 10
-
-group_diff <- post$beta_group[,2] - post$beta_group[,3]
-interaction_diff <- post$beta_interaction[,6] - post$beta_interaction[,10]
-treatment_diff_week4 <- group_diff + interaction_diff
-precis(data.frame(treatment_diff_week4), prob = 0.95)
 ```
 
 `precis(m, depth = 2)` confirms that `sigma`and `sigma_ID` are in line with `lmer`.
@@ -791,6 +785,21 @@ Finally, we add up the two posterior distributions to get the posterior distribu
 of the treatment effect. Time does not vary since we are only interested in week $4$.
 
 The result is rather similar to the Frequentist model. 
+
+```{r}
+# mean treatment effect: week4,  (MMT+ex) - (Sham+ex)----------
+post <- extract.samples(m)
+#lapply(post, head)
+
+# MMT+ex (group = 2), time = 2 → index = (2−1)×4 + 2 = 6
+# Sham+ex (group = 3), time = 2 → index = (3−1)×4 + 2 = 10
+
+group_diff <- post$beta_group[,2] - post$beta_group[,3]
+interaction_diff <- post$beta_interaction[,6] - post$beta_interaction[,10]
+treatment_diff_week4 <- group_diff + interaction_diff
+precis(data.frame(treatment_diff_week4), prob = 0.95)
+```
+
 
 ## Logistic Regression
 

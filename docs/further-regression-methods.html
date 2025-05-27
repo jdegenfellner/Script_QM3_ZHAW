@@ -582,7 +582,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpl23zLV/model-942f55cd6db3.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpSJMoUW/model-c27d12761bef.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1102,11 +1102,11 @@ Hence, we only consider the random intercept for each participant.</p>
 <p>In the random effects part of the output, we see again the standard
 deviation of the random intercept for each patient (<span class="math inline">\(0.5872\)</span>),
 which is a measure of the variability of headache frequency between patients.
-Residual variance is high compared to this.</p>
+Residual variance (<span class="math inline">\(0.6619\)</span>) is high compared to this.</p>
 <p>The so-called <code>Fixed effects</code> give the overall intercept in all
 our factor combinations: <code>(Intercept)</code> is the overall mean headache frequency at week <span class="math inline">\(0\)</span> (reference week)
 and Group <code>Ex</code> (reference group).</p>
-<p>Important for us are the so-called <strong>contrasts</strong>b (below).
+<p>Important for us are the so-called <strong>contrasts</strong> (below).
 These give us the <strong>model-estimated differences</strong> in (expected) headache frequency between
 the groups at each time point.</p>
 <div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="further-regression-methods.html#cb281-1" tabindex="-1"></a><span class="co"># constrasts:</span></span>
@@ -1141,14 +1141,15 @@ the groups at each time point.</p>
 ## Degrees-of-freedom method: kenward-roger 
 ## Confidence level used: 0.95 
 ## Conf-level adjustment: bonferroni method for 3 estimates</code></pre>
-<p>Bonferroni correction is used to adjust the <span class="math inline">\(p\)</span>-values for multiple comparisons
+<p><a href="https://en.wikipedia.org/wiki/Bonferroni_correction">Bonferroni correction</a>
+is used to adjust the <span class="math inline">\(p\)</span>-values for multiple comparisons
 (one just divides the “significance”-level by the number of comparisons).</p>
 <p>We now look at Table 3 in the paper, first row, first column.
 There we see the mean between-group difference in headache frequency
 at week <span class="math inline">\(4\)</span> compared to week <span class="math inline">\(0\)</span> and the two groups <em>MMT + ex</em> and <em>MMT Sham + ex</em>
 are compared.</p>
 <ul>
-<li>The mean difference is <span class="math inline">\(-3 (-3 \text{ to } -2)\)</span> days/month.</li>
+<li>The mean difference is <span class="math inline">\(-3\)</span> (95% CI: <span class="math inline">\(-3\)</span> to <span class="math inline">\(-2\)</span>) days/month.</li>
 <li>In our <code>lmer</code> output, we find the row
 <code>(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070</code>.</li>
 </ul>
@@ -1292,47 +1293,52 @@ partial pooling case for reliability. This should deliver similar results
 With this model we now fit intercepts for every group (<span class="math inline">\(3\)</span>),
 every time point (<span class="math inline">\(4\)</span>) and for all <span class="math inline">\(3*4=12\)</span> interaction combinations.
 Since we are not working with a reference level for the factors (as in <code>lmer</code>), you see
-all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\)</span> (mean posterior) levels of the intercepts in the output of <code>precis(m)</code>.</p>
+all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\)</span> (mean posterior) levels of the intercepts in the output of <code>precis(m)</code>.
+Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for more details.</p>
 <div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="further-regression-methods.html#cb292-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
 <span id="cb292-2"><a href="further-regression-methods.html#cb292-2" tabindex="-1"></a></span>
-<span id="cb292-3"><a href="further-regression-methods.html#cb292-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb292-4"><a href="further-regression-methods.html#cb292-4" tabindex="-1"></a>  <span class="at">H =</span> df_long<span class="sc">$</span>headache_frequency,</span>
-<span id="cb292-5"><a href="further-regression-methods.html#cb292-5" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(df_long<span class="sc">$</span>Group)),   <span class="co"># 1 = Ex, 2 = MMT+ex, 3 = Sham+ex</span></span>
-<span id="cb292-6"><a href="further-regression-methods.html#cb292-6" tabindex="-1"></a>  <span class="at">time =</span> <span class="fu">as.integer</span>(df_long<span class="sc">$</span>time_f),              <span class="co"># 1 = Woche 0, ..., 4 = Woche 26</span></span>
-<span id="cb292-7"><a href="further-regression-methods.html#cb292-7" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(df_long<span class="sc">$</span>ID)),</span>
-<span id="cb292-8"><a href="further-regression-methods.html#cb292-8" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(df_long),</span>
-<span id="cb292-9"><a href="further-regression-methods.html#cb292-9" tabindex="-1"></a>  <span class="at">N_ID =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>ID)),</span>
-<span id="cb292-10"><a href="further-regression-methods.html#cb292-10" tabindex="-1"></a>  <span class="at">N_group =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>Group)),</span>
-<span id="cb292-11"><a href="further-regression-methods.html#cb292-11" tabindex="-1"></a>  <span class="at">N_time =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>time_f))</span>
-<span id="cb292-12"><a href="further-regression-methods.html#cb292-12" tabindex="-1"></a>)</span>
-<span id="cb292-13"><a href="further-regression-methods.html#cb292-13" tabindex="-1"></a></span>
-<span id="cb292-14"><a href="further-regression-methods.html#cb292-14" tabindex="-1"></a><span class="co"># interaction index</span></span>
-<span id="cb292-15"><a href="further-regression-methods.html#cb292-15" tabindex="-1"></a>dat<span class="sc">$</span>interaction <span class="ot">&lt;-</span> (dat<span class="sc">$</span>group <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> dat<span class="sc">$</span>N_time <span class="sc">+</span> dat<span class="sc">$</span>time</span>
-<span id="cb292-16"><a href="further-regression-methods.html#cb292-16" tabindex="-1"></a></span>
-<span id="cb292-17"><a href="further-regression-methods.html#cb292-17" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
-<span id="cb292-18"><a href="further-regression-methods.html#cb292-18" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
-<span id="cb292-19"><a href="further-regression-methods.html#cb292-19" tabindex="-1"></a>    H <span class="sc">~</span> <span class="fu">normal</span>(mu, sigma),</span>
-<span id="cb292-20"><a href="further-regression-methods.html#cb292-20" tabindex="-1"></a>    mu <span class="ot">&lt;-</span> alpha <span class="sc">+</span></span>
-<span id="cb292-21"><a href="further-regression-methods.html#cb292-21" tabindex="-1"></a>      beta_group[group] <span class="sc">+</span> beta_time[time] <span class="sc">+</span> beta_interaction[interaction] <span class="sc">+</span> u[ID],</span>
-<span id="cb292-22"><a href="further-regression-methods.html#cb292-22" tabindex="-1"></a>    <span class="co"># random intercept for each participant</span></span>
-<span id="cb292-23"><a href="further-regression-methods.html#cb292-23" tabindex="-1"></a>    u[ID] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, sigma_ID),</span>
-<span id="cb292-24"><a href="further-regression-methods.html#cb292-24" tabindex="-1"></a>    <span class="co"># Priors</span></span>
-<span id="cb292-25"><a href="further-regression-methods.html#cb292-25" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
-<span id="cb292-26"><a href="further-regression-methods.html#cb292-26" tabindex="-1"></a>    beta_group[group] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
-<span id="cb292-27"><a href="further-regression-methods.html#cb292-27" tabindex="-1"></a>    beta_time[time] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
-<span id="cb292-28"><a href="further-regression-methods.html#cb292-28" tabindex="-1"></a>    beta_interaction[interaction] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="co"># difficult</span></span>
-<span id="cb292-29"><a href="further-regression-methods.html#cb292-29" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">exponential</span>(<span class="dv">1</span>),</span>
-<span id="cb292-30"><a href="further-regression-methods.html#cb292-30" tabindex="-1"></a>    sigma_ID <span class="sc">~</span> <span class="fu">exponential</span>(<span class="dv">1</span>)</span>
-<span id="cb292-31"><a href="further-regression-methods.html#cb292-31" tabindex="-1"></a>  ),</span>
-<span id="cb292-32"><a href="further-regression-methods.html#cb292-32" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
-<span id="cb292-33"><a href="further-regression-methods.html#cb292-33" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,</span>
-<span id="cb292-34"><a href="further-regression-methods.html#cb292-34" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span></span>
-<span id="cb292-35"><a href="further-regression-methods.html#cb292-35" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb292-3"><a href="further-regression-methods.html#cb292-3" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df_long <span class="sc">%&gt;%</span></span>
+<span id="cb292-4"><a href="further-regression-methods.html#cb292-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(Group, time) <span class="sc">%&gt;%</span></span>
+<span id="cb292-5"><a href="further-regression-methods.html#cb292-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">interaction =</span> <span class="fu">cur_group_id</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb292-6"><a href="further-regression-methods.html#cb292-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb292-7"><a href="further-regression-methods.html#cb292-7" tabindex="-1"></a><span class="co"># cur_group_id() gives a unique numeric identifier for the current group.</span></span>
+<span id="cb292-8"><a href="further-regression-methods.html#cb292-8" tabindex="-1"></a></span>
+<span id="cb292-9"><a href="further-regression-methods.html#cb292-9" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb292-10"><a href="further-regression-methods.html#cb292-10" tabindex="-1"></a>  <span class="at">H =</span> df_long<span class="sc">$</span>headache_frequency,</span>
+<span id="cb292-11"><a href="further-regression-methods.html#cb292-11" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(df_long<span class="sc">$</span>Group)),   <span class="co"># 1 = Ex, 2 = MMT+ex, 3 = Sham+ex</span></span>
+<span id="cb292-12"><a href="further-regression-methods.html#cb292-12" tabindex="-1"></a>  <span class="at">time =</span> <span class="fu">as.integer</span>(df_long<span class="sc">$</span>time_f),              <span class="co"># 1 = Woche 0, ..., 4 = Woche 26</span></span>
+<span id="cb292-13"><a href="further-regression-methods.html#cb292-13" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(df_long<span class="sc">$</span>ID)),</span>
+<span id="cb292-14"><a href="further-regression-methods.html#cb292-14" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(df_long),</span>
+<span id="cb292-15"><a href="further-regression-methods.html#cb292-15" tabindex="-1"></a>  <span class="at">N_ID =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>ID)),</span>
+<span id="cb292-16"><a href="further-regression-methods.html#cb292-16" tabindex="-1"></a>  <span class="at">N_group =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>Group)),</span>
+<span id="cb292-17"><a href="further-regression-methods.html#cb292-17" tabindex="-1"></a>  <span class="at">N_time =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df_long<span class="sc">$</span>time_f)),</span>
+<span id="cb292-18"><a href="further-regression-methods.html#cb292-18" tabindex="-1"></a>  <span class="at">interaction =</span> df_long<span class="sc">$</span>interaction</span>
+<span id="cb292-19"><a href="further-regression-methods.html#cb292-19" tabindex="-1"></a>)</span>
+<span id="cb292-20"><a href="further-regression-methods.html#cb292-20" tabindex="-1"></a></span>
+<span id="cb292-21"><a href="further-regression-methods.html#cb292-21" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb292-22"><a href="further-regression-methods.html#cb292-22" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb292-23"><a href="further-regression-methods.html#cb292-23" tabindex="-1"></a>    H <span class="sc">~</span> <span class="fu">normal</span>(mu, sigma),</span>
+<span id="cb292-24"><a href="further-regression-methods.html#cb292-24" tabindex="-1"></a>    mu <span class="ot">&lt;-</span> alpha <span class="sc">+</span></span>
+<span id="cb292-25"><a href="further-regression-methods.html#cb292-25" tabindex="-1"></a>      beta_group[group] <span class="sc">+</span> beta_time[time] <span class="sc">+</span> beta_interaction[interaction] <span class="sc">+</span> u[ID],</span>
+<span id="cb292-26"><a href="further-regression-methods.html#cb292-26" tabindex="-1"></a>    <span class="co"># random intercept for each participant</span></span>
+<span id="cb292-27"><a href="further-regression-methods.html#cb292-27" tabindex="-1"></a>    u[ID] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, sigma_ID),</span>
+<span id="cb292-28"><a href="further-regression-methods.html#cb292-28" tabindex="-1"></a>    <span class="co"># Priors</span></span>
+<span id="cb292-29"><a href="further-regression-methods.html#cb292-29" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
+<span id="cb292-30"><a href="further-regression-methods.html#cb292-30" tabindex="-1"></a>    beta_group[group] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb292-31"><a href="further-regression-methods.html#cb292-31" tabindex="-1"></a>    beta_time[time] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb292-32"><a href="further-regression-methods.html#cb292-32" tabindex="-1"></a>    beta_interaction[interaction] <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="co"># difficult</span></span>
+<span id="cb292-33"><a href="further-regression-methods.html#cb292-33" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">exponential</span>(<span class="dv">1</span>),</span>
+<span id="cb292-34"><a href="further-regression-methods.html#cb292-34" tabindex="-1"></a>    sigma_ID <span class="sc">~</span> <span class="fu">exponential</span>(<span class="dv">1</span>)</span>
+<span id="cb292-35"><a href="further-regression-methods.html#cb292-35" tabindex="-1"></a>  ),</span>
+<span id="cb292-36"><a href="further-regression-methods.html#cb292-36" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb292-37"><a href="further-regression-methods.html#cb292-37" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb292-38"><a href="further-regression-methods.html#cb292-38" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span></span>
+<span id="cb292-39"><a href="further-regression-methods.html#cb292-39" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Running MCMC with 4 parallel chains, with 1 thread(s) per chain...
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpl23zLV/model-942f7e3f2762.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpSJMoUW/model-c27de86edcd.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1347,9 +1353,9 @@ all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1381,16 +1387,16 @@ all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.1 seconds.
+## Chain 2 finished in 4.4 seconds.
+## Chain 3 finished in 4.4 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.1 seconds.
+## Chain 4 finished in 4.5 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.4 seconds.
+## Chain 1 finished in 4.7 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.2 seconds.
-## Total execution time: 4.4 seconds.</code></pre>
+## Mean chain execution time: 4.5 seconds.
+## Total execution time: 4.7 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -1620,6 +1626,15 @@ all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\
 ## beta_interaction[12] 1770.925
 ## sigma                2361.132
 ## sigma_ID             1199.424</code></pre>
+<p><code>precis(m, depth = 2)</code> confirms that <code>sigma</code>and <code>sigma_ID</code> are in line with <code>lmer</code>.</p>
+<p>Next, we want to know the posterior distribution (respectively the mean and credible interval)
+of the treatment effect of <em>MMT+ex</em> compared to <em>Sham+ex</em> at <em>week <span class="math inline">\(4\)</span></em>.</p>
+<p>For this, we calculate the distribution of group <span class="math inline">\(2\)</span> (<em>MMT+ex</em>) minus group
+<span class="math inline">\(3\)</span> (<em>Sham+ex</em>) at week <span class="math inline">\(4\)</span>.
+Then, we calculate the correct interaction index to give us the required difference.
+Finally, we add up the two posterior distributions to get the posterior distribution
+of the treatment effect. Time does not vary since we are only interested in week <span class="math inline">\(4\)</span>.</p>
+<p>The result is rather similar to the Frequentist model.</p>
 <div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="further-regression-methods.html#cb302-1" tabindex="-1"></a><span class="co"># mean treatment effect: week4,  (MMT+ex) - (Sham+ex)----------</span></span>
 <span id="cb302-2"><a href="further-regression-methods.html#cb302-2" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m)</span>
 <span id="cb302-3"><a href="further-regression-methods.html#cb302-3" tabindex="-1"></a><span class="co">#lapply(post, head)</span></span>
@@ -1633,15 +1648,6 @@ all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\
 <span id="cb302-11"><a href="further-regression-methods.html#cb302-11" tabindex="-1"></a><span class="fu">precis</span>(<span class="fu">data.frame</span>(treatment_diff_week4), <span class="at">prob =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##                          mean        sd      2.5%     97.5%  histogram
 ## treatment_diff_week4 -2.68054 0.2522168 -3.190296 -2.191346 ▁▁▁▂▅▇▅▂▁▁</code></pre>
-<p><code>precis(m, depth = 2)</code> confirms that <code>sigma</code>and <code>sigma_ID</code> are in line with <code>lmer</code>.</p>
-<p>Next, we want to know the posterior distribution (respectively the mean and credible interval)
-of the treatment effect of <em>MMT+ex</em> compared to <em>Sham+ex</em> at <em>week <span class="math inline">\(4\)</span></em>.</p>
-<p>For this, we calculate the distribution of group <span class="math inline">\(2\)</span> (<em>MMT+ex</em>) minus group
-<span class="math inline">\(3\)</span> (<em>Sham+ex</em>) at week <span class="math inline">\(4\)</span>.
-Then, we calculate the correct interaction index to give us the required difference.
-Finally, we add up the two posterior distributions to get the posterior distribution
-of the treatment effect. Time does not vary since we are only interested in week <span class="math inline">\(4\)</span>.</p>
-<p>The result is rather similar to the Frequentist model.</p>
 </div>
 </div>
 </div>
