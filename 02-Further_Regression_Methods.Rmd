@@ -803,6 +803,29 @@ precis(data.frame(treatment_diff_week4), prob = 0.95)
 
 ## Logistic Regression
 
+Another basic regression model is the [**logistic regression**](https://en.wikipedia.org/wiki/Logistic_regression).
+There are entire [books](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118548387) on the topic.
+
+Watch these videos as an introduction: 
+[1](https://www.youtube.com/watch?v=yIYKR4sgzI8&ab_channel=StatQuestwithJoshStarmer)
+[2](https://www.youtube.com/watch?v=Iju8l2qgaJU&t=330s&ab_channel=VeryNormal).
+
+In our Bayesian (rethinking) framework, this topic is not really new.
+We have almost used it in our [tadpole example](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#model13_1) 
+when we modeled the survival of tadpoles in tanks.
+There, our outcome variable was the *number of surviving tadpoles* in a tank,
+which is a count variable and was modeled using a binomial distribution.
+
+In logistic regression, we just model a binary outcome variable,
+with $0$ and $1$ (*Yes*/*No*; *died*/*survived*...) as possible values.
+
+Obviously, the classical linear regression makes no sense for this kind of data.
+
+Let's look at a quick example from [heart disease data](https://www.kaggle.com/datasets/dileep070/heart-disease-prediction-using-logistic-regression).
+Variable descriptions are in the link.
+
+
+
 ## Poisson Regression
 
 ## Exercises

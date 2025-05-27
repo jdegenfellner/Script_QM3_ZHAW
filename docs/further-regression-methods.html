@@ -579,16 +579,16 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
 ## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
 ## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
+## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpSJMoUW/model-c27d12761bef.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp1yJ4yU/model-d92f3870f3fd.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
 <pre><code>## Chain 1 finished in 0.1 seconds.
 ## Chain 2 finished in 0.1 seconds.
 ## Chain 3 finished in 0.1 seconds.
+## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 0.1 seconds.
 ## 
 ## All 4 chains finished successfully.
@@ -1338,7 +1338,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpSJMoUW/model-c27de86edcd.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp1yJ4yU/model-d92f95eafdd.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1353,9 +1353,9 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1387,16 +1387,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.4 seconds.
-## Chain 3 finished in 4.4 seconds.
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.5 seconds.
+## Chain 4 finished in 4.1 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.7 seconds.
+## Chain 1 finished in 4.3 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.5 seconds.
-## Total execution time: 4.7 seconds.</code></pre>
+## Mean chain execution time: 4.1 seconds.
+## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -1653,6 +1653,21 @@ of the treatment effect. Time does not vary since we are only interested in week
 </div>
 <div id="logistic-regression" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Logistic Regression<a href="further-regression-methods.html#logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Another basic regression model is the <a href="https://en.wikipedia.org/wiki/Logistic_regression"><strong>logistic regression</strong></a>.
+There are entire <a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9781118548387">books</a> on the topic.</p>
+<p>Watch these videos as an introduction:
+<a href="https://www.youtube.com/watch?v=yIYKR4sgzI8&amp;ab_channel=StatQuestwithJoshStarmer">1</a>
+<a href="https://www.youtube.com/watch?v=Iju8l2qgaJU&amp;t=330s&amp;ab_channel=VeryNormal">2</a>.</p>
+<p>In our Bayesian (rethinking) framework, this topic is not really new.
+We have almost used it in our <a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#model13_1">tadpole example</a>
+when we modeled the survival of tadpoles in tanks.
+There, our outcome variable was the <em>number of surviving tadpoles</em> in a tank,
+which is a count variable and was modeled using a binomial distribution.</p>
+<p>In logistic regression, we just model a binary outcome variable,
+with <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> (<em>Yes</em>/<em>No</em>; <em>died</em>/<em>survived</em>…) as possible values.</p>
+<p>Obviously, the classical linear regression makes no sense for this kind of data.</p>
+<p>Let’s look at a quick example from <a href="https://www.kaggle.com/datasets/dileep070/heart-disease-prediction-using-logistic-regression">heart disease data</a>.
+Variable descriptions are in the link.</p>
 </div>
 <div id="poisson-regression" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Poisson Regression<a href="further-regression-methods.html#poisson-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
