@@ -37,7 +37,7 @@ frequentist13_2
 mulligan
 frequentist-attempt-to-replicate-the-results.
 mulligan_bayesian
-logistic-regression
+logistic_regression
 poisson-regression
 exercises-1
 exercise1_LMM
@@ -50,4 +50,5 @@ exercise7_LMM
 exercise8_LMM
 exercise9_LMM
 exercise10_LMM
+exercise11_LMM
 todos

@@ -801,7 +801,7 @@ precis(data.frame(treatment_diff_week4), prob = 0.95)
 ```
 
 
-## Logistic Regression
+## Logistic Regression {#logistic_regression}
 
 Another basic regression model is the [**logistic regression**](https://en.wikipedia.org/wiki/Logistic_regression).
 There are entire [books](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118548387) on the topic.
@@ -816,13 +816,124 @@ when we modeled the survival of tadpoles in tanks.
 There, our outcome variable was the *number of surviving tadpoles* in a tank,
 which is a count variable and was modeled using a binomial distribution.
 
-In logistic regression, we just model a binary outcome variable,
+In logistic regression, we just model a **binary** outcome variable,
 with $0$ and $1$ (*Yes*/*No*; *died*/*survived*...) as possible values.
+
+Of course, the great disadvantage of this model is the low 
+information content of the outcome variable, 
+which can only take two values.
 
 Obviously, the classical linear regression makes no sense for this kind of data.
 
-Let's look at a quick example from [heart disease data](https://www.kaggle.com/datasets/dileep070/heart-disease-prediction-using-logistic-regression).
-Variable descriptions are in the link.
+Let's quickly invent an example:
+
+```{r}
+AGE <- rnorm(100)
+y <- rbinom(100, size = 1, prob = inv_logit(AGE))
+plot(AGE, y, main = "Inverse Logit Function", 
+     xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
+abline(lm(y ~ AGE), col = "red", lwd = 2)
+```
+
+The higher the `AGE`, the higher the probability of a *Yes* (or $1$) 
+(could be heart attack or something).
+
+The red line is the least squares regression line, which 
+does not make much sense here. The outcome can only be $0$ or $1$.
+the regression line would estimate all values in between plus
+values outside of this range, which is not possible.
+
+We therefore bend our reality a bit and **model the probability of a $1$**.
+Of course, then we have the next problem, if we try to 
+model the probability of a $1$ using the linear regression model 
+($\mathbb{P}(Y_i = 1) = \beta_0 + \beta_1 x_1 + \cdots \beta_p x_p$).
+The linear predictor ($\beta_0 + \beta_1 x_1 + \cdots \beta_p x_p$) could easily
+lie outside of the range $[0,1]$.
+Therefore, we use the **logit function** to transform 
+the the probability from $[0,1]$ to $(-\infty, +\infty)$.
+The transformed range can be conveniently described using a linear predictor again.
+The left side and the right side of the equation are now equal in range.
+Very nice.
+
+The model is then:
+
+\[
+\begin{array}{rcl}
+\mathbb{P}(Y_i = 1 | x_{i1}, \ldots, x_{ip}) &=& p_i \\
+\text{logit}(p_i) &=& \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip} \\
+\end{array}
+\]
+
+where $p_i$ is the probability of a $1$ for observation $i$ 
+and $\text{logit}(p_i) = \log\left(\frac{p_i}{1 - p_i}\right)$.
+
+Notice that we do not need a random error term $\varepsilon_i$ anymore,
+since these kinds of models 
+(so-called [generalized linear models](https://en.wikipedia.org/wiki/Generalized_linear_model); GLM)
+are estimated using the [maximum likelihood method](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
+
+You would see the model estimated mostly in the **Frequentist setting**:
+
+```{r}
+modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
+summary(modlog)
+```
+
+- `glm`stands for *generalized linear model*.
+- `family = binomial(link = "logit")` specifies that we want to use the 
+  binomial distribution with the logit link function.
+  In generalized linear models, the link function is used to connect the linear predictor
+  (the right side of the equation) to the expected value of the response variable:
+  In our case, the expected value of a Bernoulli-distributed variable 
+  (which is binary) is the probability of a $1$; $p_i$.
+  In general: $\mathbb{E}(Y|X) = g^{-1}(X \beta)$.
+  Think back to [exercise 5](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#exercise5_LMM) 
+  in the reliability chapter and go to [exercise 11](exercise11_LMM).
+- `Coefficients` are the estimated parameters of the model **on the logit scale**.
+  **Interpretation**: Two participants with a difference of $1$ year in their age,
+  have a difference of $\beta_1 = 1.20158$ in the log-odds of having 
+  a heart attack. If we want the odds ratio, we can just exponentiate:
+
+  $$log(\frac{p_i}{1-p_i}) = \beta_0 + \beta_1 AGE$$
+  $$\text{Odds for a 1 = } \frac{p_i}{1-p_i} = e^{\beta_0 + \beta_1 AGE} = e^{\beta_0} \cdot e^{\beta_1 AGE}$$
+  
+  If you add $1$ to AGE:
+
+  $$\text{Odds for a 1 with } (AGE + 1) = e^{\beta_0} \cdot e^{\beta_1 (AGE + 1)} = e^{\beta_0} \cdot e^{\beta_1 AGE} \cdot e^{\beta_1} = \text{Odds for a 1} \cdot e^{\beta_1}$$
+
+  So, on the odds scale, you multiply the odds for a $1$ by $e^{\beta_1}$.
+
+  We can also work directly on the probability scale.
+  The difference in the probability of a $1$ for two participants with a 
+  difference of $1$ year in their age is:
+  $$\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = $$
+  $$\text{inv_logit}(\beta_0 + \beta_1 (AGE + 1)) - \text{inv_logit}(\beta_0 + \beta_1 AGE)$$
+  This difference is not constant, but depends on the value of $AGE$,
+  since the inverse logit function is non-linear.
+
+But, we do not need to do all this by hand, we have R.
+We can simply calculate the probabilities estimated by data:
+
+```{r}
+predicted_probabilities <- predict(modlog, type = "response")
+plot(AGE, y, main = "Raw data and predicted probabilities", 
+     xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
+# add predicted probabilities
+points(AGE, predicted_probabilities, col = "red", pch = 19)
+
+# The help file says about the predict-function:a# the type of
+# prediction required. The default is on the scale of the linear
+# predictors; the alternative "response" is on the scale of the
+# response variable. Thus for a default binomial model the default
+# predictions are of log-odds (probabilities on logit scale) and
+# type = "response" gives the predicted probabilities.
+# The "terms" option returns a matrix giving the fitted values
+# of each term in the model formula on the linear predictor scale.
+```
+
+As we can see, the higher our `AGE` (linear predictor with only one term in this case), 
+the higher the probability of a $1$. 
+
 
 
 
@@ -833,7 +944,7 @@ Variable descriptions are in the link.
 Solutions to the exercises can be found 
 [here](https://github.com/jdegenfellner/Script_QM3_ZHAW/tree/main/Solutions_Exercises).
 
-### Exercise 1 {#exercise1_LMM}
+### [E] Exercise 1 {#exercise1_LMM}
 
 - Do some descriptive statistics on the data set reedfrogs.
 - Use the `dplyr` and `tidyr` packages to create a new data set with one row per individual tadpole. 
@@ -841,7 +952,7 @@ Solutions to the exercises can be found
 - Feel free to check out the solution and ask a LLM (e.g., GPT) to explain the code - 
   in this case it does a good job.
 
-### Exercise 2 {#exercise2_LMM}
+### [M] Exercise 2 {#exercise2_LMM}
 
 We want to better undestand the pooling effect of model 13.2 vs. model 13.1.
 
@@ -860,7 +971,7 @@ We want to better undestand the pooling effect of model 13.2 vs. model 13.1.
   play with different large/small values for XX: `a[tank] ~ dnorm(0, XX)` and 
   also the prior for $\sigma$ (which regulates the pooling): `sigma ~ dexp(XX)`.
 
-### Exercise 3 {#exercise3_LMM}
+### [E] Exercise 3 {#exercise3_LMM}
 
 We want to check the correlation of the posterior estimates of the intercepts (`a[tank]`) for model 13.1 and 2.
 
@@ -869,7 +980,7 @@ We want to check the correlation of the posterior estimates of the intercepts (`
 - Is there a correlation of the posterior samples for `a[1]` and `a[2]` in either model?
 - Reason about the results.
 
-### Exercise 4 {#exercise4_LMM}
+### [M] Exercise 4 {#exercise4_LMM}
 
 Go back to the Frequentist version of the tadpole model 13.2 [above](#frequentist13_2).
 
@@ -878,20 +989,20 @@ Go back to the Frequentist version of the tadpole model 13.2 [above](#frequentis
 - What would be the Frequentist equivalent of model 13.1?
   Compare the model-estimated survival probabilities again.
 
-### Exercise 5 {#exercise5_LMM}
+### [M] Exercise 5 {#exercise5_LMM}
 
 - Verify with R that the `logit` and `logistic` (=`inv_logit`) functions are indeed 
-inverse functions of each other.
+  inverse functions of each other.
 - Also plot both functions for clarity.
 
-### Exercise 6 {#exercise6_LMM}
+### [E] Exercise 6 {#exercise6_LMM}
 
 Consider the [tadpole data](#tadpole) set again.
 
 - Fit a model with complete pooling, i.e. one intercept for all tanks, without a regularizing prior.
   Hence, the tanks to not "know" anything from one another. Use the `rethinking` package.
 
-### Exercise 7 {#exercise7_LMM}
+### [M] Exercise 7 {#exercise7_LMM}
 
 Consider our regression model ($\mu_i = \alpha + \beta_1 x_i + \beta_2 x_i^2$) 
 for the [body height of the !Kung San people in QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#adding_transformed_predictor_bayes).
@@ -908,27 +1019,33 @@ for the [body height of the !Kung San people in QM2](https://jdegenfellner.githu
   for both the training and the test set $100$ times. Draw a histogram of the RMSEs for training and 
   test set. What do you observe?
 
-### Exercise 8 {#exercise8_LMM}
+### [M] Exercise 8 {#exercise8_LMM}
 
 Consider the [Mulligan manual therapy paper](#mulligan).
 
 - Try to find the method for sample size calculation in the 
   referenced literature [literature](https://journals.sagepub.com/doi/epub/10.1177/0333102417738202).
 
-### Exercise 9 {#exercise9_LMM}
+### [E] Exercise 9 {#exercise9_LMM}
 
 Consider the [Mulligan manual therapy paper](#mulligan).
 
-- Verify for the groups "Ex" and "MMT+ex" that the primary outcome *headache frequency* 
+- Verify for the groups *Ex* and *MMT+ex* that the primary outcome *headache frequency* 
   is normally distributed at Week $0$ using the `shapiro.test` function in R.
 
-### Exercise 10 {#exercise10_LMM}
+### [E] Exercise 10 {#exercise10_LMM}
 
 Consider the Bayesian version of Mulligan manual therapy paper [above](#mulligan_bayesian).
 
 - Replace $\alpha$ and $u_i$ with one single intercept $\alpha$.
   The prior for $\alpha$ is then $\alpha \sim Normal(\bar{\bar}, \sigma_{\alpha}$
 - Fit the model and compare the results.
+
+### [E] Exercise 11 {#exercise11_LMM}
+
+Consider the section about [logistic regression](#logistic_regression). 
+
+- What is $g^{-1}(X \beta)$ in our case?
 
 ## TODOS
 
