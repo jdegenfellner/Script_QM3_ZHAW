@@ -831,7 +831,7 @@ Let's quickly invent an example:
 set.seed(332)
 AGE <- rnorm(100)
 y <- rbinom(100, size = 1, prob = inv_logit(AGE))
-plot(AGE, y, main = "Inverse Logit Function", 
+plot(AGE, y, main = "Outcome variable with least squares regression line", 
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
 abline(lm(y ~ AGE), col = "red", lwd = 2)
 ```
@@ -891,7 +891,7 @@ summary(modlog)
   Think back to [exercise 5](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#exercise5_LMM) 
   in the reliability chapter and go to [exercise 11](exercise11_LMM).
 - `Coefficients` are the estimated parameters of the model **on the logit scale**.
-  **Interpretation**: Two participants with a difference of $1$ year in their age,
+  **Interpretation**: Two participants with an expected difference of $1$ year in their age,
   have a difference of $\beta_1 = 1.20158$ in the log-odds of having 
   a heart attack. If we want the odds ratio, we can just exponentiate:
 
