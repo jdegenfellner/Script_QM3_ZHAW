@@ -51,4 +51,7 @@ exercise8_LMM
 exercise9_LMM
 exercise10_LMM
 exercise11_LMM
+exercise12_LMM
+exercise13_LMM
+exercise14_LMM
 todos

@@ -828,6 +828,7 @@ Obviously, the classical linear regression makes no sense for this kind of data.
 Let's quickly invent an example:
 
 ```{r}
+set.seed(332)
 AGE <- rnorm(100)
 y <- rbinom(100, size = 1, prob = inv_logit(AGE))
 plot(AGE, y, main = "Inverse Logit Function", 
@@ -916,9 +917,8 @@ We can simply calculate the probabilities estimated by data:
 
 ```{r}
 predicted_probabilities <- predict(modlog, type = "response")
-plot(AGE, y, main = "Raw data and predicted probabilities", 
+plot(AGE, y, main = "Raw data and predicted probabilities",
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
-# add predicted probabilities
 points(AGE, predicted_probabilities, col = "red", pch = 19)
 
 # The help file says about the predict-function:a# the type of
@@ -934,10 +934,156 @@ points(AGE, predicted_probabilities, col = "red", pch = 19)
 As we can see, the higher our `AGE` (linear predictor with only one term in this case), 
 the higher the probability of a $1$. 
 
+Let's present the results nicely on the odds ratio scale and 
+we also add confidence intervals (CIs) for the odds ratios,
+which can be conveniently calculated using R:
+
+```{r}
+library(broom)
+tidy_modlog <- tidy(modlog, conf.int = TRUE, exponentiate = TRUE)
+tidy_modlog
+```
+
+- `conf.int = TRUE` adds the confidence intervals to the output.
+- `exponentiate = TRUE` exponentiates the coefficients to give us the odds ratios.
+- At $AGE=0$, the odds for our event (maybe heart attack) are $0.891$.
+  This is rather close to the overall odds without the model:
+  There are $55$ $1$s and $45$ $0$s, hence the overall probability $\frac{55}{100} = 0.55$.
+  The odds are therefore $\frac{0.55}{1-0.55} = 1.22$.
+- Increasing the `AGE` by $1$ year increases the odds of a $1$ by a factor of 
+  $4.58$.
+
+Let's verify all this in R:
+
+```{r}
+# probability-scale:
+predict(modlog, type = "response",
+        newdata = data.frame(AGE = 0))
+predict(modlog, type = "response",
+        newdata = data.frame(AGE = 1))
+
+# log-odds scale:
+predict(modlog, type = "link",
+        newdata = data.frame(AGE = 0))
+predict(modlog, type = "link",
+        newdata = data.frame(AGE = 1))
+
+# odds scale:
+exp(predict(modlog, type = "link",
+            newdata = data.frame(AGE = 0)))
+exp(predict(modlog, type = "link",
+            newdata = data.frame(AGE = 1)))
+6.175935 / 1.348729
+```
+
+Very nice.
+
+Now, the same simple model in the **Bayesian framework** using the `rethinking` package:
+
+See [exercise 12](#exercise12_LMM) for the priors.
+
+```{r}
+library(rethinking)
+
+dat <- list(
+  y = y,
+  AGE = AGE,
+  N = length(y)
+)
+
+m_logistic <- ulam(
+  alist(
+    y ~ dbinom(1, p),
+    logit(p) <- a + b * AGE,
+    a ~ normal(0, 1.5),
+    b ~ normal(0, 1.5)
+  ),
+  data = dat,
+  chains = 4,
+  cores = 4
+)
+
+precis(m_logistic)
+post <- extract.samples(m_logistic)
+mean(exp(post$a))
+mean(exp(post$b))
+```
+
+The coefficients are very similar to the Frequentist model.
+
+**One may ask how well the model *predicts* the outcome.**
+A very honest and simple way would be to compare the predicted outcomes
+with the actual outcomes. This is called a **confusion table**.
+
+```{r}
+predicted_outcomes <- ifelse(predict(modlog, type = "response") > 0.5, 1, 0)
+confusion_table <- table(Actual = y, Predicted = predicted_outcomes)
+confusion_table
+accuracy <- sum(diag(confusion_table)) / sum(confusion_table)
+accuracy
+```
+
+In the diagonal of the confusion table, we find the number of correct predictions.
+In the off-diagonal, we find the number of incorrect predictions.
+
+Now, with what shall we compare this accuracy?
+We need to compare this number with the baseline accurary.
+If $90%$ of the observations are $0$s, then we would have an accuracy of $90\%$,
+since we could just vote for the majority every time - no model needed.
+If a fancy logistic regression model does not outperform this baseline accuracy,
+then it might not be so valuable (at least not for prediction).
+In our case, $0.7$ is higher than the baseline accuracy of $0.55$.
+The model adds some predictive value here. In my experience, 
+model performance is often modest.
+
+**Model checks** are also interesting. 
+
+Here is a list of assumptions for this type of model:
+
+-  The dependent (outcome) variable is binary  
+-  Observations are independent  
+-  Adequate sample size  
+-  No omitted variables that bias the study  
+-  Good logistic regression model fit  
+-  No perfect multicollinearity  
+-  Linear relationship between the log-odds and predictors  
+-  Absence of highly influential outliers
 
 
+
+Let's see what `check_model` has to say:
+
+```{r}
+library(performance)
+check_model(modlog)
+```
+
+In [exercise 14](exercise14_LMM), we will look at the model checks in more detail.
+
+- The **posterior predictive check** creates (for instance $1000$) new data sets 
+  based on the estimated probabilities ($100$) of the given data.
+  This plot mostly looks fine.
+- Raw **residuals** are not so useful here, why? See [exercise 13](#exercise13_LMM).
+  [Binned residuals](https://easystats.github.io/performance/reference/binned_residuals.html)
+  are achieved by "dividing the data into categories (bins) based on 
+  their fitted values, and then plotting the average residual versus the 
+  average fitted value for each bin." (Gelman, Hill 2007: 97). If the 
+  model were true, one would expect about 95% of the residuals to 
+  fall inside the error bounds.
+  Within a bin, I can just count the number of $0$s and $1$s and
+  compare that with the model-estimated probabilities.
+- There seem to be no **influential obervations**, which have simultaneously a large 
+  residual and a large leverage. The question arises how the hat matrix 
+  is calculated for such a model.
+  We looked at this plot in [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right) 
+  already in the context of simple linear regression.
+- ....distributional check for residuals necessary??
+
+MORE PREDICTORS
 
 ## Poisson Regression
+
+IF TIME
 
 ## Exercises
 
@@ -1038,7 +1184,7 @@ Consider the [Mulligan manual therapy paper](#mulligan).
 Consider the Bayesian version of Mulligan manual therapy paper [above](#mulligan_bayesian).
 
 - Replace $\alpha$ and $u_i$ with one single intercept $\alpha$.
-  The prior for $\alpha$ is then $\alpha \sim Normal(\bar{\bar}, \sigma_{\alpha}$
+  The prior for $\alpha$ is then $\alpha \sim Normal(\bar{\alpha}, \sigma_{\alpha})$
 - Fit the model and compare the results.
 
 ### [E] Exercise 11 {#exercise11_LMM}
@@ -1046,6 +1192,29 @@ Consider the Bayesian version of Mulligan manual therapy paper [above](#mulligan
 Consider the section about [logistic regression](#logistic_regression). 
 
 - What is $g^{-1}(X \beta)$ in our case?
+
+### [M] Exercise 12 {#exercise12_LMM}
+
+Consider the section about [logistic regression](#logistic_regression);
+specifically the Bayesian model.
+
+- Think about the priors. 
+- How are they interpreted and which priors could make sense if the outcome was
+  myocardial infarction (heart attack)
+
+### [E] Exercise 13 {#exercise13_LMM}
+
+Consider the section about [logistic regression](#logistic_regression).
+
+- Why are the raw residuals not so useful in this case?
+
+### [H] Exercise 14 {#exercise14_LMM}
+
+Consider the section about [logistic regression](#logistic_regression).
+
+- Try to replicate the individual model checks you see in `check_model(modlog)`.
+
+
 
 ## TODOS
 

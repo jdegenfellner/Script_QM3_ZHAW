@@ -200,6 +200,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4.9" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise9_LMM"><i class="fa fa-check"></i><b>3.4.9</b> [E] Exercise 9</a></li>
 <li class="chapter" data-level="3.4.10" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise10_LMM"><i class="fa fa-check"></i><b>3.4.10</b> [E] Exercise 10</a></li>
 <li class="chapter" data-level="3.4.11" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise11_LMM"><i class="fa fa-check"></i><b>3.4.11</b> [E] Exercise 11</a></li>
+<li class="chapter" data-level="3.4.12" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise12_LMM"><i class="fa fa-check"></i><b>3.4.12</b> [M] Exercise 12</a></li>
+<li class="chapter" data-level="3.4.13" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise13_LMM"><i class="fa fa-check"></i><b>3.4.13</b> [E] Exercise 13</a></li>
+<li class="chapter" data-level="3.4.14" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise14_LMM"><i class="fa fa-check"></i><b>3.4.14</b> [H] Exercise 14</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="further-regression-methods.html"><a href="further-regression-methods.html#todos"><i class="fa fa-check"></i><b>3.5</b> TODOS</a></li>
 </ul></li>
@@ -583,7 +586,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpgLKOAY/model-150d46b93eda.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpP5YtcJ/model-a5a270a90c3.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1339,15 +1342,15 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpgLKOAY/model-150d5dfef156.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpP5YtcJ/model-a5a25fed1b12.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
 <pre><code>## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
-## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
 ## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
 ## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
@@ -1355,12 +1358,12 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
 ## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
@@ -1388,15 +1391,15 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.0 seconds.
-## Chain 3 finished in 4.0 seconds.
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.1 seconds.
+## Chain 4 finished in 4.2 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.3 seconds.
+## Chain 1 finished in 4.4 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.1 seconds.
+## Mean chain execution time: 4.2 seconds.
 ## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
@@ -1671,11 +1674,12 @@ information content of the outcome variable,
 which can only take two values.</p>
 <p>Obviously, the classical linear regression makes no sense for this kind of data.</p>
 <p>Let’s quickly invent an example:</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a>AGE <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
-<span id="cb304-2"><a href="further-regression-methods.html#cb304-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">100</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">inv_logit</span>(AGE))</span>
-<span id="cb304-3"><a href="further-regression-methods.html#cb304-3" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Inverse Logit Function&quot;</span>, </span>
-<span id="cb304-4"><a href="further-regression-methods.html#cb304-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb304-5"><a href="further-regression-methods.html#cb304-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> AGE), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">332</span>)</span>
+<span id="cb304-2"><a href="further-regression-methods.html#cb304-2" tabindex="-1"></a>AGE <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb304-3"><a href="further-regression-methods.html#cb304-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">100</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">inv_logit</span>(AGE))</span>
+<span id="cb304-4"><a href="further-regression-methods.html#cb304-4" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Inverse Logit Function&quot;</span>, </span>
+<span id="cb304-5"><a href="further-regression-methods.html#cb304-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb304-6"><a href="further-regression-methods.html#cb304-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> AGE), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>The higher the <code>AGE</code>, the higher the probability of a <em>Yes</em> (or <span class="math inline">\(1\)</span>)
 (could be heart attack or something).</p>
@@ -1716,16 +1720,16 @@ are estimated using the <a href="https://en.wikipedia.org/wiki/Maximum_likelihoo
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)  0.04845    0.22558   0.215     0.83    
-## AGE          1.20158    0.29108   4.128 3.66e-05 ***
+## (Intercept)   0.2992     0.2352   1.272    0.203    
+## AGE           1.5215     0.3588   4.240 2.23e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 138.59  on 99  degrees of freedom
-## Residual deviance: 115.41  on 98  degrees of freedom
-## AIC: 119.41
+##     Null deviance: 137.63  on 99  degrees of freedom
+## Residual deviance: 108.20  on 98  degrees of freedom
+## AIC: 112.2
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <ul>
@@ -1759,10 +1763,9 @@ since the inverse logit function is non-linear.</p></li>
 <p>But, we do not need to do all this by hand, we have R.
 We can simply calculate the probabilities estimated by data:</p>
 <div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="further-regression-methods.html#cb307-1" tabindex="-1"></a>predicted_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb307-2"><a href="further-regression-methods.html#cb307-2" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Raw data and predicted probabilities&quot;</span>, </span>
+<span id="cb307-2"><a href="further-regression-methods.html#cb307-2" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Raw data and predicted probabilities&quot;</span>,</span>
 <span id="cb307-3"><a href="further-regression-methods.html#cb307-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb307-4"><a href="further-regression-methods.html#cb307-4" tabindex="-1"></a><span class="co"># add predicted probabilities</span></span>
-<span id="cb307-5"><a href="further-regression-methods.html#cb307-5" tabindex="-1"></a><span class="fu">points</span>(AGE, predicted_probabilities, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<span id="cb307-4"><a href="further-regression-methods.html#cb307-4" tabindex="-1"></a><span class="fu">points</span>(AGE, predicted_probabilities, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="further-regression-methods.html#cb308-1" tabindex="-1"></a><span class="co"># The help file says about the predict-function:a# the type of</span></span>
 <span id="cb308-2"><a href="further-regression-methods.html#cb308-2" tabindex="-1"></a><span class="co"># prediction required. The default is on the scale of the linear</span></span>
@@ -1774,9 +1777,220 @@ We can simply calculate the probabilities estimated by data:</p>
 <span id="cb308-8"><a href="further-regression-methods.html#cb308-8" tabindex="-1"></a><span class="co"># of each term in the model formula on the linear predictor scale.</span></span></code></pre></div>
 <p>As we can see, the higher our <code>AGE</code> (linear predictor with only one term in this case),
 the higher the probability of a <span class="math inline">\(1\)</span>.</p>
+<p>Let’s present the results nicely on the odds ratio scale and
+we also add confidence intervals (CIs) for the odds ratios,
+which can be conveniently calculated using R:</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="further-regression-methods.html#cb309-1" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb309-2"><a href="further-regression-methods.html#cb309-2" tabindex="-1"></a>tidy_modlog <span class="ot">&lt;-</span> <span class="fu">tidy</span>(modlog, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb309-3"><a href="further-regression-methods.html#cb309-3" tabindex="-1"></a>tidy_modlog</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 7
+##   term        estimate std.error statistic   p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)     1.35     0.235      1.27 0.203        0.854      2.16
+## 2 AGE             4.58     0.359      4.24 0.0000223    2.43      10.0</code></pre>
+<ul>
+<li><code>conf.int = TRUE</code> adds the confidence intervals to the output.</li>
+<li><code>exponentiate = TRUE</code> exponentiates the coefficients to give us the odds ratios.</li>
+<li>At <span class="math inline">\(AGE=0\)</span>, the odds for our event (maybe heart attack) are <span class="math inline">\(0.891\)</span>.
+This is rather close to the overall odds without the model:
+There are <span class="math inline">\(55\)</span> <span class="math inline">\(1\)</span>s and <span class="math inline">\(45\)</span> <span class="math inline">\(0\)</span>s, hence the overall probability <span class="math inline">\(\frac{55}{100} = 0.55\)</span>.
+The odds are therefore <span class="math inline">\(\frac{0.55}{1-0.55} = 1.22\)</span>.</li>
+<li>Increasing the <code>AGE</code> by <span class="math inline">\(1\)</span> year increases the odds of a <span class="math inline">\(1\)</span> by a factor of
+<span class="math inline">\(4.58\)</span>.</li>
+</ul>
+<p>Let’s verify all this in R:</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="further-regression-methods.html#cb311-1" tabindex="-1"></a><span class="co"># probability-scale:</span></span>
+<span id="cb311-2"><a href="further-regression-methods.html#cb311-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<span id="cb311-3"><a href="further-regression-methods.html#cb311-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
+<pre><code>##         1 
+## 0.5742377</code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="further-regression-methods.html#cb313-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<span id="cb313-2"><a href="further-regression-methods.html#cb313-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>##         1 
+## 0.8606453</code></pre>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="further-regression-methods.html#cb315-1" tabindex="-1"></a><span class="co"># log-odds scale:</span></span>
+<span id="cb315-2"><a href="further-regression-methods.html#cb315-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb315-3"><a href="further-regression-methods.html#cb315-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
+<pre><code>##         1 
+## 0.2991623</code></pre>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="further-regression-methods.html#cb317-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb317-2"><a href="further-regression-methods.html#cb317-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>##       1 
+## 1.82066</code></pre>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="further-regression-methods.html#cb319-1" tabindex="-1"></a><span class="co"># odds scale:</span></span>
+<span id="cb319-2"><a href="further-regression-methods.html#cb319-2" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb319-3"><a href="further-regression-methods.html#cb319-3" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>)))</span></code></pre></div>
+<pre><code>##        1 
+## 1.348729</code></pre>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="further-regression-methods.html#cb321-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb321-2"><a href="further-regression-methods.html#cb321-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>)))</span></code></pre></div>
+<pre><code>##        1 
+## 6.175935</code></pre>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="further-regression-methods.html#cb323-1" tabindex="-1"></a><span class="fl">6.175935</span> <span class="sc">/</span> <span class="fl">1.348729</span></span></code></pre></div>
+<pre><code>## [1] 4.579078</code></pre>
+<p>Very nice.</p>
+<p>Now, the same simple model in the <strong>Bayesian framework</strong> using the <code>rethinking</code> package:</p>
+<p>See <a href="further-regression-methods.html#exercise12_LMM">exercise 12</a> for the priors.</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="further-regression-methods.html#cb325-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb325-2"><a href="further-regression-methods.html#cb325-2" tabindex="-1"></a></span>
+<span id="cb325-3"><a href="further-regression-methods.html#cb325-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb325-4"><a href="further-regression-methods.html#cb325-4" tabindex="-1"></a>  <span class="at">y =</span> y,</span>
+<span id="cb325-5"><a href="further-regression-methods.html#cb325-5" tabindex="-1"></a>  <span class="at">AGE =</span> AGE,</span>
+<span id="cb325-6"><a href="further-regression-methods.html#cb325-6" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(y)</span>
+<span id="cb325-7"><a href="further-regression-methods.html#cb325-7" tabindex="-1"></a>)</span>
+<span id="cb325-8"><a href="further-regression-methods.html#cb325-8" tabindex="-1"></a></span>
+<span id="cb325-9"><a href="further-regression-methods.html#cb325-9" tabindex="-1"></a>m_logistic <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb325-10"><a href="further-regression-methods.html#cb325-10" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb325-11"><a href="further-regression-methods.html#cb325-11" tabindex="-1"></a>    y <span class="sc">~</span> <span class="fu">dbinom</span>(<span class="dv">1</span>, p),</span>
+<span id="cb325-12"><a href="further-regression-methods.html#cb325-12" tabindex="-1"></a>    <span class="fu">logit</span>(p) <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> AGE,</span>
+<span id="cb325-13"><a href="further-regression-methods.html#cb325-13" tabindex="-1"></a>    a <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">1.5</span>),</span>
+<span id="cb325-14"><a href="further-regression-methods.html#cb325-14" tabindex="-1"></a>    b <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">1.5</span>)</span>
+<span id="cb325-15"><a href="further-regression-methods.html#cb325-15" tabindex="-1"></a>  ),</span>
+<span id="cb325-16"><a href="further-regression-methods.html#cb325-16" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb325-17"><a href="further-regression-methods.html#cb325-17" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb325-18"><a href="further-regression-methods.html#cb325-18" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span></span>
+<span id="cb325-19"><a href="further-regression-methods.html#cb325-19" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Running MCMC with 4 parallel chains, with 1 thread(s) per chain...
+## 
+## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
+## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+## Chain 4 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 1 finished in 0.0 seconds.
+## Chain 2 finished in 0.0 seconds.
+## Chain 3 finished in 0.0 seconds.
+## Chain 4 finished in 0.0 seconds.
+## 
+## All 4 chains finished successfully.
+## Mean chain execution time: 0.0 seconds.
+## Total execution time: 0.2 seconds.</code></pre>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="further-regression-methods.html#cb327-1" tabindex="-1"></a><span class="fu">precis</span>(m_logistic)</span></code></pre></div>
+<pre><code>##        mean        sd        5.5%    94.5%     rhat ess_bulk
+## a 0.2890313 0.2344817 -0.07970657 0.656258 1.001022 1082.933
+## b 1.5383628 0.3481827  1.00727370 2.115574 1.003263 1279.823</code></pre>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="further-regression-methods.html#cb329-1" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m_logistic)</span>
+<span id="cb329-2"><a href="further-regression-methods.html#cb329-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>a))</span></code></pre></div>
+<pre><code>## [1] 1.37237</code></pre>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="further-regression-methods.html#cb331-1" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>b))</span></code></pre></div>
+<pre><code>## [1] 4.952621</code></pre>
+<p>The coefficients are very similar to the Frequentist model.</p>
+<p><strong>One may ask how well the model <em>predicts</em> the outcome.</strong>
+A very honest and simple way would be to compare the predicted outcomes
+with the actual outcomes. This is called a <strong>confusion table</strong>.</p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="further-regression-methods.html#cb333-1" tabindex="-1"></a>predicted_outcomes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb333-2"><a href="further-regression-methods.html#cb333-2" tabindex="-1"></a>confusion_table <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">Actual =</span> y, <span class="at">Predicted =</span> predicted_outcomes)</span>
+<span id="cb333-3"><a href="further-regression-methods.html#cb333-3" tabindex="-1"></a>confusion_table</span></code></pre></div>
+<pre><code>##       Predicted
+## Actual  0  1
+##      0 28 17
+##      1 13 42</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="further-regression-methods.html#cb335-1" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(confusion_table)) <span class="sc">/</span> <span class="fu">sum</span>(confusion_table)</span>
+<span id="cb335-2"><a href="further-regression-methods.html#cb335-2" tabindex="-1"></a>accuracy</span></code></pre></div>
+<pre><code>## [1] 0.7</code></pre>
+<p>In the diagonal of the confusion table, we find the number of correct predictions.
+In the off-diagonal, we find the number of incorrect predictions.</p>
+<p>Now, with what shall we compare this accuracy?
+We need to compare this number with the baseline accurary.
+If <span class="math inline">\(90%\)</span> of the observations are <span class="math inline">\(0\)</span>s, then we would have an accuracy of <span class="math inline">\(90\%\)</span>,
+since we could just vote for the majority every time - no model needed.
+If a fancy logistic regression model does not outperform this baseline accuracy,
+then it might not be so valuable (at least not for prediction).
+In our case, <span class="math inline">\(0.7\)</span> is higher than the baseline accuracy of <span class="math inline">\(0.55\)</span>.
+The model adds some predictive value here. In my experience,
+model performance is often modest.</p>
+<p><strong>Model checks</strong> are also interesting.</p>
+<p>Here is a list of assumptions for this type of model:</p>
+<ul>
+<li>The dependent (outcome) variable is binary<br />
+</li>
+<li>Observations are independent<br />
+</li>
+<li>Adequate sample size<br />
+</li>
+<li>No omitted variables that bias the study<br />
+</li>
+<li>Good logistic regression model fit<br />
+</li>
+<li>No perfect multicollinearity<br />
+</li>
+<li>Linear relationship between the log-odds and predictors<br />
+</li>
+<li>Absence of highly influential outliers</li>
+</ul>
+<p>Let’s see what <code>check_model</code> has to say:</p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="further-regression-methods.html#cb337-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb337-2"><a href="further-regression-methods.html#cb337-2" tabindex="-1"></a><span class="fu">check_model</span>(modlog)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>In <a href="exercise14_LMM">exercise 14</a>, we will look at the model checks in more detail.</p>
+<ul>
+<li>The <strong>posterior predictive check</strong> creates (for instance <span class="math inline">\(1000\)</span>) new data sets
+based on the estimated probabilities (<span class="math inline">\(100\)</span>) of the given data.
+This plot mostly looks fine.</li>
+<li>Raw <strong>residuals</strong> are not so useful here, why? See <a href="further-regression-methods.html#exercise13_LMM">exercise 13</a>.
+<a href="https://easystats.github.io/performance/reference/binned_residuals.html">Binned residuals</a>
+are achieved by “dividing the data into categories (bins) based on
+their fitted values, and then plotting the average residual versus the
+average fitted value for each bin.” (Gelman, Hill 2007: 97). If the
+model were true, one would expect about 95% of the residuals to
+fall inside the error bounds.
+Within a bin, I can just count the number of <span class="math inline">\(0\)</span>s and <span class="math inline">\(1\)</span>s and
+compare that with the model-estimated probabilities.</li>
+<li>There seem to be no <strong>influential obervations</strong>, which have simultaneously a large
+residual and a large leverage. The question arises how the hat matrix
+is calculated for such a model.
+We looked at this plot in <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right">QM2</a>
+already in the context of simple linear regression.</li>
+<li>….distributional check for residuals necessary??</li>
+</ul>
+<p>MORE PREDICTORS</p>
 </div>
 <div id="poisson-regression" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Poisson Regression<a href="further-regression-methods.html#poisson-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>IF TIME</p>
 </div>
 <div id="exercises-1" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Exercises<a href="further-regression-methods.html#exercises-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1887,7 +2101,7 @@ is normally distributed at Week <span class="math inline">\(0\)</span> using the
 <p>Consider the Bayesian version of Mulligan manual therapy paper <a href="further-regression-methods.html#mulligan_bayesian">above</a>.</p>
 <ul>
 <li>Replace <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(u_i\)</span> with one single intercept <span class="math inline">\(\alpha\)</span>.
-The prior for <span class="math inline">\(\alpha\)</span> is then <span class="math inline">\(\alpha \sim Normal(\bar{\bar}, \sigma_{\alpha}\)</span></li>
+The prior for <span class="math inline">\(\alpha\)</span> is then <span class="math inline">\(\alpha \sim Normal(\bar{\alpha}, \sigma_{\alpha})\)</span></li>
 <li>Fit the model and compare the results.</li>
 </ul>
 </div>
@@ -1896,6 +2110,30 @@ The prior for <span class="math inline">\(\alpha\)</span> is then <span class="m
 <p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>.</p>
 <ul>
 <li>What is <span class="math inline">\(g^{-1}(X \beta)\)</span> in our case?</li>
+</ul>
+</div>
+<div id="exercise12_LMM" class="section level3 hasAnchor" number="3.4.12">
+<h3><span class="header-section-number">3.4.12</span> [M] Exercise 12<a href="further-regression-methods.html#exercise12_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>;
+specifically the Bayesian model.</p>
+<ul>
+<li>Think about the priors.</li>
+<li>How are they interpreted and which priors could make sense if the outcome was
+myocardial infarction (heart attack)</li>
+</ul>
+</div>
+<div id="exercise13_LMM" class="section level3 hasAnchor" number="3.4.13">
+<h3><span class="header-section-number">3.4.13</span> [E] Exercise 13<a href="further-regression-methods.html#exercise13_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>.</p>
+<ul>
+<li>Why are the raw residuals not so useful in this case?</li>
+</ul>
+</div>
+<div id="exercise14_LMM" class="section level3 hasAnchor" number="3.4.14">
+<h3><span class="header-section-number">3.4.14</span> [H] Exercise 14<a href="further-regression-methods.html#exercise14_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>.</p>
+<ul>
+<li>Try to replicate the individual model checks you see in <code>check_model(modlog)</code>.</li>
 </ul>
 </div>
 </div>

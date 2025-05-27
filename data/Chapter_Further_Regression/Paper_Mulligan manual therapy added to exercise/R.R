@@ -137,6 +137,11 @@ ggplot(df_long, aes(x = time, y = headache_frequency, group = ID, color = Group)
 # lmer---------
 model <- lmer(headache_frequency ~ Group * time_f + (1 | ID), 
               data = df_long)
+library(broom.mixed)
+library(tidyr)
+tidy(model)
+library(sjPlot)
+tab_model(model)
 # ref: week 0
 summary(model)
 ranef(model)  # random effects
@@ -173,6 +178,16 @@ dat <- list(
 
 # interaction index
 dat$interaction <- (dat$group - 1) * dat$N_time + dat$time
+head(df_long)
+#View(cbind(df_long, dat$interaction))
+
+df_long <- df_long %>%
+  dplyr::group_by(Group, time) %>%
+  dplyr::mutate(interaction_new = cur_group_id()) %>%
+  dplyr::ungroup()
+# cur_group_id() gives a unique numeric identifier for the current group.
+View(df_long)
+?cur_group_id
 
 m <- ulam(
   alist(
@@ -210,3 +225,9 @@ group_diff <- post$beta_group[,2] - post$beta_group[,3]
 interaction_diff <- post$beta_interaction[,6] - post$beta_interaction[,10]
 treatment_diff_week4 <- group_diff + interaction_diff
 precis(data.frame(treatment_diff_week4))
+
+
+dat$group
+
+(dat$group - 1) * dat$N_time + dat$time
+
