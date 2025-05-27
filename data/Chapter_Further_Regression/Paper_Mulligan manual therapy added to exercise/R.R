@@ -170,16 +170,8 @@ dat <- list(
   N_group = length(unique(df_long$Group)),
   N_time = length(unique(df_long$time_f))
 )
-head(dat)
-dat$time # 1,2,3,4
-dat$N_time
-dat$group
 
-length(unique(df_long$Group))  # N_group = 3
-length(unique(df_long$time_f)) # N_time = 4
-# → beta_interaction muss Länge 12 haben = 3 * 4
-
-# Berechnung des Interaktionsindex
+# interaction index
 dat$interaction <- (dat$group - 1) * dat$N_time + dat$time
 
 m <- ulam(

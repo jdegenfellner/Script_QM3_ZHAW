@@ -23,7 +23,7 @@
 <meta name="author" content="Jürgen Degenfellner" />
 
 
-<meta name="date" content="2025-05-26" />
+<meta name="date" content="2025-05-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -198,6 +198,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4.7" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise7_LMM"><i class="fa fa-check"></i><b>3.4.7</b> Exercise 7</a></li>
 <li class="chapter" data-level="3.4.8" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise8_LMM"><i class="fa fa-check"></i><b>3.4.8</b> Exercise 8</a></li>
 <li class="chapter" data-level="3.4.9" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise9_LMM"><i class="fa fa-check"></i><b>3.4.9</b> Exercise 9</a></li>
+<li class="chapter" data-level="3.4.10" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise10_LMM"><i class="fa fa-check"></i><b>3.4.10</b> Exercise 10</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="further-regression-methods.html"><a href="further-regression-methods.html#todos"><i class="fa fa-check"></i><b>3.5</b> TODOS</a></li>
 </ul></li>
@@ -581,7 +582,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Opcqc/model-11182747e32f.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpl23zLV/model-942f55cd6db3.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -846,7 +847,7 @@ overall survival probability that ignores differences between tanks completely).
 </div>
 <div id="mulligan" class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Example: Mulligan manual therapy - paper<a href="further-regression-methods.html#mulligan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We want to replicate the main result of the paper
+<p>We want to replicate the main result of
 <a href="https://doi.org/10.1016/j.jphys.2024.06.002">“Mulligan manual therapy added to exercise improves headache frequency,
 intensity and disability more than exercise alone in people with cervicogenic
 headache: a randomised trial”</a>.</p>
@@ -864,13 +865,13 @@ results.</p></li>
 <li><p>At first glance, I could not find a method for sample size calculation
 in the referenced <a href="https://journals.sagepub.com/doi/epub/10.1177/0333102417738202">literature</a>.
 Let’s research this more as an <a href="further-regression-methods.html#exercise8_LMM">exercise</a>.</p></li>
-<li><p>The primary outcome is the variable <em>headache frequency</em>
+<li><p>The primary outcome is <em>headache frequency</em>
 (headache days per month). Ad hoc, such a count variable is not very likely
 to be normally distributed. In the methods section they state “For outcomes with
 normally distributed data, means and standard deviations were calculated”.
 Table 2 in the paper implies that the primary outcome should be normally distributed.
 Verify this as <a href="further-regression-methods.html#exercise9_LMM">exercise</a> using the <code>shapiro.test</code> function in R.
-We do this, since they as well used a version of this test.
+We (only) do this, since they as well used a version of this test.
 The primary outcome variable has only <span class="math inline">\(6\)</span> unique values (<span class="math inline">\(4-9\)</span>) at week <span class="math inline">\(0\)</span>
 and can therefore not be normally distributed
 (normal distribution takes infinitely many values).</p></li>
@@ -896,12 +897,24 @@ as guideline if we wanted to replicate the two-way repeated measures ANOVA.</p>
 \end{array}
 \]</span></p>
 <ul>
-<li><span class="math inline">\(i = 1, \ldots, 99\)</span> are the <span class="math inline">\(99\)</span> participants</li>
+<li>We model the headache frequency of patient <span class="math inline">\(i\)</span> at time point <span class="math inline">\(j\)</span> as normally distributed.
+It remains to bee seen if a normally distributed headache frequency is a good assumption.
+We will check this later. A priori, I would be doubtful.</li>
+<li><span class="math inline">\(\alpha\)</span> is the overall intercept (mean headache frequency at week <span class="math inline">\(0\)</span> for the reference group)</li>
+<li><span class="math inline">\(i = 1, \ldots, 99\)</span> are the <span class="math inline">\(99\)</span> participants (respectively 91 with complete observations)</li>
 <li><span class="math inline">\(j\)</span> is the time point (week <span class="math inline">\(0\)</span>, <span class="math inline">\(4\)</span>, <span class="math inline">\(13\)</span>, <span class="math inline">\(26\)</span>)</li>
 <li><span class="math inline">\(u_i\)</span> is the random effect for participant <span class="math inline">\(i\)</span> (intercept), which comes from a normal distribution of course</li>
-<li><span class="math inline">\(\varepsilon_{ij}\)</span> is the residual error term, which is also normally distributed</li>
+<li><span class="math inline">\(\varepsilon_{ij}\)</span> is the residual error term, which is also normally distributed.
+This is a measure of how much the model does not explain.</li>
+<li>The interaction term allows for different intercepts for all combinations of group and time.
+Note that both <code>group</code> and <code>time</code> are factors in the model. There are <span class="math inline">\(12\)</span> combinations of group and time
+(3 groups times 4 time points).
+Be careful with the interpretation of the interaction term. As soon as an interaction term
+is present, we cannot directly interpret the main effects anymore.</li>
 </ul>
-<p>Let’s first bring our data in shape and (for simplicity) kill all rows with missing values.</p>
+<p>Let’s first bring our data in shape (long format for <code>lmer</code>) and
+(for simplicity) kill all rows with missing values (<span class="math inline">\(8\)</span> observations).
+Ideally, we would need to argue how we handle missing data!</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="further-regression-methods.html#cb268-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb268-2"><a href="further-regression-methods.html#cb268-2" tabindex="-1"></a></span>
 <span id="cb268-3"><a href="further-regression-methods.html#cb268-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/jdegenfellner/Script_QM3_ZHAW/main/data/Chapter_Further_Regression/Paper_Mulligan%20manual%20therapy%20added%20to%20exercise/1-s2.0-S1836955324000572-mmc1.xls&quot;</span></span>
@@ -946,30 +959,24 @@ as guideline if we wanted to replicate the two-way repeated measures ANOVA.</p>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="further-regression-methods.html#cb274-1" tabindex="-1"></a><span class="co"># Omit missing values since they will be thrown out anyways when using lmer!</span></span>
 <span id="cb274-2"><a href="further-regression-methods.html#cb274-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df) <span class="co"># 8 rows (patients) are out!</span></span>
 <span id="cb274-3"><a href="further-regression-methods.html#cb274-3" tabindex="-1"></a></span>
-<span id="cb274-4"><a href="further-regression-methods.html#cb274-4" tabindex="-1"></a><span class="co"># assuming your data has columns:</span></span>
-<span id="cb274-5"><a href="further-regression-methods.html#cb274-5" tabindex="-1"></a><span class="co"># - headache_frequency (numeric)</span></span>
-<span id="cb274-6"><a href="further-regression-methods.html#cb274-6" tabindex="-1"></a><span class="co"># - time (factor or numeric)</span></span>
-<span id="cb274-7"><a href="further-regression-methods.html#cb274-7" tabindex="-1"></a><span class="co"># - group (factor)</span></span>
-<span id="cb274-8"><a href="further-regression-methods.html#cb274-8" tabindex="-1"></a><span class="co"># - subject (factor or numeric ID)</span></span>
-<span id="cb274-9"><a href="further-regression-methods.html#cb274-9" tabindex="-1"></a></span>
-<span id="cb274-10"><a href="further-regression-methods.html#cb274-10" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb274-11"><a href="further-regression-methods.html#cb274-11" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb274-12"><a href="further-regression-methods.html#cb274-12" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;Week_&quot;</span>),</span>
-<span id="cb274-13"><a href="further-regression-methods.html#cb274-13" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;time&quot;</span>,</span>
-<span id="cb274-14"><a href="further-regression-methods.html#cb274-14" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;headache_frequency&quot;</span></span>
-<span id="cb274-15"><a href="further-regression-methods.html#cb274-15" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb274-16"><a href="further-regression-methods.html#cb274-16" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb274-17"><a href="further-regression-methods.html#cb274-17" tabindex="-1"></a>    <span class="at">headache_frequency =</span> <span class="fu">as.numeric</span>(headache_frequency),</span>
-<span id="cb274-18"><a href="further-regression-methods.html#cb274-18" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">recode</span>(time,</span>
-<span id="cb274-19"><a href="further-regression-methods.html#cb274-19" tabindex="-1"></a>                  <span class="st">&quot;Week_0&quot;</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
-<span id="cb274-20"><a href="further-regression-methods.html#cb274-20" tabindex="-1"></a>                  <span class="st">&quot;Week_4&quot;</span> <span class="ot">=</span> <span class="dv">4</span>,</span>
-<span id="cb274-21"><a href="further-regression-methods.html#cb274-21" tabindex="-1"></a>                  <span class="st">&quot;Week_13&quot;</span> <span class="ot">=</span> <span class="dv">13</span>,</span>
-<span id="cb274-22"><a href="further-regression-methods.html#cb274-22" tabindex="-1"></a>                  <span class="st">&quot;Week_26&quot;</span> <span class="ot">=</span> <span class="dv">26</span>)</span>
-<span id="cb274-23"><a href="further-regression-methods.html#cb274-23" tabindex="-1"></a>  )</span>
-<span id="cb274-24"><a href="further-regression-methods.html#cb274-24" tabindex="-1"></a></span>
-<span id="cb274-25"><a href="further-regression-methods.html#cb274-25" tabindex="-1"></a>df_long<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_long<span class="sc">$</span>ID)</span>
-<span id="cb274-26"><a href="further-regression-methods.html#cb274-26" tabindex="-1"></a>df_long<span class="sc">$</span>time_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(df_long<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">13</span>, <span class="dv">26</span>))</span>
-<span id="cb274-27"><a href="further-regression-methods.html#cb274-27" tabindex="-1"></a>df_long</span></code></pre></div>
+<span id="cb274-4"><a href="further-regression-methods.html#cb274-4" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb274-5"><a href="further-regression-methods.html#cb274-5" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb274-6"><a href="further-regression-methods.html#cb274-6" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;Week_&quot;</span>),</span>
+<span id="cb274-7"><a href="further-regression-methods.html#cb274-7" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;time&quot;</span>,</span>
+<span id="cb274-8"><a href="further-regression-methods.html#cb274-8" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;headache_frequency&quot;</span></span>
+<span id="cb274-9"><a href="further-regression-methods.html#cb274-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb274-10"><a href="further-regression-methods.html#cb274-10" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb274-11"><a href="further-regression-methods.html#cb274-11" tabindex="-1"></a>    <span class="at">headache_frequency =</span> <span class="fu">as.numeric</span>(headache_frequency),</span>
+<span id="cb274-12"><a href="further-regression-methods.html#cb274-12" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">recode</span>(time,</span>
+<span id="cb274-13"><a href="further-regression-methods.html#cb274-13" tabindex="-1"></a>                  <span class="st">&quot;Week_0&quot;</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb274-14"><a href="further-regression-methods.html#cb274-14" tabindex="-1"></a>                  <span class="st">&quot;Week_4&quot;</span> <span class="ot">=</span> <span class="dv">4</span>,</span>
+<span id="cb274-15"><a href="further-regression-methods.html#cb274-15" tabindex="-1"></a>                  <span class="st">&quot;Week_13&quot;</span> <span class="ot">=</span> <span class="dv">13</span>,</span>
+<span id="cb274-16"><a href="further-regression-methods.html#cb274-16" tabindex="-1"></a>                  <span class="st">&quot;Week_26&quot;</span> <span class="ot">=</span> <span class="dv">26</span>)</span>
+<span id="cb274-17"><a href="further-regression-methods.html#cb274-17" tabindex="-1"></a>  )</span>
+<span id="cb274-18"><a href="further-regression-methods.html#cb274-18" tabindex="-1"></a></span>
+<span id="cb274-19"><a href="further-regression-methods.html#cb274-19" tabindex="-1"></a>df_long<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_long<span class="sc">$</span>ID)</span>
+<span id="cb274-20"><a href="further-regression-methods.html#cb274-20" tabindex="-1"></a>df_long<span class="sc">$</span>time_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(df_long<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">13</span>, <span class="dv">26</span>))</span>
+<span id="cb274-21"><a href="further-regression-methods.html#cb274-21" tabindex="-1"></a>df_long</span></code></pre></div>
 <pre><code>## # A tibble: 364 × 5
 ##    ID    Group  time headache_frequency time_f
 ##    &lt;fct&gt; &lt;chr&gt; &lt;dbl&gt;              &lt;dbl&gt; &lt;fct&gt; 
@@ -987,7 +994,11 @@ as guideline if we wanted to replicate the two-way repeated measures ANOVA.</p>
 <p>This seems to be okay. Note that we have 364 lines because of the long format:
 <span class="math inline">\(91\)</span> participants (with complete observations) times <span class="math inline">\(4\)</span> time points
 (<span class="math inline">\(0, 4,13,26\)</span> weeks).</p>
-<p>Next, we look at the raw data with a spaghetti plot.</p>
+<p>Next, we look at the raw data with a spaghetti plot.
+<strong>It is alway a good idea to know your raw data.</strong>
+Below, we have plotted the headache frequency colored by group.
+Time (week) is an integer variable and therefore the distances between
+the time points are not equal.</p>
 <div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="further-regression-methods.html#cb276-1" tabindex="-1"></a><span class="fu">ggplot</span>(df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> headache_frequency, <span class="at">group =</span> ID, <span class="at">color =</span> Group)) <span class="sc">+</span></span>
 <span id="cb276-2"><a href="further-regression-methods.html#cb276-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb276-3"><a href="further-regression-methods.html#cb276-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
@@ -1008,13 +1019,20 @@ as guideline if we wanted to replicate the two-way repeated measures ANOVA.</p>
 <p>It seems that the 3 different groups have different slopes which is indicative
 of an interaction effect between group and time. This means,
 treatments may differ in their effectiveness.
-“MMT+ex” seems to be clearly better compared to the other two groups
-(“Ex” and “Sham+ex”).</p>
+<em>MMT + ex</em> seems to be clearly better compared to the other two groups
+(<em>Ex</em> and <em>Sham + ex</em>). Since participants were randomly assigned to the groups,
+this is indicative of a treatment effect.</p>
 <p>With respect to our <strong>clustering</strong>, in our long data set,
 we have repeated measures for each participant (ID) at different time points.
 There are no repeated treatments though, since each participant
-is only in one group (of the three) and they do not crossover.</p>
-<p>Hence, we only consider the random intercept for each participant.</p>
+is only in one group (of the three) and they do not crossover to
+one of the other treatments during the trial.
+<em>Why do we not need a random intercept for the group?</em>
+We are not drawing the groups from a larger population,
+the groups are fixed and the only ones of interest.
+The participants on the other hand are
+drawn from a larger population.
+Hence, we only consider the random intercept for each participant.</p>
 <p>Let’s fit the model using the <code>lme4</code> package:</p>
 <div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="further-regression-methods.html#cb277-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
 <span id="cb277-2"><a href="further-regression-methods.html#cb277-2" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code></pre></div>
@@ -1080,6 +1098,17 @@ is only in one group (of the three) and they do not crossover.</p>
 ## GrpShm+:_13                
 ## GrpMMT+:_26  0.252         
 ## GrpShm+:_26  0.500  0.504</code></pre>
+<p>We are estimating headache frequency while considering repeated measures within patients.</p>
+<p>In the random effects part of the output, we see again the standard
+deviation of the random intercept for each patient (<span class="math inline">\(0.5872\)</span>),
+which is a measure of the variability of headache frequency between patients.
+Residual variance is high compared to this.</p>
+<p>The so-called <code>Fixed effects</code> give the overall intercept in all
+our factor combinations: <code>(Intercept)</code> is the overall mean headache frequency at week <span class="math inline">\(0\)</span> (reference week)
+and Group <code>Ex</code> (reference group).</p>
+<p>Important for us are the so-called <strong>contrasts</strong>b (below).
+These give us the <strong>model-estimated differences</strong> in (expected) headache frequency between
+the groups at each time point.</p>
 <div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="further-regression-methods.html#cb281-1" tabindex="-1"></a><span class="co"># constrasts:</span></span>
 <span id="cb281-2"><a href="further-regression-methods.html#cb281-2" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model, <span class="sc">~</span> Group <span class="sc">|</span> time_f)  <span class="co">#</span></span>
 <span id="cb281-3"><a href="further-regression-methods.html#cb281-3" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">contrast</span>(emm, <span class="at">method =</span> <span class="st">&quot;pairwise&quot;</span>,</span>
@@ -1112,27 +1141,19 @@ is only in one group (of the three) and they do not crossover.</p>
 ## Degrees-of-freedom method: kenward-roger 
 ## Confidence level used: 0.95 
 ## Conf-level adjustment: bonferroni method for 3 estimates</code></pre>
-<p>We are estimating headache frequency while considering repeated measures within patients.</p>
-<p>In the random effects part of the output, we see again the standard
-deviation of the random intercept for each patient (<span class="math inline">\(0.5872\)</span>),
-which is a measure of the variability of headache frequency between patients.
-Residual variance is high compared to this.</p>
-<p>The so-called <code>Fixed effects</code> give the overall intercept in all
-our factor combinations: <code>(Intercept)</code> is the overall mean headache frequency at week <span class="math inline">\(0\)</span> (reference week)
-and Group <code>Ex</code> (reference group).</p>
-<p>Important for us are the so-called <strong>contrasts</strong>.
-This gives us the model-estimated differences in (expected) headache frequency between
-the groups at each time point.</p>
 <p>Bonferroni correction is used to adjust the <span class="math inline">\(p\)</span>-values for multiple comparisons
 (one just divides the “significance”-level by the number of comparisons).</p>
 <p>We now look at Table 3 in the paper, first row, first column.
 There we see the mean between-group difference in headache frequency
-at week <span class="math inline">\(4\)</span> compared to week <span class="math inline">\(0\)</span> and the two groups “MMT + ex” and “MMT Sham + ex”
-are compared. The mean difference is <span class="math inline">\(-3 (-3 \text{ to } -2)\)</span> days/month in Table 3.
-In our <code>lmer</code> output, we find the row
-<code>(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070</code>.
-Rounding to integers results in the same result.</p>
-<p>If you want to see the <strong>random effects</strong> of all <span class="math inline">\(91\)</span> participants:</p>
+at week <span class="math inline">\(4\)</span> compared to week <span class="math inline">\(0\)</span> and the two groups <em>MMT + ex</em> and <em>MMT Sham + ex</em>
+are compared.</p>
+<ul>
+<li>The mean difference is <span class="math inline">\(-3 (-3 \text{ to } -2)\)</span> days/month.</li>
+<li>In our <code>lmer</code> output, we find the row
+<code>(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070</code>.</li>
+</ul>
+<p>After rounding to integers we get the same results.</p>
+<p>If you want to see the <strong>random effects</strong> of all <span class="math inline">\(91\)</span> participants explicitely:</p>
 <div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="further-regression-methods.html#cb283-1" tabindex="-1"></a><span class="fu">ranef</span>(model)  <span class="co"># random effects</span></span></code></pre></div>
 <pre><code>## $ID
 ##      (Intercept)
@@ -1239,31 +1260,39 @@ Rounding to integers results in the same result.</p>
 <pre><code>## Loading required package: carData</code></pre>
 <div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="further-regression-methods.html#cb289-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
 <span id="cb289-2"><a href="further-regression-methods.html#cb289-2" tabindex="-1"></a><span class="fu">qqPlot</span>(<span class="fu">residuals</span>(model))</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <pre><code>## [1] 137 133</code></pre>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="further-regression-methods.html#cb291-1" tabindex="-1"></a><span class="fu">check_model</span>(model, <span class="at">check =</span> <span class="st">&quot;pp_check&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<p>The density estimators might be a bit misleading since we only have a rather small
+number of different levels and of course a count variable can not be negative.</p>
 </div>
-<div id="bayesian-attempt-to-replicate-the-results" class="section level4 hasAnchor" number="3.1.2.2">
-<h4><span class="header-section-number">3.1.2.2</span> Bayesian attempt to replicate the results<a href="further-regression-methods.html#bayesian-attempt-to-replicate-the-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="mulligan_bayesian" class="section level4 hasAnchor" number="3.1.2.2">
+<h4><span class="header-section-number">3.1.2.2</span> Bayesian attempt to replicate the results<a href="further-regression-methods.html#mulligan_bayesian" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We can also try to fit the model using the <code>rethinking</code> package.</p>
 <p>Model equations and priors:</p>
-<p>TODO - adapt model… beta_1[group]…3 different betas…</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
 \text{headache frequency}_{ij} &amp;\sim&amp; \text{Normal}(\mu_{ij}, \sigma) \\
 \mu_{ij} &amp;=&amp; \alpha + \beta_1 \text{group}_i + \beta_2 \text{time}_j +
-              \beta_3 (\text{group}_i \times \text{time}_j) + u_i + \varepsilon_{ij}\\
+              \beta_3 (\text{group}_i \times \text{time}_j) + u_i\\
+\alpha &amp;\sim&amp; \text{Normal}(5, 1.5) \\
+\beta_1[group] &amp;\sim&amp; \text{Normal}(0, 1.5) \\
+\beta_2[time] &amp;\sim&amp; \text{Normal}(0, 1.5) \\
+\beta_3[group*time] &amp;\sim&amp; \text{Normal}(0, 1.5) \\
 u_i &amp;\sim&amp; \text{Normal}(0, \sigma_u) \\
 \sigma_u &amp;\sim&amp; \text{Exponential}(1) \\
-\alpha &amp;\sim&amp; \text{Normal}(5, 1.5) \\
-\beta_1 &amp;\sim&amp; \text{Normal}(0, 1.5) \\
-\beta_2 &amp;\sim&amp; \text{Normal}(0, 1.5) \\
-\beta_3 &amp;\sim&amp; \text{Normal}(0, 1.5) \\
-\varepsilon_{ij} &amp;\sim&amp; \text{Normal}(0, \sigma) \\
+\sigma &amp;\sim&amp; \text{Exponential}(1) \\
 \end{array}
 \]</span></p>
-<p>The prior for <span class="math inline">\(\beta_3\)</span> is hard since there is no natural meaning to it.</p>
+<p>The priors for <span class="math inline">\(\beta_3\)</span> is hard since there is no natural meaning to it.
+Note that we could also combine <span class="math inline">\(\alpha\)</span> and the <span class="math inline">\(u_i\)</span> as we did before in the
+partial pooling case for reliability. This should deliver similar results
+(<a href="further-regression-methods.html#exercise10_LMM">exercise 10</a>).
+With this model we now fit intercepts for every group (<span class="math inline">\(3\)</span>),
+every time point (<span class="math inline">\(4\)</span>) and for all <span class="math inline">\(3*4=12\)</span> interaction combinations.
+Since we are not working with a reference level for the factors (as in <code>lmer</code>), you see
+all <span class="math inline">\(3,4\)</span> and <span class="math inline">\(12\)</span> (mean posterior) levels of the intercepts in the output of <code>precis(m)</code>.</p>
 <div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="further-regression-methods.html#cb292-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
 <span id="cb292-2"><a href="further-regression-methods.html#cb292-2" tabindex="-1"></a></span>
 <span id="cb292-3"><a href="further-regression-methods.html#cb292-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
@@ -1303,7 +1332,7 @@ u_i &amp;\sim&amp; \text{Normal}(0, \sigma_u) \\
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Opcqc/model-1118972ccef.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpl23zLV/model-942f7e3f2762.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1318,9 +1347,9 @@ u_i &amp;\sim&amp; \text{Normal}(0, \sigma_u) \\
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1355,7 +1384,7 @@ u_i &amp;\sim&amp; \text{Normal}(0, \sigma_u) \\
 ## Chain 2 finished in 4.1 seconds.
 ## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.2 seconds.
+## Chain 4 finished in 4.1 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 1 finished in 4.4 seconds.
 ## 
@@ -1606,12 +1635,12 @@ u_i &amp;\sim&amp; \text{Normal}(0, \sigma_u) \\
 ## treatment_diff_week4 -2.68054 0.2522168 -3.190296 -2.191346 ▁▁▁▂▅▇▅▂▁▁</code></pre>
 <p><code>precis(m, depth = 2)</code> confirms that <code>sigma</code>and <code>sigma_ID</code> are in line with <code>lmer</code>.</p>
 <p>Next, we want to know the posterior distribution (respectively the mean and credible interval)
-of the treatment effect of MMT+ex compared to Sham+ex at week <span class="math inline">\(4\)</span>.</p>
-<p>For this, we calculate the distribution of group <span class="math inline">\(2\)</span> (MMT+ex) minus group
-<span class="math inline">\(3\)</span> (Sham+ex) at week <span class="math inline">\(4\)</span>.
+of the treatment effect of <em>MMT+ex</em> compared to <em>Sham+ex</em> at <em>week <span class="math inline">\(4\)</span></em>.</p>
+<p>For this, we calculate the distribution of group <span class="math inline">\(2\)</span> (<em>MMT+ex</em>) minus group
+<span class="math inline">\(3\)</span> (<em>Sham+ex</em>) at week <span class="math inline">\(4\)</span>.
 Then, we calculate the correct interaction index to give us the required difference.
 Finally, we add up the two posterior distributions to get the posterior distribution
-of the treatment effect.</p>
+of the treatment effect. Time does not vary since we are only interested in week <span class="math inline">\(4\)</span>.</p>
 <p>The result is rather similar to the Frequentist model.</p>
 </div>
 </div>
@@ -1724,6 +1753,15 @@ referenced literature <a href="https://journals.sagepub.com/doi/epub/10.1177/033
 <ul>
 <li>Verify for the groups “Ex” and “MMT+ex” that the primary outcome <em>headache frequency</em>
 is normally distributed at Week <span class="math inline">\(0\)</span> using the <code>shapiro.test</code> function in R.</li>
+</ul>
+</div>
+<div id="exercise10_LMM" class="section level3 hasAnchor" number="3.4.10">
+<h3><span class="header-section-number">3.4.10</span> Exercise 10<a href="further-regression-methods.html#exercise10_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the Bayesian version of Mulligan manual therapy paper <a href="further-regression-methods.html#mulligan_bayesian">above</a>.</p>
+<ul>
+<li>Replace <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(u_i\)</span> with one single intercept <span class="math inline">\(\alpha\)</span>.
+The prior for <span class="math inline">\(\alpha\)</span> is then <span class="math inline">\(\alpha \sim Normal(\bar{\bar}, \sigma_{\alpha}\)</span></li>
+<li>Fit the model and compare the results.</li>
 </ul>
 </div>
 </div>
