@@ -1,3 +1,6 @@
+library(conflicted)
+conflicts_prefer(posterior::sd)
+
 AGE <- rnorm(100)
 y <- rbinom(100, size = 1, prob = inv_logit(AGE))
 plot(AGE, y, main = "Inverse Logit Function", 
@@ -170,4 +173,3 @@ hoslem.test(y,
             g = 10)
 
 
-The Hosmer-Lemeshow test is a statistical test for goodness of fit for logistic regression models.

@@ -586,7 +586,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmppGF57g/model-f14c23b2624c.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79AMhB/model-1595c12340371.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1342,7 +1342,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmppGF57g/model-f14c1d6ef169.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79AMhB/model-1595c120bb5b7.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1357,8 +1357,8 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1391,16 +1391,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.2 seconds.
-## Chain 3 finished in 4.3 seconds.
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.0 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.3 seconds.
+## Chain 4 finished in 4.1 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.6 seconds.
+## Chain 1 finished in 4.4 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.4 seconds.
-## Total execution time: 4.6 seconds.</code></pre>
+## Mean chain execution time: 4.1 seconds.
+## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -1683,25 +1683,25 @@ which can only take two values.</p>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>The higher the <code>AGE</code>, the higher the probability of a <em>Yes</em> (or <span class="math inline">\(1\)</span>)
 (could be heart attack or something).</p>
-<p>The red line is the least squares regression line, which
-does not make much sense here. The outcome can only be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.
+<p>The red line is the <strong>least squares regression</strong> line, which
+<strong>does not make much sense</strong> here. The outcome can only be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> but
 the regression line would estimate all values in between plus
 values outside of this range, which is not possible.</p>
-<p>We therefore bend our reality a bit and <strong>model the probability of a <span class="math inline">\(1\)</span></strong>.
+<p>We therefore bend our reality a bit and <strong>model not the expected outcome but the expected probability of a <span class="math inline">\(1\)</span></strong>.
 Of course, then we have the next problem, if we try to
 model the probability of a <span class="math inline">\(1\)</span> using the linear regression model
 (<span class="math inline">\(\mathbb{P}(Y_i = 1) = \beta_0 + \beta_1 x_1 + \cdots \beta_p x_p\)</span>).
 The linear predictor (<span class="math inline">\(\beta_0 + \beta_1 x_1 + \cdots \beta_p x_p\)</span>) could easily
-lie outside of the range <span class="math inline">\([0,1]\)</span>.
-Therefore, we use the <strong>logit function</strong> to transform
+lie outside of the range <span class="math inline">\([0,1]\)</span> (for adequate <span class="math inline">\(\beta\)</span>s and covariate values).</p>
+<p>Therefore, we use the <a href="https://en.wikipedia.org/wiki/Logit"><strong>logit function</strong></a> to transform
 the the probability from <span class="math inline">\([0,1]\)</span> to <span class="math inline">\((-\infty, +\infty)\)</span>.
-The transformed range can be conveniently described using a linear predictor again.
-The left side and the right side of the equation are now equal in range.
+This transformed range can be conveniently described using a linear predictor again.
+The left side and the right side of the equation are now equal in range (<span class="math inline">\((-\infty, +\infty)\)</span>).
 Very nice.</p>
 <p>The model is then:</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
-\mathbb{P}(Y_i = 1 | x_{i1}, \ldots, x_{ip}) &amp;=&amp; p_i \\
+\mathbb{P}(Y_i = 1 | x_{i1}, \ldots, x_{ip}) &amp;=&amp; \mathbb{E}(Y_i | x_{i1}, \ldots, x_{ip}) = p_i \\
 \text{logit}(p_i) &amp;=&amp; \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip} \\
 \end{array}
 \]</span></p>
@@ -1711,7 +1711,7 @@ and <span class="math inline">\(\text{logit}(p_i) = \log\left(\frac{p_i}{1 - p_i
 since these kinds of models
 (so-called <a href="https://en.wikipedia.org/wiki/Generalized_linear_model">generalized linear models</a>; GLM)
 are estimated using the <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood method</a>.</p>
-<p>You would see the model estimated mostly in the <strong>Frequentist setting</strong>:</p>
+<p>In current literature, you will see the model estimated mostly in the <strong>Frequentist setting</strong>:</p>
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="further-regression-methods.html#cb305-1" tabindex="-1"></a>modlog <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> AGE, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
 <span id="cb305-2"><a href="further-regression-methods.html#cb305-2" tabindex="-1"></a><span class="fu">summary</span>(modlog)</span></code></pre></div>
 <pre><code>## 
@@ -1738,22 +1738,23 @@ are estimated using the <a href="https://en.wikipedia.org/wiki/Maximum_likelihoo
 binomial distribution with the logit link function.
 In generalized linear models, the link function is used to connect the linear predictor
 (the right side of the equation) to the expected value of the response variable:
-In our case, the expected value of a Bernoulli-distributed variable
-(which is binary) is the probability of a <span class="math inline">\(1\)</span>; <span class="math inline">\(p_i\)</span>.
+In our case, the expected value of a <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution#:~:text=The%20Bernoulli%20distribution%20is%20a,not%20be%200%20and%201.">Bernoulli-distributed</a>
+variable (which is binary) is the probability of a <span class="math inline">\(1\)</span>: <span class="math inline">\(p_i\)</span>.
 In general:
 <span class="math display">\[\mathbb{E}(Y|X) = g^{-1}(X \beta)\]</span>
 Think back to <a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#exercise5_LMM">exercise 5</a>
 in the reliability chapter and go to <a href="exercise11_LMM">exercise 11</a>.</p></li>
-<li><p><code>Coefficients</code> are the estimated parameters of the model <strong>on the logit scale</strong>.
-<strong>Interpretation</strong>: Two participants with an expected difference of <span class="math inline">\(1\)</span> year in their age,
-have a difference of <span class="math inline">\(\beta_1 = 1.20158\)</span> in the log-odds of having
-a heart attack. If we want the odds ratio, we can just exponentiate:</p>
+<li><p><code>Coefficients</code> are the estimated parameters of the model <strong>on the logit scale</strong>.</p>
+<p><strong>Interpretation</strong>: Two participants with a difference of <span class="math inline">\(1\)</span> year in their age,
+have an expected difference of <span class="math inline">\(\beta_1 = 1.20158\)</span> in the log-odds of having
+a heart attack.</p>
+<p>If we want the <strong>odds ratio</strong>, we can just exponentiate:</p>
 <p><span class="math display">\[log(\frac{p_i}{1-p_i}) = \beta_0 + \beta_1 AGE\]</span>
 <span class="math display">\[\text{Odds for a 1 = } \frac{p_i}{1-p_i} = e^{\beta_0 + \beta_1 AGE} = e^{\beta_0} \cdot e^{\beta_1 AGE}\]</span></p>
 <p>If you add <span class="math inline">\(1\)</span> to AGE:</p>
 <p><span class="math display">\[\text{Odds for a 1 with } (AGE + 1) = e^{\beta_0} \cdot e^{\beta_1 (AGE + 1)} = e^{\beta_0} \cdot e^{\beta_1 AGE} \cdot e^{\beta_1} = \text{Odds for a 1} \cdot e^{\beta_1}\]</span></p>
 <p>So, on the odds scale, you multiply the odds for a <span class="math inline">\(1\)</span> by <span class="math inline">\(e^{\beta_1}\)</span>.</p>
-<p>We can also work directly on the probability scale.
+<p>We can also work <strong>directly on the probability scale</strong>:
 The difference in the probability of a <span class="math inline">\(1\)</span> for two participants with a
 difference of <span class="math inline">\(1\)</span> year in their age is:
 <span class="math display">\[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = \]</span>
@@ -1944,24 +1945,6 @@ In our case, <span class="math inline">\(0.7\)</span> is higher than the baselin
 The model adds some predictive value here. In my experience,
 model performance is often modest.</p>
 <p><strong>Model checks</strong> are also interesting.</p>
-<p>Here is a list of assumptions for this type of model:</p>
-<ul>
-<li>The dependent (outcome) variable is binary<br />
-</li>
-<li>Observations are independent<br />
-</li>
-<li>Adequate sample size<br />
-</li>
-<li>No omitted variables that bias the study<br />
-</li>
-<li>Good logistic regression model fit<br />
-</li>
-<li>No perfect multicollinearity<br />
-</li>
-<li>Linear relationship between the log-odds and predictors<br />
-</li>
-<li>Absence of highly influential outliers</li>
-</ul>
 <p>Let’s see what <code>check_model</code> has to say:</p>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="further-regression-methods.html#cb337-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
 <span id="cb337-2"><a href="further-regression-methods.html#cb337-2" tabindex="-1"></a><span class="fu">check_model</span>(modlog)</span></code></pre></div>
@@ -1986,6 +1969,7 @@ is calculated for such a model.
 We looked at this plot in <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right">QM2</a>
 already in the context of simple linear regression.</li>
 <li>….distributional check for residuals necessary??</li>
+<li>Observations must be independent…</li>
 </ul>
 <p>MORE PREDICTORS</p>
 </div>
