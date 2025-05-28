@@ -586,7 +586,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79AMhB/model-1595c12340371.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Ihd7E/model-161cd43245ab7.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1342,7 +1342,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79AMhB/model-1595c120bb5b7.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Ihd7E/model-161cd6eb57801.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1391,12 +1391,12 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.0 seconds.
+## Chain 2 finished in 4.0 seconds.
+## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 4.1 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.4 seconds.
+## Chain 1 finished in 4.3 seconds.
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 4.1 seconds.
@@ -1759,7 +1759,7 @@ The difference in the probability of a <span class="math inline">\(1\)</span> fo
 difference of <span class="math inline">\(1\)</span> year in their age is:
 <span class="math display">\[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = \]</span>
 <span class="math display">\[\text{inv_logit}(\beta_0 + \beta_1 (AGE + 1)) - \text{inv_logit}(\beta_0 + \beta_1 AGE)\]</span>
-This difference is not constant, but depends on the value of <span class="math inline">\(AGE\)</span>,
+This difference is not constant (see graph below, red line), but depends on the value of <span class="math inline">\(AGE\)</span>,
 since the inverse logit function is non-linear.</p></li>
 </ul>
 <p>But, we do not need to do all this by hand, we have R.
@@ -1769,19 +1769,20 @@ We can simply calculate the probabilities estimated by data:</p>
 <span id="cb307-3"><a href="further-regression-methods.html#cb307-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
 <span id="cb307-4"><a href="further-regression-methods.html#cb307-4" tabindex="-1"></a><span class="fu">points</span>(AGE, predicted_probabilities, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="further-regression-methods.html#cb308-1" tabindex="-1"></a><span class="co"># The help file says about the predict-function:a# the type of</span></span>
-<span id="cb308-2"><a href="further-regression-methods.html#cb308-2" tabindex="-1"></a><span class="co"># prediction required. The default is on the scale of the linear</span></span>
-<span id="cb308-3"><a href="further-regression-methods.html#cb308-3" tabindex="-1"></a><span class="co"># predictors; the alternative &quot;response&quot; is on the scale of the</span></span>
-<span id="cb308-4"><a href="further-regression-methods.html#cb308-4" tabindex="-1"></a><span class="co"># response variable. Thus for a default binomial model the default</span></span>
-<span id="cb308-5"><a href="further-regression-methods.html#cb308-5" tabindex="-1"></a><span class="co"># predictions are of log-odds (probabilities on logit scale) and</span></span>
-<span id="cb308-6"><a href="further-regression-methods.html#cb308-6" tabindex="-1"></a><span class="co"># type = &quot;response&quot; gives the predicted probabilities.</span></span>
-<span id="cb308-7"><a href="further-regression-methods.html#cb308-7" tabindex="-1"></a><span class="co"># The &quot;terms&quot; option returns a matrix giving the fitted values</span></span>
-<span id="cb308-8"><a href="further-regression-methods.html#cb308-8" tabindex="-1"></a><span class="co"># of each term in the model formula on the linear predictor scale.</span></span></code></pre></div>
-<p>As we can see, the higher our <code>AGE</code> (linear predictor with only one term in this case),
-the higher the probability of a <span class="math inline">\(1\)</span>.</p>
-<p>Let’s present the results nicely on the odds ratio scale and
-we also add confidence intervals (CIs) for the odds ratios,
-which can be conveniently calculated using R:</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="further-regression-methods.html#cb308-1" tabindex="-1"></a><span class="co"># The help file says about the predict-function:# the type of</span></span>
+<span id="cb308-2"><a href="further-regression-methods.html#cb308-2" tabindex="-1"></a><span class="co"># prediction required.</span></span>
+<span id="cb308-3"><a href="further-regression-methods.html#cb308-3" tabindex="-1"></a></span>
+<span id="cb308-4"><a href="further-regression-methods.html#cb308-4" tabindex="-1"></a><span class="co"># The default is on the scale of the linear</span></span>
+<span id="cb308-5"><a href="further-regression-methods.html#cb308-5" tabindex="-1"></a><span class="co"># predictors;</span></span>
+<span id="cb308-6"><a href="further-regression-methods.html#cb308-6" tabindex="-1"></a></span>
+<span id="cb308-7"><a href="further-regression-methods.html#cb308-7" tabindex="-1"></a><span class="co"># the alternative &quot;response&quot; is on the scale of the</span></span>
+<span id="cb308-8"><a href="further-regression-methods.html#cb308-8" tabindex="-1"></a><span class="co"># response variable. Thus for a default binomial model the default</span></span>
+<span id="cb308-9"><a href="further-regression-methods.html#cb308-9" tabindex="-1"></a><span class="co"># predictions are of log-odds (probabilities on logit scale) and</span></span>
+<span id="cb308-10"><a href="further-regression-methods.html#cb308-10" tabindex="-1"></a><span class="co"># type = &quot;response&quot; gives the predicted probabilities.</span></span></code></pre></div>
+<p>As we can see, higher <code>AGE</code> (linear predictor with only one term in this case) is <em>associated</em>
+(let’s not say “influenced”) with higher probability of a <span class="math inline">\(1\)</span>.</p>
+<p>Let’s <strong>present the results</strong> nicely on the odds ratio scale with
+confidence intervals (CIs), which can be conveniently calculated using R:</p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="further-regression-methods.html#cb309-1" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb309-2"><a href="further-regression-methods.html#cb309-2" tabindex="-1"></a>tidy_modlog <span class="ot">&lt;-</span> <span class="fu">tidy</span>(modlog, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb309-3"><a href="further-regression-methods.html#cb309-3" tabindex="-1"></a>tidy_modlog</span></code></pre></div>

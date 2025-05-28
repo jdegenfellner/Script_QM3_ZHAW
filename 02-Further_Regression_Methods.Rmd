@@ -952,11 +952,12 @@ tidy_modlog
 
 - `conf.int = TRUE` adds the confidence intervals to the output.
 - `exponentiate = TRUE` exponentiates the coefficients to give us the odds ratios.
-- At $AGE=0$, the odds for our event (maybe heart attack) are $0.891$.
+- At $AGE=0$ (could be average age), the odds for our event (maybe heart attack) are 
+  $1.35$ (95% CI: $0.854$\text{ to }$2.16$).
   This is rather close to the overall odds without the model:
   There are $55$ $1$s and $45$ $0$s, hence the overall probability $\frac{55}{100} = 0.55$.
   The odds are therefore $\frac{0.55}{1-0.55} = 1.22$.
-- Increasing the `AGE` by $1$ year increases the odds of a $1$ by a factor of 
+- Increasing the `AGE` by $1$ (SD) year increases the odds of a $1$ by a factor of 
   $4.58$.
 
 Let's verify all this in R:
@@ -1033,8 +1034,8 @@ In the diagonal of the confusion table, we find the number of correct prediction
 In the off-diagonal, we find the number of incorrect predictions.
 
 Now, with what shall we compare this accuracy?
-We need to compare this number with the baseline accurary.
-If $90%$ of the observations are $0$s, then we would have an accuracy of $90\%$,
+We need to compare this number with the **baseline accuracy**.
+If (as an example) $90%$ of the observations are $0$s, then we would have an accuracy of $90\%$,
 since we could just vote for the majority every time - no model needed.
 If a fancy logistic regression model does not outperform this baseline accuracy,
 then it might not be so valuable (at least not for prediction).
@@ -1055,7 +1056,7 @@ In [exercise 14](exercise14_LMM), we will look at the model checks in more detai
 
 - The **posterior predictive check** creates (for instance $1000$) new data sets 
   based on the estimated probabilities ($100$) of the given data.
-  This plot mostly looks fine.
+  This plot often looks fine.
 - Raw **residuals** are not so useful here, why? See [exercise 13](#exercise13_LMM).
   [Binned residuals](https://easystats.github.io/performance/reference/binned_residuals.html)
   are achieved by "dividing the data into categories (bins) based on 
