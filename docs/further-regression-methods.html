@@ -23,7 +23,7 @@
 <meta name="author" content="Jürgen Degenfellner" />
 
 
-<meta name="date" content="2025-05-27" />
+<meta name="date" content="2025-05-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -586,7 +586,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpP5YtcJ/model-a5a270a90c3.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmppGF57g/model-f14c23b2624c.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1342,7 +1342,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpP5YtcJ/model-a5a25fed1b12.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmppGF57g/model-f14c1d6ef169.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1358,8 +1358,8 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1391,16 +1391,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.1 seconds.
+## Chain 2 finished in 4.2 seconds.
+## Chain 3 finished in 4.3 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.2 seconds.
+## Chain 4 finished in 4.3 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.4 seconds.
+## Chain 1 finished in 4.6 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.2 seconds.
-## Total execution time: 4.4 seconds.</code></pre>
+## Mean chain execution time: 4.4 seconds.
+## Total execution time: 4.6 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -1677,7 +1677,7 @@ which can only take two values.</p>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">332</span>)</span>
 <span id="cb304-2"><a href="further-regression-methods.html#cb304-2" tabindex="-1"></a>AGE <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
 <span id="cb304-3"><a href="further-regression-methods.html#cb304-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">100</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">inv_logit</span>(AGE))</span>
-<span id="cb304-4"><a href="further-regression-methods.html#cb304-4" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Inverse Logit Function&quot;</span>, </span>
+<span id="cb304-4"><a href="further-regression-methods.html#cb304-4" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Outcome variable with least squares regression line&quot;</span>, </span>
 <span id="cb304-5"><a href="further-regression-methods.html#cb304-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
 <span id="cb304-6"><a href="further-regression-methods.html#cb304-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> AGE), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
@@ -1740,11 +1740,12 @@ In generalized linear models, the link function is used to connect the linear pr
 (the right side of the equation) to the expected value of the response variable:
 In our case, the expected value of a Bernoulli-distributed variable
 (which is binary) is the probability of a <span class="math inline">\(1\)</span>; <span class="math inline">\(p_i\)</span>.
-In general: <span class="math inline">\(\mathbb{E}(Y|X) = g^{-1}(X \beta)\)</span>.
+In general:
+<span class="math display">\[\mathbb{E}(Y|X) = g^{-1}(X \beta)\]</span>
 Think back to <a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#exercise5_LMM">exercise 5</a>
 in the reliability chapter and go to <a href="exercise11_LMM">exercise 11</a>.</p></li>
 <li><p><code>Coefficients</code> are the estimated parameters of the model <strong>on the logit scale</strong>.
-<strong>Interpretation</strong>: Two participants with a difference of <span class="math inline">\(1\)</span> year in their age,
+<strong>Interpretation</strong>: Two participants with an expected difference of <span class="math inline">\(1\)</span> year in their age,
 have a difference of <span class="math inline">\(\beta_1 = 1.20158\)</span> in the log-odds of having
 a heart attack. If we want the odds ratio, we can just exponentiate:</p>
 <p><span class="math display">\[log(\frac{p_i}{1-p_i}) = \beta_0 + \beta_1 AGE\]</span>

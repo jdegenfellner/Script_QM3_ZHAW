@@ -887,7 +887,8 @@ summary(modlog)
   (the right side of the equation) to the expected value of the response variable:
   In our case, the expected value of a Bernoulli-distributed variable 
   (which is binary) is the probability of a $1$; $p_i$.
-  In general: $\mathbb{E}(Y|X) = g^{-1}(X \beta)$.
+  In general: 
+  $$\mathbb{E}(Y|X) = g^{-1}(X \beta)$$
   Think back to [exercise 5](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#exercise5_LMM) 
   in the reliability chapter and go to [exercise 11](exercise11_LMM).
 - `Coefficients` are the estimated parameters of the model **on the logit scale**.
@@ -1038,19 +1039,6 @@ model performance is often modest.
 
 **Model checks** are also interesting. 
 
-Here is a list of assumptions for this type of model:
-
--  The dependent (outcome) variable is binary  
--  Observations are independent  
--  Adequate sample size  
--  No omitted variables that bias the study  
--  Good logistic regression model fit  
--  No perfect multicollinearity  
--  Linear relationship between the log-odds and predictors  
--  Absence of highly influential outliers
-
-
-
 Let's see what `check_model` has to say:
 
 ```{r}
@@ -1078,6 +1066,7 @@ In [exercise 14](exercise14_LMM), we will look at the model checks in more detai
   We looked at this plot in [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right) 
   already in the context of simple linear regression.
 - ....distributional check for residuals necessary??
+- Observations must be independent...
 
 MORE PREDICTORS
 
