@@ -914,7 +914,7 @@ summary(modlog)
   difference of $1$ year in their age is:
   $$\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = $$
   $$\text{inv_logit}(\beta_0 + \beta_1 (AGE + 1)) - \text{inv_logit}(\beta_0 + \beta_1 AGE)$$
-  This difference is not constant, but depends on the value of $AGE$,
+  This difference is not constant (see graph below, red line), but depends on the value of $AGE$,
   since the inverse logit function is non-linear.
 
 But, we do not need to do all this by hand, we have R.
@@ -926,22 +926,23 @@ plot(AGE, y, main = "Raw data and predicted probabilities",
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
 points(AGE, predicted_probabilities, col = "red", pch = 19)
 
-# The help file says about the predict-function:a# the type of
-# prediction required. The default is on the scale of the linear
-# predictors; the alternative "response" is on the scale of the
+# The help file says about the predict-function:# the type of
+# prediction required.
+
+# The default is on the scale of the linear
+# predictors;
+
+# the alternative "response" is on the scale of the
 # response variable. Thus for a default binomial model the default
 # predictions are of log-odds (probabilities on logit scale) and
 # type = "response" gives the predicted probabilities.
-# The "terms" option returns a matrix giving the fitted values
-# of each term in the model formula on the linear predictor scale.
 ```
 
-As we can see, the higher our `AGE` (linear predictor with only one term in this case), 
-the higher the probability of a $1$. 
+As we can see, higher `AGE` (linear predictor with only one term in this case) is *associated* 
+(let's not say "influenced") with higher probability of a $1$. 
 
-Let's present the results nicely on the odds ratio scale and 
-we also add confidence intervals (CIs) for the odds ratios,
-which can be conveniently calculated using R:
+Let's **present the results** nicely on the odds ratio scale with 
+confidence intervals (CIs), which can be conveniently calculated using R:
 
 ```{r}
 library(broom)
