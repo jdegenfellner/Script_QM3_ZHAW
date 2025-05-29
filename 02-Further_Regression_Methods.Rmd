@@ -1009,6 +1009,22 @@ exp(predict(modlog, type = "link",
 
 Very nice.
 
+Another nice feature in R is to visualize the predicted probabilities with a confidence band:
+
+```{r}
+library(ggeffects)
+ggeffect(modlog, 
+         terms = "AGE", 
+         type = "response") %>%
+  plot() +
+  labs(title = "Predicted Probabilities from Simple Logistic Regression",
+       x = "Age",
+       y = "Predicted Probability of 1") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
 Now, the same simple model in the **Bayesian framework** using the `rethinking` package:
 
 See [exercise 12](#exercise12_LMM) for the priors.
