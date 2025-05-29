@@ -549,7 +549,7 @@ temp_file <- tempfile(fileext = ".xls")
 download.file(url, destfile = temp_file, mode = "wb")
 df <- suppressMessages(
   suppressWarnings(
-    read_excel(temp_file, sheet = 2)
+    readxl::read_xls(temp_file, sheet = 2)
   )
 )
 
@@ -803,6 +803,8 @@ precis(data.frame(treatment_diff_week4), prob = 0.95)
 
 ## Logistic Regression {#logistic_regression}
 
+### Simple Logistic Regression {#simple_logistic_regression}
+
 Another basic regression model is the [**logistic regression**](https://en.wikipedia.org/wiki/Logistic_regression).
 There are entire [books](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118548387) on the topic.
 
@@ -836,7 +838,7 @@ plot(AGE, y, main = "Outcome variable with least squares regression line",
 abline(lm(y ~ AGE), col = "red", lwd = 2)
 ```
 
-The higher the `AGE`, the higher the probability of a *Yes* (or $1$) 
+The higher the `AGE` (which is standardized), the higher the probability of a *Yes* (or $1$) 
 (could be heart attack or something).
 
 The red line is the **least squares regression** line, which 
@@ -873,6 +875,7 @@ Notice that we do not need a random error term $\varepsilon_i$ anymore,
 since these kinds of models 
 (so-called [generalized linear models](https://en.wikipedia.org/wiki/Generalized_linear_model); GLM)
 are estimated using the [maximum likelihood method](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
+See [exercise 15](#exercise15_LMM).
 
 In current literature, you will see the model estimated mostly in the **Frequentist setting**:
 
@@ -933,13 +936,32 @@ points(AGE, predicted_probabilities, col = "red", pch = 19)
 # predictors;
 
 # the alternative "response" is on the scale of the
-# response variable. Thus for a default binomial model the default
+# response variable.
+
+# Thus for a default binomial model the default
 # predictions are of log-odds (probabilities on logit scale) and
 # type = "response" gives the predicted probabilities.
 ```
 
 As we can see, higher `AGE` (linear predictor with only one term in this case) is *associated* 
 (let's not say "influenced") with higher probability of a $1$. 
+
+The red line in the plot is the predicted probability of a $1$.
+The formula for the red line is:
+$$\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE) = $$
+$$\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}$$
+
+where $\text{inv_logit}(x)$ is the inverse logit function, which is the same
+as the [logistic function](https://en.wikipedia.org/wiki/Logistic_function).
+
+- If $\beta_1 > 0$, the probability of a $1$ increases with increasing `AGE` (as above).
+- If $\beta_1 < 0$, the probability of a $1$ decreases with increasing `AGE`.
+- For very large or very small values of `AGE`, the probability of 
+  $Y_i = 1$ approaches $1$ or $0$, respectively. So this works nicely to describe
+  the probability of $Y_i = 1$ along the linear predictor $\beta_0 + \beta_1 AGE$.
+- Extending the linear predictor $\beta_0 + \beta_1 AGE$ to more terms is 
+  straightforward ($\beta_0 + \beta_1 AGE + \beta_2 X_2 + \cdots \beta_p X_p$) and gets
+  us to [multiple logistic regression](#multiple_logistic_regression).
 
 Let's **present the results** nicely on the odds ratio scale with 
 confidence intervals (CIs), which can be conveniently calculated using R:
@@ -953,12 +975,14 @@ tidy_modlog
 - `conf.int = TRUE` adds the confidence intervals to the output.
 - `exponentiate = TRUE` exponentiates the coefficients to give us the odds ratios.
 - At $AGE=0$ (could be average age), the odds for our event (maybe heart attack) are 
-  $1.35$ (95% CI: $0.854$\text{ to }$2.16$).
+  $1.35$ (95% CI: $0.854\text{ to }2.16$).
   This is rather close to the overall odds without the model:
   There are $55$ $1$s and $45$ $0$s, hence the overall probability $\frac{55}{100} = 0.55$.
   The odds are therefore $\frac{0.55}{1-0.55} = 1.22$.
 - Increasing the `AGE` by $1$ (SD) year increases the odds of a $1$ by a factor of 
   $4.58$.
+
+Hint: You can also use `gtsummary` and `tbl_regression` to present the results nicely.
 
 Let's verify all this in R:
 
@@ -1012,7 +1036,7 @@ m_logistic <- ulam(
 
 precis(m_logistic)
 post <- extract.samples(m_logistic)
-mean(exp(post$a))
+mean(exp(post$a)) # post$a is on the log-odds scale, hence apply exp()
 mean(exp(post$b))
 ```
 
@@ -1043,7 +1067,23 @@ In our case, $0.7$ is higher than the baseline accuracy of $0.55$.
 The model adds some predictive value here. In my experience, 
 model performance is often modest.
 
-**Model checks** are also interesting. 
+**Model assumptions** are also interesting.
+
+One can show, that the errors in logistic regression are *not homoscedastic* 
+(as they were in classical linear regression)
+(see Hosmer Lemeshow, Applied Logistic Regression, p.7).
+So, we do not need to check this.
+
+We do need:
+
+- a binary outcome (which we have);
+- independent observations (which we have, since they were constructed this way);
+- no perfect separation: This means that there should not be a cutoff under 
+  which the outcome is always $0$ and above which the outcome is always $1$ 
+  (e.g., all people after $52$ years have a heart attack, all before $52$ do not).;
+- linear relationship between predictors and log-odds of the outcome;
+- no multicollinearity;
+- no influential observations.
 
 Let's see what `check_model` has to say:
 
@@ -1072,9 +1112,10 @@ In [exercise 14](exercise14_LMM), we will look at the model checks in more detai
   We looked at this plot in [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right) 
   already in the context of simple linear regression.
 - ....distributional check for residuals necessary??
-- Observations must be independent...
+- Observations (rows in our data set) must be **independent**, otherwise we would introduce random effects again.
+  In our invented mini example, observations are of course independent.
 
-MORE PREDICTORS
+### Multiple Logistic Regression {#multiple_logistic_regression}
 
 ## Poisson Regression
 
@@ -1184,13 +1225,13 @@ Consider the Bayesian version of Mulligan manual therapy paper [above](#mulligan
 
 ### [E] Exercise 11 {#exercise11_LMM}
 
-Consider the section about [logistic regression](#logistic_regression). 
+Consider the section about [simple logistic regression](#simple_logistic_regression). 
 
 - What is $g^{-1}(X \beta)$ in our case?
 
 ### [M] Exercise 12 {#exercise12_LMM}
 
-Consider the section about [logistic regression](#logistic_regression);
+Consider the section about [simple logistic regression](#simple_logistic_regression);
 specifically the Bayesian model.
 
 - Think about the priors. 
@@ -1199,16 +1240,27 @@ specifically the Bayesian model.
 
 ### [E] Exercise 13 {#exercise13_LMM}
 
-Consider the section about [logistic regression](#logistic_regression).
+Consider the section about [simple logistic regression](#simple_logistic_regression).
 
 - Why are the raw residuals not so useful in this case?
 
 ### [H] Exercise 14 {#exercise14_LMM}
 
-Consider the section about [logistic regression](#logistic_regression).
+Consider the section about [simple logistic regression](#simple_logistic_regression).
 
 - Try to replicate the individual model checks you see in `check_model(modlog)`.
 
+### [H] Exercise 15 {#exercise15_LMM}
+
+Consider the section about [simple logistic regression](#simple_logistic_regression).
+
+- We want to find out the parameters $\beta_0$ and $\beta_1$ of the logistic regression model
+  using the **least squares method**.
+- For this, minimize the following function:
+  $$\sum_{i=1}^n (y_i - \text{inv_logit}(\beta_0 + \beta_1 AGE_i))^2$$
+  whereas $y_i$ is the observed outcome variable ($0$ or $1$) and
+  $AGE$ is the standardized age of the $i$-th participant.
+- Compare the results to before. 
 
 
 ## TODOS
@@ -1217,16 +1269,15 @@ Consider the section about [logistic regression](#logistic_regression).
 - Create many practically relevant validity examples
 - Application movement detection with R/Python as example of machine learning/AI.
 - AI Example, Claude and LEAN with [Terence](https://www.youtube.com/watch?v=zZr54G7ec7A&t=714s&ab_channel=TerenceTao)
-- Examples of Reliability studies - eLearning?
 - Last Chapter - Introduction to AI. Previous statistical analyses is a special case of neuronal networks.
 - [table 2 fallacy](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I)
 - mention missing values, missingness mechanisms
 - Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test
 - AIC, BIC, cross-validation, Model selection (best subset, leaps....), Variable selection
-- More on bias variance tradeoff, show for polynomial regression? 
 - Restrictive cubic splines?
 - Causal inference, DAGs, counterfactuals
-- **Create final chapter** with "topics we have not covered for time reasons: some known unknowns."
+- **Final chapter** with "topics we have not covered for time 
+  reasons: some known unknowns."
   Topics: Sample size calculations, missing data, composition data,
   causal inference,...
   Frequently asked master thesis questions:

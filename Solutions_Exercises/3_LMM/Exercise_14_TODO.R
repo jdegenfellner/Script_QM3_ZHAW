@@ -1,150 +1,104 @@
 library(conflicted)
+library(rethinking)
+library(tidyverse)
 conflicts_prefer(posterior::sd)
 
+# Create data -----------
+set.seed(334)
 AGE <- rnorm(100)
-y <- rbinom(100, size = 1, prob = inv_logit(AGE))
+y <- rbinom(100, size = 1, prob = inv_logit(AGE)) # the probability of a 1 increases with AGE
+
 plot(AGE, y, main = "Inverse Logit Function", 
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
 abline(lm(y ~ AGE), col = "red", lwd = 2)
 
-#estimate logistic regression model
-model <- glm(y ~ AGE, family = binomial(link = "logit"))
-summary(model)
-exp(coef(model))  # Exponentiated coefficients)
-exp(confint(model))
-data.frame(coefs = coef(model), 
-           exp_coefs = exp(coef(model)), 
-           confint_lower = exp(confint(model)[, 1]), 
-           confint_upper = exp(confint(model)[, 2]))
+# Estimate logistic regression model----------
+modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
+summary(modlog)
 
-predicted_probabilities <- predict(model, type = "response")
+exp(coef(modlog))  # Exponentiated coefficients)
+exp(confint(modlog))
+data.frame(coefs = coef(modlog), 
+           exp_coefs = exp(coef(modlog)), 
+           confint_lower = exp(confint(modlog)[, 1]), 
+           confint_upper = exp(confint(modlog)[, 2]))
+
+# Vizualize---------
+predicted_probabilities <- predict(modlog, type = "response")
 plot(AGE, y, main = "Inverse Logit Function", 
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
 # add predicted probabilities
 points(AGE, predicted_probabilities, col = "red", pch = 19)
 
+# We can explicitely give the model equation for the red line
+beta_0 = coef(modlog)[1]
+beta_1 = coef(modlog)[2]
 
-library(broom)
-tidy_modlog <- tidy(model, conf.int = TRUE, exponentiate = TRUE)
-tidy_modlog
+# inv_logit:
+inv_logit <- function(x) {
+  exp(x) / (1 + exp(x))
+}
+plot(AGE, y, main = "Inverse Logit Function", 
+     xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
+# add predicted probabilities
+curve(inv_logit(beta_0 + beta_1 * x), 
+      add = TRUE, col = "red", lwd = 2)
+points(AGE, predicted_probabilities, col = "green", pch = 19)
+# perfect match!
 
-modlog <- model
+# One could also estimate this curve by looking 
+# at the proportions of 1s in bins of AGE:
+df <- data.frame(AGE = AGE, y = y)
+breaks <- pretty(df$AGE, n = 10)
+df$AGE_bin <- cut(df$AGE, breaks = breaks, include.lowest = TRUE)
 
-# probability-scale:
-predict(modlog, type = "response", 
-        newdata = data.frame(AGE = 0))
-predict(modlog, type = "response", 
-        newdata = data.frame(AGE = 1))
-
-# log-odds scale:
-predict(modlog, type = "link", 
-        newdata = data.frame(AGE = 0))
-predict(modlog, type = "link", 
-        newdata = data.frame(AGE = 1))
-
-# odds scale:
-exp(predict(modlog, type = "link", 
-            newdata = data.frame(AGE = 0)))
-exp(predict(modlog, type = "link",
-            newdata = data.frame(AGE = 1)))
-6.175935 / 1.348729 
-
-
-
-library(rethinking)
-
-dat <- list(
-  y = y,
-  AGE = AGE,
-  N = length(y)
+bin_midpoints <- data.frame(
+  AGE_bin = levels(df$AGE_bin),
+  midpoint = (head(breaks, -1) + tail(breaks, -1)) / 2
 )
 
-m_logistic <- ulam(
-  alist(
-    y ~ dbinom(1, p),
-    logit(p) <- a + b * AGE,
-    a ~ normal(0, 1.5),
-    b ~ normal(0, 1.5)
-  ),
-  data = dat,
-  chains = 4,
-  cores = 4
-)
+df_summary <- df %>%
+  dplyr::group_by(AGE_bin) %>%
+  dplyr::summarise(mean_y = mean(y), count = n(), .groups = "drop") %>%
+  left_join(bin_midpoints, by = "AGE_bin")
 
-precis(m_logistic)
+df_summary
 
+plot(AGE, y, main = "Inverse Logit Function", 
+     xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
+points(df_summary$midpoint, df_summary$mean_y, 
+       col = "orange", pch = 19, cex = 1.5)
 
-
-
-
-
-set.seed(332)
-AGE <- rnorm(100)
-y <- rbinom(100, size = 1, prob = inv_logit(AGE))
-sum(y)/length(y) # Proportion of successes
-modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
+library(ggeffects)
+ggeffect(modlog, 
+         terms = "AGE", 
+         type = "response") %>%
+  plot() +
+  labs(title = "Predicted Probabilities from Simple Logistic Regression",
+       x = "Age",
+       y = "Predicted Probability of 1") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
 
 
-
-
-
+# Check_model-------
+?check_model
 check_model(modlog)
 
+# 1) PPC---------
+# ...
 
+# 2) Binned residuals----------
+check_model(modlog, check = "binned_residuals",
+            residual_type = "normal")
 
-# PPC
-p_hat <- fitted(modlog)
-p_sims <- numeric(1000)
-for(i in 1:1000){
-  y_sim <- rbinom(100, 1, prob = p_hat)
-  p_sim_1 <- sum(y_sim/length(y_sim))
-  p_sim_0 <- 1 - p_sim_1
-  p_sims[i] <- p_sim_1
-}
-hist(p_sims, main = "Posterior Predictive Check", 
-     xlab = "Simulated Proportion of Successes", 
-     col = "lightblue", border = "black")
-
-# binned residuals
-res <- binned_residuals(modlog, residuals = "response")
+# a)
+res <- binned_residuals(modlog, 
+                        residuals = "response")
 as.data.frame(res)
 plot(res)
 
-
-
-
-# Standardisierte Pearson-Residuals
-resid_std <- residuals(modlog, type = "pearson")
-
-# Berechne Uniform-transformation der Pearson-Residuals
-# Verwende pnorm, um Residuen in Uniform(0,1) zu transformieren
-resid_uniform <- pnorm(resid_std)
-
-# QQ-Plot gegen die theoretische Uniform(0,1)
-qqplot_uniform <- function(resid_uniform) {
-  n <- length(resid_uniform)
-  theoretical <- (1:n) / (n + 1)  # Standard-Uniform Quantile
-  observed <- sort(resid_uniform)
-  
-  ggplot(data.frame(theoretical, observed), aes(x = theoretical, y = observed)) +
-    geom_point(color = "steelblue", size = 2) +
-    geom_abline(intercept = 0, slope = 1, color = "darkgreen") +
-    geom_ribbon(aes(ymin = pmax(0, theoretical - 0.05), ymax = pmin(1, theoretical + 0.05)),
-                fill = "grey80", alpha = 0.5) +
-    labs(
-      title = "Uniformity of Residuals",
-      subtitle = "Dots should fall along the line",
-      x = "Standard Uniform Distribution Quantiles",
-      y = "Sample Quantiles"
-    ) +
-    theme_minimal()
-}
-
-# Plot
-qqplot_uniform(resid_uniform)
-
-check_residuals(modlog)
-
+# b)
 library(arm)
 binnedplot(fitted(modlog), 
            residuals(modlog, type = "response"), 
@@ -155,6 +109,34 @@ binnedplot(fitted(modlog),
            cex.pts = 0.8, 
            col.pts = 1, 
            col.int = "gray")
+# details:
+# In logistic regression, as with linear regression,
+# the residuals can be defined as observed minus
+# expected values. The data are discrete and so are
+# the residuals. As a result, plots of raw residuals
+# from logistic regression are generally not useful.
+# The binned residuals plot instead, after dividing
+# the data into categories (bins) based on their
+# fitted values, plots the average residual versus
+# the average fitted value for each bin.
+
+# c) binred_plot
+library(stevemisc)
+?binred_plot
+binred_plot(modlog, nbins = 10, plot = TRUE)
+
+# 3) Influential points----------
+?check_model
+check_model(modlog, check = "outliers")
+
+hatvalues(modlog)
+cooks.distance(modlog)
+boxplot(residuals(modlog, type = "deviance"))
+
+
+# 4) QQ-Plot of residuals----------
+check_model(modlog, check = "qq")
+
 
 
 plot(modlog)
@@ -165,11 +147,10 @@ plot(modlog)
 install.packages("ResourceSelection")
 
 library(ResourceSelection)
-
 # modlog: dein logistisches Modell
 # g=10 → Gruppiere nach Dezilen des vorhergesagten Risikos
 hoslem.test(y, 
             fitted(modlog), 
             g = 10)
-
+# ok
 

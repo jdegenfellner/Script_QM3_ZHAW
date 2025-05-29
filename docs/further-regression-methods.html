@@ -23,7 +23,7 @@
 <meta name="author" content="Jürgen Degenfellner" />
 
 
-<meta name="date" content="2025-05-28" />
+<meta name="date" content="2025-05-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -185,7 +185,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#tadpole"><i class="fa fa-check"></i><b>3.1.1</b> Example: Reed Frog tadpole mortality - two levels</a></li>
 <li class="chapter" data-level="3.1.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#mulligan"><i class="fa fa-check"></i><b>3.1.2</b> Example: Mulligan manual therapy - paper</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#logistic_regression"><i class="fa fa-check"></i><b>3.2</b> Logistic Regression</a></li>
+<li class="chapter" data-level="3.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#logistic_regression"><i class="fa fa-check"></i><b>3.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#simple_logistic_regression"><i class="fa fa-check"></i><b>3.2.1</b> Simple Logistic Regression</a></li>
+<li class="chapter" data-level="3.2.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#multiple_logistic_regression"><i class="fa fa-check"></i><b>3.2.2</b> Multiple Logistic Regression</a></li>
+</ul></li>
 <li class="chapter" data-level="3.3" data-path="further-regression-methods.html"><a href="further-regression-methods.html#poisson-regression"><i class="fa fa-check"></i><b>3.3</b> Poisson Regression</a></li>
 <li class="chapter" data-level="3.4" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercises-1"><i class="fa fa-check"></i><b>3.4</b> Exercises</a>
 <ul>
@@ -203,6 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4.12" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise12_LMM"><i class="fa fa-check"></i><b>3.4.12</b> [M] Exercise 12</a></li>
 <li class="chapter" data-level="3.4.13" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise13_LMM"><i class="fa fa-check"></i><b>3.4.13</b> [E] Exercise 13</a></li>
 <li class="chapter" data-level="3.4.14" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise14_LMM"><i class="fa fa-check"></i><b>3.4.14</b> [H] Exercise 14</a></li>
+<li class="chapter" data-level="3.4.15" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise15_LMM"><i class="fa fa-check"></i><b>3.4.15</b> [H] Exercise 15</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="further-regression-methods.html"><a href="further-regression-methods.html#todos"><i class="fa fa-check"></i><b>3.5</b> TODOS</a></li>
 </ul></li>
@@ -586,7 +591,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Ihd7E/model-161cd43245ab7.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpITbCCn/model-cc5b6e25ef2e.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -926,7 +931,7 @@ Ideally, we would need to argue how we handle missing data!</p>
 <span id="cb268-5"><a href="further-regression-methods.html#cb268-5" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="at">destfile =</span> temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
 <span id="cb268-6"><a href="further-regression-methods.html#cb268-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">suppressMessages</span>(</span>
 <span id="cb268-7"><a href="further-regression-methods.html#cb268-7" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
-<span id="cb268-8"><a href="further-regression-methods.html#cb268-8" tabindex="-1"></a>    <span class="fu">read_excel</span>(temp_file, <span class="at">sheet =</span> <span class="dv">2</span>)</span>
+<span id="cb268-8"><a href="further-regression-methods.html#cb268-8" tabindex="-1"></a>    readxl<span class="sc">::</span><span class="fu">read_xls</span>(temp_file, <span class="at">sheet =</span> <span class="dv">2</span>)</span>
 <span id="cb268-9"><a href="further-regression-methods.html#cb268-9" tabindex="-1"></a>  )</span>
 <span id="cb268-10"><a href="further-regression-methods.html#cb268-10" tabindex="-1"></a>)</span>
 <span id="cb268-11"><a href="further-regression-methods.html#cb268-11" tabindex="-1"></a></span>
@@ -1342,7 +1347,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp9Ihd7E/model-161cd6eb57801.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpITbCCn/model-cc5b73e96cac.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1357,9 +1362,9 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1390,8 +1395,8 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 2 finished in 4.0 seconds.
+## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 4.1 seconds.
@@ -1657,6 +1662,8 @@ of the treatment effect. Time does not vary since we are only interested in week
 </div>
 <div id="logistic_regression" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Logistic Regression<a href="further-regression-methods.html#logistic_regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="simple_logistic_regression" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Simple Logistic Regression<a href="further-regression-methods.html#simple_logistic_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Another basic regression model is the <a href="https://en.wikipedia.org/wiki/Logistic_regression"><strong>logistic regression</strong></a>.
 There are entire <a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9781118548387">books</a> on the topic.</p>
 <p>Watch these videos as an introduction:
@@ -1681,7 +1688,7 @@ which can only take two values.</p>
 <span id="cb304-5"><a href="further-regression-methods.html#cb304-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
 <span id="cb304-6"><a href="further-regression-methods.html#cb304-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> AGE), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
-<p>The higher the <code>AGE</code>, the higher the probability of a <em>Yes</em> (or <span class="math inline">\(1\)</span>)
+<p>The higher the <code>AGE</code> (which is standardized), the higher the probability of a <em>Yes</em> (or <span class="math inline">\(1\)</span>)
 (could be heart attack or something).</p>
 <p>The red line is the <strong>least squares regression</strong> line, which
 <strong>does not make much sense</strong> here. The outcome can only be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> but
@@ -1710,7 +1717,8 @@ and <span class="math inline">\(\text{logit}(p_i) = \log\left(\frac{p_i}{1 - p_i
 <p>Notice that we do not need a random error term <span class="math inline">\(\varepsilon_i\)</span> anymore,
 since these kinds of models
 (so-called <a href="https://en.wikipedia.org/wiki/Generalized_linear_model">generalized linear models</a>; GLM)
-are estimated using the <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood method</a>.</p>
+are estimated using the <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood method</a>.
+See <a href="further-regression-methods.html#exercise15_LMM">exercise 15</a>.</p>
 <p>In current literature, you will see the model estimated mostly in the <strong>Frequentist setting</strong>:</p>
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="further-regression-methods.html#cb305-1" tabindex="-1"></a>modlog <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> AGE, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
 <span id="cb305-2"><a href="further-regression-methods.html#cb305-2" tabindex="-1"></a><span class="fu">summary</span>(modlog)</span></code></pre></div>
@@ -1776,11 +1784,29 @@ We can simply calculate the probabilities estimated by data:</p>
 <span id="cb308-5"><a href="further-regression-methods.html#cb308-5" tabindex="-1"></a><span class="co"># predictors;</span></span>
 <span id="cb308-6"><a href="further-regression-methods.html#cb308-6" tabindex="-1"></a></span>
 <span id="cb308-7"><a href="further-regression-methods.html#cb308-7" tabindex="-1"></a><span class="co"># the alternative &quot;response&quot; is on the scale of the</span></span>
-<span id="cb308-8"><a href="further-regression-methods.html#cb308-8" tabindex="-1"></a><span class="co"># response variable. Thus for a default binomial model the default</span></span>
-<span id="cb308-9"><a href="further-regression-methods.html#cb308-9" tabindex="-1"></a><span class="co"># predictions are of log-odds (probabilities on logit scale) and</span></span>
-<span id="cb308-10"><a href="further-regression-methods.html#cb308-10" tabindex="-1"></a><span class="co"># type = &quot;response&quot; gives the predicted probabilities.</span></span></code></pre></div>
+<span id="cb308-8"><a href="further-regression-methods.html#cb308-8" tabindex="-1"></a><span class="co"># response variable.</span></span>
+<span id="cb308-9"><a href="further-regression-methods.html#cb308-9" tabindex="-1"></a></span>
+<span id="cb308-10"><a href="further-regression-methods.html#cb308-10" tabindex="-1"></a><span class="co"># Thus for a default binomial model the default</span></span>
+<span id="cb308-11"><a href="further-regression-methods.html#cb308-11" tabindex="-1"></a><span class="co"># predictions are of log-odds (probabilities on logit scale) and</span></span>
+<span id="cb308-12"><a href="further-regression-methods.html#cb308-12" tabindex="-1"></a><span class="co"># type = &quot;response&quot; gives the predicted probabilities.</span></span></code></pre></div>
 <p>As we can see, higher <code>AGE</code> (linear predictor with only one term in this case) is <em>associated</em>
 (let’s not say “influenced”) with higher probability of a <span class="math inline">\(1\)</span>.</p>
+<p>The red line in the plot is the predicted probability of a <span class="math inline">\(1\)</span>.
+The formula for the red line is:
+<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE) = \]</span>
+<span class="math display">\[\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}\]</span></p>
+<p>where <span class="math inline">\(\text{inv_logit}(x)\)</span> is the inverse logit function, which is the same
+as the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>.</p>
+<ul>
+<li>If <span class="math inline">\(\beta_1 &gt; 0\)</span>, the probability of a <span class="math inline">\(1\)</span> increases with increasing <code>AGE</code> (as above).</li>
+<li>If <span class="math inline">\(\beta_1 &lt; 0\)</span>, the probability of a <span class="math inline">\(1\)</span> decreases with increasing <code>AGE</code>.</li>
+<li>For very large or very small values of <code>AGE</code>, the probability of
+<span class="math inline">\(Y_i = 1\)</span> approaches <span class="math inline">\(1\)</span> or <span class="math inline">\(0\)</span>, respectively. So this works nicely to describe
+the probability of <span class="math inline">\(Y_i = 1\)</span> along the linear predictor <span class="math inline">\(\beta_0 + \beta_1 AGE\)</span>.</li>
+<li>Extending the linear predictor <span class="math inline">\(\beta_0 + \beta_1 AGE\)</span> to more terms is
+straightforward (<span class="math inline">\(\beta_0 + \beta_1 AGE + \beta_2 X_2 + \cdots \beta_p X_p\)</span>) and gets
+us to <a href="further-regression-methods.html#multiple_logistic_regression">multiple logistic regression</a>.</li>
+</ul>
 <p>Let’s <strong>present the results</strong> nicely on the odds ratio scale with
 confidence intervals (CIs), which can be conveniently calculated using R:</p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="further-regression-methods.html#cb309-1" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
@@ -1794,13 +1820,15 @@ confidence intervals (CIs), which can be conveniently calculated using R:</p>
 <ul>
 <li><code>conf.int = TRUE</code> adds the confidence intervals to the output.</li>
 <li><code>exponentiate = TRUE</code> exponentiates the coefficients to give us the odds ratios.</li>
-<li>At <span class="math inline">\(AGE=0\)</span>, the odds for our event (maybe heart attack) are <span class="math inline">\(0.891\)</span>.
+<li>At <span class="math inline">\(AGE=0\)</span> (could be average age), the odds for our event (maybe heart attack) are
+<span class="math inline">\(1.35\)</span> (95% CI: <span class="math inline">\(0.854\text{ to }2.16\)</span>).
 This is rather close to the overall odds without the model:
 There are <span class="math inline">\(55\)</span> <span class="math inline">\(1\)</span>s and <span class="math inline">\(45\)</span> <span class="math inline">\(0\)</span>s, hence the overall probability <span class="math inline">\(\frac{55}{100} = 0.55\)</span>.
 The odds are therefore <span class="math inline">\(\frac{0.55}{1-0.55} = 1.22\)</span>.</li>
-<li>Increasing the <code>AGE</code> by <span class="math inline">\(1\)</span> year increases the odds of a <span class="math inline">\(1\)</span> by a factor of
+<li>Increasing the <code>AGE</code> by <span class="math inline">\(1\)</span> (SD) year increases the odds of a <span class="math inline">\(1\)</span> by a factor of
 <span class="math inline">\(4.58\)</span>.</li>
 </ul>
+<p>Hint: You can also use <code>gtsummary</code> and <code>tbl_regression</code> to present the results nicely.</p>
 <p>Let’s verify all this in R:</p>
 <div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="further-regression-methods.html#cb311-1" tabindex="-1"></a><span class="co"># probability-scale:</span></span>
 <span id="cb311-2"><a href="further-regression-methods.html#cb311-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
@@ -1916,7 +1944,7 @@ The odds are therefore <span class="math inline">\(\frac{0.55}{1-0.55} = 1.22\)<
 ## a 0.2890313 0.2344817 -0.07970657 0.656258 1.001022 1082.933
 ## b 1.5383628 0.3481827  1.00727370 2.115574 1.003263 1279.823</code></pre>
 <div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="further-regression-methods.html#cb329-1" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m_logistic)</span>
-<span id="cb329-2"><a href="further-regression-methods.html#cb329-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>a))</span></code></pre></div>
+<span id="cb329-2"><a href="further-regression-methods.html#cb329-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>a)) <span class="co"># post$a is on the log-odds scale, hence apply exp()</span></span></code></pre></div>
 <pre><code>## [1] 1.37237</code></pre>
 <div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="further-regression-methods.html#cb331-1" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>b))</span></code></pre></div>
 <pre><code>## [1] 4.952621</code></pre>
@@ -1937,15 +1965,30 @@ with the actual outcomes. This is called a <strong>confusion table</strong>.</p>
 <p>In the diagonal of the confusion table, we find the number of correct predictions.
 In the off-diagonal, we find the number of incorrect predictions.</p>
 <p>Now, with what shall we compare this accuracy?
-We need to compare this number with the baseline accurary.
-If <span class="math inline">\(90%\)</span> of the observations are <span class="math inline">\(0\)</span>s, then we would have an accuracy of <span class="math inline">\(90\%\)</span>,
+We need to compare this number with the <strong>baseline accuracy</strong>.
+If (as an example) <span class="math inline">\(90%\)</span> of the observations are <span class="math inline">\(0\)</span>s, then we would have an accuracy of <span class="math inline">\(90\%\)</span>,
 since we could just vote for the majority every time - no model needed.
 If a fancy logistic regression model does not outperform this baseline accuracy,
 then it might not be so valuable (at least not for prediction).
 In our case, <span class="math inline">\(0.7\)</span> is higher than the baseline accuracy of <span class="math inline">\(0.55\)</span>.
 The model adds some predictive value here. In my experience,
 model performance is often modest.</p>
-<p><strong>Model checks</strong> are also interesting.</p>
+<p><strong>Model assumptions</strong> are also interesting.</p>
+<p>One can show, that the errors in logistic regression are <em>not homoscedastic</em>
+(as they were in classical linear regression)
+(see Hosmer Lemeshow, Applied Logistic Regression, p.7).
+So, we do not need to check this.</p>
+<p>We do need:</p>
+<ul>
+<li>a binary outcome (which we have);</li>
+<li>independent observations (which we have, since they were constructed this way);</li>
+<li>no perfect separation: This means that there should not be a cutoff under
+which the outcome is always <span class="math inline">\(0\)</span> and above which the outcome is always <span class="math inline">\(1\)</span>
+(e.g., all people after <span class="math inline">\(52\)</span> years have a heart attack, all before <span class="math inline">\(52\)</span> do not).;</li>
+<li>linear relationship between predictors and log-odds of the outcome;</li>
+<li>no multicollinearity;</li>
+<li>no influential observations.</li>
+</ul>
 <p>Let’s see what <code>check_model</code> has to say:</p>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="further-regression-methods.html#cb337-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
 <span id="cb337-2"><a href="further-regression-methods.html#cb337-2" tabindex="-1"></a><span class="fu">check_model</span>(modlog)</span></code></pre></div>
@@ -1954,7 +1997,7 @@ model performance is often modest.</p>
 <ul>
 <li>The <strong>posterior predictive check</strong> creates (for instance <span class="math inline">\(1000\)</span>) new data sets
 based on the estimated probabilities (<span class="math inline">\(100\)</span>) of the given data.
-This plot mostly looks fine.</li>
+This plot often looks fine.</li>
 <li>Raw <strong>residuals</strong> are not so useful here, why? See <a href="further-regression-methods.html#exercise13_LMM">exercise 13</a>.
 <a href="https://easystats.github.io/performance/reference/binned_residuals.html">Binned residuals</a>
 are achieved by “dividing the data into categories (bins) based on
@@ -1970,9 +2013,13 @@ is calculated for such a model.
 We looked at this plot in <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right">QM2</a>
 already in the context of simple linear regression.</li>
 <li>….distributional check for residuals necessary??</li>
-<li>Observations must be independent…</li>
+<li>Observations (rows in our data set) must be <strong>independent</strong>, otherwise we would introduce random effects again.
+In our invented mini example, observations are of course independent.</li>
 </ul>
-<p>MORE PREDICTORS</p>
+</div>
+<div id="multiple_logistic_regression" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Multiple Logistic Regression<a href="further-regression-methods.html#multiple_logistic_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
 </div>
 <div id="poisson-regression" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Poisson Regression<a href="further-regression-methods.html#poisson-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -2093,14 +2140,14 @@ The prior for <span class="math inline">\(\alpha\)</span> is then <span class="m
 </div>
 <div id="exercise11_LMM" class="section level3 hasAnchor" number="3.4.11">
 <h3><span class="header-section-number">3.4.11</span> [E] Exercise 11<a href="further-regression-methods.html#exercise11_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>.</p>
+<p>Consider the section about <a href="further-regression-methods.html#simple_logistic_regression">simple logistic regression</a>.</p>
 <ul>
 <li>What is <span class="math inline">\(g^{-1}(X \beta)\)</span> in our case?</li>
 </ul>
 </div>
 <div id="exercise12_LMM" class="section level3 hasAnchor" number="3.4.12">
 <h3><span class="header-section-number">3.4.12</span> [M] Exercise 12<a href="further-regression-methods.html#exercise12_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>;
+<p>Consider the section about <a href="further-regression-methods.html#simple_logistic_regression">simple logistic regression</a>;
 specifically the Bayesian model.</p>
 <ul>
 <li>Think about the priors.</li>
@@ -2110,16 +2157,29 @@ myocardial infarction (heart attack)</li>
 </div>
 <div id="exercise13_LMM" class="section level3 hasAnchor" number="3.4.13">
 <h3><span class="header-section-number">3.4.13</span> [E] Exercise 13<a href="further-regression-methods.html#exercise13_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>.</p>
+<p>Consider the section about <a href="further-regression-methods.html#simple_logistic_regression">simple logistic regression</a>.</p>
 <ul>
 <li>Why are the raw residuals not so useful in this case?</li>
 </ul>
 </div>
 <div id="exercise14_LMM" class="section level3 hasAnchor" number="3.4.14">
 <h3><span class="header-section-number">3.4.14</span> [H] Exercise 14<a href="further-regression-methods.html#exercise14_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Consider the section about <a href="further-regression-methods.html#logistic_regression">logistic regression</a>.</p>
+<p>Consider the section about <a href="further-regression-methods.html#simple_logistic_regression">simple logistic regression</a>.</p>
 <ul>
 <li>Try to replicate the individual model checks you see in <code>check_model(modlog)</code>.</li>
+</ul>
+</div>
+<div id="exercise15_LMM" class="section level3 hasAnchor" number="3.4.15">
+<h3><span class="header-section-number">3.4.15</span> [H] Exercise 15<a href="further-regression-methods.html#exercise15_LMM" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the section about <a href="further-regression-methods.html#simple_logistic_regression">simple logistic regression</a>.</p>
+<ul>
+<li>We want to find out the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> of the logistic regression model
+using the <strong>least squares method</strong>.</li>
+<li>For this, minimize the following function:
+<span class="math display">\[\sum_{i=1}^n (y_i - \text{inv_logit}(\beta_0 + \beta_1 AGE_i))^2\]</span>
+whereas <span class="math inline">\(y_i\)</span> is the observed outcome variable (<span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>) and
+<span class="math inline">\(AGE\)</span> is the standardized age of the <span class="math inline">\(i\)</span>-th participant.</li>
+<li>Compare the results to before.</li>
 </ul>
 </div>
 </div>
@@ -2130,16 +2190,15 @@ myocardial infarction (heart attack)</li>
 <li>Create many practically relevant validity examples</li>
 <li>Application movement detection with R/Python as example of machine learning/AI.</li>
 <li>AI Example, Claude and LEAN with <a href="https://www.youtube.com/watch?v=zZr54G7ec7A&amp;t=714s&amp;ab_channel=TerenceTao">Terence</a></li>
-<li>Examples of Reliability studies - eLearning?</li>
 <li>Last Chapter - Introduction to AI. Previous statistical analyses is a special case of neuronal networks.</li>
 <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I">table 2 fallacy</a></li>
 <li>mention missing values, missingness mechanisms</li>
 <li>Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test</li>
 <li>AIC, BIC, cross-validation, Model selection (best subset, leaps….), Variable selection</li>
-<li>More on bias variance tradeoff, show for polynomial regression?</li>
 <li>Restrictive cubic splines?</li>
 <li>Causal inference, DAGs, counterfactuals</li>
-<li><strong>Create final chapter</strong> with “topics we have not covered for time reasons: some known unknowns.”
+<li><strong>Final chapter</strong> with “topics we have not covered for time
+reasons: some known unknowns.”
 Topics: Sample size calculations, missing data, composition data,
 causal inference,…
 Frequently asked master thesis questions:
