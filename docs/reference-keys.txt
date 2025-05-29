@@ -39,6 +39,10 @@ frequentist-attempt-to-replicate-the-results.
 mulligan_bayesian
 logistic_regression
 simple_logistic_regression
+frequentist_logistic
+bayesian_logistic
+predictive_performance
+model_assumptions
 multiple_logistic_regression
 poisson-regression
 exercises-1

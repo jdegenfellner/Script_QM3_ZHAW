@@ -833,13 +833,16 @@ Let's quickly invent an example:
 set.seed(332)
 AGE <- rnorm(100)
 y <- rbinom(100, size = 1, prob = inv_logit(AGE))
-plot(AGE, y, main = "Outcome variable with least squares regression line", 
+plot(AGE, y, main = "Outcome variable with least squares regression line",
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
 abline(lm(y ~ AGE), col = "red", lwd = 2)
 ```
 
-The higher the `AGE` (which is standardized), the higher the probability of a *Yes* (or $1$) 
-(could be heart attack or something).
+The higher the `AGE`, the higher the probability of a 1 (heart attaack or something).
+In this case (of a simulation) we know the trajectory of the *true* probabilities 
+varying with AGE.
+Of course, normally, we do not know this but conceptually asssume there 
+are such true probabilities.
 
 The red line is the **least squares regression** line, which 
 **does not make much sense** here. The outcome can only be $0$ or $1$ but
@@ -859,7 +862,7 @@ This transformed range can be conveniently described using a linear predictor ag
 The left side and the right side of the equation are now equal in range ($(-\infty, +\infty)$).
 Very nice.
 
-The model is then:
+The model is then ($p=1$ for the simple logistic regression):
 
 \[
 \begin{array}{rcl}
@@ -876,6 +879,8 @@ since these kinds of models
 (so-called [generalized linear models](https://en.wikipedia.org/wiki/Generalized_linear_model); GLM)
 are estimated using the [maximum likelihood method](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
 See [exercise 15](#exercise15_LMM).
+
+#### Frequentist version {#frequentist_logistic}
 
 In current literature, you will see the model estimated mostly in the **Frequentist setting**:
 
@@ -1068,6 +1073,8 @@ At the extreme ends of the `AGE` range, the confidence band is
 not maximally wide, since above $\approx 1$ and below $\approx -1$ there
 are only $Y_i = 1$ or $Y_i = 0$ observations which gives some confidence in the model.
 
+#### Bayesian version {#bayesian_logistic}
+
 Now, the same simple model in the **Bayesian framework** using the `rethinking` package:
 
 See [exercise 12](#exercise12_LMM) for the priors.
@@ -1101,9 +1108,50 @@ mean(exp(post$b))
 
 The coefficients are very similar to the Frequentist model.
 
+We can again plot the **predicted probabilities with a confidence band**:
+```{r}
+# create prediction plot with confidence band:
+AGE_seq <- seq(from = min(AGE), to = max(AGE), length.out = 100)
+
+# Predictive values from posterior
+link_result <- link(m_logistic, data = list(AGE = AGE_seq))
+str(link_result) # num [1:2000, 1:100]
+# -> for the 100 AGE values, we get 2000 draws from
+# the posterior distribution of the mean (which is in our case equal to p_i).
+
+# Compute mean and credible intervals
+mu_mean <- apply(link_result, 2, mean)
+mu_CI <- apply(link_result, 2, PI)  # 89% CI by default
+
+# Create a data frame for plotting
+plot_df <- data.frame(
+  AGE = AGE_seq,
+  predicted = mu_mean,
+  ci_low = mu_CI[1, ],
+  ci_high = mu_CI[2, ]
+)
+
+ggplot(plot_df, aes(x = AGE, y = predicted)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = ci_low, ymax = ci_high), alpha = 0.2) +
+  geom_jitter(data = data.frame(AGE = AGE, y = y),
+              aes(x = AGE, y = y),
+              width = 0, height = 0.05,
+              shape = 1, color = "black", alpha = 0.5) +
+  labs(
+    title = "Predicted Probabilities with 89% CI from Bayesian Logistic Regression",
+    x = "Age",
+    y = "Predicted Probability"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+#### Predictive Performance (of the outcome Y) {#predictive_performance}
+
 **One may ask how well the model *predicts* the outcome.**
 A very honest and simple way would be to compare the predicted outcomes
-with the actual outcomes. This is called a **confusion table**.
+with the actual outcomes. This is called a **confusion table** (or [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix)).
 
 ```{r}
 predicted_outcomes <- ifelse(predict(modlog, type = "response") > 0.5, 1, 0)
@@ -1113,12 +1161,17 @@ accuracy <- sum(diag(confusion_table)) / sum(confusion_table)
 accuracy
 ```
 
+We could introduce the threshold of $0.5$ as the cutoff for a $1$.
+If the predicted probability is above $0.5$, we predict a $1$,
+otherwise a $0$. Probably, one wants to move this threshold
+up or down in order to improve performance.
+
 In the diagonal of the confusion table, we find the number of correct predictions.
 In the off-diagonal, we find the number of incorrect predictions.
 
 Now, with what shall we compare this accuracy?
 We need to compare this number with the **baseline accuracy**.
-If (as an example) $90%$ of the observations are $0$s, then we would have an accuracy of $90\%$,
+If (as an example) $90\%$ of the observations are $0$s, then we would have an accuracy of $90\%$,
 since we could just vote for the majority every time - no model needed.
 If a fancy logistic regression model does not outperform this baseline accuracy,
 then it might not be so valuable (at least not for prediction).
@@ -1126,32 +1179,64 @@ In our case, $0.7$ is higher than the baseline accuracy of $0.55$.
 The model adds some predictive value here. In my experience, 
 model performance is often modest.
 
+#### Model Assumptions {#model_assumptions}
+
 **Model assumptions** are also interesting.
 
 One can show, that the errors in logistic regression are *not homoscedastic* 
 (as they were in classical linear regression)
 (see Hosmer Lemeshow, Applied Logistic Regression, p.7).
-So, we do not need to check this.
+So, we do not need to check this. The reason is not that complicated.
+For every $Y_i$ we assume a Bernoulli distribution: $Y_i \sim \text{Bernoulli}(p_i)$.
+The probability $p_i$ is *not* constant, but increases (in our case) with `AGE`.
+The variance of a Bernoulli distribution is $p_i(1-p_i)$, which is not constant,
+if the $p_i$ is not constant. The variance is highest at $p_i = 0.5$ and 
+lowest at $p_i = 0$ or $p_i = 1$. You see this immediately when you plot the 
+variance function $p_i(1-p_i)$:
 
-We do need:
+```{r}
+p <- seq(0, 1, length.out = 100)
+var_p <- p*(1-p)
+data.frame(p = p, var_p = var_p) %>%
+  ggplot(aes(x = p, y = var_p)) +
+  geom_line() +
+  labs(title = "Variance of a Bernoulli Distribution",
+       x = "Probability of Success (p)",
+       y = "Variance (p(1-p))") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
 
-- a binary outcome (which we have);
-- independent observations (which we have, since they were constructed this way);
-- no perfect separation: This means that there should not be a cutoff under 
+The variance of a Bernoulli distribution makes intuitive sense. 
+For very low or very high probabilities, you mostly will see $0$s or $1$s, respectively,
+which means the variance is low.
+
+**Assumptions for logistic regression** are:
+
+- A binary outcome (which we have).
+- Independent observations (which we have, since they were constructed this way).
+  Obervations might not be independent in time series data or repeated measurements of
+  the same person, or clustered data (e.g., patients in hospitals).
+- No perfect separation: This means that there should not be a *single* cutoff under 
   which the outcome is always $0$ and above which the outcome is always $1$ 
-  (e.g., all people after $52$ years have a heart attack, all before $52$ do not).;
-- linear relationship between predictors and log-odds of the outcome;
-- no multicollinearity;
-- no influential observations.
+  (e.g., all people after $52$ years have a heart attack, all before $52$ do not).
+  R will throw an error if this is the case.
+- Linear relationship between predictors and log-odds of the outcome.
+  We might see this assumption violated in the deviance residuals if there are patterns, 
+  which is typically a hint that the model does not yet capture the structure of 
+  the association between $X$ and $Y$ sufficiently.
+- No [multicollinearity](https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#multicollinearity).
+- No influential observations.
 
-Let's see what `check_model` has to say:
+Let's see what `check_model` has to say (which automatically 
+checks what is possible for the given model type):
 
 ```{r}
 library(performance)
 check_model(modlog)
 ```
 
-In [exercise 14](exercise14_LMM), we will look at the model checks in more detail.
+In [exercise 14](exercise14_LMM), we will look try to replicate the model checks.
 
 - The **posterior predictive check** creates (for instance $1000$) new data sets 
   based on the estimated probabilities ($100$) of the given data.
@@ -1170,11 +1255,16 @@ In [exercise 14](exercise14_LMM), we will look at the model checks in more detai
   is calculated for such a model.
   We looked at this plot in [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right) 
   already in the context of simple linear regression.
-- ....distributional check for residuals necessary??
+- ....distributional check for residuals necessary...??
 - Observations (rows in our data set) must be **independent**, otherwise we would introduce random effects again.
   In our invented mini example, observations are of course independent.
 
 ### Multiple Logistic Regression {#multiple_logistic_regression}
+
+The major difference to the simple logistic regression is that we have more 
+than one predictor (See p.35 in Hosmer Lemeshow, Applied Logistic Regression).
+
+TODO: Example from the literature...
 
 ## Poisson Regression
 
@@ -1342,3 +1432,4 @@ Consider the section about [simple logistic regression](#simple_logistic_regress
   Frequently asked master thesis questions:
   - How to deal with missing data?
   - How calculate the sample size for XX?
+- Colour scheme for Frequentist vs. Bayesian models in the script?

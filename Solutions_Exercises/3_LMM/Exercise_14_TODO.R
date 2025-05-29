@@ -86,7 +86,39 @@ ggeffect(modlog,
 check_model(modlog)
 
 # 1) PPC---------
-# ...
+
+set.seed(123)
+sim_props <- replicate(1000, {
+  # Ziehe jedes Mal 1 Sample aus der Posteriorverteilung
+  s <- extract.samples(modlog, n = 1)
+  predicted_probabilities <- inv_logit(s$Intercept + s$AGE * AGE)
+  
+  # Ziehe ein neues y_sample basierend auf den Wahrscheinlichkeiten
+  predicted_y <- rbinom(n = length(predicted_probabilities), size = 1, prob = predicted_probabilities)
+  
+  # Speichere Anteil 0 und 1
+  c(prop_0 = mean(predicted_y == 0), prop_1 = mean(predicted_y == 1))
+})
+
+# Transponiere Matrix für besseren Zugriff
+sim_props <- t(sim_props)
+
+# Zugriff auf die Anteile
+simulated_prop_0_vec <- sim_props[, "prop_0"]
+simulated_prop_1_vec <- sim_props[, "prop_1"]
+
+# Berechne 95%-Quantile (analog check_model Balken)
+quantile(simulated_prop_1_vec, probs = c(0.025, 0.975))
+quantile(simulated_prop_0_vec, probs = c(0.025, 0.975))
+
+# Optional: Visualisierung als Histogramm
+hist(simulated_prop_1_vec, main = "Distribution of Simulated Proportion 1s",
+     xlab = "Proportion of 1s", col = "lightblue", border = "white")
+abline(v = mean(y), col = "red", lwd = 2, lty = 2) # beobachtete Prop. 1
+
+
+# visualize:
+
 
 # 2) Binned residuals----------
 check_model(modlog, check = "binned_residuals",
