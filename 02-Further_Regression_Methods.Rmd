@@ -1009,21 +1009,64 @@ exp(predict(modlog, type = "link",
 
 Very nice.
 
-Another nice feature in R is to visualize the predicted probabilities with a confidence band:
+Another cool feature is to visualize the predicted probabilities 
+with a **confidence band**:
 
 ```{r}
-library(ggeffects)
-ggeffect(modlog, 
-         terms = "AGE", 
-         type = "response") %>%
-  plot() +
-  labs(title = "Predicted Probabilities from Simple Logistic Regression",
-       x = "Age",
-       y = "Predicted Probability of 1") +
-  theme_minimal() + 
-  theme(plot.title = element_text(hjust = 0.5))
+library(tidyverse)
+
+# Create prediction grid for AGE
+AGE_grid <- seq(min(AGE), max(AGE), length.out = 100)
+
+# Predict on link scale (logit), get standard errors
+preds <- predict(modlog,
+                 newdata = data.frame(AGE = AGE_grid),
+                 type = "link", se.fit = TRUE)
+
+# Construct dataframe and transform to probability scale
+df_pred <- data.frame(
+  AGE = AGE_grid,
+  fit = preds$fit,
+  se = preds$se.fit
+) %>%
+  mutate(
+    conf.low = inv_logit(fit - 1.96 * se),
+    conf.high = inv_logit(fit + 1.96 * se),
+    predicted = inv_logit(fit),
+    ci_width = conf.high - conf.low
+  )
+
+# Identify max CI width
+max_ci_row <- df_pred %>% slice_max(order_by = ci_width, n = 1)
+
+# Plot
+ggplot(df_pred, aes(x = AGE, y = predicted)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+  geom_jitter(data = data.frame(x = AGE, y = y),
+              aes(x = x, y = y),
+              width = 0, height = 0.05,
+              shape = 1, color = "black", alpha = 0.5) +
+  geom_vline(xintercept = max_ci_row$AGE, linetype = "dashed", color = "red") +
+  annotate("text", x = max_ci_row$AGE, y = 0.95,
+           label = paste0("Max CI width\nat AGE = ", round(max_ci_row$AGE, 2)),
+           color = "red", hjust = 0, vjust = 1) +
+  labs(
+    title = "Model-predicted Probabilities (incl. raw data points) with max. CI width",
+    x = "Age",
+    y = "Predicted Probability"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(clip = "off")
 ```
 
+As you can see, the confidence band is wider when there are fewer data points.
+In the middle of the `AGE` range, the confidence band is narrower,
+which is expected since we have more data points there.
+At the extreme ends of the `AGE` range, the confidence band is 
+not maximally wide, since above $\approx 1$ and below $\approx -1$ there
+are only $Y_i = 1$ or $Y_i = 0$ observations which gives some confidence in the model.
 
 Now, the same simple model in the **Bayesian framework** using the `rethinking` package:
 
