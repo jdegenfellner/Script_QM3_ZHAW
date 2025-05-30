@@ -133,6 +133,27 @@ shade(y_ci, x_seq, col = col.alpha("red", 0.1))
 
 
 
+# Simuliere 100 Posterior predictive samples (für gesamte y-Vektoren)
+y_sim <- rethinking::sim(model, data = df)  # df enthält x und y
+# y_sim: Matrix [1000 Samples × 100 Beobachtungen]
+
+# Wähle z. B. 100 Draws aus der Posterior Predictive Matrix
+set.seed(42)
+draws_to_plot <- sample(1:nrow(y_sim), size = 100)
+
+# Zeichne Posterior Predictive Dichten (jede simulierte y-Zeile)
+plot(NULL, xlim = range(y), ylim = c(0, 0.3), xlab = "y", ylab = "Density",
+     main = "Posterior Predictive Check (Simulated y vs. Observed y)")
+
+# Blaue Dichten: die 100 simulierten
+for (i in draws_to_plot) {
+  lines(density(y_sim[i, ]), col = col.alpha("blue", 0.1))
+}
+
+# Grüne Dichte: beobachtetes y
+lines(density(df$y), col = "darkgreen", lwd = 2)
+
+
 
 # Frequenist
 mod_glm <- glm(y ~ x, data = df, family = poisson(link = "log"))

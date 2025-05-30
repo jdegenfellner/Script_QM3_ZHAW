@@ -1270,16 +1270,16 @@ TODO: Example from the literature...
 
 At first glance, [this chapter](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html) 
 of the book [*Beyond Multiple Linear Regression*](https://bookdown.org/roback/bookdown-BeyondMLR/) seems interesting.
-See also 11.2. in *Rethinking*.
+See also 11.2. in *Rethinking* and chapter 14 in *Westfall*.
 
 As we have seen in the [NHANES example](https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/calls-for-proposals?isExactMatch=true&status=31094501,31094502,31094503&order=DESC&pageNumber=1&pageSize=50&sortBy=startDate) 
 in QM2, the **outcome is not always normally distributed** as the classical linear regression
-assumes. We also assumed the variability ($\sigma$) around the mean ($\mu$) increased with the mean,
+assumes. There we also assumed the variability ($\sigma$) around the mean ($\mu$) increased with the mean,
 i.e., we explicitely modeled **heteroscedasticity**.
 
 If you have count data (or rates) like the number of hospital visits,
 the number of accidents, the number of heart attacks, etc., as outcome variable,
-you can (sometimes) use [**Poisson regression**](https://en.wikipedia.org/wiki/Poisson_regression).
+you can (sometimes, if the assumptions are met) use [**Poisson regression**](https://en.wikipedia.org/wiki/Poisson_regression).
 
 Let's quickly plot a Poisson-distributed variable $Y \sim \text{Poisson}(\lambda)$ 
 with different $\lambda$s:
@@ -1308,7 +1308,7 @@ A Poisson-distributed variable can only take integer values
 which are of course non-negative.
 
 It is a very elegant distribution, since the mean ($\mu$) is equal 
-to the variance ($\sigma^2$) and you only have one parameter $\lambda > 0$::
+to the variance ($\sigma^2$) and you only have one parameter $\lambda > 0$:
 $$\mathbb{E}(Y) = \mu = \sigma^2 = \lambda$$
 
 The above equation implies that the variance increases in a regression model 
@@ -1320,7 +1320,7 @@ They check the assumptions of the model
 (Poisson response variable $Y$, independence of observations, mean$=$variance, 
 linearity of the log of $\lambda$) beforehand.
 
-We want to save time and quickly create simulated data. Here we *know*
+We want to save time and quickly **create simulated data**. Here we *know*
 the true model.
 
 ```{r, echo = TRUE}
@@ -1390,12 +1390,13 @@ ggplot(df_points, aes(x = x, y = y)) +
 
 - In red, I drew some conditional Poisson densities (at $x = 2, 4, 6, 8$): 
   $Y_i|x \sim \text{Poisson}(\lambda = e^{0.5x - 2})$.
-- In dark red, I drew the function $\lambda(x) = e^{0.5x - 2}$, 
+- In dark red, I drew $\lambda(x) = e^{0.5x - 2}$, 
   which is the mean and the variance of the Poisson distribution.
 - Both (mean and variance) are equal and clearly increase with $x$.
 
-As you can see (in the code) from the definition of the parameter $\lambda$
-($log(\lambda) = 0.5x - 2$) **the log of the mean is a linear function of** $x$ 
+As you can see from the definition of the parameter $\lambda$:
+($log(\lambda) = 0.5x - 2$) 
+**now the log of the mean is a linear function of** $x$ 
 (in logistic regression it was the logit of the expectation $p_i$).
 **Why the log**?
 Omitting the log, we would have $\lambda = 0.5x - 2$,
@@ -1414,17 +1415,16 @@ y_i &\sim& \text{Poisson}(\lambda_i) \\
 \]
 
 - $\lambda_i$ is the expected value of $Y_i$ for observation $i$.
-- The predictor is usually centered (as is recommended in *Rethinking*)
+- The predictor ($x_i$) is usually centered (as is recommended in *Rethinking*)
   for easier interpretation of the prior and probably numeric stability,
-  but for demonstrative purposes we skip it to make the results directly 
-  comparable with the Frequentist result.
+  but for demonstrative purposes we skip it.
 
 ### Bayesian Poisson Regression {#bayesian_poisson_regression}
 We use the `rethinking` package to fit a Bayesian Poisson regression model.
 Let's see if we can recover the coefficients correctly.
 We would adjust the priors in a real-world scenario and do 
-prior predictive distributions. According to the book, the flat priors for $\alpha$ and $\beta$ 
-are not such a good idea.
+prior predictive distributions (see [exercise 16](#exercise16_LMM)). According to the book, the flat priors for $\alpha$ and $\beta$ 
+are not such a good idea (creates extreme values).
 
 ```{r, echo = TRUE}
 library(rethinking)
@@ -1468,10 +1468,42 @@ shade(lambda_ci, x_seq, col = col.alpha("red", 0.2))
 shade(y_ci, x_seq, col = col.alpha("red", 0.1))
 ```
 
+The dark shaded red area is the 89% confidence band for the mean of the outcome, 
+while the light shaded red area is the 89% confidence band for the predicted values of the outcome.
+
+The posterior predictive distribution looks very appealing (of course):
+
+```{r, echo = TRUE}
+# Simulate 1000 posterior predictive datasets (each row = one simulation)
+y_sim <- rethinking::sim(model, data = df)  # df must contain 'x' for conditioning
+
+# Select 100 draws for visualization
+set.seed(42)
+draws_to_plot <- sample(1:nrow(y_sim), size = 100)
+
+# Prepare an empty plot
+plot(NULL,
+     xlim = range(df$y), ylim = c(0, 0.3),
+     xlab = "y", ylab = "Density",
+     main = "Posterior Predictive Check (Simulated y vs. Observed y)")
+
+# Draw the predictive densities (blue curves)
+for (i in draws_to_plot) {
+  lines(density(y_sim[i, ]), col = col.alpha("blue", 0.1))
+}
+
+# Overlay the observed data density (green curve)
+lines(density(df$y), col = "green", lwd = 2)
+# Add a legend
+legend("topright", legend = c("Simulated y", "Observed y"),
+       col = c("blue", "green"), lty = 1, lwd = 2, bty = "n")
+```
+
+
 
 
 ### Frequentist Poisson Regression {#frequentist_poisson_regression}
-Since Poisson regression is a generalized linear model (with log as link function), 
+Since Poisson regression is a generalized linear model (with log as link function "g"), 
 we can use the `glm` function in R:
 ```{r, echo = TRUE}
 mod_glm <- glm(y ~ x, data = df, family = poisson(link = "log"))
@@ -1486,7 +1518,73 @@ The coefficients are very similar to the Bayesian model and seem to be even
 closer to the true values.
 The reason is probably the very rough priors we have used.
 
-**Model Assumptions**:
+**Interpretation of the coefficients** is similar to the Bayesian model.
+We ask ourselves basically always the same question: What happens to the **mean of the outcome** $Y_i$
+if we increase the predictor (of interest, for instance) $x_i$ by $1$ unit?
+
+Let's do this for our Poisson regression model (using the true coefficient for $\beta$):
+
+$$\mathbb{E}(Y_i | x+1) = \lambda(x+1) = e^{0.5(x+1)-2} = e^{0.5x + 0.5 \cdot 1 - 2} = e^{0.5x-2} \cdot e^{0.5}$$
+
+Thus, the **mean of the outcome** $Y_i$ **increases by a factor** of $e^{0.5} \approx 1.65$ 
+**when we increase $x_i$ by $1$ unit**.
+
+### Model Assumptions 
+(Maybe this [link](https://cambiotraining.github.io/stats-glm/materials/checking-assumptions.html) 
+is interesting)
+
+#### Outcome variable is Poisson distributed 
+
+This is trivial in our case, since we have simulated the data in such a way.
+But *if* we did not do that, we could check the posterior predictive distribution
+(which we have already done in the Bayesian model):
+
+```{r, echo = TRUE}
+library(performance)
+check_model(mod_glm, check = "pp_check")
+```
+
+The model spits out Poisson-distributed data (because we said so) 
+which fits the observed data ($y$) well. Good eneough for us.
+There are more sophisticated ways to check this,
+but we will not go into detail here.
+
+#### Independence of observations
+Same here, the draws are not dependent via construction.
+Knowing your data helps to decide this. If you have clustered data 
+(for instance repeated measures of the same person), 
+you might have violated this assumption.
+I am not aware of a diagnostic plot for this assumption.
+
+#### Mean should be equal variance (dispersion)
+Overdispersion occurs if the variance is larger than the mean.
+Underdispersion occurs if the variance is smaller than the mean.
+
+Nice enough, the `performance` package has a function to check this:
+```{r, echo = TRUE}
+check_overdispersion(mod_glm)
+```
+
+The `dispersion ratio` should be (in the case of Poisson regression) close to $1$,
+which is the case. $> 1$ would indicate overdispersion, $< 1$ underdispersion.
+
+#### Linearity of the log of $\lambda$ 
+
+The following plot should not be perfectly linear if we do not artificially create the data.
+We have defined the linear relationship explicitely, hence the plot is perfectly linear ($log(\lambda) = 0.5x-2$).
+
+```{r, echo = TRUE}
+plot(x, predict(mod_glm, type = "link"),
+     main = "Linear Predictor (log(μ)) vs. x",
+     xlab = "x", ylab = "log(μ̂)")
+```
+
+
+
+## Conclusion and recommendation
+.... 
+
+
 
 ## Exercises
 
@@ -1629,6 +1727,11 @@ Consider the section about [simple logistic regression](#simple_logistic_regress
   $AGE$ is the standardized age of the $i$-th participant.
 - Compare the results to before. 
 
+### [M] Exercise 16 {#exercise16_LMM}
+Consider the section about [Bayesian Poisson regression](#bayesian_poisson_regression).
+
+- Adapt the priors for $\alpha$ and $\beta$ to be more informative.
+- Do prior predictive checks to see if the priors make sense.
 
 ## TODOS
 
