@@ -1279,7 +1279,7 @@ i.e., we explicitely modeled **heteroscedasticity**.
 
 If you have count data (or rates) like the number of hospital visits,
 the number of accidents, the number of heart attacks, etc., as outcome variable,
-you can (sometimes) use the [**Poisson regression**](https://en.wikipedia.org/wiki/Poisson_regression).
+you can (sometimes) use [**Poisson regression**](https://en.wikipedia.org/wiki/Poisson_regression).
 
 Let's quickly plot a Poisson-distributed variable $Y \sim \text{Poisson}(\lambda)$ 
 with different $\lambda$s:
@@ -1311,7 +1311,8 @@ It is a very elegant distribution, since the mean ($\mu$) is equal
 to the variance ($\sigma^2$) and you only have one parameter $\lambda > 0$::
 $$\mathbb{E}(Y) = \mu = \sigma^2 = \lambda$$
 
-The above equation implies that the variance increases with the mean!
+The above equation implies that the variance increases in a regression model 
+where we model the mean!
 
 In the [book chapter](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html),
 there are 3 case studies. Feel free to read them. 
@@ -1319,7 +1320,8 @@ They check the assumptions of the model
 (Poisson response variable $Y$, independence of observations, mean$=$variance, 
 linearity of the log of $\lambda$) beforehand.
 
-We want to save time and quickly create simulated data.
+We want to save time and quickly create simulated data. Here we *know*
+the true model.
 
 ```{r, echo = TRUE}
 library(ggplot2)
@@ -1386,19 +1388,19 @@ ggplot(df_points, aes(x = x, y = y)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-- In red, I drew some conditional Poisson densities (at $x = 2, 4, 6, 8$) 
+- In red, I drew some conditional Poisson densities (at $x = 2, 4, 6, 8$): 
   $Y_i|x \sim \text{Poisson}(\lambda = e^{0.5x - 2})$.
 - In dark red, I drew the function $\lambda(x) = e^{0.5x - 2}$, 
   which is the mean and the variance of the Poisson distribution.
 - Both (mean and variance) are equal and clearly increase with $x$.
 
-As you can see (in the code) from the definition of the parameter $\lambda$:
-$log(\lambda) = 0.5x - 2$. So **the log of the mean is a linear function of** $x$ 
+As you can see (in the code) from the definition of the parameter $\lambda$
+($log(\lambda) = 0.5x - 2$) **the log of the mean is a linear function of** $x$ 
 (in logistic regression it was the logit of the expectation $p_i$).
 **Why the log**?
 Omitting the log, we would have $\lambda = 0.5x - 2$,
 which could be negative for small values of $x$, for instance for $x = 1$.
-Count data cannot be negative, hence we use the log to ensure 
+Count data cannot be (in expectation or otherwise) negative, hence we use the log to ensure 
 that $\lambda$ is always positive: $exp(0.5x - 2) > 0~\forall x$.
 
 The model definition for a simple Poisson regression is then 
@@ -1407,12 +1409,15 @@ The model definition for a simple Poisson regression is then
 \[
 \begin{array}{rcl}
 y_i &\sim& \text{Poisson}(\lambda_i) \\
-\log(\lambda_i) &=& \alpha + \beta (x_i - x) \\
+\log(\lambda_i) &=& \alpha + \beta x_i \\
 \end{array}
 \]
 
 - $\lambda_i$ is the expected value of $Y_i$ for observation $i$.
-- The predictor is centered again (as is recommended in *Rethinking*).
+- The predictor is usually centered (as is recommended in *Rethinking*)
+  for easier interpretation of the prior and probably numeric stability,
+  but for demonstrative purposes we skip it to make the results directly 
+  comparable with the Frequentist result.
 
 ### Bayesian Poisson Regression {#bayesian_poisson_regression}
 We use the `rethinking` package to fit a Bayesian Poisson regression model.
@@ -1443,19 +1448,45 @@ precis(model)
 # looks good!
 ```
 
+If you like, you can plot a confidence band for the mean and
+predicted values:
+
+```{r, echo = TRUE}
+library(rethinking)
+x_seq <- seq(from = min(df$x), to = max(df$x), length.out = 100)
+pred_data <- list(x = x_seq)
+lambda_pred <- link(model, data = pred_data)
+y_pred <- rethinking::sim(model, data = pred_data)
+lambda_mean <- apply(lambda_pred, 2, mean)
+lambda_ci <- apply(lambda_pred, 2, PI, prob = 0.89)
+y_ci <- apply(y_pred, 2, PI, prob = 0.89)
+
+plot(df$x, df$y, col = ggplot2::alpha("black", 0.4), pch = 16,
+     xlab = "x", ylab = "y", main = "Posterior Predictions with 89% CI")
+lines(x_seq, lambda_mean, col = "red", lwd = 2)
+shade(lambda_ci, x_seq, col = col.alpha("red", 0.2))
+shade(y_ci, x_seq, col = col.alpha("red", 0.1))
+```
 
 
 
 ### Frequentist Poisson Regression {#frequentist_poisson_regression}
-Since Poisson regression is a generalized linear model, we can use the `glm` function in R:
+Since Poisson regression is a generalized linear model (with log as link function), 
+we can use the `glm` function in R:
 ```{r, echo = TRUE}
 mod_glm <- glm(y ~ x, data = df, family = poisson(link = "log"))
 summary(mod_glm)
 confint(mod_glm)
 ```
 
-The coefficients are very similar to the Bayesian model and seem to be closer to the true values.
-The reason is probably the very rough priors we used in the Bayesian model.
+We ignore the `deviance` for now. The math is not that complicated,
+but it is not so important for us at this point.
+
+The coefficients are very similar to the Bayesian model and seem to be even 
+closer to the true values.
+The reason is probably the very rough priors we have used.
+
+**Model Assumptions**:
 
 ## Exercises
 

@@ -595,7 +595,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79dLEb/model-a0e15a56ecb.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmppaS5k3/model-4e621d3c9961.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1351,7 +1351,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79dLEb/model-a0e6f64c52b.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmppaS5k3/model-4e6262e4b5a2.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1400,16 +1400,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.1 seconds.
+## Chain 2 finished in 4.2 seconds.
+## Chain 3 finished in 4.2 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.2 seconds.
+## Chain 4 finished in 4.3 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.4 seconds.
+## Chain 1 finished in 4.6 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.2 seconds.
-## Total execution time: 4.4 seconds.</code></pre>
+## Mean chain execution time: 4.3 seconds.
+## Total execution time: 4.6 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -2178,7 +2178,7 @@ assumes. We also assumed the variability (<span class="math inline">\(\sigma\)</
 i.e., we explicitely modeled <strong>heteroscedasticity</strong>.</p>
 <p>If you have count data (or rates) like the number of hospital visits,
 the number of accidents, the number of heart attacks, etc., as outcome variable,
-you can (sometimes) use the <a href="https://en.wikipedia.org/wiki/Poisson_regression"><strong>Poisson regression</strong></a>.</p>
+you can (sometimes) use <a href="https://en.wikipedia.org/wiki/Poisson_regression"><strong>Poisson regression</strong></a>.</p>
 <p>Let’s quickly plot a Poisson-distributed variable <span class="math inline">\(Y \sim \text{Poisson}(\lambda)\)</span>
 with different <span class="math inline">\(\lambda\)</span>s:</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="further-regression-methods.html#cb343-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -2205,13 +2205,15 @@ which are of course non-negative.</p>
 <p>It is a very elegant distribution, since the mean (<span class="math inline">\(\mu\)</span>) is equal
 to the variance (<span class="math inline">\(\sigma^2\)</span>) and you only have one parameter <span class="math inline">\(\lambda &gt; 0\)</span>::
 <span class="math display">\[\mathbb{E}(Y) = \mu = \sigma^2 = \lambda\]</span></p>
-<p>The above equation implies that the variance increases with the mean!</p>
+<p>The above equation implies that the variance increases in a regression model
+where we model the mean!</p>
 <p>In the <a href="https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html">book chapter</a>,
 there are 3 case studies. Feel free to read them.
 They check the assumptions of the model
 (Poisson response variable <span class="math inline">\(Y\)</span>, independence of observations, mean<span class="math inline">\(=\)</span>variance,
 linearity of the log of <span class="math inline">\(\lambda\)</span>) beforehand.</p>
-<p>We want to save time and quickly create simulated data.</p>
+<p>We want to save time and quickly create simulated data. Here we <em>know</em>
+the true model.</p>
 <div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="further-regression-methods.html#cb344-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb344-2"><a href="further-regression-methods.html#cb344-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb344-3"><a href="further-regression-methods.html#cb344-3" tabindex="-1"></a></span>
@@ -2276,31 +2278,34 @@ linearity of the log of <span class="math inline">\(\lambda\)</span>) beforehand
 <span id="cb344-62"><a href="further-regression-methods.html#cb344-62" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
 <ul>
-<li>In red, I drew some conditional Poisson densities (at <span class="math inline">\(x = 2, 4, 6, 8\)</span>)
+<li>In red, I drew some conditional Poisson densities (at <span class="math inline">\(x = 2, 4, 6, 8\)</span>):
 <span class="math inline">\(Y_i|x \sim \text{Poisson}(\lambda = e^{0.5x - 2})\)</span>.</li>
 <li>In dark red, I drew the function <span class="math inline">\(\lambda(x) = e^{0.5x - 2}\)</span>,
 which is the mean and the variance of the Poisson distribution.</li>
 <li>Both (mean and variance) are equal and clearly increase with <span class="math inline">\(x\)</span>.</li>
 </ul>
-<p>As you can see (in the code) from the definition of the parameter <span class="math inline">\(\lambda\)</span>:
-<span class="math inline">\(log(\lambda) = 0.5x - 2\)</span>. So <strong>the log of the mean is a linear function of</strong> <span class="math inline">\(x\)</span>
+<p>As you can see (in the code) from the definition of the parameter <span class="math inline">\(\lambda\)</span>
+(<span class="math inline">\(log(\lambda) = 0.5x - 2\)</span>) <strong>the log of the mean is a linear function of</strong> <span class="math inline">\(x\)</span>
 (in logistic regression it was the logit of the expectation <span class="math inline">\(p_i\)</span>).
 <strong>Why the log</strong>?
 Omitting the log, we would have <span class="math inline">\(\lambda = 0.5x - 2\)</span>,
 which could be negative for small values of <span class="math inline">\(x\)</span>, for instance for <span class="math inline">\(x = 1\)</span>.
-Count data cannot be negative, hence we use the log to ensure
+Count data cannot be (in expectation or otherwise) negative, hence we use the log to ensure
 that <span class="math inline">\(\lambda\)</span> is always positive: <span class="math inline">\(exp(0.5x - 2) &gt; 0~\forall x\)</span>.</p>
 <p>The model definition for a simple Poisson regression is then
 (see also Rethinking, p.346):</p>
 <p><span class="math display">\[
 \begin{array}{rcl}
 y_i &amp;\sim&amp; \text{Poisson}(\lambda_i) \\
-\log(\lambda_i) &amp;=&amp; \alpha + \beta (x_i - x) \\
+\log(\lambda_i) &amp;=&amp; \alpha + \beta x_i \\
 \end{array}
 \]</span></p>
 <ul>
 <li><span class="math inline">\(\lambda_i\)</span> is the expected value of <span class="math inline">\(Y_i\)</span> for observation <span class="math inline">\(i\)</span>.</li>
-<li>The predictor is centered again (as is recommended in <em>Rethinking</em>).</li>
+<li>The predictor is usually centered (as is recommended in <em>Rethinking</em>)
+for easier interpretation of the prior and probably numeric stability,
+but for demonstrative purposes we skip it to make the results directly
+comparable with the Frequentist result.</li>
 </ul>
 <div id="bayesian_poisson_regression" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Bayesian Poisson Regression<a href="further-regression-methods.html#bayesian_poisson_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -2429,12 +2434,30 @@ are not such a good idea.</p>
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
 ## b  0.4769544 0.03263889  0.4252908  0.5295135 1.003665 793.8840</code></pre>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="further-regression-methods.html#cb349-1" tabindex="-1"></a><span class="co"># looks good!</span></span></code></pre></div>
+<p>If you like, you can plot a confidence band for the mean and
+predicted values:</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="further-regression-methods.html#cb350-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb350-2"><a href="further-regression-methods.html#cb350-2" tabindex="-1"></a>x_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(df<span class="sc">$</span>x), <span class="at">to =</span> <span class="fu">max</span>(df<span class="sc">$</span>x), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb350-3"><a href="further-regression-methods.html#cb350-3" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x_seq)</span>
+<span id="cb350-4"><a href="further-regression-methods.html#cb350-4" tabindex="-1"></a>lambda_pred <span class="ot">&lt;-</span> <span class="fu">link</span>(model, <span class="at">data =</span> pred_data)</span>
+<span id="cb350-5"><a href="further-regression-methods.html#cb350-5" tabindex="-1"></a>y_pred <span class="ot">&lt;-</span> rethinking<span class="sc">::</span><span class="fu">sim</span>(model, <span class="at">data =</span> pred_data)</span>
+<span id="cb350-6"><a href="further-regression-methods.html#cb350-6" tabindex="-1"></a>lambda_mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(lambda_pred, <span class="dv">2</span>, mean)</span>
+<span id="cb350-7"><a href="further-regression-methods.html#cb350-7" tabindex="-1"></a>lambda_ci <span class="ot">&lt;-</span> <span class="fu">apply</span>(lambda_pred, <span class="dv">2</span>, PI, <span class="at">prob =</span> <span class="fl">0.89</span>)</span>
+<span id="cb350-8"><a href="further-regression-methods.html#cb350-8" tabindex="-1"></a>y_ci <span class="ot">&lt;-</span> <span class="fu">apply</span>(y_pred, <span class="dv">2</span>, PI, <span class="at">prob =</span> <span class="fl">0.89</span>)</span>
+<span id="cb350-9"><a href="further-regression-methods.html#cb350-9" tabindex="-1"></a></span>
+<span id="cb350-10"><a href="further-regression-methods.html#cb350-10" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">col =</span> ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;black&quot;</span>, <span class="fl">0.4</span>), <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb350-11"><a href="further-regression-methods.html#cb350-11" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Posterior Predictions with 89% CI&quot;</span>)</span>
+<span id="cb350-12"><a href="further-regression-methods.html#cb350-12" tabindex="-1"></a><span class="fu">lines</span>(x_seq, lambda_mean, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb350-13"><a href="further-regression-methods.html#cb350-13" tabindex="-1"></a><span class="fu">shade</span>(lambda_ci, x_seq, <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.2</span>))</span>
+<span id="cb350-14"><a href="further-regression-methods.html#cb350-14" tabindex="-1"></a><span class="fu">shade</span>(y_ci, x_seq, <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.1</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 </div>
 <div id="frequentist_poisson_regression" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Frequentist Poisson Regression<a href="further-regression-methods.html#frequentist_poisson_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Since Poisson regressioon is a generalized linear model, we can use the <code>glm</code> function in R:</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="further-regression-methods.html#cb350-1" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>))</span>
-<span id="cb350-2"><a href="further-regression-methods.html#cb350-2" tabindex="-1"></a><span class="fu">summary</span>(mod_glm)</span></code></pre></div>
+<p>Since Poisson regression is a generalized linear model (with log as link function),
+we can use the <code>glm</code> function in R:</p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="further-regression-methods.html#cb351-1" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>))</span>
+<span id="cb351-2"><a href="further-regression-methods.html#cb351-2" tabindex="-1"></a><span class="fu">summary</span>(mod_glm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = y ~ x, family = poisson(link = &quot;log&quot;), data = df)
@@ -2453,13 +2476,16 @@ are not such a good idea.</p>
 ## AIC: 331.57
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="further-regression-methods.html#cb352-1" tabindex="-1"></a><span class="fu">confint</span>(mod_glm)</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="further-regression-methods.html#cb353-1" tabindex="-1"></a><span class="fu">confint</span>(mod_glm)</span></code></pre></div>
 <pre><code>## Waiting for profiling to be done...</code></pre>
 <pre><code>##                  2.5 %     97.5 %
 ## (Intercept) -2.4652450 -1.4995384
 ## x            0.4250639  0.5629309</code></pre>
+<p>We ignore the <code>deviance</code> for now. The math is not that complicated,
+but it is not so important for us right now.</p>
 <p>The coefficients are very similar to the Bayesian model and seem to be closer to the true values.
 The reason is probably the very rough priors we used in the Bayesian model.</p>
+<p><strong>Assumptions</strong>:</p>
 </div>
 </div>
 <div id="exercises-1" class="section level2 hasAnchor" number="3.4">

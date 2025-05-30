@@ -114,13 +114,50 @@ model <- ulam(
 precis(model)
 # looks good!
 
+# predictions with confidence band:
+library(rethinking)
+conflicts_prefer(rethinking::sim)
+x_seq <- seq(from = min(df$x), to = max(df$x), length.out = 100)
+pred_data <- list(x = x_seq)
+lambda_pred <- link(model, data = pred_data)
+y_pred <- sim(model, data = pred_data)
+lambda_mean <- apply(lambda_pred, 2, mean)
+lambda_ci <- apply(lambda_pred, 2, PI, prob = 0.89)
+y_ci <- apply(y_pred, 2, PI, prob = 0.89)
+
+plot(df$x, df$y, col = alpha("black", 0.4), pch = 16,
+     xlab = "x", ylab = "y", main = "Posterior Predictions with 89% CI")
+lines(x_seq, lambda_mean, col = "red", lwd = 2)
+shade(lambda_ci, x_seq, col = col.alpha("red", 0.2))
+shade(y_ci, x_seq, col = col.alpha("red", 0.1))
+
+
+
 
 # Frequenist
 mod_glm <- glm(y ~ x, data = df, family = poisson(link = "log"))
 summary(mod_glm)
 confint(mod_glm)
 
+# deviance:
 
+# Modell-Log-Likelihood
+(logLik_model <- logLik(mod_glm))
+
+# Saturierte Log-Likelihood = Summe von log dpois(y_i, lambda = y_i)
+(logLik_saturated <- sum(dpois(df$y, lambda = df$y, log = TRUE)))
+
+# Deviance manuell
+D_manual <- 2 * (logLik_saturated - logLik_model)
+D_manual
+
+# Vergleich mit:
+mod_glm$deviance
+
+
+
+
+# assumptions---------
 ?check_model
 check_model(mod_glm, check = "pp_check")
 
@@ -133,3 +170,6 @@ plot(mod_gam, residuals = TRUE)
 library(car)
 ?crPlots
 crPlots(mod_glm)
+
+
+# 
