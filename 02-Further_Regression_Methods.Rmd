@@ -1262,13 +1262,16 @@ In [exercise 14](exercise14_LMM), we will look try to replicate the model checks
 ### Multiple Logistic Regression {#multiple_logistic_regression}
 
 The major difference to the simple logistic regression is that we have more 
-than one predictor (See p.35 in Hosmer Lemeshow, Applied Logistic Regression).
+than one predictor (see p.35 in Hosmer Lemeshow, Applied Logistic Regression).
 
 TODO: Example from the literature...
 
 ## Poisson Regression
 
-IF TIME
+At first glance, [this chapter](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html) 
+of the book [*Beyond Multiple Linear Regression*](https://bookdown.org/roback/bookdown-BeyondMLR/) seems interesting.
+See also 11.2. in *Rethinking*.
+
 
 ## Exercises
 
