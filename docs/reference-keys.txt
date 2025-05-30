@@ -45,6 +45,8 @@ predictive_performance
 model_assumptions
 multiple_logistic_regression
 poisson-regression
+bayesian_poisson_regression
+frequentist_poisson_regression
 exercises-1
 exercise1_LMM
 exercise2_LMM

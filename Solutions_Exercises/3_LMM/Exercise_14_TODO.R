@@ -86,35 +86,23 @@ ggeffect(modlog,
 check_model(modlog)
 
 # 1) PPC---------
+samples_modlog <- extract.samples(modlog, n=100) # this also works for Frequentist models
+str(samples_modlog) # 
 
-set.seed(123)
-sim_props <- replicate(1000, {
-  # Ziehe jedes Mal 1 Sample aus der Posteriorverteilung
-  s <- extract.samples(modlog, n = 1)
-  predicted_probabilities <- inv_logit(s$Intercept + s$AGE * AGE)
-  
-  # Ziehe ein neues y_sample basierend auf den Wahrscheinlichkeiten
-  predicted_y <- rbinom(n = length(predicted_probabilities), size = 1, prob = predicted_probabilities)
-  
-  # Speichere Anteil 0 und 1
-  c(prop_0 = mean(predicted_y == 0), prop_1 = mean(predicted_y == 1))
-})
+# we want the probabilties:
+predicted_probabilities <- inv_logit(samples_modlog$Intercept + 
+                                      samples_modlog$AGE * AGE)
 
-# Transponiere Matrix für besseren Zugriff
-sim_props <- t(sim_props)
+# use all these predicted probabilities to draw one number from a bernoulli distribution
+predicted_y <- rbinom(n = length(predicted_probabilities), 
+                      size = 1, 
+                      prob = predicted_probabilities)
+# plot to confirm the check_model output:
+(obs_prop_1 <- sum(y) / length(y))
+(obs_prop_0 <- 1 - obs_prop_1)
 
-# Zugriff auf die Anteile
-simulated_prop_0_vec <- sim_props[, "prop_0"]
-simulated_prop_1_vec <- sim_props[, "prop_1"]
-
-# Berechne 95%-Quantile (analog check_model Balken)
-quantile(simulated_prop_1_vec, probs = c(0.025, 0.975))
-quantile(simulated_prop_0_vec, probs = c(0.025, 0.975))
-
-# Optional: Visualisierung als Histogramm
-hist(simulated_prop_1_vec, main = "Distribution of Simulated Proportion 1s",
-     xlab = "Proportion of 1s", col = "lightblue", border = "white")
-abline(v = mean(y), col = "red", lwd = 2, lty = 2) # beobachtete Prop. 1
+(simulated_prop_1 <- sum(predicted_y) / length(predicted_y))
+(simulated_prop_0 <- 1 - simulated_prop_1)
 
 
 # visualize:

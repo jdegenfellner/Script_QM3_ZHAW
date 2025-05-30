@@ -1272,6 +1272,190 @@ At first glance, [this chapter](https://bookdown.org/roback/bookdown-BeyondMLR/c
 of the book [*Beyond Multiple Linear Regression*](https://bookdown.org/roback/bookdown-BeyondMLR/) seems interesting.
 See also 11.2. in *Rethinking*.
 
+As we have seen in the [NHANES example](https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/calls-for-proposals?isExactMatch=true&status=31094501,31094502,31094503&order=DESC&pageNumber=1&pageSize=50&sortBy=startDate) 
+in QM2, the **outcome is not always normally distributed** as the classical linear regression
+assumes. We also assumed the variability ($\sigma$) around the mean ($\mu$) increased with the mean,
+i.e., we explicitely modeled **heteroscedasticity**.
+
+If you have count data (or rates) like the number of hospital visits,
+the number of accidents, the number of heart attacks, etc., as outcome variable,
+you can (sometimes) use the [**Poisson regression**](https://en.wikipedia.org/wiki/Poisson_regression).
+
+Let's quickly plot a Poisson-distributed variable $Y \sim \text{Poisson}(\lambda)$ 
+with different $\lambda$s:
+```{r}
+library(ggplot2)
+
+lambda_values <- c(1, 5, 10, 20)
+y_vals <- 0:40
+
+poisson_data <- expand.grid(y = y_vals, lambda = lambda_values)
+poisson_data$prob <- dpois(poisson_data$y, poisson_data$lambda)
+poisson_data$lambda <- factor(poisson_data$lambda,
+                              labels = paste0("λ = ", lambda_values))
+
+ggplot(poisson_data, aes(x = y, y = prob, color = lambda)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Poisson distributions",
+       x = "Y",
+       y = "density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+A Poisson-distributed variable can only take integer values 
+which are of course non-negative.
+
+It is a very elegant distribution, since the mean ($\mu$) is equal 
+to the variance ($\sigma^2$) and you only have one parameter $\lambda > 0$::
+$$\mathbb{E}(Y) = \mu = \sigma^2 = \lambda$$
+
+The above equation implies that the variance increases with the mean!
+
+In the [book chapter](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html),
+there are 3 case studies. Feel free to read them. 
+They check the assumptions of the model
+(Poisson response variable $Y$, independence of observations, mean$=$variance, 
+linearity of the log of $\lambda$) beforehand.
+
+We want to save time and quickly create simulated data.
+
+```{r, echo = TRUE}
+library(ggplot2)
+library(dplyr)
+
+# Simulate base data
+set.seed(123)
+x <- rnorm(100, mean = 5, sd = 2)
+y <- rpois(100, lambda = exp(0.5 * x - 2))
+df_points <- data.frame(x = x, y = y)
+
+# Reference x-values and corresponding lambdas
+x_ref <- c(2, 4, 6, 8)
+lambda_ref <- exp(0.5 * x_ref - 2)
+width <- 1  # horizontal stretch of the density curves
+
+# Generate only the right half of each Poisson density curve
+poisson_curves <- lapply(seq_along(x_ref), function(i) {
+  lam <- lambda_ref[i]
+  xx <- x_ref[i]
+  y_vals <- 0:20
+  d_vals <- dpois(y_vals, lam)
+  
+  data.frame(
+    x = xx + d_vals * width,
+    y = y_vals,
+    group = paste0("x = ", xx)
+  )
+}) %>% bind_rows()
+
+# Integer y values for horizontal reference lines
+y_breaks <- 0:max(df_points$y)
+
+# Lambda curve: exp(0.5 * x - 2)
+lambda_curve <- data.frame(
+  x = seq(min(df_points$x), max(df_points$x), length.out = 200)
+) %>%
+  mutate(y = exp(0.5 * x - 2))
+
+# Plot
+ggplot(df_points, aes(x = x, y = y)) +
+  # scatterplot
+  geom_point(color = "blue", alpha = 0.6) +
+  # vertical dashed reference lines
+  geom_vline(xintercept = x_ref, linetype = "dashed", 
+             color = "red", linewidth = 0.3) +
+  # horizontal dashed lines at integer y-values
+  geom_hline(yintercept = y_breaks, linetype = "dashed", 
+             color = "gray50", linewidth = 0.2) +
+  # right half of Poisson curves
+  geom_path(data = poisson_curves, aes(x = x, y = y, group = group),
+            color = "red", linewidth = 1) +
+  # lambda curve
+  geom_line(data = lambda_curve, aes(x = x, y = y),
+            color = "darkred", linewidth = 1, linetype = "solid") +
+  # x-axis only at reference points
+  scale_x_continuous(breaks = x_ref) +
+  labs(
+    title = "Poisson Model: Densities and Lambda(x) = exp(0.5x - 2)",
+    x = "x",
+    y = "y"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+- In red, I drew some conditional Poisson densities (at $x = 2, 4, 6, 8$) 
+  $Y_i|x \sim \text{Poisson}(\lambda = e^{0.5x - 2})$.
+- In dark red, I drew the function $\lambda(x) = e^{0.5x - 2}$, 
+  which is the mean and the variance of the Poisson distribution.
+- Both (mean and variance) are equal and clearly increase with $x$.
+
+As you can see (in the code) from the definition of the parameter $\lambda$:
+$log(\lambda) = 0.5x - 2$. So **the log of the mean is a linear function of** $x$ 
+(in logistic regression it was the logit of the expectation $p_i$).
+**Why the log**?
+Omitting the log, we would have $\lambda = 0.5x - 2$,
+which could be negative for small values of $x$, for instance for $x = 1$.
+Count data cannot be negative, hence we use the log to ensure 
+that $\lambda$ is always positive: $exp(0.5x - 2) > 0~\forall x$.
+
+The model definition for a simple Poisson regression is then 
+(see also Rethinking, p.346):
+
+\[
+\begin{array}{rcl}
+y_i &\sim& \text{Poisson}(\lambda_i) \\
+\log(\lambda_i) &=& \alpha + \beta (x_i - x) \\
+\end{array}
+\]
+
+- $\lambda_i$ is the expected value of $Y_i$ for observation $i$.
+- The predictor is centered again (as is recommended in *Rethinking*).
+
+### Bayesian Poisson Regression {#bayesian_poisson_regression}
+We use the `rethinking` package to fit a Bayesian Poisson regression model.
+Let's see if we can recover the coefficients correctly.
+We would adjust the priors in a real-world scenario and do 
+prior predictive distributions. According to the book, the flat priors for $\alpha$ and $\beta$ 
+are not such a good idea.
+
+```{r, echo = TRUE}
+library(rethinking)
+set.seed(123)
+x <- rnorm(100, mean = 5, sd = 2)
+y <- rpois(100, lambda = exp(0.5 * x - 2))
+df <- data.frame(x = x, y = y)
+
+model <- ulam(
+  alist(
+    y ~ dpois(lambda),
+    log(lambda) <- a + b * x,
+    a ~ dnorm(0, 1),
+    b ~ dnorm(0, 1)
+  ),
+  data = df,
+  iter = 2000,
+  chains = 4
+)
+precis(model)
+# looks good!
+```
+
+
+
+
+### Frequentist Poisson Regression {#frequentist_poisson_regression}
+Since Poisson regression is a generalized linear model, we can use the `glm` function in R:
+```{r, echo = TRUE}
+mod_glm <- glm(y ~ x, data = df, family = poisson(link = "log"))
+summary(mod_glm)
+confint(mod_glm)
+```
+
+The coefficients are very similar to the Bayesian model and seem to be closer to the true values.
+The reason is probably the very rough priors we used in the Bayesian model.
 
 ## Exercises
 

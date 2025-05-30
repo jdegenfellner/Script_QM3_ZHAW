@@ -190,7 +190,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#simple_logistic_regression"><i class="fa fa-check"></i><b>3.2.1</b> Simple Logistic Regression</a></li>
 <li class="chapter" data-level="3.2.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#multiple_logistic_regression"><i class="fa fa-check"></i><b>3.2.2</b> Multiple Logistic Regression</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="further-regression-methods.html"><a href="further-regression-methods.html#poisson-regression"><i class="fa fa-check"></i><b>3.3</b> Poisson Regression</a></li>
+<li class="chapter" data-level="3.3" data-path="further-regression-methods.html"><a href="further-regression-methods.html#poisson-regression"><i class="fa fa-check"></i><b>3.3</b> Poisson Regression</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#bayesian_poisson_regression"><i class="fa fa-check"></i><b>3.3.1</b> Bayesian Poisson Regression</a></li>
+<li class="chapter" data-level="3.3.2" data-path="further-regression-methods.html"><a href="further-regression-methods.html#frequentist_poisson_regression"><i class="fa fa-check"></i><b>3.3.2</b> Frequentist Poisson Regression</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercises-1"><i class="fa fa-check"></i><b>3.4</b> Exercises</a>
 <ul>
 <li class="chapter" data-level="3.4.1" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise1_LMM"><i class="fa fa-check"></i><b>3.4.1</b> [E] Exercise 1</a></li>
@@ -591,7 +595,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpfkQb0D/model-c7c56162bc1a.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79dLEb/model-a0e15a56ecb.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1347,7 +1351,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpfkQb0D/model-c7c55ba3b445.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmp79dLEb/model-a0e6f64c52b.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1356,15 +1360,15 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
 ## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1396,16 +1400,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.3 seconds.
-## Chain 3 finished in 4.3 seconds.
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.3 seconds.
+## Chain 4 finished in 4.2 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.5 seconds.
+## Chain 1 finished in 4.4 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.4 seconds.
-## Total execution time: 4.6 seconds.</code></pre>
+## Mean chain execution time: 4.2 seconds.
+## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -2159,7 +2163,7 @@ In our invented mini example, observations are of course independent.</li>
 <div id="multiple_logistic_regression" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Multiple Logistic Regression<a href="further-regression-methods.html#multiple_logistic_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The major difference to the simple logistic regression is that we have more
-than one predictor (See p.35 in Hosmer Lemeshow, Applied Logistic Regression).</p>
+than one predictor (see p.35 in Hosmer Lemeshow, Applied Logistic Regression).</p>
 <p>TODO: Example from the literature…</p>
 </div>
 </div>
@@ -2168,6 +2172,295 @@ than one predictor (See p.35 in Hosmer Lemeshow, Applied Logistic Regression).</
 <p>At first glance, <a href="https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html">this chapter</a>
 of the book <a href="https://bookdown.org/roback/bookdown-BeyondMLR/"><em>Beyond Multiple Linear Regression</em></a> seems interesting.
 See also 11.2. in <em>Rethinking</em>.</p>
+<p>As we have seen in the <a href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/calls-for-proposals?isExactMatch=true&amp;status=31094501,31094502,31094503&amp;order=DESC&amp;pageNumber=1&amp;pageSize=50&amp;sortBy=startDate">NHANES example</a>
+in QM2, the <strong>outcome is not always normally distributed</strong> as the classical linear regression
+assumes. We also assumed the variability (<span class="math inline">\(\sigma\)</span>) around the mean (<span class="math inline">\(\mu\)</span>) increased with the mean,
+i.e., we explicitely modeled <strong>heteroscedasticity</strong>.</p>
+<p>If you have count data (or rates) like the number of hospital visits,
+the number of accidents, the number of heart attacks, etc., as outcome variable,
+you can (sometimes) use the <a href="https://en.wikipedia.org/wiki/Poisson_regression"><strong>Poisson regression</strong></a>.</p>
+<p>Let’s quickly plot a Poisson-distributed variable <span class="math inline">\(Y \sim \text{Poisson}(\lambda)\)</span>
+with different <span class="math inline">\(\lambda\)</span>s:</p>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="further-regression-methods.html#cb343-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb343-2"><a href="further-regression-methods.html#cb343-2" tabindex="-1"></a></span>
+<span id="cb343-3"><a href="further-regression-methods.html#cb343-3" tabindex="-1"></a>lambda_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>)</span>
+<span id="cb343-4"><a href="further-regression-methods.html#cb343-4" tabindex="-1"></a>y_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">40</span></span>
+<span id="cb343-5"><a href="further-regression-methods.html#cb343-5" tabindex="-1"></a></span>
+<span id="cb343-6"><a href="further-regression-methods.html#cb343-6" tabindex="-1"></a>poisson_data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">y =</span> y_vals, <span class="at">lambda =</span> lambda_values)</span>
+<span id="cb343-7"><a href="further-regression-methods.html#cb343-7" tabindex="-1"></a>poisson_data<span class="sc">$</span>prob <span class="ot">&lt;-</span> <span class="fu">dpois</span>(poisson_data<span class="sc">$</span>y, poisson_data<span class="sc">$</span>lambda)</span>
+<span id="cb343-8"><a href="further-regression-methods.html#cb343-8" tabindex="-1"></a>poisson_data<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">factor</span>(poisson_data<span class="sc">$</span>lambda,</span>
+<span id="cb343-9"><a href="further-regression-methods.html#cb343-9" tabindex="-1"></a>                              <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="st">&quot;λ = &quot;</span>, lambda_values))</span>
+<span id="cb343-10"><a href="further-regression-methods.html#cb343-10" tabindex="-1"></a></span>
+<span id="cb343-11"><a href="further-regression-methods.html#cb343-11" tabindex="-1"></a><span class="fu">ggplot</span>(poisson_data, <span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> prob, <span class="at">color =</span> lambda)) <span class="sc">+</span></span>
+<span id="cb343-12"><a href="further-regression-methods.html#cb343-12" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb343-13"><a href="further-regression-methods.html#cb343-13" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb343-14"><a href="further-regression-methods.html#cb343-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Poisson distributions&quot;</span>,</span>
+<span id="cb343-15"><a href="further-regression-methods.html#cb343-15" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb343-16"><a href="further-regression-methods.html#cb343-16" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb343-17"><a href="further-regression-methods.html#cb343-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb343-18"><a href="further-regression-methods.html#cb343-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>A Poisson-distributed variable can only take integer values
+which are of course non-negative.</p>
+<p>It is a very elegant distribution, since the mean (<span class="math inline">\(\mu\)</span>) is equal
+to the variance (<span class="math inline">\(\sigma^2\)</span>) and you only have one parameter <span class="math inline">\(\lambda &gt; 0\)</span>::
+<span class="math display">\[\mathbb{E}(Y) = \mu = \sigma^2 = \lambda\]</span></p>
+<p>The above equation implies that the variance increases with the mean!</p>
+<p>In the <a href="https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html">book chapter</a>,
+there are 3 case studies. Feel free to read them.
+They check the assumptions of the model
+(Poisson response variable <span class="math inline">\(Y\)</span>, independence of observations, mean<span class="math inline">\(=\)</span>variance,
+linearity of the log of <span class="math inline">\(\lambda\)</span>) beforehand.</p>
+<p>We want to save time and quickly create simulated data.</p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="further-regression-methods.html#cb344-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb344-2"><a href="further-regression-methods.html#cb344-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb344-3"><a href="further-regression-methods.html#cb344-3" tabindex="-1"></a></span>
+<span id="cb344-4"><a href="further-regression-methods.html#cb344-4" tabindex="-1"></a><span class="co"># Simulate base data</span></span>
+<span id="cb344-5"><a href="further-regression-methods.html#cb344-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb344-6"><a href="further-regression-methods.html#cb344-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb344-7"><a href="further-regression-methods.html#cb344-7" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb344-8"><a href="further-regression-methods.html#cb344-8" tabindex="-1"></a>df_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb344-9"><a href="further-regression-methods.html#cb344-9" tabindex="-1"></a></span>
+<span id="cb344-10"><a href="further-regression-methods.html#cb344-10" tabindex="-1"></a><span class="co"># Reference x-values and corresponding lambdas</span></span>
+<span id="cb344-11"><a href="further-regression-methods.html#cb344-11" tabindex="-1"></a>x_ref <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
+<span id="cb344-12"><a href="further-regression-methods.html#cb344-12" tabindex="-1"></a>lambda_ref <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x_ref <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb344-13"><a href="further-regression-methods.html#cb344-13" tabindex="-1"></a>width <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># horizontal stretch of the density curves</span></span>
+<span id="cb344-14"><a href="further-regression-methods.html#cb344-14" tabindex="-1"></a></span>
+<span id="cb344-15"><a href="further-regression-methods.html#cb344-15" tabindex="-1"></a><span class="co"># Generate only the right half of each Poisson density curve</span></span>
+<span id="cb344-16"><a href="further-regression-methods.html#cb344-16" tabindex="-1"></a>poisson_curves <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(x_ref), <span class="cf">function</span>(i) {</span>
+<span id="cb344-17"><a href="further-regression-methods.html#cb344-17" tabindex="-1"></a>  lam <span class="ot">&lt;-</span> lambda_ref[i]</span>
+<span id="cb344-18"><a href="further-regression-methods.html#cb344-18" tabindex="-1"></a>  xx <span class="ot">&lt;-</span> x_ref[i]</span>
+<span id="cb344-19"><a href="further-regression-methods.html#cb344-19" tabindex="-1"></a>  y_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb344-20"><a href="further-regression-methods.html#cb344-20" tabindex="-1"></a>  d_vals <span class="ot">&lt;-</span> <span class="fu">dpois</span>(y_vals, lam)</span>
+<span id="cb344-21"><a href="further-regression-methods.html#cb344-21" tabindex="-1"></a>  </span>
+<span id="cb344-22"><a href="further-regression-methods.html#cb344-22" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb344-23"><a href="further-regression-methods.html#cb344-23" tabindex="-1"></a>    <span class="at">x =</span> xx <span class="sc">+</span> d_vals <span class="sc">*</span> width,</span>
+<span id="cb344-24"><a href="further-regression-methods.html#cb344-24" tabindex="-1"></a>    <span class="at">y =</span> y_vals,</span>
+<span id="cb344-25"><a href="further-regression-methods.html#cb344-25" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">paste0</span>(<span class="st">&quot;x = &quot;</span>, xx)</span>
+<span id="cb344-26"><a href="further-regression-methods.html#cb344-26" tabindex="-1"></a>  )</span>
+<span id="cb344-27"><a href="further-regression-methods.html#cb344-27" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb344-28"><a href="further-regression-methods.html#cb344-28" tabindex="-1"></a></span>
+<span id="cb344-29"><a href="further-regression-methods.html#cb344-29" tabindex="-1"></a><span class="co"># Integer y values for horizontal reference lines</span></span>
+<span id="cb344-30"><a href="further-regression-methods.html#cb344-30" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(df_points<span class="sc">$</span>y)</span>
+<span id="cb344-31"><a href="further-regression-methods.html#cb344-31" tabindex="-1"></a></span>
+<span id="cb344-32"><a href="further-regression-methods.html#cb344-32" tabindex="-1"></a><span class="co"># Lambda curve: exp(0.5 * x - 2)</span></span>
+<span id="cb344-33"><a href="further-regression-methods.html#cb344-33" tabindex="-1"></a>lambda_curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb344-34"><a href="further-regression-methods.html#cb344-34" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df_points<span class="sc">$</span>x), <span class="fu">max</span>(df_points<span class="sc">$</span>x), <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb344-35"><a href="further-regression-methods.html#cb344-35" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb344-36"><a href="further-regression-methods.html#cb344-36" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb344-37"><a href="further-regression-methods.html#cb344-37" tabindex="-1"></a></span>
+<span id="cb344-38"><a href="further-regression-methods.html#cb344-38" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb344-39"><a href="further-regression-methods.html#cb344-39" tabindex="-1"></a><span class="fu">ggplot</span>(df_points, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb344-40"><a href="further-regression-methods.html#cb344-40" tabindex="-1"></a>  <span class="co"># scatterplot</span></span>
+<span id="cb344-41"><a href="further-regression-methods.html#cb344-41" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb344-42"><a href="further-regression-methods.html#cb344-42" tabindex="-1"></a>  <span class="co"># vertical dashed reference lines</span></span>
+<span id="cb344-43"><a href="further-regression-methods.html#cb344-43" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_ref, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb344-44"><a href="further-regression-methods.html#cb344-44" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb344-45"><a href="further-regression-methods.html#cb344-45" tabindex="-1"></a>  <span class="co"># horizontal dashed lines at integer y-values</span></span>
+<span id="cb344-46"><a href="further-regression-methods.html#cb344-46" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_breaks, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb344-47"><a href="further-regression-methods.html#cb344-47" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray50&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb344-48"><a href="further-regression-methods.html#cb344-48" tabindex="-1"></a>  <span class="co"># right half of Poisson curves</span></span>
+<span id="cb344-49"><a href="further-regression-methods.html#cb344-49" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> poisson_curves, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group),</span>
+<span id="cb344-50"><a href="further-regression-methods.html#cb344-50" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb344-51"><a href="further-regression-methods.html#cb344-51" tabindex="-1"></a>  <span class="co"># lambda curve</span></span>
+<span id="cb344-52"><a href="further-regression-methods.html#cb344-52" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> lambda_curve, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
+<span id="cb344-53"><a href="further-regression-methods.html#cb344-53" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>) <span class="sc">+</span></span>
+<span id="cb344-54"><a href="further-regression-methods.html#cb344-54" tabindex="-1"></a>  <span class="co"># x-axis only at reference points</span></span>
+<span id="cb344-55"><a href="further-regression-methods.html#cb344-55" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> x_ref) <span class="sc">+</span></span>
+<span id="cb344-56"><a href="further-regression-methods.html#cb344-56" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb344-57"><a href="further-regression-methods.html#cb344-57" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Poisson Model: Densities and Lambda(x) = exp(0.5x - 2)&quot;</span>,</span>
+<span id="cb344-58"><a href="further-regression-methods.html#cb344-58" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb344-59"><a href="further-regression-methods.html#cb344-59" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;y&quot;</span></span>
+<span id="cb344-60"><a href="further-regression-methods.html#cb344-60" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb344-61"><a href="further-regression-methods.html#cb344-61" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb344-62"><a href="further-regression-methods.html#cb344-62" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<ul>
+<li>In red, I drew some conditional Poisson densities (at <span class="math inline">\(x = 2, 4, 6, 8\)</span>)
+<span class="math inline">\(Y_i|x \sim \text{Poisson}(\lambda = e^{0.5x - 2})\)</span>.</li>
+<li>In dark red, I drew the function <span class="math inline">\(\lambda(x) = e^{0.5x - 2}\)</span>,
+which is the mean and the variance of the Poisson distribution.</li>
+<li>Both (mean and variance) are equal and clearly increase with <span class="math inline">\(x\)</span>.</li>
+</ul>
+<p>As you can see (in the code) from the definition of the parameter <span class="math inline">\(\lambda\)</span>:
+<span class="math inline">\(log(\lambda) = 0.5x - 2\)</span>. So <strong>the log of the mean is a linear function of</strong> <span class="math inline">\(x\)</span>
+(in logistic regression it was the logit of the expectation <span class="math inline">\(p_i\)</span>).
+<strong>Why the log</strong>?
+Omitting the log, we would have <span class="math inline">\(\lambda = 0.5x - 2\)</span>,
+which could be negative for small values of <span class="math inline">\(x\)</span>, for instance for <span class="math inline">\(x = 1\)</span>.
+Count data cannot be negative, hence we use the log to ensure
+that <span class="math inline">\(\lambda\)</span> is always positive: <span class="math inline">\(exp(0.5x - 2) &gt; 0~\forall x\)</span>.</p>
+<p>The model definition for a simple Poisson regression is then
+(see also Rethinking, p.346):</p>
+<p><span class="math display">\[
+\begin{array}{rcl}
+y_i &amp;\sim&amp; \text{Poisson}(\lambda_i) \\
+\log(\lambda_i) &amp;=&amp; \alpha + \beta (x_i - x) \\
+\end{array}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\lambda_i\)</span> is the expected value of <span class="math inline">\(Y_i\)</span> for observation <span class="math inline">\(i\)</span>.</li>
+<li>The predictor is centered again (as is recommended in <em>Rethinking</em>).</li>
+</ul>
+<div id="bayesian_poisson_regression" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Bayesian Poisson Regression<a href="further-regression-methods.html#bayesian_poisson_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We use the <code>rethinking</code> package to fit a Bayesian Poisson regression model.
+Let’s see if we can recover the coefficients correctly.
+We would adjust the priors in a real-world scenario and do
+prior predictive distributions. According to the book, the flat priors for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>
+are not such a good idea.</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="further-regression-methods.html#cb345-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb345-2"><a href="further-regression-methods.html#cb345-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb345-3"><a href="further-regression-methods.html#cb345-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb345-4"><a href="further-regression-methods.html#cb345-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb345-5"><a href="further-regression-methods.html#cb345-5" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb345-6"><a href="further-regression-methods.html#cb345-6" tabindex="-1"></a></span>
+<span id="cb345-7"><a href="further-regression-methods.html#cb345-7" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb345-8"><a href="further-regression-methods.html#cb345-8" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb345-9"><a href="further-regression-methods.html#cb345-9" tabindex="-1"></a>    y <span class="sc">~</span> <span class="fu">dpois</span>(lambda),</span>
+<span id="cb345-10"><a href="further-regression-methods.html#cb345-10" tabindex="-1"></a>    <span class="fu">log</span>(lambda) <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> x,</span>
+<span id="cb345-11"><a href="further-regression-methods.html#cb345-11" tabindex="-1"></a>    a <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb345-12"><a href="further-regression-methods.html#cb345-12" tabindex="-1"></a>    b <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb345-13"><a href="further-regression-methods.html#cb345-13" tabindex="-1"></a>  ),</span>
+<span id="cb345-14"><a href="further-regression-methods.html#cb345-14" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb345-15"><a href="further-regression-methods.html#cb345-15" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,</span>
+<span id="cb345-16"><a href="further-regression-methods.html#cb345-16" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span></span>
+<span id="cb345-17"><a href="further-regression-methods.html#cb345-17" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Running MCMC with 4 sequential chains, with 1 thread(s) per chain...
+## 
+## Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+## Chain 1 Iteration:  100 / 2000 [  5%]  (Warmup) 
+## Chain 1 Iteration:  200 / 2000 [ 10%]  (Warmup) 
+## Chain 1 Iteration:  300 / 2000 [ 15%]  (Warmup) 
+## Chain 1 Iteration:  400 / 2000 [ 20%]  (Warmup) 
+## Chain 1 Iteration:  500 / 2000 [ 25%]  (Warmup) 
+## Chain 1 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+## Chain 1 Iteration:  700 / 2000 [ 35%]  (Warmup) 
+## Chain 1 Iteration:  800 / 2000 [ 40%]  (Warmup) 
+## Chain 1 Iteration:  900 / 2000 [ 45%]  (Warmup) 
+## Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+## Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+## Chain 1 Iteration: 1100 / 2000 [ 55%]  (Sampling) 
+## Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
+## Chain 1 Iteration: 1300 / 2000 [ 65%]  (Sampling) 
+## Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
+## Chain 1 Iteration: 1500 / 2000 [ 75%]  (Sampling) 
+## Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+## Chain 1 Iteration: 1700 / 2000 [ 85%]  (Sampling) 
+## Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+## Chain 1 Iteration: 1900 / 2000 [ 95%]  (Sampling) 
+## Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+## Chain 1 finished in 0.1 seconds.
+## Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+## Chain 2 Iteration:  100 / 2000 [  5%]  (Warmup) 
+## Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) 
+## Chain 2 Iteration:  300 / 2000 [ 15%]  (Warmup) 
+## Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) 
+## Chain 2 Iteration:  500 / 2000 [ 25%]  (Warmup) 
+## Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+## Chain 2 Iteration:  700 / 2000 [ 35%]  (Warmup) 
+## Chain 2 Iteration:  800 / 2000 [ 40%]  (Warmup) 
+## Chain 2 Iteration:  900 / 2000 [ 45%]  (Warmup) 
+## Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+## Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+## Chain 2 Iteration: 1100 / 2000 [ 55%]  (Sampling) 
+## Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
+## Chain 2 Iteration: 1300 / 2000 [ 65%]  (Sampling) 
+## Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
+## Chain 2 Iteration: 1500 / 2000 [ 75%]  (Sampling) 
+## Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+## Chain 2 Iteration: 1700 / 2000 [ 85%]  (Sampling) 
+## Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+## Chain 2 Iteration: 1900 / 2000 [ 95%]  (Sampling) 
+## Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+## Chain 2 finished in 0.1 seconds.
+## Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+## Chain 3 Iteration:  100 / 2000 [  5%]  (Warmup) 
+## Chain 3 Iteration:  200 / 2000 [ 10%]  (Warmup) 
+## Chain 3 Iteration:  300 / 2000 [ 15%]  (Warmup) 
+## Chain 3 Iteration:  400 / 2000 [ 20%]  (Warmup) 
+## Chain 3 Iteration:  500 / 2000 [ 25%]  (Warmup) 
+## Chain 3 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+## Chain 3 Iteration:  700 / 2000 [ 35%]  (Warmup) 
+## Chain 3 Iteration:  800 / 2000 [ 40%]  (Warmup) 
+## Chain 3 Iteration:  900 / 2000 [ 45%]  (Warmup) 
+## Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+## Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+## Chain 3 Iteration: 1100 / 2000 [ 55%]  (Sampling) 
+## Chain 3 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
+## Chain 3 Iteration: 1300 / 2000 [ 65%]  (Sampling) 
+## Chain 3 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
+## Chain 3 Iteration: 1500 / 2000 [ 75%]  (Sampling) 
+## Chain 3 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+## Chain 3 Iteration: 1700 / 2000 [ 85%]  (Sampling) 
+## Chain 3 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+## Chain 3 Iteration: 1900 / 2000 [ 95%]  (Sampling) 
+## Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+## Chain 3 finished in 0.1 seconds.
+## Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+## Chain 4 Iteration:  100 / 2000 [  5%]  (Warmup) 
+## Chain 4 Iteration:  200 / 2000 [ 10%]  (Warmup) 
+## Chain 4 Iteration:  300 / 2000 [ 15%]  (Warmup) 
+## Chain 4 Iteration:  400 / 2000 [ 20%]  (Warmup) 
+## Chain 4 Iteration:  500 / 2000 [ 25%]  (Warmup) 
+## Chain 4 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+## Chain 4 Iteration:  700 / 2000 [ 35%]  (Warmup) 
+## Chain 4 Iteration:  800 / 2000 [ 40%]  (Warmup) 
+## Chain 4 Iteration:  900 / 2000 [ 45%]  (Warmup) 
+## Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+## Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+## Chain 4 Iteration: 1100 / 2000 [ 55%]  (Sampling) 
+## Chain 4 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
+## Chain 4 Iteration: 1300 / 2000 [ 65%]  (Sampling) 
+## Chain 4 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
+## Chain 4 Iteration: 1500 / 2000 [ 75%]  (Sampling) 
+## Chain 4 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+## Chain 4 Iteration: 1700 / 2000 [ 85%]  (Sampling) 
+## Chain 4 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+## Chain 4 Iteration: 1900 / 2000 [ 95%]  (Sampling) 
+## Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+## Chain 4 finished in 0.1 seconds.
+## 
+## All 4 chains finished successfully.
+## Mean chain execution time: 0.1 seconds.
+## Total execution time: 0.9 seconds.</code></pre>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="further-regression-methods.html#cb347-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
+<pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
+## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
+## b  0.4769544 0.03263889  0.4252908  0.5295135 1.003665 793.8840</code></pre>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="further-regression-methods.html#cb349-1" tabindex="-1"></a><span class="co"># looks good!</span></span></code></pre></div>
+</div>
+<div id="frequentist_poisson_regression" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Frequentist Poisson Regression<a href="further-regression-methods.html#frequentist_poisson_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Since Poisson regressioon is a generalized linear model, we can use the <code>glm</code> function in R:</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="further-regression-methods.html#cb350-1" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>))</span>
+<span id="cb350-2"><a href="further-regression-methods.html#cb350-2" tabindex="-1"></a><span class="fu">summary</span>(mod_glm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = y ~ x, family = poisson(link = &quot;log&quot;), data = df)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.97253    0.24626   -8.01 1.15e-15 ***
+## x            0.49353    0.03516   14.04  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 317.62  on 99  degrees of freedom
+## Residual deviance: 108.22  on 98  degrees of freedom
+## AIC: 331.57
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="further-regression-methods.html#cb352-1" tabindex="-1"></a><span class="fu">confint</span>(mod_glm)</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                  2.5 %     97.5 %
+## (Intercept) -2.4652450 -1.4995384
+## x            0.4250639  0.5629309</code></pre>
+<p>The coefficients are very similar to the Bayesian model and seem to be closer to the true values.
+The reason is probably the very rough priors we used in the Bayesian model.</p>
+</div>
 </div>
 <div id="exercises-1" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Exercises<a href="further-regression-methods.html#exercises-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
