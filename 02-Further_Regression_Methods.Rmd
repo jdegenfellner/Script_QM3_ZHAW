@@ -543,6 +543,7 @@ Ideally, we would need to argue how we handle missing data!
 
 ```{r}
 library(readxl)
+library(tidyverse)
 
 url <- "https://raw.githubusercontent.com/jdegenfellner/Script_QM3_ZHAW/main/data/Chapter_Further_Regression/Paper_Mulligan%20manual%20therapy%20added%20to%20exercise/1-s2.0-S1836955324000572-mmc1.xls"
 temp_file <- tempfile(fileext = ".xls")
@@ -791,8 +792,8 @@ The result is rather similar to the Frequentist model.
 post <- extract.samples(m)
 #lapply(post, head)
 
-# MMT+ex (group = 2), time = 2 → index = (2−1)×4 + 2 = 6
-# Sham+ex (group = 3), time = 2 → index = (3−1)×4 + 2 = 10
+# MMT+ex (group = 2), time = 2 → index = (2-1)×4 + 2 = 6
+# Sham+ex (group = 3), time = 2 → index = (3-1)×4 + 2 = 10
 
 group_diff <- post$beta_group[,2] - post$beta_group[,3]
 interaction_diff <- post$beta_interaction[,6] - post$beta_interaction[,10]
@@ -921,7 +922,7 @@ summary(modlog)
   The difference in the probability of a $1$ for two participants with a 
   difference of $1$ year in their age is:
   $$\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = $$
-  $$\text{inv_logit}(\beta_0 + \beta_1 (AGE + 1)) - \text{inv_logit}(\beta_0 + \beta_1 AGE)$$
+  $$\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)$$
   This difference is not constant (see graph below, red line), but depends on the value of $AGE$,
   since the inverse logit function is non-linear.
 

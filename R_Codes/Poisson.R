@@ -180,6 +180,7 @@ mod_glm$deviance
 
 # assumptions---------
 ?check_model
+check_model(mod_glm)
 check_model(mod_glm, check = "pp_check")
 
 # linearity
@@ -188,9 +189,18 @@ conflicts_prefer(mgcv::gam)
 mod_gam <- gam(y ~ s(x), family = poisson(link = "log"), data = df)
 plot(mod_gam, residuals = TRUE)
 
+rpois(1, lambda = exp(0.5 * 10 - 2))
+
+plot(x, predict(mod_glm, type = "link"),
+     main = "Linear Predictor (log(μ)) vs. x",
+     xlab = "x", ylab = "log(μ̂)")
+
 library(car)
 ?crPlots
 crPlots(mod_glm)
 
+check_overdispersion(mod_glm)
+
+check_outliers(mod_glm)
 
 # 

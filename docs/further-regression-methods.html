@@ -23,7 +23,7 @@
 <meta name="author" content="Jürgen Degenfellner" />
 
 
-<meta name="date" content="2025-05-30" />
+<meta name="date" content="2025-05-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -598,7 +598,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeDFS8S/model-d0b946ace457.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpyETe7w/model-150c23f2f602.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -932,18 +932,19 @@ is present, we cannot directly interpret the main effects anymore.</li>
 (for simplicity) kill all rows with missing values (<span class="math inline">\(8\)</span> observations).
 Ideally, we would need to argue how we handle missing data!</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="further-regression-methods.html#cb268-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb268-2"><a href="further-regression-methods.html#cb268-2" tabindex="-1"></a></span>
-<span id="cb268-3"><a href="further-regression-methods.html#cb268-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/jdegenfellner/Script_QM3_ZHAW/main/data/Chapter_Further_Regression/Paper_Mulligan%20manual%20therapy%20added%20to%20exercise/1-s2.0-S1836955324000572-mmc1.xls&quot;</span></span>
-<span id="cb268-4"><a href="further-regression-methods.html#cb268-4" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xls&quot;</span>)</span>
-<span id="cb268-5"><a href="further-regression-methods.html#cb268-5" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="at">destfile =</span> temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
-<span id="cb268-6"><a href="further-regression-methods.html#cb268-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">suppressMessages</span>(</span>
-<span id="cb268-7"><a href="further-regression-methods.html#cb268-7" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
-<span id="cb268-8"><a href="further-regression-methods.html#cb268-8" tabindex="-1"></a>    readxl<span class="sc">::</span><span class="fu">read_xls</span>(temp_file, <span class="at">sheet =</span> <span class="dv">2</span>)</span>
-<span id="cb268-9"><a href="further-regression-methods.html#cb268-9" tabindex="-1"></a>  )</span>
-<span id="cb268-10"><a href="further-regression-methods.html#cb268-10" tabindex="-1"></a>)</span>
-<span id="cb268-11"><a href="further-regression-methods.html#cb268-11" tabindex="-1"></a></span>
-<span id="cb268-12"><a href="further-regression-methods.html#cb268-12" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="dv">3</span><span class="sc">:</span><span class="fu">dim</span>(df)[<span class="dv">1</span>], <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
-<span id="cb268-13"><a href="further-regression-methods.html#cb268-13" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<span id="cb268-2"><a href="further-regression-methods.html#cb268-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb268-3"><a href="further-regression-methods.html#cb268-3" tabindex="-1"></a></span>
+<span id="cb268-4"><a href="further-regression-methods.html#cb268-4" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/jdegenfellner/Script_QM3_ZHAW/main/data/Chapter_Further_Regression/Paper_Mulligan%20manual%20therapy%20added%20to%20exercise/1-s2.0-S1836955324000572-mmc1.xls&quot;</span></span>
+<span id="cb268-5"><a href="further-regression-methods.html#cb268-5" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xls&quot;</span>)</span>
+<span id="cb268-6"><a href="further-regression-methods.html#cb268-6" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="at">destfile =</span> temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
+<span id="cb268-7"><a href="further-regression-methods.html#cb268-7" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">suppressMessages</span>(</span>
+<span id="cb268-8"><a href="further-regression-methods.html#cb268-8" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
+<span id="cb268-9"><a href="further-regression-methods.html#cb268-9" tabindex="-1"></a>    readxl<span class="sc">::</span><span class="fu">read_xls</span>(temp_file, <span class="at">sheet =</span> <span class="dv">2</span>)</span>
+<span id="cb268-10"><a href="further-regression-methods.html#cb268-10" tabindex="-1"></a>  )</span>
+<span id="cb268-11"><a href="further-regression-methods.html#cb268-11" tabindex="-1"></a>)</span>
+<span id="cb268-12"><a href="further-regression-methods.html#cb268-12" tabindex="-1"></a></span>
+<span id="cb268-13"><a href="further-regression-methods.html#cb268-13" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="dv">3</span><span class="sc">:</span><span class="fu">dim</span>(df)[<span class="dv">1</span>], <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb268-14"><a href="further-regression-methods.html#cb268-14" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##   `Subject no.` Group `Headache frequency` ...4  ...5  ...6 
 ##           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
@@ -1354,7 +1355,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeDFS8S/model-d0b9145651fa.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpyETe7w/model-150c268500705.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1369,9 +1370,9 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1655,8 +1656,8 @@ of the treatment effect. Time does not vary since we are only interested in week
 <span id="cb302-2"><a href="further-regression-methods.html#cb302-2" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m)</span>
 <span id="cb302-3"><a href="further-regression-methods.html#cb302-3" tabindex="-1"></a><span class="co">#lapply(post, head)</span></span>
 <span id="cb302-4"><a href="further-regression-methods.html#cb302-4" tabindex="-1"></a></span>
-<span id="cb302-5"><a href="further-regression-methods.html#cb302-5" tabindex="-1"></a><span class="co"># MMT+ex (group = 2), time = 2 → index = (2−1)×4 + 2 = 6</span></span>
-<span id="cb302-6"><a href="further-regression-methods.html#cb302-6" tabindex="-1"></a><span class="co"># Sham+ex (group = 3), time = 2 → index = (3−1)×4 + 2 = 10</span></span>
+<span id="cb302-5"><a href="further-regression-methods.html#cb302-5" tabindex="-1"></a><span class="co"># MMT+ex (group = 2), time = 2 → index = (2-1)×4 + 2 = 6</span></span>
+<span id="cb302-6"><a href="further-regression-methods.html#cb302-6" tabindex="-1"></a><span class="co"># Sham+ex (group = 3), time = 2 → index = (3-1)×4 + 2 = 10</span></span>
 <span id="cb302-7"><a href="further-regression-methods.html#cb302-7" tabindex="-1"></a></span>
 <span id="cb302-8"><a href="further-regression-methods.html#cb302-8" tabindex="-1"></a>group_diff <span class="ot">&lt;-</span> post<span class="sc">$</span>beta_group[,<span class="dv">2</span>] <span class="sc">-</span> post<span class="sc">$</span>beta_group[,<span class="dv">3</span>]</span>
 <span id="cb302-9"><a href="further-regression-methods.html#cb302-9" tabindex="-1"></a>interaction_diff <span class="ot">&lt;-</span> post<span class="sc">$</span>beta_interaction[,<span class="dv">6</span>] <span class="sc">-</span> post<span class="sc">$</span>beta_interaction[,<span class="dv">10</span>]</span>
@@ -1778,7 +1779,7 @@ a heart attack.</p>
 The difference in the probability of a <span class="math inline">\(1\)</span> for two participants with a
 difference of <span class="math inline">\(1\)</span> year in their age is:
 <span class="math display">\[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = \]</span>
-<span class="math display">\[\text{inv_logit}(\beta_0 + \beta_1 (AGE + 1)) - \text{inv_logit}(\beta_0 + \beta_1 AGE)\]</span>
+<span class="math display">\[\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)\]</span>
 This difference is not constant (see graph below, red line), but depends on the value of <span class="math inline">\(AGE\)</span>,
 since the inverse logit function is non-linear.</p></li>
 </ul>
@@ -2431,7 +2432,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.7 seconds.</code></pre>
+## Total execution time: 0.9 seconds.</code></pre>
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="further-regression-methods.html#cb347-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
