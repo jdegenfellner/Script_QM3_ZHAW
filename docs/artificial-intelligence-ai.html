@@ -216,9 +216,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5.15" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise15_LMM"><i class="fa fa-check"></i><b>3.5.15</b> [H] Exercise 15</a></li>
 <li class="chapter" data-level="3.5.16" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise16_LMM"><i class="fa fa-check"></i><b>3.5.16</b> [M] Exercise 16</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="further-regression-methods.html"><a href="further-regression-methods.html#todos"><i class="fa fa-check"></i><b>3.6</b> TODOS</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html"><i class="fa fa-check"></i><b>4</b> Artificial Intelligence (AI)</a></li>
+<li class="chapter" data-level="4" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html"><i class="fa fa-check"></i><b>4</b> Artificial Intelligence (AI)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#what-is-ai-and-what-was-before-chatgpt"><i class="fa fa-check"></i><b>4.1.1</b> What is AI and what was before ChatGPT?</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -241,8 +246,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="artificial-intelligence-ai" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Artificial Intelligence (AI)<a href="artificial-intelligence-ai.html#artificial-intelligence-ai" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Why do we bother with this topic at all?</p>
+<div id="introduction" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introduction<a href="artificial-intelligence-ai.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Why</strong> do we bother with <strong>this topic</strong> at all?</p>
+<p>For a <strong>simple reason</strong>: The release of ChatGPT in late 2022
+has not only sparked a new wave of interest in AI,
+but has fundamentally influenced</p>
+<ul>
+<li>how we write text,</li>
+<li>code</li>
+<li>how we search the internet</li>
+<li>create images and</li>
+<li>solve problems.</li>
+</ul>
+<p><strong>Another reason</strong> could be given. As far as I am aware,
+<strong>neural networks</strong> (an important part of AI) are a true <strong>extension of our regression models</strong>.
+Hence, the whole regression framework
+can be subsumed under the umbrella of AI.</p>
+<p>The standard textbook on AI is Russell and Norvig’s
+<a href="hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf">Artificial Intelligence: A Modern Approach</a>
+(3rd edition, 2020), currently in its 4th edition.</p>
+<p>The public release of <a href="https://openai.com/index/chatgpt/">ChatGPT</a>
+(Generalize Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5,
+marked a watershed moment in the history of artificial intelligence.
+While <a href="https://en.wikipedia.org/wiki/Large_language_model"><strong>large language models (LLMs)</strong></a>
+had already impressed researchers,
+ChatGPT was the first to make them widely accessible through a conversational interface.
+Suddenly, millions of people could ask questions,
+get code suggestions, summarize documents, or even write poetry—all through natural dialogue.</p>
+<p>By early 2023, ChatGPT had become a global phenomenon, reaching 100 million users within two months,
+making it the <a href="https://cdn.buttercms.com/output=f:webp/lgJEtn9sTLu1AflcBKDy">fastest-growing consumer application in history</a>.
+It changed the public perception
+of AI from futuristic and experimental to practical and omnipresent.</p>
+<p>In March 2023, OpenAI released <a href="https://arxiv.org/pdf/2303.08774"><strong>GPT-4</strong></a>,
+a much improved model in terms of reasoning, factual accuracy,
+and multilingual capabilities. GPT-4 also <strong>introduced image input</strong>
+and began to bridge the gap toward <strong>multimodal AI</strong> (not limited to text input).</p>
+<p>Here is an example of an image described by GPT-4o (a more advanced version of GPT-4):
+<img src="images/GPT_4_image_description.png" />
+(Created with ChatGPT macOS app, 21.5.24)
+One way to describe an image, is explained by Mike Pound <a href="https://www.youtube.com/watch?v=KcSXcpluDe4&amp;t=866s&amp;ab_channel=Computerphile">here</a>.
+The <a href="https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)">transformer</a> architecture (a so-called vision transformer, ViT) is involved
+in this process, which is a key component of many modern AI systems.
+We will not go into details here. Interestingly, the transformer architecture
+was introduced by researchers at Google in 2017 in a paper called
+<a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention is All You Need</a>,
+which was cited (at the time of writing) over 180,000 times.</p>
+<p>Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with
+models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models
+enabled broader research, customization, and deployment, especially in privacy-sensitive environments.</p>
+<p>As LLMs matured, the focus shifted to <strong>autonomous agents</strong>.
+Systems like <a href="https://agpt.co/">AutoGPT</a>,
+<a href="https://babyagi.org/">BabyAGI</a> (AGI stands for Artificial General Intelligence),
+and later OpenAI’s own GPTs (custom bots) experimented with
+giving models access to tools (e.g., browsers, calculators, APIs), memory, and goals.
+One failed attempt to sell AI agents as an end-user product was
+the <a href="https://www.youtube.com/watch?v=ddTV12hErTc&amp;ab_channel=MarquesBrownlee">Rabbit R1</a>.
+For people in the field, it was clear the technology was not ready for this type of application yet.</p>
+<p>The vision was no longer just chat, but delegating tasks: “book my flights,” “analyze this dataset,” or
+“write a full report with citations.”
+This period also saw growing demand for interpretability, trustworthiness, and alignment.
+Questions about hallucinations, bias, and safety became central—not only for researchers,
+but for businesses and governments. RLHF (Reinforcement Learning from Human Feedback) became a
+standard technique to make models more helpful and aligned with human intent.</p>
+<div id="what-is-ai-and-what-was-before-chatgpt" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> What is AI and what was before ChatGPT?<a href="artificial-intelligence-ai.html#what-is-ai-and-what-was-before-chatgpt" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>…</p>
 
+</div>
+</div>
 </div>
             </section>
 

@@ -1,3 +1,79 @@
 # Artificial Intelligence (AI)
 
-Why do we bother with this topic at all?
+## Introduction
+
+**Why** do we bother with **this topic** at all?
+
+For a **simple reason**: The release of ChatGPT in late 2022 
+has not only sparked a new wave of interest in AI,
+but has fundamentally influenced 
+
+- how we write text, 
+- code
+- how we search the internet
+- create images and 
+- solve problems.
+
+**Another reason** could be given. As far as I am aware, 
+**neural networks** (an important part of AI, more on that topic later) are a true **extension of our regression models**. 
+Hence, the whole regression framework
+can be subsumed under the umbrella of AI.
+
+The standard textbook on AI is Russell and Norvig's
+[Artificial Intelligence: A Modern Approach](hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf) 
+(3rd edition, 2020), currently in its 4th edition.
+
+The public release of [ChatGPT](https://openai.com/index/chatgpt/) 
+(Generalize Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5, 
+marked a watershed moment in the history of artificial intelligence. 
+While [**large language models (LLMs)**](https://en.wikipedia.org/wiki/Large_language_model) 
+had already impressed researchers, 
+ChatGPT was the first to make them widely accessible through a conversational interface. 
+Suddenly, millions of people could ask questions, 
+get code suggestions, summarize documents, or even write poetry—all through natural dialogue.
+
+By early 2023, ChatGPT had become a global phenomenon, reaching 100 million users within two months, 
+making it the [fastest-growing consumer application in history](https://cdn.buttercms.com/output=f:webp/lgJEtn9sTLu1AflcBKDy). 
+It changed the public perception 
+of AI from futuristic and experimental to practical and omnipresent.
+
+In March 2023, OpenAI released [**GPT-4**](https://arxiv.org/pdf/2303.08774), 
+a much improved model in terms of reasoning, factual accuracy, 
+and multilingual capabilities. GPT-4 also **introduced image input**
+and began to bridge the gap toward **multimodal AI** (not limited to text input).
+
+Here is an example of an image described by GPT-4o (a more advanced version of GPT-4):
+![](images/GPT_4_image_description.png)
+(Created with ChatGPT macOS app, 21.5.24)
+One way to describe an image, is explained by Mike Pound [here](https://www.youtube.com/watch?v=KcSXcpluDe4&t=866s&ab_channel=Computerphile).
+The [transformer](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)) architecture (a so-called vision transformer, ViT) is involved
+in this process, which is a key component of many modern AI systems. 
+We will not go into details here. Interestingly, the transformer architecture
+was introduced by researchers at Google in 2017 in a paper called 
+[Attention is All You Need](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf),
+which was cited (at the time of writing) over 180,000 times.
+
+Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with 
+models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models 
+enabled broader research, customization, and deployment, especially in privacy-sensitive environments.
+
+As LLMs matured, the focus shifted to **autonomous agents**. 
+Systems like [AutoGPT](https://agpt.co/), 
+[BabyAGI](https://babyagi.org/) (AGI stands for Artificial General Intelligence), 
+and later OpenAI’s own GPTs (custom bots) experimented with 
+giving models access to tools (e.g., browsers, calculators, APIs), memory, and goals.
+One failed attempt to sell AI agents as an end-user product was 
+the [Rabbit R1](https://www.youtube.com/watch?v=ddTV12hErTc&ab_channel=MarquesBrownlee).
+For people in the field, it was clear the technology was not ready for this type of application yet.
+
+The vision was no longer just chat, but delegating tasks: “book my flights,” “analyze this dataset,” or 
+“write a full report with citations.”
+This period also saw growing demand for interpretability, trustworthiness, and alignment. 
+Questions about hallucinations, bias, and safety became central—not only for researchers, 
+but for businesses and governments. RLHF (Reinforcement Learning from Human Feedback) became a 
+standard technique to make models more helpful and aligned with human intent.
+
+### What is AI and what was before ChatGPT?
+
+...
+

@@ -70,5 +70,6 @@ exercise13_LMM
 exercise14_LMM
 exercise15_LMM
 exercise16_LMM
-todos
 artificial-intelligence-ai
+introduction
+what-is-ai-and-what-was-before-chatgpt
