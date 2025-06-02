@@ -221,8 +221,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.1" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="4.1.1" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#what-is-ai-and-what-was-before-chatgpt"><i class="fa fa-check"></i><b>4.1.1</b> What is AI and what was before ChatGPT?</a></li>
+<li class="chapter" data-level="4.1.1" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#a-short-history-of-ai"><i class="fa fa-check"></i><b>4.1.1</b> A short history of AI</a></li>
+<li class="chapter" data-level="4.1.2" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#chatgpt"><i class="fa fa-check"></i><b>4.1.2</b> ChatGPT</a></li>
 </ul></li>
+<li class="chapter" data-level="4.2" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#capabilites-of-llms"><i class="fa fa-check"></i><b>4.2</b> Capabilites of LLMs</a></li>
+<li class="chapter" data-level="4.3" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#risks-of-llm-and-ai-in-general"><i class="fa fa-check"></i><b>4.3</b> Risks of LLM and AI in general</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -263,9 +266,84 @@ but has fundamentally influenced</p>
 <strong>neural networks</strong> (an important part of AI, more on that topic later) are a true <strong>extension of our regression models</strong>.
 Hence, the whole regression framework
 can be subsumed under the umbrella of AI.</p>
+<p>One thing should be stated at the beginning. The field and applications are moving
+so fast that it is impossible to keep up with the latest developments.
+So, please forgive me if some of the information is outdated or not up to date.</p>
 <p>The standard textbook on AI is Russell and Norvig’s
 <a href="hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf">Artificial Intelligence: A Modern Approach</a>
 (3rd edition, 2020), currently in its 4th edition.</p>
+<p>Other good (non-technical) books on the topic are:</p>
+<ul>
+<li>Melanie Mitchell’s <a href="https://melaniemitchell.me/aibook/">Artificial Intelligence: A Guide for Thinking Humans</a></li>
+<li>Gary Marcus’s <a href="Rebooting%20Ai:%20Building%20Artificial%20Intelligence%20We%20Can%20Trust">Rebooting AI: Building Artificial Intelligence We Can Trust</a></li>
+<li>Stuart Russell’s <a href="https://en.wikipedia.org/wiki/Human_Compatible">Human Compatible: Artificial Intelligence and the Problem of Control</a></li>
+<li>Max Tegmark’s <a href="https://en.wikipedia.org/wiki/Life_3.0">Life 3.0: Being Human in the Age of Artificial Intelligence</a></li>
+</ul>
+<p>The first two authors seem to be less afraid that AI could take over the world,
+while the latter two authors are more concerned about the implications of AI on society and humanity.</p>
+<div id="a-short-history-of-ai" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> A short history of AI<a href="artificial-intelligence-ai.html#a-short-history-of-ai" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Artificial Intelligence (AI) refers to the design and development of systems
+that can perform tasks typically requiring human intelligence—such as reasoning,
+learning, perception, problem-solving, and natural language understanding.</p>
+<p>The ambition to build machines that mimic or surpass human cognitive abilities
+is not new and can be traced back to myths, philosophical debates, and early
+mechanical automata.</p>
+<p>The formal <strong>birth of AI as a field</strong> is generally dated to <strong>1956</strong>,
+when John McCarthy, Marvin Minsky, Claude Shannon, and Nathaniel Rochester
+organized the <em>Dartmouth Summer Research Project on Artificial Intelligence</em>.
+This conference was the first to coin the term “artificial intelligence” and
+laid the foundation for decades of exploration into machine cognition.</p>
+<p>However, the intellectual roots of AI go much further back. <strong>Alan Turing</strong>,
+in his seminal 1950 paper <a href="https://academic.oup.com/mind/article-abstract/LIX/236/433/986238?redirectedFrom=fulltext"><em>“Computing Machinery and Intelligence”</em></a>,
+asked the
+famous question: “Can machines think?” He proposed the <a href="https://en.wikipedia.org/wiki/Turing_test"><strong>Turing Test</strong></a>
+as a way to evaluate a machine’s ability to exhibit intelligent behavior
+indistinguishable from that of a human. Turing’s work established a
+theoretical framework that deeply influenced how researchers would later
+define machine intelligence.</p>
+<p>In the early decades following Dartmouth, AI research oscillated between
+periods of optimism and disappointment.
+The <strong>1950s–1970s</strong> were marked by the development of symbolic AI and
+rule-based systems. Programs like ELIZA (a simple natural language processor)
+and SHRDLU (which operated in a limited “blocks world”) showcased early
+attempts at mimicking human-like reasoning. <strong>Researchers believed that general
+AI</strong> (AGI) was just around the corner.</p>
+<p>This optimism faded in the <strong>1970s and 1980s</strong>, leading to what became known
+as the <em>“AI winter”</em>—a period characterized by reduced funding and slowed
+progress due to unmet expectations. The limitations of symbolic logic
+in handling uncertainty and perception-heavy tasks became clear.
+However, during this time, important subfields like <strong>expert systems</strong>
+and <strong>machine learning</strong> began to evolve quietly.</p>
+<p>AI entered a new phase in the late 1990s and early 2000s, buoyed by greater
+computational power, larger datasets, and improved algorithms.
+Milestones such as
+<strong>IBM’s Deep Blue defeating chess champion Garry Kasparov in 1997</strong>,
+and later, <a href="https://www.youtube.com/watch?v=KF6sLCeBj0s&amp;ab_channel=BBCNews"><strong>Watson winning <em>Jeopardy!</em> in 2011</strong></a>,
+demonstrated tangible progress.</p>
+<p>The last decade, however, marked a major <strong>paradigm shift</strong>, especially with
+the rise of <strong>deep learning</strong>, a form of machine learning using artificial
+neural networks. In 2012, a convolutional neural network (AlexNet) won the
+<a href="https://www.image-net.org/challenges/LSVRC/">ImageNet</a> competition,
+drastically improving image recognition benchmarks.
+This breakthrough ignited an AI renaissance that led to the development
+of powerful models such as <strong>GPT (by OpenAI)</strong> and <strong>BERT (by Google)</strong>—transforming
+fields like natural language processing, computer vision, and robotics.</p>
+<p>Today, AI spans everything from autonomous vehicles to medical diagnostics,
+and the field is increasingly focused not just on capability,
+but on <strong>safety, alignment, interpretability</strong>, and <strong>ethics</strong>.
+While we are still far from artificial general intelligence (AGI),
+the rapid progress in AI systems is reshaping industries, science, and society.</p>
+<p>In the meantime, AlphaGo, a program developed by Google DeepMind,
+<a href="https://de.wikipedia.org/wiki/AlphaGo_gegen_Lee_Sedol">defeated</a>
+the world champion Go player Lee Sedol in 2016. As with chess,
+many people thought that Go would be too complex for a computer to master.</p>
+<p>Demis Hassabis, the founder of DeepMind,
+won the nobel prize in chemistry 2024 for his work on AlphaFold2, which
+solved the protein folding problem.</p>
+</div>
+<div id="chatgpt" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> ChatGPT<a href="artificial-intelligence-ai.html#chatgpt" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The public release of <a href="https://openai.com/index/chatgpt/">ChatGPT</a>
 (Generalized Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5,
 marked a watershed moment in the history of artificial intelligence.
@@ -285,7 +363,8 @@ and began to bridge the gap toward <strong>multimodal AI</strong> (not limited t
 <p>Here is an example of an image described by GPT-4o (a more advanced version of GPT-4):
 <img src="images/GPT_4_image_description.png" />
 (Created with ChatGPT macOS app, 21.5.24)</p>
-<p>One way to describe an image, is explained by Mike Pound <a href="https://www.youtube.com/watch?v=KcSXcpluDe4&amp;t=866s&amp;ab_channel=Computerphile">here</a>.
+<p>At the time, the perfectly worded image description from GPT felt like magic.
+One way to achieve this <em>image captioning</em> is explained by Mike Pound <a href="https://www.youtube.com/watch?v=KcSXcpluDe4&amp;t=866s&amp;ab_channel=Computerphile">here</a>.
 The <a href="https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)">transformer</a> architecture (a so-called vision transformer, ViT) is involved
 in this process, which is a <strong>key component</strong> of many modern AI systems.
 We will not go into details here. Interestingly, the transformer architecture
@@ -307,32 +386,70 @@ which was cited…</p>
 <span id="cb363-13"><a href="artificial-intelligence-ai.html#cb363-13" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;.gs_fl&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb363-14"><a href="artificial-intelligence-ai.html#cb363-14" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
 <span id="cb363-15"><a href="artificial-intelligence-ai.html#cb363-15" tabindex="-1"></a></span>
-<span id="cb363-16"><a href="artificial-intelligence-ai.html#cb363-16" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
-<span id="cb363-17"><a href="artificial-intelligence-ai.html#cb363-17" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<span id="cb363-16"><a href="artificial-intelligence-ai.html#cb363-16" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;wait for it...&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;wait for it...&quot;</code></pre>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="artificial-intelligence-ai.html#cb365-1" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
+<span id="cb365-2"><a href="artificial-intelligence-ai.html#cb365-2" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;182752&quot;</code></pre>
-<p>…times.</p>
-<p>Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with
-models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models
-enabled broader research, customization, and deployment, especially in privacy-sensitive environments.</p>
-<p>As LLMs matured, the focus shifted to <strong>autonomous agents</strong>.
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="artificial-intelligence-ai.html#cb367-1" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;...times.&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;...times.&quot;</code></pre>
+<p>As LLMs matured, the focus shifted (also) to <strong>autonomous agents</strong>.
 Systems like <a href="https://agpt.co/">AutoGPT</a>,
 <a href="https://babyagi.org/">BabyAGI</a> (AGI stands for Artificial General Intelligence),
 and later OpenAI’s own GPTs (custom bots) experimented with
 giving models access to tools (e.g., browsers, calculators, APIs), memory, and goals.
 One failed attempt to sell AI agents as an end-user product was
-the <a href="https://www.youtube.com/watch?v=ddTV12hErTc&amp;ab_channel=MarquesBrownlee">Rabbit R1</a>.
-For people in the field, it was clear the technology was not ready for this type of application yet.</p>
-<p>The vision was no longer just chat, but delegating tasks: “book my flights,” “analyze this dataset,” or
+the <a href="https://www.youtube.com/watch?v=ddTV12hErTc&amp;ab_channel=MarquesBrownlee">Rabbit R1</a>.</p>
+<p>For people in the field, it was clear the technology was not ready for this type of application yet.
+I am not sure how is has progressed in the meantime, but a year ago the practical use of these
+agents was still limited.
+Google announced “Agent Mode” <a href="https://www.youtube.com/watch?v=LxvErFkBXPk&amp;ab_channel=Google">recently</a>.
+There have been promises of AI agents performing tasks
+(like calling a restaurant to make an appointment) autonomously <a href="https://www.youtube.com/watch?v=D5VN56jQMWM&amp;ab_channel=JeffGrubb%27sGameMess">before</a>.</p>
+<p>The vision is no longer just chat, but delegating tasks: “book my flights,” “analyze this dataset,” or
 “write a full report with citations.”
 This period also saw growing demand for interpretability, trustworthiness, and alignment.
 Questions about hallucinations, bias, and safety became central—not only for researchers,
 but for businesses and governments. RLHF (Reinforcement Learning from Human Feedback) became a
 standard technique to make models more helpful and aligned with human intent.</p>
-<div id="what-is-ai-and-what-was-before-chatgpt" class="section level3 hasAnchor" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> What is AI and what was before ChatGPT?<a href="artificial-intelligence-ai.html#what-is-ai-and-what-was-before-chatgpt" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>…</p>
-
+<p>Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with
+models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models
+enabled broader research, customization, and deployment, especially in privacy-sensitive environments.</p>
 </div>
+</div>
+<div id="capabilites-of-llms" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Capabilites of LLMs<a href="artificial-intelligence-ai.html#capabilites-of-llms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A model like GPT-4 can perform a wide range of tasks, including:
+- <strong>Text Generation</strong>: Writing essays, articles, or creative content.</p>
+<ul>
+<li><p><strong>Image generation</strong>: Creating <a href="https://openai.com/index/introducing-4o-image-generation/">images</a>
+from text prompts. This has improved during the last 1-2 years.
+I assume that OpenAI uses very advanced diffusion models for this task, the basic principles
+are rather graspable though
+(<a href="https://www.youtube.com/watch?v=1CIpzeNxIhU&amp;t=866s&amp;ab_channel=Computerphile">1</a>,
+<a href="https://www.youtube.com/watch?v=1pgiu--4W3I&amp;t=1273s&amp;ab_channel=DepthFirst">2</a>).</p></li>
+<li><p><strong>Question Answering</strong>: Providing answers to factual questions or summarizing information.</p></li>
+<li><p><strong>Translation</strong>: Translating text between multiple languages.</p></li>
+<li><p><strong>Code Generation</strong>: Writing and debugging code in various programming languages.</p></li>
+<li><p><strong>Image Understanding</strong>: Analyzing and describing images (in multimodal versions).</p></li>
+<li><p><strong>Conversational Agents</strong>: Engaging in natural language conversations,
+simulating human-like dialogue.</p></li>
+</ul>
+<p>Sébastien Bubeck published a paper in 2023 titled “Sparks of Artificial General Intelligence:
+Early Experiments with GPT-4”
+(<a href="https://arxiv.org/pdf/2303.12712">arXiv:2303.12712</a>),
+which explores the capabilities of GPT-4 in depth.
+As in other technical reports of commercial models,
+the so-called model weight (more on that later) are not disclosed.</p>
+</div>
+<div id="risks-of-llm-and-ai-in-general" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Risks of LLM and AI in general<a href="artificial-intelligence-ai.html#risks-of-llm-and-ai-in-general" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>…</p>
+<p>Notes:</p>
+<ul>
+<li>Robert Miles AI safety.</li>
+</ul>
+
 </div>
 </div>
             </section>

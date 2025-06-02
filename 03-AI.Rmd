@@ -19,9 +19,98 @@ but has fundamentally influenced
 Hence, the whole regression framework
 can be subsumed under the umbrella of AI.
 
+One thing should be stated at the beginning. The field and applications are moving 
+so fast that it is impossible to keep up with the latest developments.
+So, please forgive me if some of the information is outdated or not up to date.
+
 The standard textbook on AI is Russell and Norvig's
 [Artificial Intelligence: A Modern Approach](hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf) 
 (3rd edition, 2020), currently in its 4th edition.
+
+Other good (non-technical) books on the topic are:
+
+- Melanie Mitchell's [Artificial Intelligence: A Guide for Thinking Humans](https://melaniemitchell.me/aibook/)
+- Gary Marcus's [Rebooting AI: Building Artificial Intelligence We Can Trust](Rebooting Ai: Building Artificial Intelligence We Can Trust)
+- Stuart Russell's [Human Compatible: Artificial Intelligence and the Problem of Control](https://en.wikipedia.org/wiki/Human_Compatible)
+- Max Tegmark's [Life 3.0: Being Human in the Age of Artificial Intelligence](https://en.wikipedia.org/wiki/Life_3.0)
+
+The first two authors seem to be less afraid that AI could take over the world,
+while the latter two authors are more concerned about the implications of AI on society and humanity.
+
+
+### A short history of AI
+
+Artificial Intelligence (AI) refers to the design and development of systems 
+that can perform tasks typically requiring human intelligence—such as reasoning, 
+learning, perception, problem-solving, and natural language understanding. 
+
+The ambition to build machines that mimic or surpass human cognitive abilities 
+is not new and can be traced back to myths, philosophical debates, and early 
+mechanical automata.
+
+The formal **birth of AI as a field** is generally dated to **1956**, 
+when John McCarthy, Marvin Minsky, Claude Shannon, and Nathaniel Rochester 
+organized the *Dartmouth Summer Research Project on Artificial Intelligence*. 
+This conference was the first to coin the term "artificial intelligence" and 
+laid the foundation for decades of exploration into machine cognition.
+
+However, the intellectual roots of AI go much further back. **Alan Turing**, 
+in his seminal 1950 paper [*“Computing Machinery and Intelligence”*](https://academic.oup.com/mind/article-abstract/LIX/236/433/986238?redirectedFrom=fulltext), 
+asked the 
+famous question: “Can machines think?” He proposed the [**Turing Test**](https://en.wikipedia.org/wiki/Turing_test) 
+as a way to evaluate a machine’s ability to exhibit intelligent behavior 
+indistinguishable from that of a human. Turing’s work established a 
+theoretical framework that deeply influenced how researchers would later 
+define machine intelligence.
+
+In the early decades following Dartmouth, AI research oscillated between 
+periods of optimism and disappointment. 
+The **1950s–1970s** were marked by the development of symbolic AI and 
+rule-based systems. Programs like ELIZA (a simple natural language processor) 
+and SHRDLU (which operated in a limited “blocks world”) showcased early 
+attempts at mimicking human-like reasoning. **Researchers believed that general 
+AI** (AGI) was just around the corner.
+
+This optimism faded in the **1970s and 1980s**, leading to what became known 
+as the *“AI winter”*—a period characterized by reduced funding and slowed 
+progress due to unmet expectations. The limitations of symbolic logic 
+in handling uncertainty and perception-heavy tasks became clear. 
+However, during this time, important subfields like **expert systems** 
+and **machine learning** began to evolve quietly.
+
+AI entered a new phase in the late 1990s and early 2000s, buoyed by greater 
+computational power, larger datasets, and improved algorithms. 
+Milestones such as 
+**IBM’s Deep Blue defeating chess champion Garry Kasparov in 1997**, 
+and later, [**Watson winning *Jeopardy!* in 2011**](https://www.youtube.com/watch?v=KF6sLCeBj0s&ab_channel=BBCNews), 
+demonstrated tangible progress.
+
+The last decade, however, marked a major **paradigm shift**, especially with 
+the rise of **deep learning**, a form of machine learning using artificial 
+neural networks. In 2012, a convolutional neural network (AlexNet) won the 
+[ImageNet](https://www.image-net.org/challenges/LSVRC/) competition, 
+drastically improving image recognition benchmarks. 
+This breakthrough ignited an AI renaissance that led to the development 
+of powerful models such as **GPT (by OpenAI)** and **BERT (by Google)**—transforming 
+fields like natural language processing, computer vision, and robotics.
+
+Today, AI spans everything from autonomous vehicles to medical diagnostics, 
+and the field is increasingly focused not just on capability, 
+but on **safety, alignment, interpretability**, and **ethics**. 
+While we are still far from artificial general intelligence (AGI), 
+the rapid progress in AI systems is reshaping industries, science, and society.
+
+In the meantime, AlphaGo, a program developed by Google DeepMind,
+[defeated](https://de.wikipedia.org/wiki/AlphaGo_gegen_Lee_Sedol) 
+the world champion Go player Lee Sedol in 2016. As with chess,
+many people thought that Go would be too complex for a computer to master.
+
+[Demis Hassabis](https://www.nobelprize.org/prizes/chemistry/2024/hassabis/facts/), 
+the founder of DeepMind,
+won the nobel prize in chemistry 2024 for his work on AlphaFold2, which
+solved the protein folding problem.
+
+### ChatGPT
 
 The public release of [ChatGPT](https://openai.com/index/chatgpt/) 
 (Generalized Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5, 
@@ -46,7 +135,8 @@ Here is an example of an image described by GPT-4o (a more advanced version of G
 ![](images/GPT_4_image_description.png)
 (Created with ChatGPT macOS app, 21.5.24)
 
-One way to describe an image, is explained by Mike Pound [here](https://www.youtube.com/watch?v=KcSXcpluDe4&t=866s&ab_channel=Computerphile).
+At the time, the perfectly worded image description from GPT felt like magic. 
+One way to achieve this *image captioning* is explained by Mike Pound [here](https://www.youtube.com/watch?v=KcSXcpluDe4&t=866s&ab_channel=Computerphile).
 The [transformer](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)) architecture (a so-called vision transformer, ViT) is involved
 in this process, which is a **key component** of many modern AI systems. 
 We will not go into details here. Interestingly, the transformer architecture
@@ -71,34 +161,83 @@ citation_text <- first_result %>%
   html_element(".gs_fl") %>%
   html_text()
 
+print("wait for it...")
+
 # Extract citation number
 str_extract(citation_text, "(?<=Cited by )\\d+")
+
+print("...times.")
 ```
 
-
-...times.
-
-Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with 
-models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models 
-enabled broader research, customization, and deployment, especially in privacy-sensitive environments.
-
-As LLMs matured, the focus shifted to **autonomous agents**. 
+As LLMs matured, the focus shifted (also) to **autonomous agents**. 
 Systems like [AutoGPT](https://agpt.co/), 
 [BabyAGI](https://babyagi.org/) (AGI stands for Artificial General Intelligence), 
 and later OpenAI’s own GPTs (custom bots) experimented with 
 giving models access to tools (e.g., browsers, calculators, APIs), memory, and goals.
 One failed attempt to sell AI agents as an end-user product was 
 the [Rabbit R1](https://www.youtube.com/watch?v=ddTV12hErTc&ab_channel=MarquesBrownlee).
-For people in the field, it was clear the technology was not ready for this type of application yet.
 
-The vision was no longer just chat, but delegating tasks: “book my flights,” “analyze this dataset,” or 
+For people in the field, it was clear the technology was not ready for this type of application yet.
+I am not sure how is has progressed in the meantime, but a year ago the practical use of these
+agents was still limited.
+Google announced "Agent Mode" [recently](https://www.youtube.com/watch?v=LxvErFkBXPk&ab_channel=Google).
+There have been promises of AI agents performing tasks 
+(like calling a restaurant to make an appointment) autonomously [before](https://www.youtube.com/watch?v=D5VN56jQMWM&ab_channel=JeffGrubb%27sGameMess).
+
+The vision is no longer just chat, but delegating tasks: “book my flights,” “analyze this dataset,” or 
 “write a full report with citations.”
 This period also saw growing demand for interpretability, trustworthiness, and alignment. 
 Questions about hallucinations, bias, and safety became central—not only for researchers, 
 but for businesses and governments. RLHF (Reinforcement Learning from Human Feedback) became a 
 standard technique to make models more helpful and aligned with human intent.
 
-### What is AI and what was before ChatGPT?
+Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with 
+models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models 
+enabled broader research, customization, and deployment, especially in privacy-sensitive environments.
 
+
+## Capabilites of LLMs
+
+A model like GPT-4 can perform a wide range of tasks, including:
+
+- **Text Generation**: Writing essays, articles, or creative content.
+
+- **Image generation**: Creating [images](https://openai.com/index/introducing-4o-image-generation/) 
+  from text prompts. This has improved during the last 1-2 years.
+  I assume that OpenAI uses *very* advanced **diffusion models** for this task, the basic principles
+  are rather graspable though 
+  ([1](https://www.youtube.com/watch?v=1CIpzeNxIhU&t=866s&ab_channel=Computerphile), 
+  [2](https://www.youtube.com/watch?v=1pgiu--4W3I&t=1273s&ab_channel=DepthFirst)).
+
+- **Question Answering**: Providing answers to factual questions or summarizing information.
+
+- **Translation**: Translating text between multiple languages.
+
+- **Code Generation**: Writing and debugging code in various programming languages.
+
+- **Image Understanding**: Analyzing and describing images (in multimodal versions).
+
+- **Conversational Agents**: Engaging in natural language conversations, 
+  simulating human-like dialogue.
+
+Sébastien Bubeck published a paper in 2023 titled "Sparks of Artificial General Intelligence: 
+Early Experiments with GPT-4" 
+([arXiv:2303.12712](https://arxiv.org/pdf/2303.12712)), 
+which explores the capabilities of GPT-4 in depth.
+As in other technical reports of commercial models, 
+the so-called model weight (more on that later) are not disclosed.
+
+
+
+
+## Risks of LLM and AI in general
 ...
 
+
+
+
+
+
+Notes:
+
+- Robert Miles AI safety.

@@ -72,4 +72,7 @@ exercise15_LMM
 exercise16_LMM
 artificial-intelligence-ai
 introduction
-what-is-ai-and-what-was-before-chatgpt
+a-short-history-of-ai
+chatgpt
+capabilites-of-llms
+risks-of-llm-and-ai-in-general
