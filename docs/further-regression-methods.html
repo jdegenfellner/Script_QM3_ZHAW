@@ -604,7 +604,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpzlEQU0/model-1c0c78c4f5b9.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpdqh6y4/model-251a24aa35f9.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1361,7 +1361,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpzlEQU0/model-1c0c390b66b2.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpdqh6y4/model-251a2819e5d8.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1377,12 +1377,12 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
 ## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
@@ -1409,17 +1409,17 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 finished in 4.1 seconds.
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.2 seconds.
-## Chain 3 finished in 4.2 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.3 seconds.
+## Chain 3 finished in 4.3 seconds.
+## Chain 4 finished in 4.2 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.5 seconds.
+## Chain 1 finished in 4.4 seconds.
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 4.3 seconds.
-## Total execution time: 4.6 seconds.</code></pre>
+## Total execution time: 4.5 seconds.</code></pre>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="further-regression-methods.html#cb300-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -2438,7 +2438,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 1.0 seconds.</code></pre>
+## Total execution time: 0.8 seconds.</code></pre>
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="further-regression-methods.html#cb347-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623

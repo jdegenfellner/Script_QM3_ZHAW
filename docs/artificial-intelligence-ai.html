@@ -260,14 +260,14 @@ but has fundamentally influenced</p>
 <li>solve problems.</li>
 </ul>
 <p><strong>Another reason</strong> could be given. As far as I am aware,
-<strong>neural networks</strong> (an important part of AI) are a true <strong>extension of our regression models</strong>.
+<strong>neural networks</strong> (an important part of AI, more on that topic later) are a true <strong>extension of our regression models</strong>.
 Hence, the whole regression framework
 can be subsumed under the umbrella of AI.</p>
 <p>The standard textbook on AI is Russell and Norvig’s
 <a href="hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf">Artificial Intelligence: A Modern Approach</a>
 (3rd edition, 2020), currently in its 4th edition.</p>
 <p>The public release of <a href="https://openai.com/index/chatgpt/">ChatGPT</a>
-(Generalize Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5,
+(Generalized Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5,
 marked a watershed moment in the history of artificial intelligence.
 While <a href="https://en.wikipedia.org/wiki/Large_language_model"><strong>large language models (LLMs)</strong></a>
 had already impressed researchers,
@@ -284,14 +284,33 @@ and multilingual capabilities. GPT-4 also <strong>introduced image input</strong
 and began to bridge the gap toward <strong>multimodal AI</strong> (not limited to text input).</p>
 <p>Here is an example of an image described by GPT-4o (a more advanced version of GPT-4):
 <img src="images/GPT_4_image_description.png" />
-(Created with ChatGPT macOS app, 21.5.24)
-One way to describe an image, is explained by Mike Pound <a href="https://www.youtube.com/watch?v=KcSXcpluDe4&amp;t=866s&amp;ab_channel=Computerphile">here</a>.
+(Created with ChatGPT macOS app, 21.5.24)</p>
+<p>One way to describe an image, is explained by Mike Pound <a href="https://www.youtube.com/watch?v=KcSXcpluDe4&amp;t=866s&amp;ab_channel=Computerphile">here</a>.
 The <a href="https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)">transformer</a> architecture (a so-called vision transformer, ViT) is involved
-in this process, which is a key component of many modern AI systems.
+in this process, which is a <strong>key component</strong> of many modern AI systems.
 We will not go into details here. Interestingly, the transformer architecture
 was introduced by researchers at Google in 2017 in a paper called
 <a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention is All You Need</a>,
-which was cited (at the time of writing) over 180,000 times.</p>
+which was cited…</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="artificial-intelligence-ai.html#cb363-1" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb363-2"><a href="artificial-intelligence-ai.html#cb363-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb363-3"><a href="artificial-intelligence-ai.html#cb363-3" tabindex="-1"></a></span>
+<span id="cb363-4"><a href="artificial-intelligence-ai.html#cb363-4" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://scholar.google.com/scholar?hl=en&amp;q=attention+is+all+you+need&quot;</span></span>
+<span id="cb363-5"><a href="artificial-intelligence-ai.html#cb363-5" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb363-6"><a href="artificial-intelligence-ai.html#cb363-6" tabindex="-1"></a></span>
+<span id="cb363-7"><a href="artificial-intelligence-ai.html#cb363-7" tabindex="-1"></a><span class="co"># Extract result blocks</span></span>
+<span id="cb363-8"><a href="artificial-intelligence-ai.html#cb363-8" tabindex="-1"></a>results <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span> <span class="fu">html_elements</span>(<span class="st">&quot;.gs_ri&quot;</span>)</span>
+<span id="cb363-9"><a href="artificial-intelligence-ai.html#cb363-9" tabindex="-1"></a>first_result <span class="ot">&lt;-</span> results[[<span class="dv">1</span>]]</span>
+<span id="cb363-10"><a href="artificial-intelligence-ai.html#cb363-10" tabindex="-1"></a></span>
+<span id="cb363-11"><a href="artificial-intelligence-ai.html#cb363-11" tabindex="-1"></a><span class="co"># Extract footer text</span></span>
+<span id="cb363-12"><a href="artificial-intelligence-ai.html#cb363-12" tabindex="-1"></a>citation_text <span class="ot">&lt;-</span> first_result <span class="sc">%&gt;%</span></span>
+<span id="cb363-13"><a href="artificial-intelligence-ai.html#cb363-13" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;.gs_fl&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb363-14"><a href="artificial-intelligence-ai.html#cb363-14" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
+<span id="cb363-15"><a href="artificial-intelligence-ai.html#cb363-15" tabindex="-1"></a></span>
+<span id="cb363-16"><a href="artificial-intelligence-ai.html#cb363-16" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
+<span id="cb363-17"><a href="artificial-intelligence-ai.html#cb363-17" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;182752&quot;</code></pre>
+<p>…times.</p>
 <p>Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with
 models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models
 enabled broader research, customization, and deployment, especially in privacy-sensitive environments.</p>

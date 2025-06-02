@@ -24,7 +24,7 @@ The standard textbook on AI is Russell and Norvig's
 (3rd edition, 2020), currently in its 4th edition.
 
 The public release of [ChatGPT](https://openai.com/index/chatgpt/) 
-(Generalize Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5, 
+(Generalized Pretrained Transformer) in November 2022, based on OpenAI’s GPT-3.5, 
 marked a watershed moment in the history of artificial intelligence. 
 While [**large language models (LLMs)**](https://en.wikipedia.org/wiki/Large_language_model) 
 had already impressed researchers, 
@@ -45,13 +45,38 @@ and began to bridge the gap toward **multimodal AI** (not limited to text input)
 Here is an example of an image described by GPT-4o (a more advanced version of GPT-4):
 ![](images/GPT_4_image_description.png)
 (Created with ChatGPT macOS app, 21.5.24)
+
 One way to describe an image, is explained by Mike Pound [here](https://www.youtube.com/watch?v=KcSXcpluDe4&t=866s&ab_channel=Computerphile).
 The [transformer](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)) architecture (a so-called vision transformer, ViT) is involved
-in this process, which is a key component of many modern AI systems. 
+in this process, which is a **key component** of many modern AI systems. 
 We will not go into details here. Interestingly, the transformer architecture
 was introduced by researchers at Google in 2017 in a paper called 
 [Attention is All You Need](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf),
-which was cited (at the time of writing) over 180,000 times.
+which was cited... 
+
+
+```{r}
+library(rvest)
+library(stringr)
+
+url <- "https://scholar.google.com/scholar?hl=en&q=attention+is+all+you+need"
+page <- read_html(url)
+
+# Extract result blocks
+results <- page %>% html_elements(".gs_ri")
+first_result <- results[[1]]
+
+# Extract footer text
+citation_text <- first_result %>%
+  html_element(".gs_fl") %>%
+  html_text()
+
+# Extract citation number
+str_extract(citation_text, "(?<=Cited by )\\d+")
+```
+
+
+...times.
 
 Meanwhile, open-source efforts accelerated. Meta released LLaMA, and others followed with 
 models like Falcon, Mistral, and Mixtral. Although initially less powerful, these models 
