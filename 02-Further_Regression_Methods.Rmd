@@ -1582,8 +1582,88 @@ plot(x, predict(mod_glm, type = "link"),
 
 
 
-## Conclusion and recommendation
-.... 
+## Summary and further directions
+
+Beginning in [QM1](https://jdegenfellner.github.io/Script_QM1_ZHAW/) we started 
+with probability distributions to describe random variables. We used the probability 
+framework right from the start to make predictions about the outcome of
+random variables. This is made possible since we either know or estimate 
+the respective distribution of the random variable of interest (for instance the number of false positives
+when doing research).
+
+In [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/index.html) we slowly expanded
+our knowledge towards statistical modeling using regression models starting out with the 
+simplest regression model there is: the simple mean model. 
+We have seen that we can add complexity by adding more predictors (multiple linear regression),
+intereaction terms ($X_1 \times X_2$), polynomial terms (like $X^2$).
+We then loosened the assumptions of classical linear regression by introducing
+random effects (hierarchical models) and generalized linear models (GLMs).
+
+I have tried to juxtapose the Frequentist and Bayesian approach to modeling.
+Sometimes the Bayesian approach using the `rethinking` package is more intuitive and easier to use.
+For instance, it feels quite natural to go from homoscedasticity to heteroscedasticity
+in the Bayesian framework, since we can just model the variance explicitely as a function of the mean (of the outcome)
+(see [NHANES example](https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#example_nhanes)).
+
+In this script, we have seen rather quickly that there is a **tradeoff between the complexity of 
+the model and its interpretability**. What exactly do the parameters in the model mean?
+On the one hand, we want to model
+the underlying structure of the data as well as possible,
+on the other hand, we want to keep the model interpretable and not overfit the data.
+This balance is not always easy to achieve.
+
+Our specific challenge was and is to build a bridge between the fundamental concepts
+of probability and statistics and the practical application of statistical modeling.
+The latter is often much more complex than the former.
+There are known **unknown unknowns** (from our current perspective), which we did not have time to cover in our courses:
+
+- [Missing data](https://en.wikipedia.org/wiki/Missing_data). 
+  What if you have a rectangular data set with 20 variables,
+  but some variables have missing values? 
+  There are [different types](https://en.wikipedia.org/wiki/Missing_data#Types) 
+  of missing data. The easiest case is that the data are missing completely at random (MCAR).
+  Here, we can just drop the rows with missing values (`na.omit()`).
+  It is **a good start** to perform sensitivity analyses to see how the results change 
+  if we drop the rows with missing values
+  There are other missing data mechanisms. You should read the basics about this topic,
+  if you encounter more than, say $5\%$, missing values in your data set (per variable).
+
+- Representative [sampling](https://en.wikipedia.org/wiki/Sampling_(statistics)).
+  In the classical statistical paradigm, we ask: How representative is our *sample* of the *population* of interest?
+  Professional surveys like NHANES use **survey weights** in order to correct for
+  sampling bias respectively non-representativeness in the sample.
+  See also Westfall, chapter 1.3. (p.8) why we should probably not use the population paradigm in regression,
+  and better think of the data generating mechanism.
+
+- [Compostional data](https://en.wikipedia.org/wiki/Compositional_data)
+  are data that represent parts of a whole, such as percentages or proportions.
+  They are often constrained to sum to a constant (e.g., $100\%$) and can 
+  lead to **misleading results if analyzed with standard statistical methods**.
+  Here is a [simple example](https://www.geo.fu-berlin.de/en/v/soga-r/Advances-statistics/Feature-scales/Intro_compositional_data/index.html).
+
+- [Causal inference](https://projecteuclid.org/journals/statistics-surveys/volume-3/issue-none/Causal-inference-in-statistics-An-overview/10.1214/09-SS057.full).
+  In Richard McElreath's book *Statistical Rethinking*, causal thinking is a central theme.
+  We have touched on it lightly at the end of [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#more-than-2-predictors),
+  specifically we drew a directed acyclic graph (DAG) to illustrate the causal relationships 
+  between variables in our [NHANES](https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#example_nhanes) toy example.
+
+There are also **unknown unknowns**, which not even cutting edge reasarchers are aware of.
+Previously, dealing with *compositional data* data was such a problem.
+With respect to compositional data, causal inference and Baysian statistics (and probably other techniques I have not mentioned), 
+we in applied health sciences are merely slowly adapting these into our statistical toolbox.
+
+My **main goals** of our three statistics courses (QM1-3) were:
+
+- To point towards great books and ressources. Knowledge is decentralized.
+- To show you that statistics is more than *find-the-right-statistical-test-Bingo*.
+- To show you that *statistical significance* does not mean much considered only by itself.
+- To point out that statistical knowledge is not *final* but *evolving*.
+- I have tried to foster understanding of modeling by focusing on concepts 
+  rather than on mathematical details (like matrix algebra) and fixed recipes with strange terminology. 
+
+In our final chapter, we take a look at some aspects of 
+[artificial intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence).
+
 
 
 
@@ -1733,25 +1813,3 @@ Consider the section about [Bayesian Poisson regression](#bayesian_poisson_regre
 
 - Adapt the priors for $\alpha$ and $\beta$ to be more informative.
 - Do prior predictive checks to see if the priors make sense.
-
-## TODOS
-
-- Create many practically relevant ICC examples
-- Create many practically relevant validity examples
-- Application movement detection with R/Python as example of machine learning/AI.
-- AI Example, Claude and LEAN with [Terence](https://www.youtube.com/watch?v=zZr54G7ec7A&t=714s&ab_channel=TerenceTao)
-- Last Chapter - Introduction to AI. Previous statistical analyses is a special case of neuronal networks.
-- [table 2 fallacy](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12617?casa_token=3IzTqt8cjzQAAAAA%3AhKH7i2yhPi9tIVbOz89JVMT2yuSuyhejGLcJqXVINfgo7kjxlkzzBhqu3iH0zW7ClZef0ivw790enq1I)
-- mention missing values, missingness mechanisms
-- Chapter: Sample size calculations for multivariate regression, Proportions, ICCs, t.test
-- AIC, BIC, cross-validation, Model selection (best subset, leaps....), Variable selection
-- Restrictive cubic splines?
-- Causal inference, DAGs, counterfactuals
-- **Final chapter** with "topics we have not covered for time 
-  reasons: some known unknowns."
-  Topics: Sample size calculations, missing data, composition data,
-  causal inference,...
-  Frequently asked master thesis questions:
-  - How to deal with missing data?
-  - How calculate the sample size for XX?
-- Colour scheme for Frequentist vs. Bayesian models in the script?

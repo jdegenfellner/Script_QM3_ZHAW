@@ -8,5 +8,5 @@ rmd_files:
   - index.Rmd
   - 01-Reliability_Validity.Rmd
   - 02-Further_Regression_Methods.Rmd
-  #- 03-Multiple_Linear_Regression.Rmd
+  - 03-AI.Rmd
   # Add more Rmd files here as needed

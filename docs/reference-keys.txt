@@ -52,7 +52,7 @@ outcome-variable-is-poisson-distributed
 independence-of-observations
 mean-should-be-equal-variance-dispersion
 linearity-of-the-log-of-lambda
-conclusion-and-recommendation
+summary-and-further-directions
 exercises-1
 exercise1_LMM
 exercise2_LMM
@@ -71,3 +71,4 @@ exercise14_LMM
 exercise15_LMM
 exercise16_LMM
 todos
+artificial-intelligence-ai
