@@ -503,7 +503,7 @@ Some comments:
   Verify this as [exercise](#exercise9_LMM) using the `shapiro.test` function in R.
   We (only) do this, since they as well used a version of this test.
   The primary outcome variable has only $6$ unique values ($4-9$) at week $0$
-  and can therefore not be normally distributed 
+  and can therefore (strictly speaking) not be normally distributed 
   (normal distribution takes infinitely many values).
 
 - I am not sure what the authors mean exactly with the term "general linear model". 
@@ -522,7 +522,8 @@ Some comments:
 We could try to use [this](https://www.r-bloggers.com/2021/04/repeated-measures-of-anova-in-r-complete-tutorial/) 
 as guideline if we wanted to replicate the two-way repeated measures ANOVA.
 
-Maybe we try to use the `lme4` package first to fit a linear mixed model (LMM).
+Maybe we try to use the `lme4` package first to fit a linear mixed model (LMM), which 
+is the more modern approach.
 
 The model equation should be:
 
@@ -665,14 +666,35 @@ and Group `Ex` (reference group).
 
 Important for us are the so-called **contrasts** (below). 
 These give us the **model-estimated differences** in (expected) headache frequency between 
-the groups at each time point.
+the groups at each time point. To be exact, we are actually interested in 
+the **difference in differences** (DiD):
+\[
+\text{headache frequency}_{\text{MMT+ex}} - \text{headache frequency}_{\text{Sham+ex}} \text{ at week } 4 \\
+\textbf{minus} \\ 
+\text{headache frequency}_{\text{MMT+ex}} - \text{headache frequency}_{\text{Sham+ex}} \text{ at week } 0
+\]
 
 ```{r}
-# constrasts:
-emm <- emmeans(model, ~ Group | time_f)  #
-summary(contrast(emm, method = "pairwise",
-                adjust = "bonferroni"),
-                infer = c(TRUE, FALSE))  # TRUE for CI and FALSE for p-values
+library(emmeans)
+emm <- emmeans(model, ~ Group * time_f)
+emm_df <- as.data.frame(emm)
+emm_df
+
+contrast_vec <- list(
+  "MMTvsSham_W4_minus_W0" = c(
+    0,   # Ex @ 0
+    +1,  # MMT+ex @ 0
+    -1,  # Sham+ex @ 0
+    0,   # Ex @ 4
+    -1,  # MMT+ex @ 4
+    +1,  # Sham+ex @ 4
+    0, 0, 0, 0, 0, 0 # ignore reset (13 & 26)
+  )
+)
+
+contrast(emm, method = contrast_vec, infer = c(TRUE, FALSE))
+
+
 ```
 
 [Bonferroni correction](https://en.wikipedia.org/wiki/Bonferroni_correction) 
@@ -684,9 +706,9 @@ There we see the mean between-group difference in headache frequency
 at week $4$ compared to week $0$ and the two groups *MMT + ex* and *MMT Sham + ex*
 are compared. 
 
-- The mean difference is $-3$ (95% CI: $-3$ to $-2$) days/month. 
-- In our `lmer` output, we find the row
-  `(MMT+ex) - (Sham+ex)  -2.6892 0.257 260   -3.308   -2.070`.
+- The mean difference (in the paper) is $-3$ (95% CI: $-3$ to $-2$) days/month. 
+- In our `contrast` output, we find the row
+  `MMTvsSham_W4_minus_W0     2.68 0.295 264      2.1     3.26`.
   
 After rounding to integers we get the same results.
 
