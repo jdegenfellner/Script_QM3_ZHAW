@@ -986,6 +986,18 @@ summary(modlog)
   This difference is not constant (see graph below, red line), but depends on the value of $AGE$,
   since the inverse logit function is non-linear.
 
+- `Null deviance` is the deviance ($= -2 log-likelihood$) of 
+  the model with only the intercept (no predictors).
+  The deviance is a measure of how well the model fits the data.
+  ```{r}
+  -2 * logLik(glm(y ~ 1, family = binomial(link = "logit")))
+  ```
+
+- `Residual deviance` is the deviance of the model with the predictors.
+   ```{r}
+    -2 * logLik(modlog)
+   ```
+
 But, we do not need to do all this by hand, we have R.
 We can simply calculate the probabilities estimated by data:
 
@@ -1134,12 +1146,24 @@ As you can see, the confidence band is wider when there are fewer data points.
 In the middle of the `AGE` range, the confidence band is narrower,
 which is expected since we have more data points there.
 At the extreme ends of the `AGE` range, the confidence band is 
-not maximally wide, since above $\approx 1$ and below $\approx -1$ there
+not maximally wide, since above $AGE \approx 1$ and below $AGE \approx -1$ there
 are only $Y_i = 1$ or $Y_i = 0$ observations which gives some confidence in the model.
 
 #### Bayesian version {#bayesian_logistic}
 
 Now, the same simple model in the **Bayesian framework** using the `rethinking` package:
+
+The **interpretation of the priors** is already familiar: 
+For a person with `AGE = 0` (average age), the expected log-odds of a $1$ is $a$,
+i.e. the probability of a $1$ is 
+$\text{inv_logit}(a) = \text{inv_logit}(0) = 0.5$ on average.
+Hence, the probability of a $1$ for a person with `AGE = 0` is 
+between 
+
+```{r}
+inv_logit(c(-3, 3))
+```
+with $95\%$ probability a priori.
 
 See [exercise 12](#exercise12_LMM) for the priors.
 
@@ -1215,7 +1239,7 @@ ggplot(plot_df, aes(x = AGE, y = predicted)) +
 
 **One may ask how well the model *predicts* the outcome.**
 A very honest and simple way would be to compare the predicted outcomes
-with the actual outcomes. This is called a **confusion table** (or [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix)).
+with the actual outcomes ($0/1$). This is called a **confusion table** (or [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix)).
 
 ```{r}
 predicted_outcomes <- ifelse(predict(modlog, type = "response") > 0.5, 1, 0)
@@ -1225,10 +1249,11 @@ accuracy <- sum(diag(confusion_table)) / sum(confusion_table)
 accuracy
 ```
 
-We could introduce the threshold of $0.5$ as the cutoff for a $1$.
+We could introduce the threshold for the predicted probability $p_i$ of 
+$0.5$ as the cutoff for a $1$.
 If the predicted probability is above $0.5$, we predict a $1$,
 otherwise a $0$. Probably, one wants to move this threshold
-up or down in order to improve performance.
+up or down in order to improve predictive performance.
 
 In the diagonal of the confusion table, we find the number of correct predictions.
 In the off-diagonal, we find the number of incorrect predictions.
@@ -1253,9 +1278,11 @@ One can show, that the errors in logistic regression are *not homoscedastic*
 So, we do not need to check this. The reason is not that complicated.
 For every $Y_i$ we assume a Bernoulli distribution: $Y_i \sim \text{Bernoulli}(p_i)$.
 The probability $p_i$ is *not* constant, but increases (in our case) with `AGE`.
-The variance of a Bernoulli distribution is $p_i(1-p_i)$, which is not constant,
+The [variance](https://en.wikipedia.org/wiki/Bernoulli_distribution#Variance) 
+of a Bernoulli distribution is $p_i(1-p_i)$, which is not constant,
 if the $p_i$ is not constant. The variance is highest at $p_i = 0.5$ and 
-lowest at $p_i = 0$ or $p_i = 1$. You see this immediately when you plot the 
+lowest at $p_i = 0$ or $p_i = 1$ (since only $0$ or $1$ does not give you much variance). 
+You see this immediately when you plot the 
 variance function $p_i(1-p_i)$:
 
 ```{r}
@@ -1279,12 +1306,13 @@ which means the variance is low.
 
 - A binary outcome (which we have).
 - Independent observations (which we have, since they were constructed this way).
-  Obervations might not be independent in time series data or repeated measurements of
+  Observations might not be independent in time series data or repeated measurements of
   the same person, or clustered data (e.g., patients in hospitals).
 - No perfect separation: This means that there should not be a *single* cutoff under 
   which the outcome is always $0$ and above which the outcome is always $1$ 
   (e.g., all people after $52$ years have a heart attack, all before $52$ do not).
-  R will throw an error if this is the case.
+  R will throw an error if this is the case. In such a case you would not bother
+  with logistic regression, but introduce a simple decision rule.
 - Linear relationship between predictors and log-odds of the outcome.
   We might see this assumption violated in the deviance residuals if there are patterns, 
   which is typically a hint that the model does not yet capture the structure of 
@@ -1322,6 +1350,7 @@ In [exercise 14](exercise14_LMM), we will look try to replicate the model checks
 - ....distributional check for residuals necessary...??
 - Observations (rows in our data set) must be **independent**, otherwise we would introduce random effects again.
   In our invented mini example, observations are of course independent.
+  If we had clusterin, we would need to use a mixed model again.
 
 ### Multiple Logistic Regression {#multiple_logistic_regression}
 

@@ -374,27 +374,27 @@ We will not go into details here. Interestingly, the transformer architecture
 was introduced by researchers at Google in 2017 in a paper called
 <a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention is All You Need</a>,
 which was cited…</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="artificial-intelligence-ai.html#cb369-1" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb369-2"><a href="artificial-intelligence-ai.html#cb369-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb369-3"><a href="artificial-intelligence-ai.html#cb369-3" tabindex="-1"></a></span>
-<span id="cb369-4"><a href="artificial-intelligence-ai.html#cb369-4" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://scholar.google.com/scholar?hl=en&amp;q=attention+is+all+you+need&quot;</span></span>
-<span id="cb369-5"><a href="artificial-intelligence-ai.html#cb369-5" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
-<span id="cb369-6"><a href="artificial-intelligence-ai.html#cb369-6" tabindex="-1"></a></span>
-<span id="cb369-7"><a href="artificial-intelligence-ai.html#cb369-7" tabindex="-1"></a><span class="co"># Extract result blocks</span></span>
-<span id="cb369-8"><a href="artificial-intelligence-ai.html#cb369-8" tabindex="-1"></a>results <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span> <span class="fu">html_elements</span>(<span class="st">&quot;.gs_ri&quot;</span>)</span>
-<span id="cb369-9"><a href="artificial-intelligence-ai.html#cb369-9" tabindex="-1"></a>first_result <span class="ot">&lt;-</span> results[[<span class="dv">1</span>]]</span>
-<span id="cb369-10"><a href="artificial-intelligence-ai.html#cb369-10" tabindex="-1"></a></span>
-<span id="cb369-11"><a href="artificial-intelligence-ai.html#cb369-11" tabindex="-1"></a><span class="co"># Extract footer text</span></span>
-<span id="cb369-12"><a href="artificial-intelligence-ai.html#cb369-12" tabindex="-1"></a>citation_text <span class="ot">&lt;-</span> first_result <span class="sc">%&gt;%</span></span>
-<span id="cb369-13"><a href="artificial-intelligence-ai.html#cb369-13" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;.gs_fl&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb369-14"><a href="artificial-intelligence-ai.html#cb369-14" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
-<span id="cb369-15"><a href="artificial-intelligence-ai.html#cb369-15" tabindex="-1"></a></span>
-<span id="cb369-16"><a href="artificial-intelligence-ai.html#cb369-16" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;wait for it...&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="artificial-intelligence-ai.html#cb375-1" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb375-2"><a href="artificial-intelligence-ai.html#cb375-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb375-3"><a href="artificial-intelligence-ai.html#cb375-3" tabindex="-1"></a></span>
+<span id="cb375-4"><a href="artificial-intelligence-ai.html#cb375-4" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://scholar.google.com/scholar?hl=en&amp;q=attention+is+all+you+need&quot;</span></span>
+<span id="cb375-5"><a href="artificial-intelligence-ai.html#cb375-5" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb375-6"><a href="artificial-intelligence-ai.html#cb375-6" tabindex="-1"></a></span>
+<span id="cb375-7"><a href="artificial-intelligence-ai.html#cb375-7" tabindex="-1"></a><span class="co"># Extract result blocks</span></span>
+<span id="cb375-8"><a href="artificial-intelligence-ai.html#cb375-8" tabindex="-1"></a>results <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span> <span class="fu">html_elements</span>(<span class="st">&quot;.gs_ri&quot;</span>)</span>
+<span id="cb375-9"><a href="artificial-intelligence-ai.html#cb375-9" tabindex="-1"></a>first_result <span class="ot">&lt;-</span> results[[<span class="dv">1</span>]]</span>
+<span id="cb375-10"><a href="artificial-intelligence-ai.html#cb375-10" tabindex="-1"></a></span>
+<span id="cb375-11"><a href="artificial-intelligence-ai.html#cb375-11" tabindex="-1"></a><span class="co"># Extract footer text</span></span>
+<span id="cb375-12"><a href="artificial-intelligence-ai.html#cb375-12" tabindex="-1"></a>citation_text <span class="ot">&lt;-</span> first_result <span class="sc">%&gt;%</span></span>
+<span id="cb375-13"><a href="artificial-intelligence-ai.html#cb375-13" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;.gs_fl&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb375-14"><a href="artificial-intelligence-ai.html#cb375-14" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
+<span id="cb375-15"><a href="artificial-intelligence-ai.html#cb375-15" tabindex="-1"></a></span>
+<span id="cb375-16"><a href="artificial-intelligence-ai.html#cb375-16" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;wait for it...&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;wait for it...&quot;</code></pre>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="artificial-intelligence-ai.html#cb371-1" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
-<span id="cb371-2"><a href="artificial-intelligence-ai.html#cb371-2" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="artificial-intelligence-ai.html#cb377-1" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
+<span id="cb377-2"><a href="artificial-intelligence-ai.html#cb377-2" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;182784&quot;</code></pre>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="artificial-intelligence-ai.html#cb373-1" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;...times.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="artificial-intelligence-ai.html#cb379-1" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;...times.&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;...times.&quot;</code></pre>
 <p>As LLMs matured, the focus shifted (also) to <strong>autonomous agents</strong>.
 Systems like <a href="https://agpt.co/">AutoGPT</a>,
