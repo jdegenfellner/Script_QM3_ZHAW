@@ -1356,10 +1356,10 @@ sd(df_1$retest - df_1$test, na.rm = TRUE)/sqrt(2)
 # In "Measurement in Medicine", p. 112, the authors warn against
 # the formula the paper used to calculate the SEM:
 # SEM = SD_pooled*sqrt(1-ICC)
-SD_pooled <- sqrt((sd(df_1$test, na.rm = TRUE)^2 + sd(df_1$retest, na.rm = TRUE)^2)/2) # correct?
-SEM <- SD_pooled*sqrt(1 - 0.95)
+SD_pooled <- sqrt((sd(df_1$test, na.rm = TRUE)^2 + sd(df_1$retest, na.rm = TRUE)^2)/2)
+SEM <- SD_pooled*sqrt(1 - 0.9477155)
 SEM
-# 4.092977 vs. 4.2 in the paper (rounding error?)
+# =4.185437 vs. 4.2 in the paper
 
 # Formula 5.7 in the book:
 # sigma_y is the total variance
@@ -1372,24 +1372,25 @@ summary(mod)
 301.8/(301.8 + 33.3/2)
 # 0.9477155 check
 
+# Try with Timepoint as random effect (could be rater)
+mod2 <- lmer(value ~ (1|ID) + (1|Timepoint), data = df_long)
+summary(mod2)
+
 # -> sigma_y = SD_pooled = 
 sqrt(301.8 + 33.3) # = 18.30574
+# SEM = 
+sqrt(301.8 + 33.3)*sqrt(1 - 0.9477155) # 4.18
 
-# or this?
+# or this (if average measurements are meant, ICC1k)?
 sqrt(301.8 + 33.3/2) # 17.84517
 # SEM = 
-sqrt(301.8 + 33.3/2)*sqrt(1 - 0.95) # 3.990301
-
-# -> SEM was not exactly replicable
+sqrt(301.8 + 33.3/2)*sqrt(1 - 0.9477155) # 4.08 (4.18 if ICC1)
 
 # MCD, Minimally Detectable Difference:
 # (also known as Smallest Detectable Change, SDC)
 # MCD = 
-1.96 * 4.092977 * sqrt(2)
-# 11.34515 vs 11.6 in the paper, rather close.
-
-1.96 * 4.2 * sqrt(2)
-# 11.64181
+1.96 * 4.185437 * sqrt(2)
+# 11.6 check.
 
 # Coefficient of Variation:
 # The CV was calculated for each participant as (within-subject SD / mean) * 100, 
@@ -1406,8 +1407,6 @@ sd(df_1$cv_i, na.rm = TRUE)
 # 95% CI:
 mean(df_1$cv_i, na.rm = TRUE) + c(-1,1)*1.96*sd(df_1$cv_i, na.rm = TRUE)/sqrt(17)
 # 2.195750 5.014306 # check
-
-
 ```
 
 
