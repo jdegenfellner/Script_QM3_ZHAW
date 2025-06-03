@@ -986,9 +986,10 @@ summary(modlog)
   This difference is not constant (see graph below, red line), but depends on the value of $AGE$,
   since the inverse logit function is non-linear.
 
-- `Null deviance` is the deviance ($= -2 log-likelihood$) of 
+- `Null deviance` is the deviance ($= -2 \text{log-likelihood}$) of 
   the model with only the intercept (no predictors).
-  The deviance is a measure of how well the model fits the data.
+  The [deviance](https://en.wikipedia.org/wiki/Deviance_(statistics)) 
+  is a measure of how well the model fits the data.
   ```{r}
   -2 * logLik(glm(y ~ 1, family = binomial(link = "logit")))
   ```
@@ -997,9 +998,16 @@ summary(modlog)
    ```{r}
     -2 * logLik(modlog)
    ```
+- `AIC` is the Akaike Information Criterion, 
+  which is a measure of the model's goodness of fit, 
+  penalized for the number of parameters. Lower AIC values indicate a better fit.
+  ```{r}
+  -2 * logLik(modlog) + 2 * length(coef(modlog))
+  ```
+  The more parameters, the higher the AIC, the worse the model fit.
+  AIC punishes model complexity. 
 
-But, we do not need to do all this by hand, we have R.
-We can simply calculate the probabilities estimated by data:
+We can calculate the probabilities estimated by data:
 
 ```{r}
 predicted_probabilities <- predict(modlog, type = "response") # response is the probability p_i here.
@@ -1325,7 +1333,8 @@ checks what is possible for the given model type):
 
 ```{r}
 library(performance)
-check_model(modlog)
+check_model(modlog, checks = c("pp_check", "residuals",
+                               "influential_observations"))
 ```
 
 In [exercise 14](exercise14_LMM), we will look try to replicate the model checks.
@@ -1347,7 +1356,6 @@ In [exercise 14](exercise14_LMM), we will look try to replicate the model checks
   is calculated for such a model.
   We looked at this plot in [QM2](https://jdegenfellner.github.io/Script_QM2_ZHAW/simple-linear-regression.html#influential-observations-middle-right) 
   already in the context of simple linear regression.
-- ....distributional check for residuals necessary...??
 - Observations (rows in our data set) must be **independent**, otherwise we would introduce random effects again.
   In our invented mini example, observations are of course independent.
   If we had clusterin, we would need to use a mixed model again.
@@ -1397,7 +1405,7 @@ ggplot(poisson_data, aes(x = y, y = prob, color = lambda)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-A Poisson-distributed variable can only take integer values 
+A Poisson-distributed variable can **only** take **integer values** 
 which are of course non-negative.
 
 It is a very elegant distribution, since the mean ($\mu$) is equal 
@@ -1484,7 +1492,7 @@ ggplot(df_points, aes(x = x, y = y)) +
 - In red, I drew some conditional Poisson densities (at $x = 2, 4, 6, 8$): 
   $Y_i|x \sim \text{Poisson}(\lambda = e^{0.5x - 2})$.
 - In dark red, I drew $\lambda(x) = e^{0.5x - 2}$, 
-  which is the mean and the variance of the Poisson distribution.
+  which is the mean **and** the variance of the (conditional) Poisson distribution.
 - Both (mean and variance) are equal and clearly increase with $x$.
 
 As you can see from the definition of the parameter $\lambda$:
@@ -1495,7 +1503,7 @@ As you can see from the definition of the parameter $\lambda$:
 Omitting the log, we would have $\lambda = 0.5x - 2$,
 which could be negative for small values of $x$, for instance for $x = 1$.
 Count data cannot be (in expectation or otherwise) negative, hence we use the log to ensure 
-that $\lambda$ is always positive: $exp(0.5x - 2) > 0~\forall x$.
+that $\lambda$ is always positive: $e^{0.5x - 2} > 0~\forall x$.
 
 The model definition for a simple Poisson regression is then 
 (see also Rethinking, p.346):
