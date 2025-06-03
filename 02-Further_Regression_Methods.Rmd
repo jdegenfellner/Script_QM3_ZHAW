@@ -584,7 +584,7 @@ df_long <- df %>%
   ) %>%
   mutate(
     headache_frequency = as.numeric(headache_frequency),
-    time = recode(time,
+    time = dplyr::recode(time,
                   "Week_0" = 0,
                   "Week_4" = 4,
                   "Week_13" = 13,
@@ -667,7 +667,7 @@ and Group `Ex` (reference group).
 Important for us are the so-called **contrasts** (below). 
 These give us the **model-estimated differences** in (expected) headache frequency between 
 the groups at each time point. To be exact, we are actually interested in 
-the **difference in differences** (DiD):
+the **difference in differences** (DiD) (see Table 3 in the paper):
 \[
 \text{headache frequency}_{\text{MMT+ex}} - \text{headache frequency}_{\text{Sham+ex}} \text{ at week } 4 \\
 \textbf{minus} \\ 
@@ -810,28 +810,50 @@ precis(m, depth = 2)
 `precis(m, depth = 2)` confirms that `sigma`and `sigma_ID` are in line with `lmer`.
 
 Next, we want to know the posterior distribution (respectively the mean and credible interval)
-of the treatment effect of *MMT+ex* compared to *Sham+ex* at *week $4$*.
-
-For this, we calculate the distribution of group $2$ (*MMT+ex*) minus group 
-$3$ (*Sham+ex*) at week $4$.
-Then, we calculate the correct interaction index to give us the required difference.
-Finally, we add up the two posterior distributions to get the posterior distribution 
-of the treatment effect. Time does not vary since we are only interested in week $4$.
+of the difference in difference: 
+$$(MMT+ex - Sham+ex)_{\text{week}_4} - (MMT+ex - Sham+ex)_{\text{week}_0}$$
 
 The result is rather similar to the Frequentist model. 
 
 ```{r}
-# mean treatment effect: week4,  (MMT+ex) - (Sham+ex)----------
+
+# find correct indices for the interaction terms:
+
+levels(as.factor(df_long$Group)) # 2 minus 3
+
+intdf <- df_long %>%
+  dplyr::group_by(Group, time) %>%
+  dplyr::select(Group, time) %>%
+  unique()
+intdf$interaction_ID <- 1:nrow(intdf)
+
+# Extract posterior samples
 post <- extract.samples(m)
-#lapply(post, head)
 
-# MMT+ex (group = 2), time = 2 → index = (2-1)×4 + 2 = 6
-# Sham+ex (group = 3), time = 2 → index = (3-1)×4 + 2 = 10
+# -------------------------------
+# Compute group differences at week 4 and week 0
+# -------------------------------
 
-group_diff <- post$beta_group[,2] - post$beta_group[,3]
-interaction_diff <- post$beta_interaction[,6] - post$beta_interaction[,10]
-treatment_diff_week4 <- group_diff + interaction_diff
-precis(data.frame(treatment_diff_week4), prob = 0.95)
+# MMT+ex vs Sham+ex at week 4:
+# Index 6 = MMT+ex, week 4
+# Index 10 = Sham+ex, week 4
+diff_w4 <- post$beta_group[,2] - post$beta_group[,3] + 
+           post$beta_interaction[,6] - post$beta_interaction[,10]
+
+# MMT+ex vs Sham+ex at week 0:
+# Index 5 = MMT+ex, week 0
+# Index 9 = Sham+ex, week 0
+diff_w0 <- post$beta_group[,2] - post$beta_group[,3] + 
+           post$beta_interaction[,5] - post$beta_interaction[,9]
+
+# -------------------------------
+# Difference-in-Differences
+# -------------------------------
+
+diff_in_diff <- diff_w4 - diff_w0
+
+# Summarize posterior distribution (mean and 95% credible interval)
+precis(data.frame(diff_in_diff), prob = 0.95)
 ```
 
 
@@ -847,7 +869,7 @@ Watch these videos as an introduction:
 [2](https://www.youtube.com/watch?v=Iju8l2qgaJU&t=330s&ab_channel=VeryNormal).
 
 In our Bayesian (rethinking) framework, this topic is not really new.
-We have almost used it in our [tadpole example](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#model13_1) 
+We have already used it in our [tadpole example](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#model13_1) 
 when we modeled the survival of tadpoles in tanks.
 There, our outcome variable was the *number of surviving tadpoles* in a tank,
 which is a count variable and was modeled using a binomial distribution.
@@ -857,7 +879,8 @@ with $0$ and $1$ (*Yes*/*No*; *died*/*survived*...) as possible values.
 
 Of course, the great disadvantage of this model is the low 
 information content of the outcome variable, 
-which can only take two values.
+which can only take two values. We could then ask ourselves,
+how the probability of a $1$ (e.g. survival) changes with respect to the predictors.
 
 Obviously, the classical linear regression makes no sense for this kind of data.
 
@@ -865,7 +888,7 @@ Let's quickly invent an example:
 
 ```{r}
 set.seed(332)
-AGE <- rnorm(100)
+AGE <- rnorm(100) # standardized age of 100 participants
 y <- rbinom(100, size = 1, prob = inv_logit(AGE))
 plot(AGE, y, main = "Outcome variable with least squares regression line",
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
@@ -879,13 +902,15 @@ Of course, normally, we do not know this but conceptually asssume there
 are such true probabilities.
 
 The red line is the **least squares regression** line, which 
-**does not make much sense** here. The outcome can only be $0$ or $1$ but
+**does not make much sense** here: 
+The outcome can only be $0$ or $1$ but
 the regression line would estimate all values in between plus
 values outside of this range, which is not possible.
 
-We therefore bend our reality a bit and **model not the expected outcome but the expected probability of a $1$**.
+We therefore bend our reality a bit and **model the probability of a $1$** 
+($ = p_i = \mathbb{E}(Y_i)$ if $Y_i$ is Bernoulli distributed).
 Of course, then we have the next problem, if we try to 
-model the probability of a $1$ using the linear regression model 
+model the probability of a $1$ *directly* using the linear regression model 
 ($\mathbb{P}(Y_i = 1) = \beta_0 + \beta_1 x_1 + \cdots \beta_p x_p$).
 The linear predictor ($\beta_0 + \beta_1 x_1 + \cdots \beta_p x_p$) could easily
 lie outside of the range $[0,1]$ (for adequate $\beta$s and covariate values).
@@ -896,7 +921,7 @@ This transformed range can be conveniently described using a linear predictor ag
 The left side and the right side of the equation are now equal in range ($(-\infty, +\infty)$).
 Very nice.
 
-The model is then ($p=1$ for the simple logistic regression):
+The model is then ($p=1$ for the simple logistic regression with only one predictor):
 
 \[
 \begin{array}{rcl}
@@ -923,21 +948,23 @@ modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
 summary(modlog)
 ```
 
-- `glm`stands for *generalized linear model*.
+- `glm`stands for [*generalized linear model*](https://en.wikipedia.org/wiki/Generalized_linear_model).
 - `family = binomial(link = "logit")` specifies that we want to use the 
-  binomial distribution with the logit link function.
+  binomial distribution with the `logit` link function $g$.
   In generalized linear models, the link function is used to connect the linear predictor
   (the right side of the equation) to the expected value of the response variable:
   In our case, the expected value of a [Bernoulli-distributed](https://en.wikipedia.org/wiki/Bernoulli_distribution#:~:text=The%20Bernoulli%20distribution%20is%20a,not%20be%200%20and%201.) 
   variable (which is binary) is the probability of a $1$: $p_i$.
+  
   In general: 
   $$\mathbb{E}(Y|X) = g^{-1}(X \beta)$$
   Think back to [exercise 5](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#exercise5_LMM) 
   in the reliability chapter and go to [exercise 11](exercise11_LMM).
 - `Coefficients` are the estimated parameters of the model **on the logit scale**.
   
-  **Interpretation**: Two participants with a difference of $1$ year in their age,
-  have an expected difference of $\beta_1 = 1.20158$ in the log-odds of having 
+  **Interpretation**: Two participants with a difference of $1$ standard 
+  deviation (since we standardized age) in their age,
+  have an expected difference of $\beta_1 = 1.5215$ in the log-odds of having 
   a heart attack. 
   
   If we want the **odds ratio**, we can just exponentiate:
@@ -949,7 +976,7 @@ summary(modlog)
 
   $$\text{Odds for a 1 with } (AGE + 1) = e^{\beta_0} \cdot e^{\beta_1 (AGE + 1)} = e^{\beta_0} \cdot e^{\beta_1 AGE} \cdot e^{\beta_1} = \text{Odds for a 1} \cdot e^{\beta_1}$$
 
-  So, on the odds scale, you multiply the odds for a $1$ by $e^{\beta_1}$.
+  So, **on the odds scale**, you **multiply the odds for a $1$ by $e^{\beta_1}$**.
 
   We can also work **directly on the probability scale**:
   The difference in the probability of a $1$ for two participants with a 
@@ -963,7 +990,7 @@ But, we do not need to do all this by hand, we have R.
 We can simply calculate the probabilities estimated by data:
 
 ```{r}
-predicted_probabilities <- predict(modlog, type = "response")
+predicted_probabilities <- predict(modlog, type = "response") # response is the probability p_i here.
 plot(AGE, y, main = "Raw data and predicted probabilities",
      xlab = "x", ylab = "inv_logit(AGE)", col = "blue", pch = 19)
 points(AGE, predicted_probabilities, col = "red", pch = 19)
@@ -983,7 +1010,7 @@ points(AGE, predicted_probabilities, col = "red", pch = 19)
 ```
 
 As we can see, higher `AGE` (linear predictor with only one term in this case) is *associated* 
-(let's not say "influenced") with higher probability of a $1$. 
+(let's not say "influenced" please) with higher probability of a $1$. 
 
 The red line in the plot is the predicted probability of a $1$.
 The formula for the red line is:
@@ -996,7 +1023,7 @@ as the [logistic function](https://en.wikipedia.org/wiki/Logistic_function).
 - If $\beta_1 > 0$, the probability of a $1$ increases with increasing `AGE` (as above).
 - If $\beta_1 < 0$, the probability of a $1$ decreases with increasing `AGE`.
 - For very large or very small values of `AGE`, the probability of 
-  $Y_i = 1$ approaches $1$ or $0$, respectively. So this works nicely to describe
+  $Y_i = 1$ approaches $1$ and $0$ respectively. So this works nicely to describe
   the probability of $Y_i = 1$ along the linear predictor $\beta_0 + \beta_1 AGE$.
 - Extending the linear predictor $\beta_0 + \beta_1 AGE$ to more terms is 
   straightforward ($\beta_0 + \beta_1 AGE + \beta_2 X_2 + \cdots \beta_p X_p$) and gets
@@ -1004,6 +1031,9 @@ as the [logistic function](https://en.wikipedia.org/wiki/Logistic_function).
 
 Let's **present the results** nicely on the odds ratio scale with 
 confidence intervals (CIs), which can be conveniently calculated using R:
+
+(If you haven't thought about it: 
+What is the difference between odds ratios, risk ratios and probabilities?)
 
 ```{r}
 library(broom)
