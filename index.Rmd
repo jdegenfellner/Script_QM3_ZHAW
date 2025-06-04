@@ -49,7 +49,7 @@ Feel free to copy and modify it for your own purposes.
 ## PDFs of this script (might not be up to date)
 
 [Chapter Reliability and Validity](https://github.com/jdegenfellner/Script_QM3_ZHAW/blob/main/01-Reliability_Validity.pdf)
-.... 
+[Chapter Further Regression Methods](https://github.com/jdegenfellner/Script_QM3_ZHAW/blob/main/02-Further_Regression_Methods.pdf)
 
 ## Books we will borrow from are:
 
