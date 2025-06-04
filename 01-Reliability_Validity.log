@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.28)  20 MAY 2025 06:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.28)  4 JUN 2025 08:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -598,8 +598,8 @@ Overfull \hbox (165.49313pt too wide) in paragraph at lines 855--855
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 859--859
-[]\T1/lmtt/m/n/10 ## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198933d8c35f.stan', line 17, column 4 to column 34)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 859--859
+[]\T1/lmtt/m/n/10 ## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc24056f20.stan', line 17, column 4 to column 34)[] 
  []
 
 
@@ -618,8 +618,8 @@ Overfull \hbox (165.49313pt too wide) in paragraph at lines 890--890
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 894--894
-[]\T1/lmtt/m/n/10 ## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198933d8c35f.stan', line 17, column 4 to column 34)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 894--894
+[]\T1/lmtt/m/n/10 ## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc24056f20.stan', line 17, column 4 to column 34)[] 
  []
 
 
@@ -640,8 +640,8 @@ Overfull \hbox (165.49313pt too wide) in paragraph at lines 932--932
 
 
 [11]
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 936--936
-[]\T1/lmtt/m/n/10 ## Chain 5 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198933d8c35f.stan', line 17, column 4 to column 34)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 936--936
+[]\T1/lmtt/m/n/10 ## Chain 5 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc24056f20.stan', line 17, column 4 to column 34)[] 
  []
 
 
@@ -660,8 +660,8 @@ Overfull \hbox (165.49313pt too wide) in paragraph at lines 964--964
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 968--968
-[]\T1/lmtt/m/n/10 ## Chain 6 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198933d8c35f.stan', line 17, column 4 to column 34)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 968--968
+[]\T1/lmtt/m/n/10 ## Chain 6 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc24056f20.stan', line 17, column 4 to column 34)[] 
  []
 
 
@@ -675,22 +675,22 @@ Overfull \hbox (133.99323pt too wide) in paragraph at lines 976--976
  []
 
 
-Overfull \hbox (165.49313pt too wide) in paragraph at lines 992--992
+Overfull \hbox (165.49313pt too wide) in paragraph at lines 993--993
 []\T1/lmtt/m/n/10 ## Chain 7 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:[] 
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 996--996
-[]\T1/lmtt/m/n/10 ## Chain 7 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198933d8c35f.stan', line 17, column 4 to column 34)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 997--997
+[]\T1/lmtt/m/n/10 ## Chain 7 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc24056f20.stan', line 17, column 4 to column 34)[] 
  []
 
 
-Overfull \hbox (291.49277pt too wide) in paragraph at lines 1000--1000
+Overfull \hbox (291.49277pt too wide) in paragraph at lines 1001--1001
 []\T1/lmtt/m/n/10 ## Chain 7 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,[] 
  []
 
 
-Overfull \hbox (133.99323pt too wide) in paragraph at lines 1004--1004
+Overfull \hbox (133.99323pt too wide) in paragraph at lines 1005--1005
 []\T1/lmtt/m/n/10 ## Chain 7 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.[] 
  []
 
@@ -702,8 +702,8 @@ Overfull \hbox (165.49313pt too wide) in paragraph at lines 1032--1032
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 1036--1036
-[]\T1/lmtt/m/n/10 ## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198933d8c35f.stan', line 17, column 4 to column 34)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 1036--1036
+[]\T1/lmtt/m/n/10 ## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc24056f20.stan', line 17, column 4 to column 34)[] 
  []
 
 
@@ -727,46 +727,46 @@ Overfull \hbox (133.99323pt too wide) in paragraph at lines 1044--1044
 [16]
 
 [17]
-Overfull \hbox (165.49313pt too wide) in paragraph at lines 1427--1427
+Overfull \hbox (165.49313pt too wide) in paragraph at lines 1424--1424
 []\T1/lmtt/m/n/10 ## Chain 3 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:[] 
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 1427--1427
-[]\T1/lmtt/m/n/10 ## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198972f0cede.stan', line 21, column 4 to column 45)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 1424--1424
+[]\T1/lmtt/m/n/10 ## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc72bf9186.stan', line 21, column 4 to column 45)[] 
  []
 
 
-Overfull \hbox (291.49277pt too wide) in paragraph at lines 1427--1427
+Overfull \hbox (291.49277pt too wide) in paragraph at lines 1424--1424
 []\T1/lmtt/m/n/10 ## Chain 3 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,[] 
  []
 
 
-Overfull \hbox (133.99323pt too wide) in paragraph at lines 1427--1427
+Overfull \hbox (133.99323pt too wide) in paragraph at lines 1424--1424
 []\T1/lmtt/m/n/10 ## Chain 3 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.[] 
  []
 
 
 
 [18]
-
-[19]
-Overfull \hbox (165.49313pt too wide) in paragraph at lines 1521--1521
+Overfull \hbox (165.49313pt too wide) in paragraph at lines 1509--1509
 []\T1/lmtt/m/n/10 ## Chain 8 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:[] 
  []
 
 
-Overfull \hbox (585.49191pt too wide) in paragraph at lines 1521--1521
-[]\T1/lmtt/m/n/10 ## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprjGyXa/model-198972f0cede.stan', line 21, column 4 to column 45)[] 
+Overfull \hbox (590.7419pt too wide) in paragraph at lines 1509--1509
+[]\T1/lmtt/m/n/10 ## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpb0YC7Z/model-132dc72bf9186.stan', line 21, column 4 to column 45)[] 
  []
 
 
-Overfull \hbox (291.49277pt too wide) in paragraph at lines 1521--1521
+
+[19]
+Overfull \hbox (291.49277pt too wide) in paragraph at lines 1509--1509
 []\T1/lmtt/m/n/10 ## Chain 8 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,[] 
  []
 
 
-Overfull \hbox (133.99323pt too wide) in paragraph at lines 1521--1521
+Overfull \hbox (133.99323pt too wide) in paragraph at lines 1509--1509
 []\T1/lmtt/m/n/10 ## Chain 8 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.[] 
  []
 
@@ -792,7 +792,7 @@ Overfull \hbox (133.99323pt too wide) in paragraph at lines 1521--1521
 
 [29]
 
-LaTeX Warning: Hyper reference `excercise7' on page 30 undefined on input line 2306.
+LaTeX Warning: Hyper reference `excercise7' on page 30 undefined on input line 2304.
 
 
 
@@ -800,7 +800,7 @@ LaTeX Warning: Hyper reference `excercise7' on page 30 undefined on input line 2
 <01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-1.pdf, id=205, 436.63126pt x 283.0575pt>
 File: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 <use 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 2444.
+Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 2442.
 (pdftex.def)             Requested size: 436.63019pt x 283.0568pt.
 
 
@@ -818,7 +818,7 @@ Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chun
 <01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-2.pdf, id=243, 459.7175pt x 313.17pt>
 File: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-2.pdf Graphic file (type pdf)
 <use 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-2.pdf>
-Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-2.pdf  used on input line 2781.
+Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-2.pdf  used on input line 2779.
 (pdftex.def)             Requested size: 459.71637pt x 313.16922pt.
 
 
@@ -826,7 +826,7 @@ Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chun
 <01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-3.pdf, id=249, 422.57875pt x 286.06876pt>
 File: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-3.pdf Graphic file (type pdf)
 <use 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-3.pdf>
-Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-3.pdf  used on input line 2792.
+Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-13-3.pdf  used on input line 2790.
 (pdftex.def)             Requested size: 422.57771pt x 286.06805pt.
 
 
@@ -838,7 +838,7 @@ Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chun
 <01-Reliability_Validity_files/figure-latex/unnamed-chunk-16-1.pdf, id=285, 437.635pt x 249.93375pt>
 File: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-16-1.pdf Graphic file (type pdf)
 <use 01-Reliability_Validity_files/figure-latex/unnamed-chunk-16-1.pdf>
-Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-16-1.pdf  used on input line 2935.
+Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-16-1.pdf  used on input line 2933.
 (pdftex.def)             Requested size: 437.63393pt x 249.93314pt.
 
 
@@ -846,7 +846,7 @@ Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chun
 <01-Reliability_Validity_files/figure-latex/unnamed-chunk-17-1.pdf, id=299, 441.65pt x 310.15875pt>
 File: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
 <use 01-Reliability_Validity_files/figure-latex/unnamed-chunk-17-1.pdf>
-Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-17-1.pdf  used on input line 2983.
+Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-17-1.pdf  used on input line 2980.
 (pdftex.def)             Requested size: 441.64891pt x 310.15799pt.
 
 
@@ -858,7 +858,7 @@ Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chun
 <01-Reliability_Validity_files/figure-latex/unnamed-chunk-18-1.pdf, id=328, 461.725pt x 315.1775pt>
 File: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pdf)
 <use 01-Reliability_Validity_files/figure-latex/unnamed-chunk-18-1.pdf>
-Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-18-1.pdf  used on input line 3126.
+Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chunk-18-1.pdf  used on input line 3125.
 (pdftex.def)             Requested size: 461.72388pt x 315.17673pt.
 
 
@@ -874,7 +874,9 @@ Package pdftex.def Info: 01-Reliability_Validity_files/figure-latex/unnamed-chun
 
 [50]
 
-[51] (./01-Reliability_Validity.aux)
+[51]
+
+[52] (./01-Reliability_Validity.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -884,18 +886,18 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 12421 strings out of 475172
- 194820 string characters out of 5765189
+ 12422 strings out of 475172
+ 194827 string characters out of 5765189
  613933 words of memory out of 5000000
  35132 multiletter control sequences out of 15000+600000
  613823 words of font info for 72 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,11n,79p,740b,585s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx7.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></Users/juergen/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 01-Reliability_Validity.pdf (51 pages, 517692 bytes).
+Output written on 01-Reliability_Validity.pdf (52 pages, 518938 bytes).
 PDF statistics:
- 555 PDF objects out of 1000 (max. 8388607)
- 434 compressed objects within 5 object streams
- 76 named destinations out of 1000 (max. 500000)
+ 560 PDF objects out of 1000 (max. 8388607)
+ 438 compressed objects within 5 object streams
+ 77 named destinations out of 1000 (max. 500000)
  225 words of extra memory for PDF output out of 10000 (max. 10000000)
 
