@@ -981,8 +981,15 @@ summary(modlog)
   We can also work **directly on the probability scale**:
   The difference in the probability of a $1$ for two participants with a 
   difference of $1$ year in their age is:
-  $$\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) =$$
-  $$\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)$$
+
+  \[
+  \begin{aligned}
+  \mathbb{P}(Y_i = 1 \mid AGE + 1) - \mathbb{P}(Y_i = 1 \mid AGE) 
+  &= \operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) \\
+  &\quad - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)
+  \end{aligned}
+  \]
+
   This difference is not constant (see graph below, red line), but depends on the value of $AGE$,
   since the inverse logit function is non-linear.
 
@@ -1034,10 +1041,13 @@ As we can see, higher `AGE` (linear predictor with only one term in this case) i
 
 The red line in the plot is the predicted probability of a $1$.
 The formula for the red line is:
-$$\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE)=$$
-$$\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}$$
+\[
+\mathbb{P}(Y_i = 1 \mid AGE) 
+= \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE) 
+= \frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}
+\]
 
-where $\text{inv_logit}(x)$ is the inverse logit function, which is the same
+where $\operatorname{inv\_logit}(x)$ is the inverse logit function, which is the same
 as the [logistic function](https://en.wikipedia.org/wiki/Logistic_function).
 
 - If $\beta_1 > 0$, the probability of a $1$ increases with increasing `AGE` (as above).
@@ -1164,7 +1174,7 @@ Now, the same simple model in the **Bayesian framework** using the `rethinking` 
 The **interpretation of the priors** is already familiar: 
 For a person with `AGE = 0` (average age), the expected log-odds of a $1$ is $a$,
 i.e. the probability of a $1$ is 
-$\text{inv_logit}(a) = \text{inv_logit}(0) = 0.5$ on average.
+$\operatorname{inv\_logit}(a) = \operatorname{inv\_logit}(0) = 0.5$ on average.
 Hence, the probability of a $1$ for a person with `AGE = 0` is 
 between 
 
@@ -1907,7 +1917,7 @@ Consider the section about [simple logistic regression](#simple_logistic_regress
 - We want to find out the parameters $\beta_0$ and $\beta_1$ of the logistic regression model
   using the **least squares method**.
 - For this, minimize the following function:
-  $$\sum_{i=1}^n (y_i - \text{inv_logit}(\beta_0 + \beta_1 AGE_i))^2$$
+  $$\sum_{i=1}^n (y_i - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE_i))^2$$
   whereas $y_i$ is the observed outcome variable ($0$ or $1$) and
   $AGE$ is the standardized age of the $i$-th participant.
 - Compare the results to before. 

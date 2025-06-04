@@ -610,7 +610,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmplSPXbx/model-1e657b434b81.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpW5it1H/model-857a28b9c1e0.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1385,7 +1385,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmplSPXbx/model-1e6562726275.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpW5it1H/model-857a1291c998.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1400,9 +1400,9 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1435,11 +1435,11 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.1 seconds.
+## Chain 3 finished in 4.0 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 4.2 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.3 seconds.
+## Chain 1 finished in 4.4 seconds.
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 4.2 seconds.
@@ -1833,10 +1833,15 @@ a heart attack.</p>
 <p>So, <strong>on the odds scale</strong>, you <strong>multiply the odds for a <span class="math inline">\(1\)</span> by <span class="math inline">\(e^{\beta_1}\)</span></strong>.</p>
 <p>We can also work <strong>directly on the probability scale</strong>:
 The difference in the probability of a <span class="math inline">\(1\)</span> for two participants with a
-difference of <span class="math inline">\(1\)</span> year in their age is:
-<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) =\]</span>
-<span class="math display">\[\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)\]</span>
-This difference is not constant (see graph below, red line), but depends on the value of <span class="math inline">\(AGE\)</span>,
+difference of <span class="math inline">\(1\)</span> year in their age is:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}(Y_i = 1 \mid AGE + 1) - \mathbb{P}(Y_i = 1 \mid AGE)
+&amp;= \operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) \\
+&amp;\quad - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)
+\end{aligned}
+\]</span></p>
+<p>This difference is not constant (see graph below, red line), but depends on the value of <span class="math inline">\(AGE\)</span>,
 since the inverse logit function is non-linear.</p></li>
 <li><p><code>Null deviance</code> is the deviance (<span class="math inline">\(= -2 \text{log-likelihood}\)</span>) of
 the model with only the intercept (no predictors).
@@ -1877,9 +1882,12 @@ AIC punishes model complexity.</p></li>
 (let’s not say “influenced” please) with higher probability of a <span class="math inline">\(1\)</span>.</p>
 <p>The red line in the plot is the predicted probability of a <span class="math inline">\(1\)</span>.
 The formula for the red line is:
-<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE)=\]</span>
-<span class="math display">\[\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}\]</span></p>
-<p>where <span class="math inline">\(\text{inv_logit}(x)\)</span> is the inverse logit function, which is the same
+<span class="math display">\[
+\mathbb{P}(Y_i = 1 \mid AGE)
+= \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)
+= \frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}
+\]</span></p>
+<p>where <span class="math inline">\(\operatorname{inv\_logit}(x)\)</span> is the inverse logit function, which is the same
 as the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>.</p>
 <ul>
 <li>If <span class="math inline">\(\beta_1 &gt; 0\)</span>, the probability of a <span class="math inline">\(1\)</span> increases with increasing <code>AGE</code> (as above).</li>
@@ -2008,7 +2016,7 @@ are only <span class="math inline">\(Y_i = 1\)</span> or <span class="math inlin
 <p>The <strong>interpretation of the priors</strong> is already familiar:
 For a person with <code>AGE = 0</code> (average age), the expected log-odds of a <span class="math inline">\(1\)</span> is <span class="math inline">\(a\)</span>,
 i.e. the probability of a <span class="math inline">\(1\)</span> is
-<span class="math inline">\(\text{inv_logit}(a) = \text{inv_logit}(0) = 0.5\)</span> on average.
+<span class="math inline">\(\operatorname{inv\_logit}(a) = \operatorname{inv\_logit}(0) = 0.5\)</span> on average.
 Hence, the probability of a <span class="math inline">\(1\)</span> for a person with <code>AGE = 0</code> is
 between</p>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="further-regression-methods.html#cb338-1" tabindex="-1"></a><span class="fu">inv_logit</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>))</span></code></pre></div>
@@ -2519,7 +2527,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.8 seconds.</code></pre>
+## Total execution time: 0.7 seconds.</code></pre>
 <div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="further-regression-methods.html#cb361-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
@@ -2912,7 +2920,7 @@ myocardial infarction (heart attack)</li>
 <li>We want to find out the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> of the logistic regression model
 using the <strong>least squares method</strong>.</li>
 <li>For this, minimize the following function:
-<span class="math display">\[\sum_{i=1}^n (y_i - \text{inv_logit}(\beta_0 + \beta_1 AGE_i))^2\]</span>
+<span class="math display">\[\sum_{i=1}^n (y_i - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE_i))^2\]</span>
 whereas <span class="math inline">\(y_i\)</span> is the observed outcome variable (<span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>) and
 <span class="math inline">\(AGE\)</span> is the standardized age of the <span class="math inline">\(i\)</span>-th participant.</li>
 <li>Compare the results to before.</li>
