@@ -1612,9 +1612,6 @@ summary(mod_glm)
 confint(mod_glm)
 ```
 
-We ignore the `deviance` for now. The math is not that complicated,
-but it is not so important for us at this point.
-
 The coefficients are very similar to the Bayesian model and seem to be even 
 closer to the true values.
 The reason is probably the very rough priors we have used.
