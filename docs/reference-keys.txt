@@ -1,6 +1,6 @@
 tab:unnamed-chunk-12
 intro0
-pdfs-of-this-script-might-not-be-up-to-date
+separate-pdfs-of-this-script-might-not-be-up-to-date
 books-we-will-borrow-from-are
 if-you-need-a-good-reason-to-buy-great-books
 reliability-and-validity
