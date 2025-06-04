@@ -31,7 +31,8 @@ pwrss.f.rmanova(eta2 = 0.25,
                 n.rm = 4, # number of measurements. For example, for pretest/posttest designs it takes a value of 2.
                 power = 0.80, 
                 alpha = 0.05, 
-                corr.rm = 0.10, type = "within")
+                corr.rm = 0.10, 
+                type = "within")
 
 # playing around with the parameters could give the sample size stated in the paper:
 3*24 # 72
