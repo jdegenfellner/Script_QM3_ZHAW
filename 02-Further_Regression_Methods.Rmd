@@ -1655,20 +1655,12 @@ you might have violated this assumption.
 I am not aware of a diagnostic plot for this assumption.
 
 #### Mean should be equal variance (dispersion)
-Overdispersion occurs if the variance is larger than the mean.
-Underdispersion occurs if the variance is smaller than the mean.
-
-Nice enough, the `performance` package has a function to check this:
-```{r, echo = TRUE}
-check_overdispersion(mod_glm)
-```
 
 The `dispersion ratio` should be (in the case of Poisson regression) close to $1$,
 which is the case. $> 1$ would indicate overdispersion, $< 1$ underdispersion.
 
-#### Dispersion should be $1$
-
 Overdispersion occurs if the variance is larger than the mean in our Poisson regression.
+Underdispersion occurs if the variance is smaller than the mean.
 You can give [this video](https://www.youtube.com/watch?v=uGKnoAw-PFQ&ab_channel=MatthewE.Clapham) 
 a try. In the summary output of the `glm` model, you can see that
 a dispersion parameter is assumed to be $1$: `(Dispersion parameter for poisson family taken to be 1)`.
@@ -1686,6 +1678,12 @@ library(AER)
 dispersiontest(mod_glm, trafo = 1, alternative = "greater") 
 ```
 
+There is also a test in the `performance` package:
+
+```{r}
+library(performance)
+check_overdispersion(mod_glm)
+```
 
 
 ## Summary and further directions

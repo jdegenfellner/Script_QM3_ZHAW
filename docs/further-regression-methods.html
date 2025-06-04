@@ -596,6 +596,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
 ## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
 ## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
 ## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
@@ -606,22 +607,21 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
 ## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
 ## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling)</code></pre>
+## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpYgG7bJ/model-118b8398a5c94.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprZ4OhH/model-1228c707b7486.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
 <pre><code>## Chain 1 finished in 0.1 seconds.
 ## Chain 2 finished in 0.1 seconds.
-## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 3 finished in 0.2 seconds.
-## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 0.2 seconds.
+## Chain 3 finished in 0.1 seconds.
+## Chain 4 finished in 0.1 seconds.
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.3 seconds.</code></pre>
+## Total execution time: 0.2 seconds.</code></pre>
 <div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="further-regression-methods.html#cb259-1" tabindex="-1"></a><span class="fu">precis</span>(m13<span class="fl">.2</span>, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                mean        sd        5.5%        94.5%      rhat ess_bulk
 ## a[1]   2.1360104954 0.8661191  0.83424198  3.553682700 1.0026805 3270.394
@@ -1385,7 +1385,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpYgG7bJ/model-118b837065be8.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprZ4OhH/model-1228c72f64d1a.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -2639,22 +2639,10 @@ I am not aware of a diagnostic plot for this assumption.</p>
 </div>
 <div id="mean-should-be-equal-variance-dispersion" class="section level4 hasAnchor" number="3.3.3.3">
 <h4><span class="header-section-number">3.3.3.3</span> Mean should be equal variance (dispersion)<a href="further-regression-methods.html#mean-should-be-equal-variance-dispersion" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Overdispersion occurs if the variance is larger than the mean.
-Underdispersion occurs if the variance is smaller than the mean.</p>
-<p>Nice enough, the <code>performance</code> package has a function to check this:</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="further-regression-methods.html#cb373-1" tabindex="-1"></a><span class="fu">check_overdispersion</span>(mod_glm)</span></code></pre></div>
-<pre><code>## # Overdispersion test
-## 
-##        dispersion ratio =  0.996
-##   Pearson&#39;s Chi-Squared = 97.560
-##                 p-value =  0.494</code></pre>
-<pre><code>## No overdispersion detected.</code></pre>
 <p>The <code>dispersion ratio</code> should be (in the case of Poisson regression) close to <span class="math inline">\(1\)</span>,
 which is the case. <span class="math inline">\(&gt; 1\)</span> would indicate overdispersion, <span class="math inline">\(&lt; 1\)</span> underdispersion.</p>
-</div>
-<div id="dispersion-should-be-1" class="section level4 hasAnchor" number="3.3.3.4">
-<h4><span class="header-section-number">3.3.3.4</span> Dispersion should be <span class="math inline">\(1\)</span><a href="further-regression-methods.html#dispersion-should-be-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Overdispersion occurs if the variance is larger than the mean in our Poisson regression.
+Underdispersion occurs if the variance is smaller than the mean.
 You can give <a href="https://www.youtube.com/watch?v=uGKnoAw-PFQ&amp;ab_channel=MatthewE.Clapham">this video</a>
 a try. In the summary output of the <code>glm</code> model, you can see that
 a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: <code>(Dispersion parameter for poisson family taken to be 1)</code>.</p>
@@ -2662,9 +2650,9 @@ a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: 
 <code>Residual deviance: 108.22  on 98  degrees of freedom</code></p>
 <p><span class="math display">\[ \text{Dispersion} = \frac{\text{Residual Deviance}}{\text{df}} = \frac{108.22}{98} \approx 1.10 \]</span></p>
 <p>We can (exploratively) look at a <span class="math inline">\(p\)</span>-value for the dispersion parameter:</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="further-regression-methods.html#cb376-1" tabindex="-1"></a>mod_glm<span class="sc">$</span>deviance<span class="sc">/</span>mod_glm<span class="sc">$</span>df.residual <span class="co"># dispersion</span></span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="further-regression-methods.html#cb373-1" tabindex="-1"></a>mod_glm<span class="sc">$</span>deviance<span class="sc">/</span>mod_glm<span class="sc">$</span>df.residual <span class="co"># dispersion</span></span></code></pre></div>
 <pre><code>## [1] 1.104287</code></pre>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="further-regression-methods.html#cb378-1" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="further-regression-methods.html#cb375-1" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code></pre></div>
 <pre><code>## Loading required package: lmtest</code></pre>
 <pre><code>## Loading required package: zoo</code></pre>
 <pre><code>## 
@@ -2677,7 +2665,7 @@ a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: 
 ##     as.Date, as.Date.numeric</code></pre>
 <pre><code>## Loading required package: sandwich</code></pre>
 <pre><code>## Loading required package: survival</code></pre>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="further-regression-methods.html#cb386-1" tabindex="-1"></a><span class="fu">dispersiontest</span>(mod_glm, <span class="at">trafo =</span> <span class="dv">1</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="further-regression-methods.html#cb383-1" tabindex="-1"></a><span class="fu">dispersiontest</span>(mod_glm, <span class="at">trafo =</span> <span class="dv">1</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>) </span></code></pre></div>
 <pre><code>## 
 ##  Overdispersion test
 ## 
@@ -2687,6 +2675,15 @@ a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: 
 ## sample estimates:
 ##        alpha 
 ## -0.005479567</code></pre>
+<p>There is also a test in the <code>performance</code> package:</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="further-regression-methods.html#cb385-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb385-2"><a href="further-regression-methods.html#cb385-2" tabindex="-1"></a><span class="fu">check_overdispersion</span>(mod_glm)</span></code></pre></div>
+<pre><code>## # Overdispersion test
+## 
+##        dispersion ratio =  0.996
+##   Pearson&#39;s Chi-Squared = 97.560
+##                 p-value =  0.494</code></pre>
+<pre><code>## No overdispersion detected.</code></pre>
 </div>
 </div>
 </div>

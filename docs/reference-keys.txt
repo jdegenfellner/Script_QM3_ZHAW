@@ -51,7 +51,6 @@ model-assumptions
 outcome-variable-is-poisson-distributed
 independence-of-observations
 mean-should-be-equal-variance-dispersion
-dispersion-should-be-1
 summary-and-further-directions
 exercises-1
 exercise1_LMM
