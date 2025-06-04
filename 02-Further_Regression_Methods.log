@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.2.28)  4 JUN 2025 08:07
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.2.28)  4 JUN 2025 09:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -711,7 +711,7 @@ Overfull \hbox (165.49498pt too wide) in paragraph at lines 693--693
 
 
 Overfull \hbox (590.74498pt too wide) in paragraph at lines 693--693
-[]\TU/lmtt/m/n/10 ## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeOPBcv/model-14069738e93eb.stan', line 15, column 4 to column 32)[] 
+[]\TU/lmtt/m/n/10 ## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpMWR7Ha/model-183252f18a621.stan', line 15, column 4 to column 32)[] 
  []
 
 
@@ -769,8 +769,8 @@ LaTeX Warning: Hyper reference `exercise9_LMM' on page 15 undefined on input lin
 
 
 [15]
-Overfull \hbox (349.24498pt too wide) in paragraph at lines 1225--1225
-[]\TU/lmtt/m/n/10 ## -- Attaching core tidyverse packages ------------------------------------------------------------------------------------------------- tidyverse 2.0.0 --[] 
+Overfull \hbox (496.24498pt too wide) in paragraph at lines 1225--1225
+[]\TU/lmtt/m/n/10 ## -- Attaching core tidyverse packages ----------------------------------------------------------------------------------------------------------------------------- tidyverse 2.0.0 --[] 
  []
 
 
@@ -818,7 +818,7 @@ Overfull \hbox (165.49498pt too wide) in paragraph at lines 1807--1807
 
 
 Overfull \hbox (590.74498pt too wide) in paragraph at lines 1811--1811
-[]\TU/lmtt/m/n/10 ## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeOPBcv/model-140691d1fe517.stan', line 29, column 4 to column 31)[] 
+[]\TU/lmtt/m/n/10 ## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpMWR7Ha/model-183256d88ef1e.stan', line 29, column 4 to column 31)[] 
  []
 
 
@@ -861,21 +861,31 @@ Missing character: There is no ▁ (U+2581) in font [lmmono10-regular]:!
 File: 02-Further_Regression_Methods_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
 <use 02-Further_Regression_Methods_files/figure-latex/unnamed-chunk-17-1.pdf>
 
-! LaTeX Error: \symbballowed only in math mode.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2245 a \(1\)} (\$ = p\_i = \mathbb
-                                    {E}(Y\_i)\$ if \(Y_i\) is Bernoulli 
+[33]
+
+LaTeX Warning: Hyper reference `exercise15_LMM' on page 34 undefined on input line 2278.
+
+
+
+[34]
+File: 02-Further_Regression_Methods_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pdf)
+<use 02-Further_Regression_Methods_files/figure-latex/unnamed-chunk-22-1.pdf>
+
+
+[35]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2445 ...hbb{P}(Y_i = 1 | AGE) = \text{inv_logit}
+                                                  (\beta_0 + \beta_1 AGE)=\] 
 Here is how much of TeX's memory you used:
- 17178 strings out of 475846
- 317334 string characters out of 5774061
+ 17187 strings out of 475846
+ 317864 string characters out of 5774061
  872922 words of memory out of 5000000
- 39906 multiletter control sequences out of 15000+600000
+ 39915 multiletter control sequences out of 15000+600000
  562406 words of font info for 72 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  90i,9n,114p,387b,475s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 02-Further_Regression_Methods.pdf (32 pages).
+Output written on 02-Further_Regression_Methods.pdf (35 pages).

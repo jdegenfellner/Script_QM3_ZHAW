@@ -610,7 +610,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprZ4OhH/model-1228c707b7486.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpNTUW0p/model-17bb05f2736de.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1385,7 +1385,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprZ4OhH/model-1228c72f64d1a.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpNTUW0p/model-17bb06554e7f7.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1434,16 +1434,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.1 seconds.
+## Chain 2 finished in 4.2 seconds.
+## Chain 3 finished in 4.2 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.2 seconds.
+## Chain 4 finished in 4.3 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.4 seconds.
+## Chain 1 finished in 4.5 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.2 seconds.
-## Total execution time: 4.5 seconds.</code></pre>
+## Mean chain execution time: 4.3 seconds.
+## Total execution time: 4.6 seconds.</code></pre>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -1760,7 +1760,7 @@ The outcome can only be <span class="math inline">\(0\)</span> or <span class="m
 the regression line would estimate all values in between plus
 values outside of this range, which is not possible.</p>
 <p>We therefore bend our reality a bit and <strong>model the probability of a <span class="math inline">\(1\)</span></strong>
-($ = p_i = (Y_i)$ if <span class="math inline">\(Y_i\)</span> is Bernoulli distributed).
+(<span class="math inline">\(=p_i=\mathbb{E}(Y_i)\)</span> if <span class="math inline">\(Y_i\)</span> is Bernoulli distributed).
 Of course, then we have the next problem, if we try to
 model the probability of a <span class="math inline">\(1\)</span> <em>directly</em> using the linear regression model
 (<span class="math inline">\(\mathbb{P}(Y_i = 1) = \beta_0 + \beta_1 x_1 + \cdots \beta_p x_p\)</span>).
@@ -1834,7 +1834,7 @@ a heart attack.</p>
 <p>We can also work <strong>directly on the probability scale</strong>:
 The difference in the probability of a <span class="math inline">\(1\)</span> for two participants with a
 difference of <span class="math inline">\(1\)</span> year in their age is:
-<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = \]</span>
+<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) =\]</span>
 <span class="math display">\[\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)\]</span>
 This difference is not constant (see graph below, red line), but depends on the value of <span class="math inline">\(AGE\)</span>,
 since the inverse logit function is non-linear.</p></li>
@@ -1877,7 +1877,7 @@ AIC punishes model complexity.</p></li>
 (let’s not say “influenced” please) with higher probability of a <span class="math inline">\(1\)</span>.</p>
 <p>The red line in the plot is the predicted probability of a <span class="math inline">\(1\)</span>.
 The formula for the red line is:
-<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE) = \]</span>
+<span class="math display">\[\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE)=\]</span>
 <span class="math display">\[\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}\]</span></p>
 <p>where <span class="math inline">\(\text{inv_logit}(x)\)</span> is the inverse logit function, which is the same
 as the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>.</p>
@@ -2280,7 +2280,7 @@ with different <span class="math inline">\(\lambda\)</span>s:</p>
 <span id="cb357-6"><a href="further-regression-methods.html#cb357-6" tabindex="-1"></a>poisson_data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">y =</span> y_vals, <span class="at">lambda =</span> lambda_values)</span>
 <span id="cb357-7"><a href="further-regression-methods.html#cb357-7" tabindex="-1"></a>poisson_data<span class="sc">$</span>prob <span class="ot">&lt;-</span> <span class="fu">dpois</span>(poisson_data<span class="sc">$</span>y, poisson_data<span class="sc">$</span>lambda)</span>
 <span id="cb357-8"><a href="further-regression-methods.html#cb357-8" tabindex="-1"></a>poisson_data<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">factor</span>(poisson_data<span class="sc">$</span>lambda,</span>
-<span id="cb357-9"><a href="further-regression-methods.html#cb357-9" tabindex="-1"></a>                              <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="st">&quot;λ = &quot;</span>, lambda_values))</span>
+<span id="cb357-9"><a href="further-regression-methods.html#cb357-9" tabindex="-1"></a>                              <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="st">&quot;lambda = &quot;</span>, lambda_values))</span>
 <span id="cb357-10"><a href="further-regression-methods.html#cb357-10" tabindex="-1"></a></span>
 <span id="cb357-11"><a href="further-regression-methods.html#cb357-11" tabindex="-1"></a><span class="fu">ggplot</span>(poisson_data, <span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> prob, <span class="at">color =</span> lambda)) <span class="sc">+</span></span>
 <span id="cb357-12"><a href="further-regression-methods.html#cb357-12" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -2519,7 +2519,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.7 seconds.</code></pre>
+## Total execution time: 0.8 seconds.</code></pre>
 <div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="further-regression-methods.html#cb361-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623

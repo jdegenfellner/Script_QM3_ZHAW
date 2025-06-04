@@ -908,7 +908,7 @@ the regression line would estimate all values in between plus
 values outside of this range, which is not possible.
 
 We therefore bend our reality a bit and **model the probability of a $1$** 
-($ = p_i = \mathbb{E}(Y_i)$ if $Y_i$ is Bernoulli distributed).
+($=p_i=\mathbb{E}(Y_i)$ if $Y_i$ is Bernoulli distributed).
 Of course, then we have the next problem, if we try to 
 model the probability of a $1$ *directly* using the linear regression model 
 ($\mathbb{P}(Y_i = 1) = \beta_0 + \beta_1 x_1 + \cdots \beta_p x_p$).
@@ -981,7 +981,7 @@ summary(modlog)
   We can also work **directly on the probability scale**:
   The difference in the probability of a $1$ for two participants with a 
   difference of $1$ year in their age is:
-  $$\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = $$
+  $$\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) =$$
   $$\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)$$
   This difference is not constant (see graph below, red line), but depends on the value of $AGE$,
   since the inverse logit function is non-linear.
@@ -1034,7 +1034,7 @@ As we can see, higher `AGE` (linear predictor with only one term in this case) i
 
 The red line in the plot is the predicted probability of a $1$.
 The formula for the red line is:
-$$\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE) = $$
+$$\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE)=$$
 $$\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}$$
 
 where $\text{inv_logit}(x)$ is the inverse logit function, which is the same
@@ -1393,7 +1393,7 @@ y_vals <- 0:40
 poisson_data <- expand.grid(y = y_vals, lambda = lambda_values)
 poisson_data$prob <- dpois(poisson_data$y, poisson_data$lambda)
 poisson_data$lambda <- factor(poisson_data$lambda,
-                              labels = paste0("λ = ", lambda_values))
+                              labels = paste0("lambda = ", lambda_values))
 
 ggplot(poisson_data, aes(x = y, y = prob, color = lambda)) +
   geom_line() +

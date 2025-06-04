@@ -686,7 +686,7 @@ We now fit the model using the \texttt{ulam} function from the
 
 \begin{verbatim}
 ## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeOPBcv/model-14069738e93eb.stan', line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpMWR7Ha/model-183252f18a621.stan', line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4
@@ -1216,7 +1216,7 @@ Ideally, we would need to argue how we handle missing data!
 \end{Shaded}
 
 \begin{verbatim}
-## -- Attaching core tidyverse packages ------------------------------------------------------------------------------------------------- tidyverse 2.0.0 --
+## -- Attaching core tidyverse packages ----------------------------------------------------------------------------------------------------------------------------- tidyverse 2.0.0 --
 ## v dplyr     1.1.4     v readr     2.1.5
 ## v forcats   1.0.0     v stringr   1.5.1
 ## v ggplot2   3.5.2     v tibble    3.2.1
@@ -1807,7 +1807,7 @@ details.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeOPBcv/model-140691d1fe517.stan', line 29, column 4 to column 31)
+## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpMWR7Ha/model-183256d88ef1e.stan', line 29, column 4 to column 31)
 \end{verbatim}
 
 \begin{verbatim}
@@ -1835,12 +1835,12 @@ details.
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
 ## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
@@ -1867,11 +1867,11 @@ details.
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 finished in 4.0 seconds.
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
-## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.2 seconds.
+## Chain 3 finished in 4.0 seconds.
+## Chain 4 finished in 4.1 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 1 finished in 4.4 seconds.
 ## 
@@ -2242,10 +2242,9 @@ The red line is the \textbf{least squares regression} line, which
 values outside of this range, which is not possible.
 
 We therefore bend our reality a bit and \textbf{model the probability of
-a \(1\)} (\$ = p\_i = \mathbb{E}(Y\_i)\$ if \(Y_i\) is Bernoulli
-distributed). Of course, then we have the next problem, if we try to
-model the probability of a \(1\) \emph{directly} using the linear
-regression model
+a \(1\)} (\(=p_i=\mathbb{E}(Y_i)\) if \(Y_i\) is Bernoulli distributed).
+Of course, then we have the next problem, if we try to model the
+probability of a \(1\) \emph{directly} using the linear regression model
 (\(\mathbb{P}(Y_i = 1) = \beta_0 + \beta_1 x_1 + \cdots \beta_p x_p\)).
 The linear predictor (\(\beta_0 + \beta_1 x_1 + \cdots \beta_p x_p\))
 could easily lie outside of the range \([0,1]\) (for adequate \(\beta\)s
@@ -2354,7 +2353,7 @@ In current literature, you will see the model estimated mostly in the
   We can also work \textbf{directly on the probability scale}: The
   difference in the probability of a \(1\) for two participants with a
   difference of \(1\) year in their age is:
-  \[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) = \]
+  \[\mathbb{P}(Y_i = 1 | AGE + 1) - \mathbb{P}(Y_i = 1 | AGE) =\]
   \[\operatorname{inv\_logit}(\beta_0 + \beta_1 (AGE + 1)) - \operatorname{inv\_logit}(\beta_0 + \beta_1 AGE)\]
   This difference is not constant (see graph below, red line), but
   depends on the value of \(AGE\), since the inverse logit function is
@@ -2443,7 +2442,7 @@ with higher probability of a \(1\).
 
 The red line in the plot is the predicted probability of a \(1\). The
 formula for the red line is:
-\[\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE) = \]
+\[\mathbb{P}(Y_i = 1 | AGE) = \text{inv_logit}(\beta_0 + \beta_1 AGE)=\]
 \[\frac{e^{\beta_0 + \beta_1 AGE}}{1 + e^{\beta_0 + \beta_1 AGE}}\]
 
 where \(\text{inv_logit}(x)\) is the inverse logit function, which is
@@ -3088,7 +3087,7 @@ Let's quickly plot a Poisson-distributed variable
 \NormalTok{poisson\_data }\OtherTok{\textless{}{-}} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{y =}\NormalTok{ y\_vals, }\AttributeTok{lambda =}\NormalTok{ lambda\_values)}
 \NormalTok{poisson\_data}\SpecialCharTok{$}\NormalTok{prob }\OtherTok{\textless{}{-}} \FunctionTok{dpois}\NormalTok{(poisson\_data}\SpecialCharTok{$}\NormalTok{y, poisson\_data}\SpecialCharTok{$}\NormalTok{lambda)}
 \NormalTok{poisson\_data}\SpecialCharTok{$}\NormalTok{lambda }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(poisson\_data}\SpecialCharTok{$}\NormalTok{lambda,}
-                              \AttributeTok{labels =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"λ = "}\NormalTok{, lambda\_values))}
+                              \AttributeTok{labels =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"lambda = "}\NormalTok{, lambda\_values))}
 
 \FunctionTok{ggplot}\NormalTok{(poisson\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ y, }\AttributeTok{y =}\NormalTok{ prob, }\AttributeTok{color =}\NormalTok{ lambda)) }\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
@@ -3364,7 +3363,7 @@ prior predictive distributions (see \hyperref[exercise16_LMM]{exercise
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.7 seconds.
+## Total execution time: 0.8 seconds.
 \end{verbatim}
 
 \begin{Shaded}
