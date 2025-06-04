@@ -1865,7 +1865,7 @@ Consider the [Mulligan manual therapy paper](#mulligan).
 - Verify for the groups *Ex* and *MMT+ex* that the primary outcome *headache frequency* 
   is normally distributed at Week $0$ using the `shapiro.test` function in R.
 
-### [E] Exercise 10 {#exercise10_LMM}
+### [H] Exercise 10 {#exercise10_LMM}
 
 Consider the Bayesian version of Mulligan manual therapy paper [above](#mulligan_bayesian).
 
