@@ -1666,15 +1666,24 @@ check_overdispersion(mod_glm)
 The `dispersion ratio` should be (in the case of Poisson regression) close to $1$,
 which is the case. $> 1$ would indicate overdispersion, $< 1$ underdispersion.
 
-#### Linearity of the log of $\lambda$ 
+#### Dispersion should be $1$
 
-The following plot should not be perfectly linear if we do not artificially create the data.
-We have defined the linear relationship explicitely, hence the plot is perfectly linear ($log(\lambda) = 0.5x-2$).
+Overdispersion occurs if the variance is larger than the mean in our Poisson regression.
+You can give [this video](https://www.youtube.com/watch?v=uGKnoAw-PFQ&ab_channel=MatthewE.Clapham) 
+a try. In the summary output of the `glm` model, you can see that
+a dispersion parameter is assumed to be $1$: `(Dispersion parameter for poisson family taken to be 1)`.
 
-```{r, echo = TRUE}
-plot(x, predict(mod_glm, type = "link"),
-     main = "Linear Predictor (log(μ)) vs. x",
-     xlab = "x", ylab = "log(μ̂)")
+One can estimate the dispersion parameter using the R summary output:
+`Residual deviance: 108.22  on 98  degrees of freedom`
+
+$$ \text{Dispersion} = \frac{\text{Residual Deviance}}{\text{df}} = \frac{108.22}{98} \approx 1.10 $$
+
+We can (exploratively) look at a $p$-value for the dispersion parameter:
+
+```{r}
+mod_glm$deviance/mod_glm$df.residual # dispersion
+library(AER)
+dispersiontest(mod_glm, trafo = 1, alternative = "greater") 
 ```
 
 
