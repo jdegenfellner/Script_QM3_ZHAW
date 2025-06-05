@@ -946,6 +946,7 @@ In current literature, you will see the model estimated mostly in the **Frequent
 ```{r}
 modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
 summary(modlog)
+confint(modlog)
 ```
 
 - `glm`stands for 
@@ -1155,7 +1156,7 @@ ggplot(df_pred, aes(x = AGE, y = predicted)) +
            label = paste0("Max CI width\nat AGE = ", round(max_ci_row$AGE, 2)),
            color = "red", hjust = 0, vjust = 1) +
   labs(
-    title = "Model-predicted Probabilities (incl. raw data points) with max. CI width",
+    title = "Model-predicted Probabilities (incl. jittered raw data points) with max. CI width",
     x = "Age",
     y = "Predicted Probability"
   ) +

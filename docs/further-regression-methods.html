@@ -610,7 +610,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpc0cp7p/model-fee412625540.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprD0mAf/model-10ee84b8bad45.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1385,7 +1385,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpc0cp7p/model-fee4452bae30.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprD0mAf/model-10ee8396bb999.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1433,16 +1433,16 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 finished in 4.0 seconds.
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
 ## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 4.2 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.4 seconds.
+## Chain 1 finished in 4.3 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.2 seconds.
+## Mean chain execution time: 4.1 seconds.
 ## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
@@ -1808,6 +1808,11 @@ See <a href="further-regression-methods.html#exercise15_LMM">exercise 15</a>.</p
 ## AIC: 112.2
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="further-regression-methods.html#cb313-1" tabindex="-1"></a><span class="fu">confint</span>(modlog)</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                  2.5 %    97.5 %
+## (Intercept) -0.1572572 0.7708586
+## AGE          0.8860184 2.3038479</code></pre>
 <ul>
 <li><p><code>glm</code>stands for
 <a href="https://en.wikipedia.org/wiki/Generalized_linear_model"><em>generalized linear model</em></a>.
@@ -1851,37 +1856,37 @@ since the inverse logit function is non-linear.</p></li>
 the model with only the intercept (no predictors).
 The <a href="https://en.wikipedia.org/wiki/Deviance_(statistics)">deviance</a>
 is a measure of how well the model fits the data.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="further-regression-methods.html#cb313-1" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(<span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="further-regression-methods.html#cb316-1" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(<span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>)))</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 137.6278 (df=1)</code></pre></li>
 <li><p><code>Residual deviance</code> is the deviance of the model with the predictors (in our case: <code>AGE</code>).</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="further-regression-methods.html#cb315-1" tabindex="-1"></a> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(modlog)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="further-regression-methods.html#cb318-1" tabindex="-1"></a> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(modlog)</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 108.1987 (df=2)</code></pre></li>
 <li><p><code>AIC</code> is the Akaike Information Criterion,
 which is a measure of the model’s goodness of fit,
 penalized for the number of parameters. Lower AIC values indicate a better fit.</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="further-regression-methods.html#cb317-1" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(modlog) <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">coef</span>(modlog))</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="further-regression-methods.html#cb320-1" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(modlog) <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">coef</span>(modlog))</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 112.1987 (df=2)</code></pre>
 <p>The more parameters, the higher the AIC, the worse the model fit.
 AIC punishes model complexity.</p></li>
 </ul>
 <p>We can calculate the probabilities estimated by data:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="further-regression-methods.html#cb319-1" tabindex="-1"></a>predicted_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>) <span class="co"># response is the probability p_i here.</span></span>
-<span id="cb319-2"><a href="further-regression-methods.html#cb319-2" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Raw data and predicted probabilities&quot;</span>,</span>
-<span id="cb319-3"><a href="further-regression-methods.html#cb319-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb319-4"><a href="further-regression-methods.html#cb319-4" tabindex="-1"></a><span class="fu">points</span>(AGE, predicted_probabilities, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="further-regression-methods.html#cb322-1" tabindex="-1"></a>predicted_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>) <span class="co"># response is the probability p_i here.</span></span>
+<span id="cb322-2"><a href="further-regression-methods.html#cb322-2" tabindex="-1"></a><span class="fu">plot</span>(AGE, y, <span class="at">main =</span> <span class="st">&quot;Raw data and predicted probabilities&quot;</span>,</span>
+<span id="cb322-3"><a href="further-regression-methods.html#cb322-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;inv_logit(AGE)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb322-4"><a href="further-regression-methods.html#cb322-4" tabindex="-1"></a><span class="fu">points</span>(AGE, predicted_probabilities, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="further-regression-methods.html#cb320-1" tabindex="-1"></a><span class="co"># The help file says about the predict-function:# the type of</span></span>
-<span id="cb320-2"><a href="further-regression-methods.html#cb320-2" tabindex="-1"></a><span class="co"># prediction required.</span></span>
-<span id="cb320-3"><a href="further-regression-methods.html#cb320-3" tabindex="-1"></a></span>
-<span id="cb320-4"><a href="further-regression-methods.html#cb320-4" tabindex="-1"></a><span class="co"># The default is on the scale of the linear</span></span>
-<span id="cb320-5"><a href="further-regression-methods.html#cb320-5" tabindex="-1"></a><span class="co"># predictors;</span></span>
-<span id="cb320-6"><a href="further-regression-methods.html#cb320-6" tabindex="-1"></a></span>
-<span id="cb320-7"><a href="further-regression-methods.html#cb320-7" tabindex="-1"></a><span class="co"># the alternative &quot;response&quot; is on the scale of the</span></span>
-<span id="cb320-8"><a href="further-regression-methods.html#cb320-8" tabindex="-1"></a><span class="co"># response variable.</span></span>
-<span id="cb320-9"><a href="further-regression-methods.html#cb320-9" tabindex="-1"></a></span>
-<span id="cb320-10"><a href="further-regression-methods.html#cb320-10" tabindex="-1"></a><span class="co"># Thus for a default binomial model the default</span></span>
-<span id="cb320-11"><a href="further-regression-methods.html#cb320-11" tabindex="-1"></a><span class="co"># predictions are of log-odds (probabilities on logit scale) and</span></span>
-<span id="cb320-12"><a href="further-regression-methods.html#cb320-12" tabindex="-1"></a><span class="co"># type = &quot;response&quot; gives the predicted probabilities.</span></span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="further-regression-methods.html#cb323-1" tabindex="-1"></a><span class="co"># The help file says about the predict-function:# the type of</span></span>
+<span id="cb323-2"><a href="further-regression-methods.html#cb323-2" tabindex="-1"></a><span class="co"># prediction required.</span></span>
+<span id="cb323-3"><a href="further-regression-methods.html#cb323-3" tabindex="-1"></a></span>
+<span id="cb323-4"><a href="further-regression-methods.html#cb323-4" tabindex="-1"></a><span class="co"># The default is on the scale of the linear</span></span>
+<span id="cb323-5"><a href="further-regression-methods.html#cb323-5" tabindex="-1"></a><span class="co"># predictors;</span></span>
+<span id="cb323-6"><a href="further-regression-methods.html#cb323-6" tabindex="-1"></a></span>
+<span id="cb323-7"><a href="further-regression-methods.html#cb323-7" tabindex="-1"></a><span class="co"># the alternative &quot;response&quot; is on the scale of the</span></span>
+<span id="cb323-8"><a href="further-regression-methods.html#cb323-8" tabindex="-1"></a><span class="co"># response variable.</span></span>
+<span id="cb323-9"><a href="further-regression-methods.html#cb323-9" tabindex="-1"></a></span>
+<span id="cb323-10"><a href="further-regression-methods.html#cb323-10" tabindex="-1"></a><span class="co"># Thus for a default binomial model the default</span></span>
+<span id="cb323-11"><a href="further-regression-methods.html#cb323-11" tabindex="-1"></a><span class="co"># predictions are of log-odds (probabilities on logit scale) and</span></span>
+<span id="cb323-12"><a href="further-regression-methods.html#cb323-12" tabindex="-1"></a><span class="co"># type = &quot;response&quot; gives the predicted probabilities.</span></span></code></pre></div>
 <p>As we can see, higher <code>AGE</code> (linear predictor with only one term in this case) is <em>associated</em>
 (let’s not say “influenced” please) with higher probability of a <span class="math inline">\(1\)</span>.</p>
 <p>The red line in the plot is the predicted probability of a <span class="math inline">\(1\)</span>.
@@ -1907,9 +1912,9 @@ us to <a href="further-regression-methods.html#multiple_logistic_regression">mul
 confidence intervals (CIs), which can be conveniently calculated using R:</p>
 <p>(If you haven’t thought about it:
 What is the difference between odds ratios, risk ratios and probabilities?)</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="further-regression-methods.html#cb321-1" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb321-2"><a href="further-regression-methods.html#cb321-2" tabindex="-1"></a>tidy_modlog <span class="ot">&lt;-</span> <span class="fu">tidy</span>(modlog, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb321-3"><a href="further-regression-methods.html#cb321-3" tabindex="-1"></a>tidy_modlog</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="further-regression-methods.html#cb324-1" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb324-2"><a href="further-regression-methods.html#cb324-2" tabindex="-1"></a>tidy_modlog <span class="ot">&lt;-</span> <span class="fu">tidy</span>(modlog, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb324-3"><a href="further-regression-methods.html#cb324-3" tabindex="-1"></a>tidy_modlog</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 7
 ##   term        estimate std.error statistic   p.value conf.low conf.high
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -1928,84 +1933,84 @@ The odds are therefore <span class="math inline">\(\frac{0.55}{1-0.55} = 1.22\)<
 </ul>
 <p>Hint: You can also use <code>gtsummary</code> and <code>tbl_regression</code> to present the results nicely.</p>
 <p>Let’s verify all this in R:</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="further-regression-methods.html#cb323-1" tabindex="-1"></a><span class="co"># log-odds scale:</span></span>
-<span id="cb323-2"><a href="further-regression-methods.html#cb323-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb323-3"><a href="further-regression-methods.html#cb323-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="further-regression-methods.html#cb326-1" tabindex="-1"></a><span class="co"># log-odds scale:</span></span>
+<span id="cb326-2"><a href="further-regression-methods.html#cb326-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb326-3"><a href="further-regression-methods.html#cb326-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
 <pre><code>##         1 
 ## 0.2991623</code></pre>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="further-regression-methods.html#cb325-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb325-2"><a href="further-regression-methods.html#cb325-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="further-regression-methods.html#cb328-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb328-2"><a href="further-regression-methods.html#cb328-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##       1 
 ## 1.82066</code></pre>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="further-regression-methods.html#cb327-1" tabindex="-1"></a><span class="co"># odds scale:</span></span>
-<span id="cb327-2"><a href="further-regression-methods.html#cb327-2" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb327-3"><a href="further-regression-methods.html#cb327-3" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="further-regression-methods.html#cb330-1" tabindex="-1"></a><span class="co"># odds scale:</span></span>
+<span id="cb330-2"><a href="further-regression-methods.html#cb330-2" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb330-3"><a href="further-regression-methods.html#cb330-3" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>)))</span></code></pre></div>
 <pre><code>##        1 
 ## 1.348729</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="further-regression-methods.html#cb329-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb329-2"><a href="further-regression-methods.html#cb329-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="further-regression-methods.html#cb332-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb332-2"><a href="further-regression-methods.html#cb332-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>)))</span></code></pre></div>
 <pre><code>##        1 
 ## 6.175935</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="further-regression-methods.html#cb331-1" tabindex="-1"></a><span class="fl">6.175935</span> <span class="sc">/</span> <span class="fl">1.348729</span></span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="further-regression-methods.html#cb334-1" tabindex="-1"></a><span class="fl">6.175935</span> <span class="sc">/</span> <span class="fl">1.348729</span></span></code></pre></div>
 <pre><code>## [1] 4.579078</code></pre>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="further-regression-methods.html#cb333-1" tabindex="-1"></a><span class="co"># probability-scale:</span></span>
-<span id="cb333-2"><a href="further-regression-methods.html#cb333-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
-<span id="cb333-3"><a href="further-regression-methods.html#cb333-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="further-regression-methods.html#cb336-1" tabindex="-1"></a><span class="co"># probability-scale:</span></span>
+<span id="cb336-2"><a href="further-regression-methods.html#cb336-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<span id="cb336-3"><a href="further-regression-methods.html#cb336-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
 <pre><code>##         1 
 ## 0.5742377</code></pre>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="further-regression-methods.html#cb335-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
-<span id="cb335-2"><a href="further-regression-methods.html#cb335-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="further-regression-methods.html#cb338-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<span id="cb338-2"><a href="further-regression-methods.html#cb338-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##         1 
 ## 0.8606453</code></pre>
 <p>Very nice.</p>
 <p>Another cool feature is to visualize the predicted probabilities
 with a <strong>confidence band</strong>:</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="further-regression-methods.html#cb337-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb337-2"><a href="further-regression-methods.html#cb337-2" tabindex="-1"></a></span>
-<span id="cb337-3"><a href="further-regression-methods.html#cb337-3" tabindex="-1"></a><span class="co"># Create prediction grid for AGE</span></span>
-<span id="cb337-4"><a href="further-regression-methods.html#cb337-4" tabindex="-1"></a>AGE_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(AGE), <span class="fu">max</span>(AGE), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb337-5"><a href="further-regression-methods.html#cb337-5" tabindex="-1"></a></span>
-<span id="cb337-6"><a href="further-regression-methods.html#cb337-6" tabindex="-1"></a><span class="co"># Predict on link scale (logit), get standard errors</span></span>
-<span id="cb337-7"><a href="further-regression-methods.html#cb337-7" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(modlog,</span>
-<span id="cb337-8"><a href="further-regression-methods.html#cb337-8" tabindex="-1"></a>                 <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> AGE_grid),</span>
-<span id="cb337-9"><a href="further-regression-methods.html#cb337-9" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;link&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb337-10"><a href="further-regression-methods.html#cb337-10" tabindex="-1"></a></span>
-<span id="cb337-11"><a href="further-regression-methods.html#cb337-11" tabindex="-1"></a><span class="co"># Construct dataframe and transform to probability scale</span></span>
-<span id="cb337-12"><a href="further-regression-methods.html#cb337-12" tabindex="-1"></a>df_pred <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb337-13"><a href="further-regression-methods.html#cb337-13" tabindex="-1"></a>  <span class="at">AGE =</span> AGE_grid,</span>
-<span id="cb337-14"><a href="further-regression-methods.html#cb337-14" tabindex="-1"></a>  <span class="at">fit =</span> preds<span class="sc">$</span>fit,</span>
-<span id="cb337-15"><a href="further-regression-methods.html#cb337-15" tabindex="-1"></a>  <span class="at">se =</span> preds<span class="sc">$</span>se.fit</span>
-<span id="cb337-16"><a href="further-regression-methods.html#cb337-16" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb337-17"><a href="further-regression-methods.html#cb337-17" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb337-18"><a href="further-regression-methods.html#cb337-18" tabindex="-1"></a>    <span class="at">conf.low =</span> <span class="fu">inv_logit</span>(fit <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se),</span>
-<span id="cb337-19"><a href="further-regression-methods.html#cb337-19" tabindex="-1"></a>    <span class="at">conf.high =</span> <span class="fu">inv_logit</span>(fit <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se),</span>
-<span id="cb337-20"><a href="further-regression-methods.html#cb337-20" tabindex="-1"></a>    <span class="at">predicted =</span> <span class="fu">inv_logit</span>(fit),</span>
-<span id="cb337-21"><a href="further-regression-methods.html#cb337-21" tabindex="-1"></a>    <span class="at">ci_width =</span> conf.high <span class="sc">-</span> conf.low</span>
-<span id="cb337-22"><a href="further-regression-methods.html#cb337-22" tabindex="-1"></a>  )</span>
-<span id="cb337-23"><a href="further-regression-methods.html#cb337-23" tabindex="-1"></a></span>
-<span id="cb337-24"><a href="further-regression-methods.html#cb337-24" tabindex="-1"></a><span class="co"># Identify max CI width</span></span>
-<span id="cb337-25"><a href="further-regression-methods.html#cb337-25" tabindex="-1"></a>max_ci_row <span class="ot">&lt;-</span> df_pred <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> ci_width, <span class="at">n =</span> <span class="dv">1</span>)</span>
-<span id="cb337-26"><a href="further-regression-methods.html#cb337-26" tabindex="-1"></a></span>
-<span id="cb337-27"><a href="further-regression-methods.html#cb337-27" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb337-28"><a href="further-regression-methods.html#cb337-28" tabindex="-1"></a><span class="fu">ggplot</span>(df_pred, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
-<span id="cb337-29"><a href="further-regression-methods.html#cb337-29" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb337-30"><a href="further-regression-methods.html#cb337-30" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb337-31"><a href="further-regression-methods.html#cb337-31" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> y),</span>
-<span id="cb337-32"><a href="further-regression-methods.html#cb337-32" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
-<span id="cb337-33"><a href="further-regression-methods.html#cb337-33" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.05</span>,</span>
-<span id="cb337-34"><a href="further-regression-methods.html#cb337-34" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb337-35"><a href="further-regression-methods.html#cb337-35" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> max_ci_row<span class="sc">$</span>AGE, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb337-36"><a href="further-regression-methods.html#cb337-36" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> max_ci_row<span class="sc">$</span>AGE, <span class="at">y =</span> <span class="fl">0.95</span>,</span>
-<span id="cb337-37"><a href="further-regression-methods.html#cb337-37" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Max CI width</span><span class="sc">\n</span><span class="st">at AGE = &quot;</span>, <span class="fu">round</span>(max_ci_row<span class="sc">$</span>AGE, <span class="dv">2</span>)),</span>
-<span id="cb337-38"><a href="further-regression-methods.html#cb337-38" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb337-39"><a href="further-regression-methods.html#cb337-39" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb337-40"><a href="further-regression-methods.html#cb337-40" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Model-predicted Probabilities (incl. raw data points) with max. CI width&quot;</span>,</span>
-<span id="cb337-41"><a href="further-regression-methods.html#cb337-41" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>,</span>
-<span id="cb337-42"><a href="further-regression-methods.html#cb337-42" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Predicted Probability&quot;</span></span>
-<span id="cb337-43"><a href="further-regression-methods.html#cb337-43" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb337-44"><a href="further-regression-methods.html#cb337-44" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb337-45"><a href="further-regression-methods.html#cb337-45" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb337-46"><a href="further-regression-methods.html#cb337-46" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="further-regression-methods.html#cb340-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb340-2"><a href="further-regression-methods.html#cb340-2" tabindex="-1"></a></span>
+<span id="cb340-3"><a href="further-regression-methods.html#cb340-3" tabindex="-1"></a><span class="co"># Create prediction grid for AGE</span></span>
+<span id="cb340-4"><a href="further-regression-methods.html#cb340-4" tabindex="-1"></a>AGE_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(AGE), <span class="fu">max</span>(AGE), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb340-5"><a href="further-regression-methods.html#cb340-5" tabindex="-1"></a></span>
+<span id="cb340-6"><a href="further-regression-methods.html#cb340-6" tabindex="-1"></a><span class="co"># Predict on link scale (logit), get standard errors</span></span>
+<span id="cb340-7"><a href="further-regression-methods.html#cb340-7" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(modlog,</span>
+<span id="cb340-8"><a href="further-regression-methods.html#cb340-8" tabindex="-1"></a>                 <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> AGE_grid),</span>
+<span id="cb340-9"><a href="further-regression-methods.html#cb340-9" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;link&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb340-10"><a href="further-regression-methods.html#cb340-10" tabindex="-1"></a></span>
+<span id="cb340-11"><a href="further-regression-methods.html#cb340-11" tabindex="-1"></a><span class="co"># Construct dataframe and transform to probability scale</span></span>
+<span id="cb340-12"><a href="further-regression-methods.html#cb340-12" tabindex="-1"></a>df_pred <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb340-13"><a href="further-regression-methods.html#cb340-13" tabindex="-1"></a>  <span class="at">AGE =</span> AGE_grid,</span>
+<span id="cb340-14"><a href="further-regression-methods.html#cb340-14" tabindex="-1"></a>  <span class="at">fit =</span> preds<span class="sc">$</span>fit,</span>
+<span id="cb340-15"><a href="further-regression-methods.html#cb340-15" tabindex="-1"></a>  <span class="at">se =</span> preds<span class="sc">$</span>se.fit</span>
+<span id="cb340-16"><a href="further-regression-methods.html#cb340-16" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb340-17"><a href="further-regression-methods.html#cb340-17" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb340-18"><a href="further-regression-methods.html#cb340-18" tabindex="-1"></a>    <span class="at">conf.low =</span> <span class="fu">inv_logit</span>(fit <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se),</span>
+<span id="cb340-19"><a href="further-regression-methods.html#cb340-19" tabindex="-1"></a>    <span class="at">conf.high =</span> <span class="fu">inv_logit</span>(fit <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se),</span>
+<span id="cb340-20"><a href="further-regression-methods.html#cb340-20" tabindex="-1"></a>    <span class="at">predicted =</span> <span class="fu">inv_logit</span>(fit),</span>
+<span id="cb340-21"><a href="further-regression-methods.html#cb340-21" tabindex="-1"></a>    <span class="at">ci_width =</span> conf.high <span class="sc">-</span> conf.low</span>
+<span id="cb340-22"><a href="further-regression-methods.html#cb340-22" tabindex="-1"></a>  )</span>
+<span id="cb340-23"><a href="further-regression-methods.html#cb340-23" tabindex="-1"></a></span>
+<span id="cb340-24"><a href="further-regression-methods.html#cb340-24" tabindex="-1"></a><span class="co"># Identify max CI width</span></span>
+<span id="cb340-25"><a href="further-regression-methods.html#cb340-25" tabindex="-1"></a>max_ci_row <span class="ot">&lt;-</span> df_pred <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> ci_width, <span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb340-26"><a href="further-regression-methods.html#cb340-26" tabindex="-1"></a></span>
+<span id="cb340-27"><a href="further-regression-methods.html#cb340-27" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb340-28"><a href="further-regression-methods.html#cb340-28" tabindex="-1"></a><span class="fu">ggplot</span>(df_pred, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb340-29"><a href="further-regression-methods.html#cb340-29" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb340-30"><a href="further-regression-methods.html#cb340-30" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb340-31"><a href="further-regression-methods.html#cb340-31" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> y),</span>
+<span id="cb340-32"><a href="further-regression-methods.html#cb340-32" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
+<span id="cb340-33"><a href="further-regression-methods.html#cb340-33" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.05</span>,</span>
+<span id="cb340-34"><a href="further-regression-methods.html#cb340-34" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb340-35"><a href="further-regression-methods.html#cb340-35" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> max_ci_row<span class="sc">$</span>AGE, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb340-36"><a href="further-regression-methods.html#cb340-36" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> max_ci_row<span class="sc">$</span>AGE, <span class="at">y =</span> <span class="fl">0.95</span>,</span>
+<span id="cb340-37"><a href="further-regression-methods.html#cb340-37" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Max CI width</span><span class="sc">\n</span><span class="st">at AGE = &quot;</span>, <span class="fu">round</span>(max_ci_row<span class="sc">$</span>AGE, <span class="dv">2</span>)),</span>
+<span id="cb340-38"><a href="further-regression-methods.html#cb340-38" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb340-39"><a href="further-regression-methods.html#cb340-39" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb340-40"><a href="further-regression-methods.html#cb340-40" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Model-predicted Probabilities (incl. jittered raw data points) with max. CI width&quot;</span>,</span>
+<span id="cb340-41"><a href="further-regression-methods.html#cb340-41" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>,</span>
+<span id="cb340-42"><a href="further-regression-methods.html#cb340-42" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Predicted Probability&quot;</span></span>
+<span id="cb340-43"><a href="further-regression-methods.html#cb340-43" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb340-44"><a href="further-regression-methods.html#cb340-44" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb340-45"><a href="further-regression-methods.html#cb340-45" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb340-46"><a href="further-regression-methods.html#cb340-46" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 <p>As you can see, the confidence band is wider when there are fewer data points.
 In the middle of the <code>AGE</code> range, the confidence band is narrower,
@@ -2023,29 +2028,29 @@ i.e. the probability of a <span class="math inline">\(1\)</span> is
 <span class="math inline">\(\operatorname{inv\_logit}(a) = \operatorname{inv\_logit}(0) = 0.5\)</span> on average.
 Hence, the probability of a <span class="math inline">\(1\)</span> for a person with <code>AGE = 0</code> is
 between</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="further-regression-methods.html#cb338-1" tabindex="-1"></a><span class="fu">inv_logit</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="further-regression-methods.html#cb341-1" tabindex="-1"></a><span class="fu">inv_logit</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## [1] 0.04742587 0.95257413</code></pre>
 <p>with <span class="math inline">\(95\%\)</span> probability a priori.</p>
 <p>See <a href="further-regression-methods.html#exercise12_LMM">exercise 12</a> for the priors.</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="further-regression-methods.html#cb340-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
-<span id="cb340-2"><a href="further-regression-methods.html#cb340-2" tabindex="-1"></a></span>
-<span id="cb340-3"><a href="further-regression-methods.html#cb340-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb340-4"><a href="further-regression-methods.html#cb340-4" tabindex="-1"></a>  <span class="at">y =</span> y,</span>
-<span id="cb340-5"><a href="further-regression-methods.html#cb340-5" tabindex="-1"></a>  <span class="at">AGE =</span> AGE,</span>
-<span id="cb340-6"><a href="further-regression-methods.html#cb340-6" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(y)</span>
-<span id="cb340-7"><a href="further-regression-methods.html#cb340-7" tabindex="-1"></a>)</span>
-<span id="cb340-8"><a href="further-regression-methods.html#cb340-8" tabindex="-1"></a></span>
-<span id="cb340-9"><a href="further-regression-methods.html#cb340-9" tabindex="-1"></a>m_logistic <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
-<span id="cb340-10"><a href="further-regression-methods.html#cb340-10" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
-<span id="cb340-11"><a href="further-regression-methods.html#cb340-11" tabindex="-1"></a>    y <span class="sc">~</span> <span class="fu">dbinom</span>(<span class="dv">1</span>, p),</span>
-<span id="cb340-12"><a href="further-regression-methods.html#cb340-12" tabindex="-1"></a>    <span class="fu">logit</span>(p) <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> AGE,</span>
-<span id="cb340-13"><a href="further-regression-methods.html#cb340-13" tabindex="-1"></a>    a <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">1.5</span>),</span>
-<span id="cb340-14"><a href="further-regression-methods.html#cb340-14" tabindex="-1"></a>    b <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">1.5</span>)</span>
-<span id="cb340-15"><a href="further-regression-methods.html#cb340-15" tabindex="-1"></a>  ),</span>
-<span id="cb340-16"><a href="further-regression-methods.html#cb340-16" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
-<span id="cb340-17"><a href="further-regression-methods.html#cb340-17" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,</span>
-<span id="cb340-18"><a href="further-regression-methods.html#cb340-18" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span></span>
-<span id="cb340-19"><a href="further-regression-methods.html#cb340-19" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="further-regression-methods.html#cb343-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb343-2"><a href="further-regression-methods.html#cb343-2" tabindex="-1"></a></span>
+<span id="cb343-3"><a href="further-regression-methods.html#cb343-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb343-4"><a href="further-regression-methods.html#cb343-4" tabindex="-1"></a>  <span class="at">y =</span> y,</span>
+<span id="cb343-5"><a href="further-regression-methods.html#cb343-5" tabindex="-1"></a>  <span class="at">AGE =</span> AGE,</span>
+<span id="cb343-6"><a href="further-regression-methods.html#cb343-6" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(y)</span>
+<span id="cb343-7"><a href="further-regression-methods.html#cb343-7" tabindex="-1"></a>)</span>
+<span id="cb343-8"><a href="further-regression-methods.html#cb343-8" tabindex="-1"></a></span>
+<span id="cb343-9"><a href="further-regression-methods.html#cb343-9" tabindex="-1"></a>m_logistic <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb343-10"><a href="further-regression-methods.html#cb343-10" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb343-11"><a href="further-regression-methods.html#cb343-11" tabindex="-1"></a>    y <span class="sc">~</span> <span class="fu">dbinom</span>(<span class="dv">1</span>, p),</span>
+<span id="cb343-12"><a href="further-regression-methods.html#cb343-12" tabindex="-1"></a>    <span class="fu">logit</span>(p) <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> AGE,</span>
+<span id="cb343-13"><a href="further-regression-methods.html#cb343-13" tabindex="-1"></a>    a <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">1.5</span>),</span>
+<span id="cb343-14"><a href="further-regression-methods.html#cb343-14" tabindex="-1"></a>    b <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">1.5</span>)</span>
+<span id="cb343-15"><a href="further-regression-methods.html#cb343-15" tabindex="-1"></a>  ),</span>
+<span id="cb343-16"><a href="further-regression-methods.html#cb343-16" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb343-17"><a href="further-regression-methods.html#cb343-17" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb343-18"><a href="further-regression-methods.html#cb343-18" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span></span>
+<span id="cb343-19"><a href="further-regression-methods.html#cb343-19" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Running MCMC with 4 parallel chains, with 1 thread(s) per chain...
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup) 
@@ -2104,53 +2109,53 @@ between</p>
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.0 seconds.
 ## Total execution time: 0.2 seconds.</code></pre>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="further-regression-methods.html#cb342-1" tabindex="-1"></a><span class="fu">precis</span>(m_logistic)</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="further-regression-methods.html#cb345-1" tabindex="-1"></a><span class="fu">precis</span>(m_logistic)</span></code></pre></div>
 <pre><code>##        mean        sd        5.5%     94.5%     rhat ess_bulk
 ## a 0.2938174 0.2284227 -0.07474653 0.6516331 1.000531 1245.522
 ## b 1.5101982 0.3414827  1.00315300 2.0784837 1.007428 1450.619</code></pre>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="further-regression-methods.html#cb344-1" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m_logistic)</span>
-<span id="cb344-2"><a href="further-regression-methods.html#cb344-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>a)) <span class="co"># post$a is on the log-odds scale, hence apply exp()</span></span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="further-regression-methods.html#cb347-1" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m_logistic)</span>
+<span id="cb347-2"><a href="further-regression-methods.html#cb347-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>a)) <span class="co"># post$a is on the log-odds scale, hence apply exp()</span></span></code></pre></div>
 <pre><code>## [1] 1.376576</code></pre>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="further-regression-methods.html#cb346-1" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>b))</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="further-regression-methods.html#cb349-1" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(post<span class="sc">$</span>b))</span></code></pre></div>
 <pre><code>## [1] 4.807619</code></pre>
 <p>The coefficients are very similar to the Frequentist model.</p>
 <p>We can again plot the <strong>predicted probabilities with a confidence band</strong>:</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="further-regression-methods.html#cb348-1" tabindex="-1"></a><span class="co"># create prediction plot with confidence band:</span></span>
-<span id="cb348-2"><a href="further-regression-methods.html#cb348-2" tabindex="-1"></a>AGE_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(AGE), <span class="at">to =</span> <span class="fu">max</span>(AGE), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb348-3"><a href="further-regression-methods.html#cb348-3" tabindex="-1"></a></span>
-<span id="cb348-4"><a href="further-regression-methods.html#cb348-4" tabindex="-1"></a><span class="co"># Predictive values from posterior</span></span>
-<span id="cb348-5"><a href="further-regression-methods.html#cb348-5" tabindex="-1"></a>link_result <span class="ot">&lt;-</span> <span class="fu">link</span>(m_logistic, <span class="at">data =</span> <span class="fu">list</span>(<span class="at">AGE =</span> AGE_seq))</span>
-<span id="cb348-6"><a href="further-regression-methods.html#cb348-6" tabindex="-1"></a><span class="fu">str</span>(link_result) <span class="co"># num [1:2000, 1:100]</span></span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="further-regression-methods.html#cb351-1" tabindex="-1"></a><span class="co"># create prediction plot with confidence band:</span></span>
+<span id="cb351-2"><a href="further-regression-methods.html#cb351-2" tabindex="-1"></a>AGE_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(AGE), <span class="at">to =</span> <span class="fu">max</span>(AGE), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb351-3"><a href="further-regression-methods.html#cb351-3" tabindex="-1"></a></span>
+<span id="cb351-4"><a href="further-regression-methods.html#cb351-4" tabindex="-1"></a><span class="co"># Predictive values from posterior</span></span>
+<span id="cb351-5"><a href="further-regression-methods.html#cb351-5" tabindex="-1"></a>link_result <span class="ot">&lt;-</span> <span class="fu">link</span>(m_logistic, <span class="at">data =</span> <span class="fu">list</span>(<span class="at">AGE =</span> AGE_seq))</span>
+<span id="cb351-6"><a href="further-regression-methods.html#cb351-6" tabindex="-1"></a><span class="fu">str</span>(link_result) <span class="co"># num [1:2000, 1:100]</span></span></code></pre></div>
 <pre><code>##  num [1:2000, 1:100] 0.00634 0.00857 0.03205 0.0721 0.04148 ...</code></pre>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="further-regression-methods.html#cb350-1" tabindex="-1"></a><span class="co"># -&gt; for the 100 AGE values, we get 2000 draws from</span></span>
-<span id="cb350-2"><a href="further-regression-methods.html#cb350-2" tabindex="-1"></a><span class="co"># the posterior distribution of the mean (which is in our case equal to p_i).</span></span>
-<span id="cb350-3"><a href="further-regression-methods.html#cb350-3" tabindex="-1"></a></span>
-<span id="cb350-4"><a href="further-regression-methods.html#cb350-4" tabindex="-1"></a><span class="co"># Compute mean and credible intervals</span></span>
-<span id="cb350-5"><a href="further-regression-methods.html#cb350-5" tabindex="-1"></a>mu_mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(link_result, <span class="dv">2</span>, mean)</span>
-<span id="cb350-6"><a href="further-regression-methods.html#cb350-6" tabindex="-1"></a>mu_CI <span class="ot">&lt;-</span> <span class="fu">apply</span>(link_result, <span class="dv">2</span>, PI)  <span class="co"># 89% CI by default</span></span>
-<span id="cb350-7"><a href="further-regression-methods.html#cb350-7" tabindex="-1"></a></span>
-<span id="cb350-8"><a href="further-regression-methods.html#cb350-8" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
-<span id="cb350-9"><a href="further-regression-methods.html#cb350-9" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb350-10"><a href="further-regression-methods.html#cb350-10" tabindex="-1"></a>  <span class="at">AGE =</span> AGE_seq,</span>
-<span id="cb350-11"><a href="further-regression-methods.html#cb350-11" tabindex="-1"></a>  <span class="at">predicted =</span> mu_mean,</span>
-<span id="cb350-12"><a href="further-regression-methods.html#cb350-12" tabindex="-1"></a>  <span class="at">ci_low =</span> mu_CI[<span class="dv">1</span>, ],</span>
-<span id="cb350-13"><a href="further-regression-methods.html#cb350-13" tabindex="-1"></a>  <span class="at">ci_high =</span> mu_CI[<span class="dv">2</span>, ]</span>
-<span id="cb350-14"><a href="further-regression-methods.html#cb350-14" tabindex="-1"></a>)</span>
-<span id="cb350-15"><a href="further-regression-methods.html#cb350-15" tabindex="-1"></a></span>
-<span id="cb350-16"><a href="further-regression-methods.html#cb350-16" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
-<span id="cb350-17"><a href="further-regression-methods.html#cb350-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb350-18"><a href="further-regression-methods.html#cb350-18" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ci_low, <span class="at">ymax =</span> ci_high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb350-19"><a href="further-regression-methods.html#cb350-19" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> AGE, <span class="at">y =</span> y),</span>
-<span id="cb350-20"><a href="further-regression-methods.html#cb350-20" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> y),</span>
-<span id="cb350-21"><a href="further-regression-methods.html#cb350-21" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.05</span>,</span>
-<span id="cb350-22"><a href="further-regression-methods.html#cb350-22" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb350-23"><a href="further-regression-methods.html#cb350-23" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb350-24"><a href="further-regression-methods.html#cb350-24" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Predicted Probabilities with 89% CI from Bayesian Logistic Regression&quot;</span>,</span>
-<span id="cb350-25"><a href="further-regression-methods.html#cb350-25" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>,</span>
-<span id="cb350-26"><a href="further-regression-methods.html#cb350-26" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Predicted Probability&quot;</span></span>
-<span id="cb350-27"><a href="further-regression-methods.html#cb350-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb350-28"><a href="further-regression-methods.html#cb350-28" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb350-29"><a href="further-regression-methods.html#cb350-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="further-regression-methods.html#cb353-1" tabindex="-1"></a><span class="co"># -&gt; for the 100 AGE values, we get 2000 draws from</span></span>
+<span id="cb353-2"><a href="further-regression-methods.html#cb353-2" tabindex="-1"></a><span class="co"># the posterior distribution of the mean (which is in our case equal to p_i).</span></span>
+<span id="cb353-3"><a href="further-regression-methods.html#cb353-3" tabindex="-1"></a></span>
+<span id="cb353-4"><a href="further-regression-methods.html#cb353-4" tabindex="-1"></a><span class="co"># Compute mean and credible intervals</span></span>
+<span id="cb353-5"><a href="further-regression-methods.html#cb353-5" tabindex="-1"></a>mu_mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(link_result, <span class="dv">2</span>, mean)</span>
+<span id="cb353-6"><a href="further-regression-methods.html#cb353-6" tabindex="-1"></a>mu_CI <span class="ot">&lt;-</span> <span class="fu">apply</span>(link_result, <span class="dv">2</span>, PI)  <span class="co"># 89% CI by default</span></span>
+<span id="cb353-7"><a href="further-regression-methods.html#cb353-7" tabindex="-1"></a></span>
+<span id="cb353-8"><a href="further-regression-methods.html#cb353-8" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
+<span id="cb353-9"><a href="further-regression-methods.html#cb353-9" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb353-10"><a href="further-regression-methods.html#cb353-10" tabindex="-1"></a>  <span class="at">AGE =</span> AGE_seq,</span>
+<span id="cb353-11"><a href="further-regression-methods.html#cb353-11" tabindex="-1"></a>  <span class="at">predicted =</span> mu_mean,</span>
+<span id="cb353-12"><a href="further-regression-methods.html#cb353-12" tabindex="-1"></a>  <span class="at">ci_low =</span> mu_CI[<span class="dv">1</span>, ],</span>
+<span id="cb353-13"><a href="further-regression-methods.html#cb353-13" tabindex="-1"></a>  <span class="at">ci_high =</span> mu_CI[<span class="dv">2</span>, ]</span>
+<span id="cb353-14"><a href="further-regression-methods.html#cb353-14" tabindex="-1"></a>)</span>
+<span id="cb353-15"><a href="further-regression-methods.html#cb353-15" tabindex="-1"></a></span>
+<span id="cb353-16"><a href="further-regression-methods.html#cb353-16" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb353-17"><a href="further-regression-methods.html#cb353-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb353-18"><a href="further-regression-methods.html#cb353-18" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ci_low, <span class="at">ymax =</span> ci_high), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb353-19"><a href="further-regression-methods.html#cb353-19" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> AGE, <span class="at">y =</span> y),</span>
+<span id="cb353-20"><a href="further-regression-methods.html#cb353-20" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> y),</span>
+<span id="cb353-21"><a href="further-regression-methods.html#cb353-21" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.05</span>,</span>
+<span id="cb353-22"><a href="further-regression-methods.html#cb353-22" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb353-23"><a href="further-regression-methods.html#cb353-23" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb353-24"><a href="further-regression-methods.html#cb353-24" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Predicted Probabilities with 89% CI from Bayesian Logistic Regression&quot;</span>,</span>
+<span id="cb353-25"><a href="further-regression-methods.html#cb353-25" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>,</span>
+<span id="cb353-26"><a href="further-regression-methods.html#cb353-26" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Predicted Probability&quot;</span></span>
+<span id="cb353-27"><a href="further-regression-methods.html#cb353-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb353-28"><a href="further-regression-methods.html#cb353-28" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb353-29"><a href="further-regression-methods.html#cb353-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 </div>
 <div id="predictive_performance" class="section level4 hasAnchor" number="3.2.1.3">
@@ -2158,15 +2163,15 @@ between</p>
 <p><strong>One may ask how well the model <em>predicts</em> the outcome.</strong>
 A very honest and simple way would be to compare the predicted outcomes
 with the actual outcomes (<span class="math inline">\(0/1\)</span>). This is called a <strong>confusion table</strong> (or <a href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrix</a>).</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="further-regression-methods.html#cb351-1" tabindex="-1"></a>predicted_outcomes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb351-2"><a href="further-regression-methods.html#cb351-2" tabindex="-1"></a>confusion_table <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">Actual =</span> y, <span class="at">Predicted =</span> predicted_outcomes)</span>
-<span id="cb351-3"><a href="further-regression-methods.html#cb351-3" tabindex="-1"></a>confusion_table</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="further-regression-methods.html#cb354-1" tabindex="-1"></a>predicted_outcomes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb354-2"><a href="further-regression-methods.html#cb354-2" tabindex="-1"></a>confusion_table <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">Actual =</span> y, <span class="at">Predicted =</span> predicted_outcomes)</span>
+<span id="cb354-3"><a href="further-regression-methods.html#cb354-3" tabindex="-1"></a>confusion_table</span></code></pre></div>
 <pre><code>##       Predicted
 ## Actual  0  1
 ##      0 28 17
 ##      1 13 42</code></pre>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="further-regression-methods.html#cb353-1" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(confusion_table)) <span class="sc">/</span> <span class="fu">sum</span>(confusion_table)</span>
-<span id="cb353-2"><a href="further-regression-methods.html#cb353-2" tabindex="-1"></a>accuracy</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="further-regression-methods.html#cb356-1" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(confusion_table)) <span class="sc">/</span> <span class="fu">sum</span>(confusion_table)</span>
+<span id="cb356-2"><a href="further-regression-methods.html#cb356-2" tabindex="-1"></a>accuracy</span></code></pre></div>
 <pre><code>## [1] 0.7</code></pre>
 <p>We could introduce the threshold for the predicted probability <span class="math inline">\(p_i\)</span> of
 <span class="math inline">\(0.5\)</span> as the cutoff for a <span class="math inline">\(1\)</span>.
@@ -2200,16 +2205,16 @@ if the <span class="math inline">\(p_i\)</span> is not constant. The variance is
 lowest at <span class="math inline">\(p_i = 0\)</span> or <span class="math inline">\(p_i = 1\)</span> (since only <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> does not give you much variance).
 You see this immediately when you plot the
 variance function <span class="math inline">\(p_i(1-p_i)\)</span>:</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="further-regression-methods.html#cb355-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb355-2"><a href="further-regression-methods.html#cb355-2" tabindex="-1"></a>var_p <span class="ot">&lt;-</span> p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p)</span>
-<span id="cb355-3"><a href="further-regression-methods.html#cb355-3" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">p =</span> p, <span class="at">var_p =</span> var_p) <span class="sc">%&gt;%</span></span>
-<span id="cb355-4"><a href="further-regression-methods.html#cb355-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> var_p)) <span class="sc">+</span></span>
-<span id="cb355-5"><a href="further-regression-methods.html#cb355-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb355-6"><a href="further-regression-methods.html#cb355-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Variance of a Bernoulli Distribution&quot;</span>,</span>
-<span id="cb355-7"><a href="further-regression-methods.html#cb355-7" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Probability of Success (p)&quot;</span>,</span>
-<span id="cb355-8"><a href="further-regression-methods.html#cb355-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Variance (p(1-p))&quot;</span>) <span class="sc">+</span></span>
-<span id="cb355-9"><a href="further-regression-methods.html#cb355-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb355-10"><a href="further-regression-methods.html#cb355-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="further-regression-methods.html#cb358-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb358-2"><a href="further-regression-methods.html#cb358-2" tabindex="-1"></a>var_p <span class="ot">&lt;-</span> p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p)</span>
+<span id="cb358-3"><a href="further-regression-methods.html#cb358-3" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">p =</span> p, <span class="at">var_p =</span> var_p) <span class="sc">%&gt;%</span></span>
+<span id="cb358-4"><a href="further-regression-methods.html#cb358-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> var_p)) <span class="sc">+</span></span>
+<span id="cb358-5"><a href="further-regression-methods.html#cb358-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb358-6"><a href="further-regression-methods.html#cb358-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Variance of a Bernoulli Distribution&quot;</span>,</span>
+<span id="cb358-7"><a href="further-regression-methods.html#cb358-7" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Probability of Success (p)&quot;</span>,</span>
+<span id="cb358-8"><a href="further-regression-methods.html#cb358-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Variance (p(1-p))&quot;</span>) <span class="sc">+</span></span>
+<span id="cb358-9"><a href="further-regression-methods.html#cb358-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb358-10"><a href="further-regression-methods.html#cb358-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
 <p>The variance of a Bernoulli distribution makes intuitive sense.
 For very low or very high probabilities, you mostly will see <span class="math inline">\(0\)</span>s or <span class="math inline">\(1\)</span>s, respectively,
@@ -2234,9 +2239,9 @@ the association between <span class="math inline">\(X\)</span> and <span class="
 </ul>
 <p>Let’s see what <code>check_model</code> has to say (which automatically
 checks what is possible for the given model type):</p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="further-regression-methods.html#cb356-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
-<span id="cb356-2"><a href="further-regression-methods.html#cb356-2" tabindex="-1"></a><span class="fu">check_model</span>(modlog, <span class="at">checks =</span> <span class="fu">c</span>(<span class="st">&quot;pp_check&quot;</span>, <span class="st">&quot;residuals&quot;</span>,</span>
-<span id="cb356-3"><a href="further-regression-methods.html#cb356-3" tabindex="-1"></a>                               <span class="st">&quot;influential_observations&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="further-regression-methods.html#cb359-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb359-2"><a href="further-regression-methods.html#cb359-2" tabindex="-1"></a><span class="fu">check_model</span>(modlog, <span class="at">checks =</span> <span class="fu">c</span>(<span class="st">&quot;pp_check&quot;</span>, <span class="st">&quot;residuals&quot;</span>,</span>
+<span id="cb359-3"><a href="further-regression-methods.html#cb359-3" tabindex="-1"></a>                               <span class="st">&quot;influential_observations&quot;</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 <p>In <a href="exercise14_LMM">exercise 14</a>, we will look try to replicate the model checks.</p>
 <ul>
@@ -2284,24 +2289,24 @@ the number of accidents, the number of heart attacks, etc., as outcome variable,
 you can (sometimes, if the assumptions are met) use <a href="https://en.wikipedia.org/wiki/Poisson_regression"><strong>Poisson regression</strong></a>.</p>
 <p>Let’s quickly plot a Poisson-distributed variable <span class="math inline">\(Y \sim \text{Poisson}(\lambda)\)</span>
 with different <span class="math inline">\(\lambda\)</span>s:</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="further-regression-methods.html#cb357-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb357-2"><a href="further-regression-methods.html#cb357-2" tabindex="-1"></a></span>
-<span id="cb357-3"><a href="further-regression-methods.html#cb357-3" tabindex="-1"></a>lambda_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>)</span>
-<span id="cb357-4"><a href="further-regression-methods.html#cb357-4" tabindex="-1"></a>y_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">40</span></span>
-<span id="cb357-5"><a href="further-regression-methods.html#cb357-5" tabindex="-1"></a></span>
-<span id="cb357-6"><a href="further-regression-methods.html#cb357-6" tabindex="-1"></a>poisson_data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">y =</span> y_vals, <span class="at">lambda =</span> lambda_values)</span>
-<span id="cb357-7"><a href="further-regression-methods.html#cb357-7" tabindex="-1"></a>poisson_data<span class="sc">$</span>prob <span class="ot">&lt;-</span> <span class="fu">dpois</span>(poisson_data<span class="sc">$</span>y, poisson_data<span class="sc">$</span>lambda)</span>
-<span id="cb357-8"><a href="further-regression-methods.html#cb357-8" tabindex="-1"></a>poisson_data<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">factor</span>(poisson_data<span class="sc">$</span>lambda,</span>
-<span id="cb357-9"><a href="further-regression-methods.html#cb357-9" tabindex="-1"></a>                              <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="st">&quot;lambda = &quot;</span>, lambda_values))</span>
-<span id="cb357-10"><a href="further-regression-methods.html#cb357-10" tabindex="-1"></a></span>
-<span id="cb357-11"><a href="further-regression-methods.html#cb357-11" tabindex="-1"></a><span class="fu">ggplot</span>(poisson_data, <span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> prob, <span class="at">color =</span> lambda)) <span class="sc">+</span></span>
-<span id="cb357-12"><a href="further-regression-methods.html#cb357-12" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb357-13"><a href="further-regression-methods.html#cb357-13" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb357-14"><a href="further-regression-methods.html#cb357-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Poisson distributions&quot;</span>,</span>
-<span id="cb357-15"><a href="further-regression-methods.html#cb357-15" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb357-16"><a href="further-regression-methods.html#cb357-16" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;density&quot;</span>) <span class="sc">+</span></span>
-<span id="cb357-17"><a href="further-regression-methods.html#cb357-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb357-18"><a href="further-regression-methods.html#cb357-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="further-regression-methods.html#cb360-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb360-2"><a href="further-regression-methods.html#cb360-2" tabindex="-1"></a></span>
+<span id="cb360-3"><a href="further-regression-methods.html#cb360-3" tabindex="-1"></a>lambda_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>)</span>
+<span id="cb360-4"><a href="further-regression-methods.html#cb360-4" tabindex="-1"></a>y_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">40</span></span>
+<span id="cb360-5"><a href="further-regression-methods.html#cb360-5" tabindex="-1"></a></span>
+<span id="cb360-6"><a href="further-regression-methods.html#cb360-6" tabindex="-1"></a>poisson_data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">y =</span> y_vals, <span class="at">lambda =</span> lambda_values)</span>
+<span id="cb360-7"><a href="further-regression-methods.html#cb360-7" tabindex="-1"></a>poisson_data<span class="sc">$</span>prob <span class="ot">&lt;-</span> <span class="fu">dpois</span>(poisson_data<span class="sc">$</span>y, poisson_data<span class="sc">$</span>lambda)</span>
+<span id="cb360-8"><a href="further-regression-methods.html#cb360-8" tabindex="-1"></a>poisson_data<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">factor</span>(poisson_data<span class="sc">$</span>lambda,</span>
+<span id="cb360-9"><a href="further-regression-methods.html#cb360-9" tabindex="-1"></a>                              <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="st">&quot;lambda = &quot;</span>, lambda_values))</span>
+<span id="cb360-10"><a href="further-regression-methods.html#cb360-10" tabindex="-1"></a></span>
+<span id="cb360-11"><a href="further-regression-methods.html#cb360-11" tabindex="-1"></a><span class="fu">ggplot</span>(poisson_data, <span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> prob, <span class="at">color =</span> lambda)) <span class="sc">+</span></span>
+<span id="cb360-12"><a href="further-regression-methods.html#cb360-12" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb360-13"><a href="further-regression-methods.html#cb360-13" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb360-14"><a href="further-regression-methods.html#cb360-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Poisson distributions&quot;</span>,</span>
+<span id="cb360-15"><a href="further-regression-methods.html#cb360-15" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb360-16"><a href="further-regression-methods.html#cb360-16" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb360-17"><a href="further-regression-methods.html#cb360-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb360-18"><a href="further-regression-methods.html#cb360-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <p>A Poisson-distributed variable can <strong>only</strong> take <strong>integer values</strong>
 which are of course non-negative.</p>
@@ -2317,68 +2322,68 @@ They check the assumptions of the model
 linearity of the log of <span class="math inline">\(\lambda\)</span>) beforehand.</p>
 <p>We want to save time and quickly <strong>create simulated data</strong>. Here we <em>know</em>
 the true model.</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="further-regression-methods.html#cb358-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb358-2"><a href="further-regression-methods.html#cb358-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb358-3"><a href="further-regression-methods.html#cb358-3" tabindex="-1"></a></span>
-<span id="cb358-4"><a href="further-regression-methods.html#cb358-4" tabindex="-1"></a><span class="co"># Simulate base data</span></span>
-<span id="cb358-5"><a href="further-regression-methods.html#cb358-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb358-6"><a href="further-regression-methods.html#cb358-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb358-7"><a href="further-regression-methods.html#cb358-7" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb358-8"><a href="further-regression-methods.html#cb358-8" tabindex="-1"></a>df_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb358-9"><a href="further-regression-methods.html#cb358-9" tabindex="-1"></a></span>
-<span id="cb358-10"><a href="further-regression-methods.html#cb358-10" tabindex="-1"></a><span class="co"># Reference x-values and corresponding lambdas</span></span>
-<span id="cb358-11"><a href="further-regression-methods.html#cb358-11" tabindex="-1"></a>x_ref <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
-<span id="cb358-12"><a href="further-regression-methods.html#cb358-12" tabindex="-1"></a>lambda_ref <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x_ref <span class="sc">-</span> <span class="dv">2</span>)</span>
-<span id="cb358-13"><a href="further-regression-methods.html#cb358-13" tabindex="-1"></a>width <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># horizontal stretch of the density curves</span></span>
-<span id="cb358-14"><a href="further-regression-methods.html#cb358-14" tabindex="-1"></a></span>
-<span id="cb358-15"><a href="further-regression-methods.html#cb358-15" tabindex="-1"></a><span class="co"># Generate only the right half of each Poisson density curve</span></span>
-<span id="cb358-16"><a href="further-regression-methods.html#cb358-16" tabindex="-1"></a>poisson_curves <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(x_ref), <span class="cf">function</span>(i) {</span>
-<span id="cb358-17"><a href="further-regression-methods.html#cb358-17" tabindex="-1"></a>  lam <span class="ot">&lt;-</span> lambda_ref[i]</span>
-<span id="cb358-18"><a href="further-regression-methods.html#cb358-18" tabindex="-1"></a>  xx <span class="ot">&lt;-</span> x_ref[i]</span>
-<span id="cb358-19"><a href="further-regression-methods.html#cb358-19" tabindex="-1"></a>  y_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb358-20"><a href="further-regression-methods.html#cb358-20" tabindex="-1"></a>  d_vals <span class="ot">&lt;-</span> <span class="fu">dpois</span>(y_vals, lam)</span>
-<span id="cb358-21"><a href="further-regression-methods.html#cb358-21" tabindex="-1"></a>  </span>
-<span id="cb358-22"><a href="further-regression-methods.html#cb358-22" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb358-23"><a href="further-regression-methods.html#cb358-23" tabindex="-1"></a>    <span class="at">x =</span> xx <span class="sc">+</span> d_vals <span class="sc">*</span> width,</span>
-<span id="cb358-24"><a href="further-regression-methods.html#cb358-24" tabindex="-1"></a>    <span class="at">y =</span> y_vals,</span>
-<span id="cb358-25"><a href="further-regression-methods.html#cb358-25" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">paste0</span>(<span class="st">&quot;x = &quot;</span>, xx)</span>
-<span id="cb358-26"><a href="further-regression-methods.html#cb358-26" tabindex="-1"></a>  )</span>
-<span id="cb358-27"><a href="further-regression-methods.html#cb358-27" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
-<span id="cb358-28"><a href="further-regression-methods.html#cb358-28" tabindex="-1"></a></span>
-<span id="cb358-29"><a href="further-regression-methods.html#cb358-29" tabindex="-1"></a><span class="co"># Integer y values for horizontal reference lines</span></span>
-<span id="cb358-30"><a href="further-regression-methods.html#cb358-30" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(df_points<span class="sc">$</span>y)</span>
-<span id="cb358-31"><a href="further-regression-methods.html#cb358-31" tabindex="-1"></a></span>
-<span id="cb358-32"><a href="further-regression-methods.html#cb358-32" tabindex="-1"></a><span class="co"># Lambda curve: exp(0.5 * x - 2)</span></span>
-<span id="cb358-33"><a href="further-regression-methods.html#cb358-33" tabindex="-1"></a>lambda_curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb358-34"><a href="further-regression-methods.html#cb358-34" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df_points<span class="sc">$</span>x), <span class="fu">max</span>(df_points<span class="sc">$</span>x), <span class="at">length.out =</span> <span class="dv">200</span>)</span>
-<span id="cb358-35"><a href="further-regression-methods.html#cb358-35" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb358-36"><a href="further-regression-methods.html#cb358-36" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb358-37"><a href="further-regression-methods.html#cb358-37" tabindex="-1"></a></span>
-<span id="cb358-38"><a href="further-regression-methods.html#cb358-38" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb358-39"><a href="further-regression-methods.html#cb358-39" tabindex="-1"></a><span class="fu">ggplot</span>(df_points, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb358-40"><a href="further-regression-methods.html#cb358-40" tabindex="-1"></a>  <span class="co"># scatterplot</span></span>
-<span id="cb358-41"><a href="further-regression-methods.html#cb358-41" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb358-42"><a href="further-regression-methods.html#cb358-42" tabindex="-1"></a>  <span class="co"># vertical dashed reference lines</span></span>
-<span id="cb358-43"><a href="further-regression-methods.html#cb358-43" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_ref, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
-<span id="cb358-44"><a href="further-regression-methods.html#cb358-44" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb358-45"><a href="further-regression-methods.html#cb358-45" tabindex="-1"></a>  <span class="co"># horizontal dashed lines at integer y-values</span></span>
-<span id="cb358-46"><a href="further-regression-methods.html#cb358-46" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_breaks, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
-<span id="cb358-47"><a href="further-regression-methods.html#cb358-47" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray50&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb358-48"><a href="further-regression-methods.html#cb358-48" tabindex="-1"></a>  <span class="co"># right half of Poisson curves</span></span>
-<span id="cb358-49"><a href="further-regression-methods.html#cb358-49" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> poisson_curves, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group),</span>
-<span id="cb358-50"><a href="further-regression-methods.html#cb358-50" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb358-51"><a href="further-regression-methods.html#cb358-51" tabindex="-1"></a>  <span class="co"># lambda curve</span></span>
-<span id="cb358-52"><a href="further-regression-methods.html#cb358-52" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> lambda_curve, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
-<span id="cb358-53"><a href="further-regression-methods.html#cb358-53" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>) <span class="sc">+</span></span>
-<span id="cb358-54"><a href="further-regression-methods.html#cb358-54" tabindex="-1"></a>  <span class="co"># x-axis only at reference points</span></span>
-<span id="cb358-55"><a href="further-regression-methods.html#cb358-55" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> x_ref) <span class="sc">+</span></span>
-<span id="cb358-56"><a href="further-regression-methods.html#cb358-56" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb358-57"><a href="further-regression-methods.html#cb358-57" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Poisson Model: Densities and Lambda(x) = exp(0.5x - 2)&quot;</span>,</span>
-<span id="cb358-58"><a href="further-regression-methods.html#cb358-58" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;x&quot;</span>,</span>
-<span id="cb358-59"><a href="further-regression-methods.html#cb358-59" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;y&quot;</span></span>
-<span id="cb358-60"><a href="further-regression-methods.html#cb358-60" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb358-61"><a href="further-regression-methods.html#cb358-61" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb358-62"><a href="further-regression-methods.html#cb358-62" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="further-regression-methods.html#cb361-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb361-2"><a href="further-regression-methods.html#cb361-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb361-3"><a href="further-regression-methods.html#cb361-3" tabindex="-1"></a></span>
+<span id="cb361-4"><a href="further-regression-methods.html#cb361-4" tabindex="-1"></a><span class="co"># Simulate base data</span></span>
+<span id="cb361-5"><a href="further-regression-methods.html#cb361-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb361-6"><a href="further-regression-methods.html#cb361-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb361-7"><a href="further-regression-methods.html#cb361-7" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb361-8"><a href="further-regression-methods.html#cb361-8" tabindex="-1"></a>df_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb361-9"><a href="further-regression-methods.html#cb361-9" tabindex="-1"></a></span>
+<span id="cb361-10"><a href="further-regression-methods.html#cb361-10" tabindex="-1"></a><span class="co"># Reference x-values and corresponding lambdas</span></span>
+<span id="cb361-11"><a href="further-regression-methods.html#cb361-11" tabindex="-1"></a>x_ref <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
+<span id="cb361-12"><a href="further-regression-methods.html#cb361-12" tabindex="-1"></a>lambda_ref <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x_ref <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb361-13"><a href="further-regression-methods.html#cb361-13" tabindex="-1"></a>width <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># horizontal stretch of the density curves</span></span>
+<span id="cb361-14"><a href="further-regression-methods.html#cb361-14" tabindex="-1"></a></span>
+<span id="cb361-15"><a href="further-regression-methods.html#cb361-15" tabindex="-1"></a><span class="co"># Generate only the right half of each Poisson density curve</span></span>
+<span id="cb361-16"><a href="further-regression-methods.html#cb361-16" tabindex="-1"></a>poisson_curves <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(x_ref), <span class="cf">function</span>(i) {</span>
+<span id="cb361-17"><a href="further-regression-methods.html#cb361-17" tabindex="-1"></a>  lam <span class="ot">&lt;-</span> lambda_ref[i]</span>
+<span id="cb361-18"><a href="further-regression-methods.html#cb361-18" tabindex="-1"></a>  xx <span class="ot">&lt;-</span> x_ref[i]</span>
+<span id="cb361-19"><a href="further-regression-methods.html#cb361-19" tabindex="-1"></a>  y_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb361-20"><a href="further-regression-methods.html#cb361-20" tabindex="-1"></a>  d_vals <span class="ot">&lt;-</span> <span class="fu">dpois</span>(y_vals, lam)</span>
+<span id="cb361-21"><a href="further-regression-methods.html#cb361-21" tabindex="-1"></a>  </span>
+<span id="cb361-22"><a href="further-regression-methods.html#cb361-22" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb361-23"><a href="further-regression-methods.html#cb361-23" tabindex="-1"></a>    <span class="at">x =</span> xx <span class="sc">+</span> d_vals <span class="sc">*</span> width,</span>
+<span id="cb361-24"><a href="further-regression-methods.html#cb361-24" tabindex="-1"></a>    <span class="at">y =</span> y_vals,</span>
+<span id="cb361-25"><a href="further-regression-methods.html#cb361-25" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">paste0</span>(<span class="st">&quot;x = &quot;</span>, xx)</span>
+<span id="cb361-26"><a href="further-regression-methods.html#cb361-26" tabindex="-1"></a>  )</span>
+<span id="cb361-27"><a href="further-regression-methods.html#cb361-27" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb361-28"><a href="further-regression-methods.html#cb361-28" tabindex="-1"></a></span>
+<span id="cb361-29"><a href="further-regression-methods.html#cb361-29" tabindex="-1"></a><span class="co"># Integer y values for horizontal reference lines</span></span>
+<span id="cb361-30"><a href="further-regression-methods.html#cb361-30" tabindex="-1"></a>y_breaks <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(df_points<span class="sc">$</span>y)</span>
+<span id="cb361-31"><a href="further-regression-methods.html#cb361-31" tabindex="-1"></a></span>
+<span id="cb361-32"><a href="further-regression-methods.html#cb361-32" tabindex="-1"></a><span class="co"># Lambda curve: exp(0.5 * x - 2)</span></span>
+<span id="cb361-33"><a href="further-regression-methods.html#cb361-33" tabindex="-1"></a>lambda_curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb361-34"><a href="further-regression-methods.html#cb361-34" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df_points<span class="sc">$</span>x), <span class="fu">max</span>(df_points<span class="sc">$</span>x), <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb361-35"><a href="further-regression-methods.html#cb361-35" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb361-36"><a href="further-regression-methods.html#cb361-36" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb361-37"><a href="further-regression-methods.html#cb361-37" tabindex="-1"></a></span>
+<span id="cb361-38"><a href="further-regression-methods.html#cb361-38" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb361-39"><a href="further-regression-methods.html#cb361-39" tabindex="-1"></a><span class="fu">ggplot</span>(df_points, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb361-40"><a href="further-regression-methods.html#cb361-40" tabindex="-1"></a>  <span class="co"># scatterplot</span></span>
+<span id="cb361-41"><a href="further-regression-methods.html#cb361-41" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb361-42"><a href="further-regression-methods.html#cb361-42" tabindex="-1"></a>  <span class="co"># vertical dashed reference lines</span></span>
+<span id="cb361-43"><a href="further-regression-methods.html#cb361-43" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_ref, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb361-44"><a href="further-regression-methods.html#cb361-44" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb361-45"><a href="further-regression-methods.html#cb361-45" tabindex="-1"></a>  <span class="co"># horizontal dashed lines at integer y-values</span></span>
+<span id="cb361-46"><a href="further-regression-methods.html#cb361-46" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_breaks, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb361-47"><a href="further-regression-methods.html#cb361-47" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray50&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb361-48"><a href="further-regression-methods.html#cb361-48" tabindex="-1"></a>  <span class="co"># right half of Poisson curves</span></span>
+<span id="cb361-49"><a href="further-regression-methods.html#cb361-49" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> poisson_curves, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group),</span>
+<span id="cb361-50"><a href="further-regression-methods.html#cb361-50" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb361-51"><a href="further-regression-methods.html#cb361-51" tabindex="-1"></a>  <span class="co"># lambda curve</span></span>
+<span id="cb361-52"><a href="further-regression-methods.html#cb361-52" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> lambda_curve, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
+<span id="cb361-53"><a href="further-regression-methods.html#cb361-53" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>) <span class="sc">+</span></span>
+<span id="cb361-54"><a href="further-regression-methods.html#cb361-54" tabindex="-1"></a>  <span class="co"># x-axis only at reference points</span></span>
+<span id="cb361-55"><a href="further-regression-methods.html#cb361-55" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> x_ref) <span class="sc">+</span></span>
+<span id="cb361-56"><a href="further-regression-methods.html#cb361-56" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb361-57"><a href="further-regression-methods.html#cb361-57" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Poisson Model: Densities and Lambda(x) = exp(0.5x - 2)&quot;</span>,</span>
+<span id="cb361-58"><a href="further-regression-methods.html#cb361-58" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb361-59"><a href="further-regression-methods.html#cb361-59" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;y&quot;</span></span>
+<span id="cb361-60"><a href="further-regression-methods.html#cb361-60" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb361-61"><a href="further-regression-methods.html#cb361-61" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb361-62"><a href="further-regression-methods.html#cb361-62" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <ul>
 <li>In red, I drew some conditional Poisson densities (at <span class="math inline">\(x = 2, 4, 6, 8\)</span>):
@@ -2417,23 +2422,23 @@ Let’s see if we can recover the coefficients correctly.
 We would adjust the priors in a real-world scenario and do
 prior predictive distributions (see <a href="further-regression-methods.html#exercise16_LMM">exercise 16</a>). According to the book, the flat priors for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>
 are not such a good idea (creates extreme values).</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="further-regression-methods.html#cb359-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
-<span id="cb359-2"><a href="further-regression-methods.html#cb359-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb359-3"><a href="further-regression-methods.html#cb359-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb359-4"><a href="further-regression-methods.html#cb359-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb359-5"><a href="further-regression-methods.html#cb359-5" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb359-6"><a href="further-regression-methods.html#cb359-6" tabindex="-1"></a></span>
-<span id="cb359-7"><a href="further-regression-methods.html#cb359-7" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
-<span id="cb359-8"><a href="further-regression-methods.html#cb359-8" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
-<span id="cb359-9"><a href="further-regression-methods.html#cb359-9" tabindex="-1"></a>    y <span class="sc">~</span> <span class="fu">dpois</span>(lambda),</span>
-<span id="cb359-10"><a href="further-regression-methods.html#cb359-10" tabindex="-1"></a>    <span class="fu">log</span>(lambda) <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> x,</span>
-<span id="cb359-11"><a href="further-regression-methods.html#cb359-11" tabindex="-1"></a>    a <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb359-12"><a href="further-regression-methods.html#cb359-12" tabindex="-1"></a>    b <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb359-13"><a href="further-regression-methods.html#cb359-13" tabindex="-1"></a>  ),</span>
-<span id="cb359-14"><a href="further-regression-methods.html#cb359-14" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
-<span id="cb359-15"><a href="further-regression-methods.html#cb359-15" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,</span>
-<span id="cb359-16"><a href="further-regression-methods.html#cb359-16" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span></span>
-<span id="cb359-17"><a href="further-regression-methods.html#cb359-17" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="further-regression-methods.html#cb362-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb362-2"><a href="further-regression-methods.html#cb362-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb362-3"><a href="further-regression-methods.html#cb362-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb362-4"><a href="further-regression-methods.html#cb362-4" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb362-5"><a href="further-regression-methods.html#cb362-5" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb362-6"><a href="further-regression-methods.html#cb362-6" tabindex="-1"></a></span>
+<span id="cb362-7"><a href="further-regression-methods.html#cb362-7" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ulam</span>(</span>
+<span id="cb362-8"><a href="further-regression-methods.html#cb362-8" tabindex="-1"></a>  <span class="fu">alist</span>(</span>
+<span id="cb362-9"><a href="further-regression-methods.html#cb362-9" tabindex="-1"></a>    y <span class="sc">~</span> <span class="fu">dpois</span>(lambda),</span>
+<span id="cb362-10"><a href="further-regression-methods.html#cb362-10" tabindex="-1"></a>    <span class="fu">log</span>(lambda) <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> x,</span>
+<span id="cb362-11"><a href="further-regression-methods.html#cb362-11" tabindex="-1"></a>    a <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb362-12"><a href="further-regression-methods.html#cb362-12" tabindex="-1"></a>    b <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb362-13"><a href="further-regression-methods.html#cb362-13" tabindex="-1"></a>  ),</span>
+<span id="cb362-14"><a href="further-regression-methods.html#cb362-14" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb362-15"><a href="further-regression-methods.html#cb362-15" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,</span>
+<span id="cb362-16"><a href="further-regression-methods.html#cb362-16" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span></span>
+<span id="cb362-17"><a href="further-regression-methods.html#cb362-17" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Running MCMC with 4 sequential chains, with 1 thread(s) per chain...
 ## 
 ## Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
@@ -2531,63 +2536,63 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.8 seconds.</code></pre>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="further-regression-methods.html#cb361-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
+## Total execution time: 0.7 seconds.</code></pre>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="further-regression-methods.html#cb364-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
 ## b  0.4769544 0.03263889  0.4252908  0.5295135 1.003665 793.8840</code></pre>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="further-regression-methods.html#cb363-1" tabindex="-1"></a><span class="co"># looks good!</span></span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="further-regression-methods.html#cb366-1" tabindex="-1"></a><span class="co"># looks good!</span></span></code></pre></div>
 <p>If you like, you can plot a confidence band for the mean and
 predicted values:</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="further-regression-methods.html#cb364-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
-<span id="cb364-2"><a href="further-regression-methods.html#cb364-2" tabindex="-1"></a>x_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(df<span class="sc">$</span>x), <span class="at">to =</span> <span class="fu">max</span>(df<span class="sc">$</span>x), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb364-3"><a href="further-regression-methods.html#cb364-3" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x_seq)</span>
-<span id="cb364-4"><a href="further-regression-methods.html#cb364-4" tabindex="-1"></a>lambda_pred <span class="ot">&lt;-</span> <span class="fu">link</span>(model, <span class="at">data =</span> pred_data)</span>
-<span id="cb364-5"><a href="further-regression-methods.html#cb364-5" tabindex="-1"></a>y_pred <span class="ot">&lt;-</span> rethinking<span class="sc">::</span><span class="fu">sim</span>(model, <span class="at">data =</span> pred_data)</span>
-<span id="cb364-6"><a href="further-regression-methods.html#cb364-6" tabindex="-1"></a>lambda_mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(lambda_pred, <span class="dv">2</span>, mean)</span>
-<span id="cb364-7"><a href="further-regression-methods.html#cb364-7" tabindex="-1"></a>lambda_ci <span class="ot">&lt;-</span> <span class="fu">apply</span>(lambda_pred, <span class="dv">2</span>, PI, <span class="at">prob =</span> <span class="fl">0.89</span>)</span>
-<span id="cb364-8"><a href="further-regression-methods.html#cb364-8" tabindex="-1"></a>y_ci <span class="ot">&lt;-</span> <span class="fu">apply</span>(y_pred, <span class="dv">2</span>, PI, <span class="at">prob =</span> <span class="fl">0.89</span>)</span>
-<span id="cb364-9"><a href="further-regression-methods.html#cb364-9" tabindex="-1"></a></span>
-<span id="cb364-10"><a href="further-regression-methods.html#cb364-10" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">col =</span> ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;black&quot;</span>, <span class="fl">0.4</span>), <span class="at">pch =</span> <span class="dv">16</span>,</span>
-<span id="cb364-11"><a href="further-regression-methods.html#cb364-11" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Posterior Predictions with 89% CI&quot;</span>)</span>
-<span id="cb364-12"><a href="further-regression-methods.html#cb364-12" tabindex="-1"></a><span class="fu">lines</span>(x_seq, lambda_mean, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb364-13"><a href="further-regression-methods.html#cb364-13" tabindex="-1"></a><span class="fu">shade</span>(lambda_ci, x_seq, <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.2</span>))</span>
-<span id="cb364-14"><a href="further-regression-methods.html#cb364-14" tabindex="-1"></a><span class="fu">shade</span>(y_ci, x_seq, <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="further-regression-methods.html#cb367-1" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb367-2"><a href="further-regression-methods.html#cb367-2" tabindex="-1"></a>x_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(df<span class="sc">$</span>x), <span class="at">to =</span> <span class="fu">max</span>(df<span class="sc">$</span>x), <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb367-3"><a href="further-regression-methods.html#cb367-3" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x_seq)</span>
+<span id="cb367-4"><a href="further-regression-methods.html#cb367-4" tabindex="-1"></a>lambda_pred <span class="ot">&lt;-</span> <span class="fu">link</span>(model, <span class="at">data =</span> pred_data)</span>
+<span id="cb367-5"><a href="further-regression-methods.html#cb367-5" tabindex="-1"></a>y_pred <span class="ot">&lt;-</span> rethinking<span class="sc">::</span><span class="fu">sim</span>(model, <span class="at">data =</span> pred_data)</span>
+<span id="cb367-6"><a href="further-regression-methods.html#cb367-6" tabindex="-1"></a>lambda_mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(lambda_pred, <span class="dv">2</span>, mean)</span>
+<span id="cb367-7"><a href="further-regression-methods.html#cb367-7" tabindex="-1"></a>lambda_ci <span class="ot">&lt;-</span> <span class="fu">apply</span>(lambda_pred, <span class="dv">2</span>, PI, <span class="at">prob =</span> <span class="fl">0.89</span>)</span>
+<span id="cb367-8"><a href="further-regression-methods.html#cb367-8" tabindex="-1"></a>y_ci <span class="ot">&lt;-</span> <span class="fu">apply</span>(y_pred, <span class="dv">2</span>, PI, <span class="at">prob =</span> <span class="fl">0.89</span>)</span>
+<span id="cb367-9"><a href="further-regression-methods.html#cb367-9" tabindex="-1"></a></span>
+<span id="cb367-10"><a href="further-regression-methods.html#cb367-10" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">col =</span> ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;black&quot;</span>, <span class="fl">0.4</span>), <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb367-11"><a href="further-regression-methods.html#cb367-11" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Posterior Predictions with 89% CI&quot;</span>)</span>
+<span id="cb367-12"><a href="further-regression-methods.html#cb367-12" tabindex="-1"></a><span class="fu">lines</span>(x_seq, lambda_mean, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb367-13"><a href="further-regression-methods.html#cb367-13" tabindex="-1"></a><span class="fu">shade</span>(lambda_ci, x_seq, <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.2</span>))</span>
+<span id="cb367-14"><a href="further-regression-methods.html#cb367-14" tabindex="-1"></a><span class="fu">shade</span>(y_ci, x_seq, <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.1</span>))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
 <p>The dark shaded red area is the 89% confidence band for the mean of the outcome,
 while the light shaded red area is the 89% confidence band for the predicted values of the outcome.</p>
 <p>The posterior predictive distribution looks very appealing (of course):</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="further-regression-methods.html#cb365-1" tabindex="-1"></a><span class="co"># Simulate 1000 posterior predictive datasets (each row = one simulation)</span></span>
-<span id="cb365-2"><a href="further-regression-methods.html#cb365-2" tabindex="-1"></a>y_sim <span class="ot">&lt;-</span> rethinking<span class="sc">::</span><span class="fu">sim</span>(model, <span class="at">data =</span> df)  <span class="co"># df must contain &#39;x&#39; for conditioning</span></span>
-<span id="cb365-3"><a href="further-regression-methods.html#cb365-3" tabindex="-1"></a></span>
-<span id="cb365-4"><a href="further-regression-methods.html#cb365-4" tabindex="-1"></a><span class="co"># Select 100 draws for visualization</span></span>
-<span id="cb365-5"><a href="further-regression-methods.html#cb365-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb365-6"><a href="further-regression-methods.html#cb365-6" tabindex="-1"></a>draws_to_plot <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(y_sim), <span class="at">size =</span> <span class="dv">100</span>)</span>
-<span id="cb365-7"><a href="further-regression-methods.html#cb365-7" tabindex="-1"></a></span>
-<span id="cb365-8"><a href="further-regression-methods.html#cb365-8" tabindex="-1"></a><span class="co"># Prepare an empty plot</span></span>
-<span id="cb365-9"><a href="further-regression-methods.html#cb365-9" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>,</span>
-<span id="cb365-10"><a href="further-regression-methods.html#cb365-10" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">range</span>(df<span class="sc">$</span>y), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>),</span>
-<span id="cb365-11"><a href="further-regression-methods.html#cb365-11" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>,</span>
-<span id="cb365-12"><a href="further-regression-methods.html#cb365-12" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Posterior Predictive Check (Simulated y vs. Observed y)&quot;</span>)</span>
-<span id="cb365-13"><a href="further-regression-methods.html#cb365-13" tabindex="-1"></a></span>
-<span id="cb365-14"><a href="further-regression-methods.html#cb365-14" tabindex="-1"></a><span class="co"># Draw the predictive densities (blue curves)</span></span>
-<span id="cb365-15"><a href="further-regression-methods.html#cb365-15" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> draws_to_plot) {</span>
-<span id="cb365-16"><a href="further-regression-methods.html#cb365-16" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="fu">density</span>(y_sim[i, ]), <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.1</span>))</span>
-<span id="cb365-17"><a href="further-regression-methods.html#cb365-17" tabindex="-1"></a>}</span>
-<span id="cb365-18"><a href="further-regression-methods.html#cb365-18" tabindex="-1"></a></span>
-<span id="cb365-19"><a href="further-regression-methods.html#cb365-19" tabindex="-1"></a><span class="co"># Overlay the observed data density (green curve)</span></span>
-<span id="cb365-20"><a href="further-regression-methods.html#cb365-20" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(df<span class="sc">$</span>y), <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb365-21"><a href="further-regression-methods.html#cb365-21" tabindex="-1"></a><span class="co"># Add a legend</span></span>
-<span id="cb365-22"><a href="further-regression-methods.html#cb365-22" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Simulated y&quot;</span>, <span class="st">&quot;Observed y&quot;</span>),</span>
-<span id="cb365-23"><a href="further-regression-methods.html#cb365-23" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="further-regression-methods.html#cb368-1" tabindex="-1"></a><span class="co"># Simulate 1000 posterior predictive datasets (each row = one simulation)</span></span>
+<span id="cb368-2"><a href="further-regression-methods.html#cb368-2" tabindex="-1"></a>y_sim <span class="ot">&lt;-</span> rethinking<span class="sc">::</span><span class="fu">sim</span>(model, <span class="at">data =</span> df)  <span class="co"># df must contain &#39;x&#39; for conditioning</span></span>
+<span id="cb368-3"><a href="further-regression-methods.html#cb368-3" tabindex="-1"></a></span>
+<span id="cb368-4"><a href="further-regression-methods.html#cb368-4" tabindex="-1"></a><span class="co"># Select 100 draws for visualization</span></span>
+<span id="cb368-5"><a href="further-regression-methods.html#cb368-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb368-6"><a href="further-regression-methods.html#cb368-6" tabindex="-1"></a>draws_to_plot <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(y_sim), <span class="at">size =</span> <span class="dv">100</span>)</span>
+<span id="cb368-7"><a href="further-regression-methods.html#cb368-7" tabindex="-1"></a></span>
+<span id="cb368-8"><a href="further-regression-methods.html#cb368-8" tabindex="-1"></a><span class="co"># Prepare an empty plot</span></span>
+<span id="cb368-9"><a href="further-regression-methods.html#cb368-9" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>,</span>
+<span id="cb368-10"><a href="further-regression-methods.html#cb368-10" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">range</span>(df<span class="sc">$</span>y), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>),</span>
+<span id="cb368-11"><a href="further-regression-methods.html#cb368-11" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>,</span>
+<span id="cb368-12"><a href="further-regression-methods.html#cb368-12" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Posterior Predictive Check (Simulated y vs. Observed y)&quot;</span>)</span>
+<span id="cb368-13"><a href="further-regression-methods.html#cb368-13" tabindex="-1"></a></span>
+<span id="cb368-14"><a href="further-regression-methods.html#cb368-14" tabindex="-1"></a><span class="co"># Draw the predictive densities (blue curves)</span></span>
+<span id="cb368-15"><a href="further-regression-methods.html#cb368-15" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> draws_to_plot) {</span>
+<span id="cb368-16"><a href="further-regression-methods.html#cb368-16" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="fu">density</span>(y_sim[i, ]), <span class="at">col =</span> <span class="fu">col.alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.1</span>))</span>
+<span id="cb368-17"><a href="further-regression-methods.html#cb368-17" tabindex="-1"></a>}</span>
+<span id="cb368-18"><a href="further-regression-methods.html#cb368-18" tabindex="-1"></a></span>
+<span id="cb368-19"><a href="further-regression-methods.html#cb368-19" tabindex="-1"></a><span class="co"># Overlay the observed data density (green curve)</span></span>
+<span id="cb368-20"><a href="further-regression-methods.html#cb368-20" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(df<span class="sc">$</span>y), <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb368-21"><a href="further-regression-methods.html#cb368-21" tabindex="-1"></a><span class="co"># Add a legend</span></span>
+<span id="cb368-22"><a href="further-regression-methods.html#cb368-22" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Simulated y&quot;</span>, <span class="st">&quot;Observed y&quot;</span>),</span>
+<span id="cb368-23"><a href="further-regression-methods.html#cb368-23" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
 </div>
 <div id="frequentist_poisson_regression" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Frequentist Poisson Regression<a href="further-regression-methods.html#frequentist_poisson_regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Since Poisson regression is a generalized linear model (with log as link function “g”),
 we can use the <code>glm</code> function in R:</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="further-regression-methods.html#cb366-1" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>))</span>
-<span id="cb366-2"><a href="further-regression-methods.html#cb366-2" tabindex="-1"></a><span class="fu">summary</span>(mod_glm)</span></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="further-regression-methods.html#cb369-1" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>))</span>
+<span id="cb369-2"><a href="further-regression-methods.html#cb369-2" tabindex="-1"></a><span class="fu">summary</span>(mod_glm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = y ~ x, family = poisson(link = &quot;log&quot;), data = df)
@@ -2606,7 +2611,7 @@ we can use the <code>glm</code> function in R:</p>
 ## AIC: 331.57
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="further-regression-methods.html#cb368-1" tabindex="-1"></a><span class="fu">confint</span>(mod_glm)</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="further-regression-methods.html#cb371-1" tabindex="-1"></a><span class="fu">confint</span>(mod_glm)</span></code></pre></div>
 <pre><code>## Waiting for profiling to be done...</code></pre>
 <pre><code>##                  2.5 %     97.5 %
 ## (Intercept) -2.4652450 -1.4995384
@@ -2631,8 +2636,8 @@ is interesting)</p>
 <p>This is trivial in our case, since we have simulated the data in such a way.
 But <em>if</em> we did not do that, we could check the posterior predictive distribution
 (which we have already done in the Bayesian model):</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="further-regression-methods.html#cb371-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
-<span id="cb371-2"><a href="further-regression-methods.html#cb371-2" tabindex="-1"></a><span class="fu">check_model</span>(mod_glm, <span class="at">check =</span> <span class="st">&quot;pp_check&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="further-regression-methods.html#cb374-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb374-2"><a href="further-regression-methods.html#cb374-2" tabindex="-1"></a><span class="fu">check_model</span>(mod_glm, <span class="at">check =</span> <span class="st">&quot;pp_check&quot;</span>)</span></code></pre></div>
 <pre><code>## Cannot simulate residuals for models of class `glm`. Please try
 ##   `check_model(..., residual_type = &quot;normal&quot;)` instead.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
@@ -2662,9 +2667,9 @@ a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: 
 <code>Residual deviance: 108.22  on 98  degrees of freedom</code></p>
 <p><span class="math display">\[ \text{Dispersion} = \frac{\text{Residual Deviance}}{\text{df}} = \frac{108.22}{98} \approx 1.10 \]</span></p>
 <p>We can (exploratively) look at a <span class="math inline">\(p\)</span>-value for the dispersion parameter:</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="further-regression-methods.html#cb373-1" tabindex="-1"></a>mod_glm<span class="sc">$</span>deviance<span class="sc">/</span>mod_glm<span class="sc">$</span>df.residual <span class="co"># dispersion</span></span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="further-regression-methods.html#cb376-1" tabindex="-1"></a>mod_glm<span class="sc">$</span>deviance<span class="sc">/</span>mod_glm<span class="sc">$</span>df.residual <span class="co"># dispersion</span></span></code></pre></div>
 <pre><code>## [1] 1.104287</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="further-regression-methods.html#cb375-1" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="further-regression-methods.html#cb378-1" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code></pre></div>
 <pre><code>## Loading required package: lmtest</code></pre>
 <pre><code>## Loading required package: zoo</code></pre>
 <pre><code>## 
@@ -2677,7 +2682,7 @@ a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: 
 ##     as.Date, as.Date.numeric</code></pre>
 <pre><code>## Loading required package: sandwich</code></pre>
 <pre><code>## Loading required package: survival</code></pre>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="further-regression-methods.html#cb383-1" tabindex="-1"></a><span class="fu">dispersiontest</span>(mod_glm, <span class="at">trafo =</span> <span class="dv">1</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="further-regression-methods.html#cb386-1" tabindex="-1"></a><span class="fu">dispersiontest</span>(mod_glm, <span class="at">trafo =</span> <span class="dv">1</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>) </span></code></pre></div>
 <pre><code>## 
 ##  Overdispersion test
 ## 
@@ -2688,8 +2693,8 @@ a dispersion parameter is assumed to be <span class="math inline">\(1\)</span>: 
 ##        alpha 
 ## -0.005479567</code></pre>
 <p>There is also a test in the <code>performance</code> package:</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="further-regression-methods.html#cb385-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
-<span id="cb385-2"><a href="further-regression-methods.html#cb385-2" tabindex="-1"></a><span class="fu">check_overdispersion</span>(mod_glm)</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="further-regression-methods.html#cb388-1" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb388-2"><a href="further-regression-methods.html#cb388-2" tabindex="-1"></a><span class="fu">check_overdispersion</span>(mod_glm)</span></code></pre></div>
 <pre><code>## # Overdispersion test
 ## 
 ##        dispersion ratio =  0.996
