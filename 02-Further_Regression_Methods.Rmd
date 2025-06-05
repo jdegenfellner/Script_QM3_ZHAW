@@ -948,7 +948,11 @@ modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
 summary(modlog)
 ```
 
-- `glm`stands for [*generalized linear model*](https://en.wikipedia.org/wiki/Generalized_linear_model).
+- `glm`stands for 
+  [*generalized linear model*](https://en.wikipedia.org/wiki/Generalized_linear_model).
+  "The GLM generalizes linear regression by allowing the linear model to be related to the 
+  response variable via a link function and by allowing the magnitude of the variance 
+  of each measurement to be a function of its predicted value."
 - `family = binomial(link = "logit")` specifies that we want to use the 
   binomial distribution with the `logit` link function $g$.
   In generalized linear models, the link function is used to connect the linear predictor
@@ -1001,7 +1005,7 @@ summary(modlog)
   -2 * logLik(glm(y ~ 1, family = binomial(link = "logit")))
   ```
 
-- `Residual deviance` is the deviance of the model with the predictors.
+- `Residual deviance` is the deviance of the model with the predictors (in our case: `AGE`).
    ```{r}
     -2 * logLik(modlog)
    ```
