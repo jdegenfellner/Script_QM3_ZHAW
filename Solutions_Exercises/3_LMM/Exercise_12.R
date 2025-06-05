@@ -1,4 +1,3 @@
-# TODO.......
 # ex 12 simple log reg
 
 # maybe Figure 2 here helps:

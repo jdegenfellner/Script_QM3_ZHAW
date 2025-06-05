@@ -9,6 +9,7 @@
 exp(0.5)
 # -> 1 hour later (ref 2 PM) would imply that the average number of customers
 # per 10 min is larger by factor of 1.65, hence grows exponentially.
+
 # a sales person could observe 2.5-fold increase with a rough 
 # CI of 1.5 to 4.5, hence a 95% CI of (1.5, 4.5) for the factor.
 # assuming this insecurity is symmetric, one could take a normal prior:
