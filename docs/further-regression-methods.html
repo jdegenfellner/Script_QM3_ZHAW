@@ -610,7 +610,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprD0mAf/model-10ee84b8bad45.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmplcQCGM/model-1193c14a45cd2.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1385,7 +1385,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmprD0mAf/model-10ee8396bb999.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmplcQCGM/model-1193c4b937c30.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1400,9 +1400,9 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
@@ -1432,12 +1432,12 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.0 seconds.
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 3 finished in 4.1 seconds.
+## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.0 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 4.2 seconds.
+## Chain 4 finished in 4.1 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 1 finished in 4.3 seconds.
 ## 
@@ -2231,7 +2231,8 @@ which the outcome is always <span class="math inline">\(0\)</span> and above whi
 R will throw an error if this is the case. In such a case you would not bother
 with logistic regression, but introduce a simple decision rule.</li>
 <li>Linear relationship between predictors and log-odds of the outcome.
-We might see this assumption violated in the deviance residuals if there are patterns,
+We might see this assumption violated in the <a href="https://library.virginia.edu/data/articles/understanding-deviance-residuals">deviance residuals</a>
+if there are patterns,
 which is typically a hint that the model does not yet capture the structure of
 the association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> sufficiently.</li>
 <li>No <a href="https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#multicollinearity">multicollinearity</a>.</li>
@@ -2536,7 +2537,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.7 seconds.</code></pre>
+## Total execution time: 0.8 seconds.</code></pre>
 <div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="further-regression-methods.html#cb364-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
