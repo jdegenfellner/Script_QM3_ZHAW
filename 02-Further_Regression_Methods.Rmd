@@ -1932,3 +1932,12 @@ Consider the section about [Bayesian Poisson regression](#bayesian_poisson_regre
 
 - Adapt the priors for $\alpha$ and $\beta$ to be more informative.
 - Do prior predictive checks to see if the priors make sense.
+
+## Exam Information (Jun 2025)
+
+- Content of the written exam is **everything** up to the prediction 
+  plot (red shaded) for [Poisson regression](https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#poisson-regression).
+- The exam will take place on **11.6.25 8:30 am, room: MG O1.057**.
+- **One** sheet of A4 paper with handwritten notes is allowed.
+- A simple calculator is allowed, but probably not needed.
+- Bring, as always, your black marker.

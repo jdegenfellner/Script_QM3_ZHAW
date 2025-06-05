@@ -69,6 +69,7 @@ exercise13_LMM
 exercise14_LMM
 exercise15_LMM
 exercise16_LMM
+exam-information-jun-2025
 artificial-intelligence-ai
 introduction
 a-short-history-of-ai

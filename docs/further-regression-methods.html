@@ -216,6 +216,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5.15" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise15_LMM"><i class="fa fa-check"></i><b>3.5.15</b> [H] Exercise 15</a></li>
 <li class="chapter" data-level="3.5.16" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exercise16_LMM"><i class="fa fa-check"></i><b>3.5.16</b> [M] Exercise 16</a></li>
 </ul></li>
+<li class="chapter" data-level="3.6" data-path="further-regression-methods.html"><a href="further-regression-methods.html#exam-information-jun-2025"><i class="fa fa-check"></i><b>3.6</b> Exam Information (Jun 2025)</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html"><i class="fa fa-check"></i><b>4</b> Artificial Intelligence (AI)</a>
 <ul>
@@ -610,7 +611,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpnoW6tF/model-144a7465fb562.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpKCbfYa/model-1840e4c08ee33.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1385,7 +1386,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpnoW6tF/model-144a76d054f45.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpKCbfYa/model-1840e18cb2654.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1433,8 +1434,8 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 2 finished in 4.0 seconds.
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.1 seconds.
 ## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 4.2 seconds.
@@ -1443,7 +1444,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 4.2 seconds.
-## Total execution time: 4.5 seconds.</code></pre>
+## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
 ## u[1]                 -0.337127662 0.34253797 -0.89186510  0.196422865 1.0035274
@@ -2313,7 +2314,7 @@ which are of course non-negative.</p>
 <p>It is a very elegant distribution, since the mean (<span class="math inline">\(\mu\)</span>) is equal
 to the variance (<span class="math inline">\(\sigma^2\)</span>) and you only have one parameter <span class="math inline">\(\lambda &gt; 0\)</span>:
 <span class="math display">\[\mathbb{E}(Y) = \mu = \sigma^2 = \lambda\]</span></p>
-<p>The above equation implies that the variance increases in a regression model
+<p>The above equation implies that the <strong>variance increases</strong> in a regression model
 where we model the mean!</p>
 <p>In the <a href="https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html">book chapter</a>,
 there are 3 case studies. Feel free to read them.
@@ -2536,7 +2537,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.7 seconds.</code></pre>
+## Total execution time: 0.8 seconds.</code></pre>
 <div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="further-regression-methods.html#cb364-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
@@ -2942,8 +2943,19 @@ whereas <span class="math inline">\(y_i\)</span> is the observed outcome variabl
 <li>Adapt the priors for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to be more informative.</li>
 <li>Do prior predictive checks to see if the priors make sense.</li>
 </ul>
-
 </div>
+</div>
+<div id="exam-information-jun-2025" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Exam Information (Jun 2025)<a href="further-regression-methods.html#exam-information-jun-2025" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Content of the written exam is <strong>everything</strong> up to the prediction
+plot (red shaded) for <a href="https://jdegenfellner.github.io/Script_QM3_ZHAW/further-regression-methods.html#poisson-regression">Poisson regression</a>.</li>
+<li>The exam will take place on <strong>11.6.25 8:30 am, room: MG O1.057</strong>.</li>
+<li><strong>One</strong> sheet of A4 paper with handwritten notes is allowed.</li>
+<li>A simple calculator is allowed, but probably not needed.</li>
+<li>Bring, as always, your black marker.</li>
+</ul>
+
 </div>
 </div>
             </section>
