@@ -1338,26 +1338,8 @@ which means the variance is low.
   with logistic regression, but introduce a simple decision rule.
 - [Linear relationship](https://www.sthda.com/english/articles/36-classification-methods-essentials/148-logistic-regression-assumptions-and-diagnostics-in-r/) 
   between predictors and log-odds of the outcome.
-  Normally, this plot is not quite so perfect:
-  ```{r}
-   library(tidyverse)
-   pred_df <- data.frame(
-   AGE = AGE,
-   logit_hat = predict(modlog, 
-                       type = "link")  # linear predictor η = β0 + β1 * AGE
-   )
-   ggplot(pred_df, aes(x = AGE, y = logit_hat)) +
-    geom_point(color = "blue", alpha = 0.6) +
-    geom_smooth(method = "loess", se = FALSE, color = "red", lwd = 1.2) +
-    labs(
-      title = "Checking linearity in the logit: logit(p) vs. AGE",
-      x = "AGE (standardized)",
-      y = "Logit(p) = Linear predictor"
-    ) +
-    theme_minimal() +
-    theme(plot.title = element_text(hjust = 0.5))
-  ```
-
+  [Here](https://sscc.wisc.edu/sscc/pubs/RegDiag-R/logistic-regression.html#log_lin) 
+  a way to check linearity is explained.
 - No [multicollinearity](https://jdegenfellner.github.io/Script_QM2_ZHAW/multiple-linear-regression.html#multicollinearity).
 - No influential observations.
 
@@ -1367,7 +1349,7 @@ checks what is possible for the given model type):
 ```{r}
 library(performance)
 check_model(modlog, checks = c("pp_check", "residuals",
-                               "influential_observations"))
+                               "influential_observations", "linearity"))
 ```
 
 In [exercise 14](exercise14_LMM), we will look try to replicate the model checks.
