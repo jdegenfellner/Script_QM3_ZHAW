@@ -1090,12 +1090,6 @@ Hint: You can also use `gtsummary` and `tbl_regression` to present the results n
 Let's verify all this in R:
 
 ```{r}
-# probability-scale:
-predict(modlog, type = "response",
-        newdata = data.frame(AGE = 0))
-predict(modlog, type = "response",
-        newdata = data.frame(AGE = 1))
-
 # log-odds scale:
 predict(modlog, type = "link",
         newdata = data.frame(AGE = 0))
@@ -1108,6 +1102,12 @@ exp(predict(modlog, type = "link",
 exp(predict(modlog, type = "link",
             newdata = data.frame(AGE = 1)))
 6.175935 / 1.348729
+
+# probability-scale:
+predict(modlog, type = "response",
+        newdata = data.frame(AGE = 0))
+predict(modlog, type = "response",
+        newdata = data.frame(AGE = 1))
 ```
 
 Very nice.

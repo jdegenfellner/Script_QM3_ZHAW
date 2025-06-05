@@ -610,7 +610,7 @@ the more the intercepts are pulled towards the mean <span class="math inline">\(
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling)</code></pre>
 <pre><code>## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeNkeaD/model-f17338fcc1da.stan&#39;, line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpc0cp7p/model-fee412625540.stan&#39;, line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4</code></pre>
@@ -1385,7 +1385,7 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## 
 ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)</code></pre>
 <pre><code>## Chain 1 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
-<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/RtmpeNkeaD/model-f1737fea0f91.stan&#39;, line 29, column 4 to column 31)</code></pre>
+<pre><code>## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in &#39;/var/folders/pm/jd6n6gj10371_bml1gh8sc5w0000gn/T/Rtmpc0cp7p/model-fee4452bae30.stan&#39;, line 29, column 4 to column 31)</code></pre>
 <pre><code>## Chain 1 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
 <pre><code>## Chain 1 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
 <pre><code>## Chain 1</code></pre>
@@ -1434,15 +1434,15 @@ Refer to section 5.3 (Categorical variables) in the book <em>Rethinking</em> for
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 4.0 seconds.
-## Chain 3 finished in 4.0 seconds.
+## Chain 2 finished in 4.1 seconds.
+## Chain 3 finished in 4.1 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 4 finished in 4.2 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 4.3 seconds.
+## Chain 1 finished in 4.4 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 4.1 seconds.
+## Mean chain execution time: 4.2 seconds.
 ## Total execution time: 4.4 seconds.</code></pre>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="further-regression-methods.html#cb304-1" tabindex="-1"></a><span class="fu">precis</span>(m, <span class="at">depth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##                              mean         sd        5.5%        94.5%      rhat
@@ -1928,35 +1928,35 @@ The odds are therefore <span class="math inline">\(\frac{0.55}{1-0.55} = 1.22\)<
 </ul>
 <p>Hint: You can also use <code>gtsummary</code> and <code>tbl_regression</code> to present the results nicely.</p>
 <p>Let’s verify all this in R:</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="further-regression-methods.html#cb323-1" tabindex="-1"></a><span class="co"># probability-scale:</span></span>
-<span id="cb323-2"><a href="further-regression-methods.html#cb323-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="further-regression-methods.html#cb323-1" tabindex="-1"></a><span class="co"># log-odds scale:</span></span>
+<span id="cb323-2"><a href="further-regression-methods.html#cb323-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
 <span id="cb323-3"><a href="further-regression-methods.html#cb323-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
 <pre><code>##         1 
-## 0.5742377</code></pre>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="further-regression-methods.html#cb325-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
-<span id="cb325-2"><a href="further-regression-methods.html#cb325-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
-<pre><code>##         1 
-## 0.8606453</code></pre>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="further-regression-methods.html#cb327-1" tabindex="-1"></a><span class="co"># log-odds scale:</span></span>
-<span id="cb327-2"><a href="further-regression-methods.html#cb327-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb327-3"><a href="further-regression-methods.html#cb327-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
-<pre><code>##         1 
 ## 0.2991623</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="further-regression-methods.html#cb329-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb329-2"><a href="further-regression-methods.html#cb329-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="further-regression-methods.html#cb325-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb325-2"><a href="further-regression-methods.html#cb325-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##       1 
 ## 1.82066</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="further-regression-methods.html#cb331-1" tabindex="-1"></a><span class="co"># odds scale:</span></span>
-<span id="cb331-2"><a href="further-regression-methods.html#cb331-2" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb331-3"><a href="further-regression-methods.html#cb331-3" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="further-regression-methods.html#cb327-1" tabindex="-1"></a><span class="co"># odds scale:</span></span>
+<span id="cb327-2"><a href="further-regression-methods.html#cb327-2" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb327-3"><a href="further-regression-methods.html#cb327-3" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>)))</span></code></pre></div>
 <pre><code>##        1 
 ## 1.348729</code></pre>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="further-regression-methods.html#cb333-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
-<span id="cb333-2"><a href="further-regression-methods.html#cb333-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="further-regression-methods.html#cb329-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>,</span>
+<span id="cb329-2"><a href="further-regression-methods.html#cb329-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>)))</span></code></pre></div>
 <pre><code>##        1 
 ## 6.175935</code></pre>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="further-regression-methods.html#cb335-1" tabindex="-1"></a><span class="fl">6.175935</span> <span class="sc">/</span> <span class="fl">1.348729</span></span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="further-regression-methods.html#cb331-1" tabindex="-1"></a><span class="fl">6.175935</span> <span class="sc">/</span> <span class="fl">1.348729</span></span></code></pre></div>
 <pre><code>## [1] 4.579078</code></pre>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="further-regression-methods.html#cb333-1" tabindex="-1"></a><span class="co"># probability-scale:</span></span>
+<span id="cb333-2"><a href="further-regression-methods.html#cb333-2" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<span id="cb333-3"><a href="further-regression-methods.html#cb333-3" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">0</span>))</span></code></pre></div>
+<pre><code>##         1 
+## 0.5742377</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="further-regression-methods.html#cb335-1" tabindex="-1"></a><span class="fu">predict</span>(modlog, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>,</span>
+<span id="cb335-2"><a href="further-regression-methods.html#cb335-2" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">AGE =</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>##         1 
+## 0.8606453</code></pre>
 <p>Very nice.</p>
 <p>Another cool feature is to visualize the predicted probabilities
 with a <strong>confidence band</strong>:</p>
@@ -2531,7 +2531,7 @@ are not such a good idea (creates extreme values).</p>
 ## 
 ## All 4 chains finished successfully.
 ## Mean chain execution time: 0.1 seconds.
-## Total execution time: 0.7 seconds.</code></pre>
+## Total execution time: 0.8 seconds.</code></pre>
 <div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="further-regression-methods.html#cb361-1" tabindex="-1"></a><span class="fu">precis</span>(model)</span></code></pre></div>
 <pre><code>##         mean         sd       5.5%      94.5%     rhat ess_bulk
 ## a -1.8588351 0.22630184 -2.2248968 -1.4999451 1.004355 792.8623
