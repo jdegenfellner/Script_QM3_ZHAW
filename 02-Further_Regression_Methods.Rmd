@@ -895,7 +895,7 @@ plot(AGE, y, main = "Outcome variable with least squares regression line",
 abline(lm(y ~ AGE), col = "red", lwd = 2)
 ```
 
-The higher the `AGE`, the higher the probability of a 1 (heart attaack or something).
+The higher the `AGE`, the higher the probability of a 1 (heart attack or something).
 In this case (of a simulation) we know the trajectory of the *true* probabilities 
 varying with AGE.
 Of course, normally, we do not know this but conceptually asssume there 
@@ -916,17 +916,17 @@ The linear predictor ($\beta_0 + \beta_1 x_1 + \cdots \beta_p x_p$) could easily
 lie outside of the range $[0,1]$ (for adequate $\beta$s and covariate values).
 
 Therefore, we use the [**logit function**](https://en.wikipedia.org/wiki/Logit) to transform 
-the the probability from $[0,1]$ to $(-\infty, +\infty)$.
+the probability from $[0,1]$ to $(-\infty, +\infty)$.
 This transformed range can be conveniently described using a linear predictor again.
 The left side and the right side of the equation are now equal in range ($(-\infty, +\infty)$).
 Very nice.
 
-The model is then ($p=1$ for the simple logistic regression with only one predictor):
+The model is then ($k=1$ for the simple logistic regression with only one predictor):
 
 \[
 \begin{array}{rcl}
-\mathbb{P}(Y_i = 1 | x_{i1}, \ldots, x_{ip}) &=& \mathbb{E}(Y_i | x_{i1}, \ldots, x_{ip}) = p_i \\
-\text{logit}(p_i) &=& \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip} \\
+\mathbb{P}(Y_i = 1 | x_{i1}, \ldots, x_{ik}) &=& \mathbb{E}(Y_i | x_{i1}, \ldots, x_{ik}) = p_i \\
+\text{logit}(p_i) &=& \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ik} \\
 \end{array}
 \]
 
