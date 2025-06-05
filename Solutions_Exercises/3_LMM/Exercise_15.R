@@ -19,15 +19,10 @@ loss_function <- function(par, x, y) {
   sum((y - y_hat)^2)  # Sum of squared errors
 }
 
-# Optimierung
-set.seed(334)
-AGE <- rnorm(100)
-y <- rbinom(100, size = 1, prob = inv_logit(AGE))
-
 res <- optim(par = c(0, 0), fn = loss_function, x = AGE, y = y)
-
 res$par  # Estimated beta_0 and beta_1
 
 modlog <- glm(y ~ AGE, family = binomial(link = "logit"))
 summary(modlog)
 coef(modlog)  
+confint(modlog)
