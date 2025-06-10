@@ -87,7 +87,7 @@ When estimating the number of surviving tadpoles we could consider the following
 - **Partial pooling**: Estimate the survival probability for each tank, 
   but use information from the other tanks.
 
-#### Model 13.1. Partial pooling using regularizing priors {#model13_1}
+#### Model 13.1. No pooling using regularizing priors {#model13_1}
 
 Let's start with the second model (intercept for each tank) with a regularizing prior. 
 We want to model the
