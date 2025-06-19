@@ -1058,8 +1058,9 @@ table(df$abs_diff > 1.68)/sum(table(df$abs_diff > 1.68)) #
 ```
 
 The example shows that for the given value of ICC ($>0.8$) and MCID, the test retest reliability 
-is near random guessing with respect to detecting a change, since the second prediction is 
-very often outside the MCID (red dashed lines). Or in short: Even if Mary measures twice 
+is near random guessing with respect to detecting a change, since the second measurement is 
+very often outside the MCID (red dashed lines around the green dashed line of perfect identity). 
+Or in short: Even if Mary measures twice 
 with this ICC value, she will detect a clinically meaningful change in almost half of the cases, 
 although the underlying
 truth did not change. 
