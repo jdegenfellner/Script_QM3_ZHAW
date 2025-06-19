@@ -1060,21 +1060,22 @@ table(df$abs_diff > 1.68)/sum(table(df$abs_diff > 1.68)) #
 The example shows that for the given value of ICC ($>0.8$) and MCID, the test retest reliability 
 is near random guessing with respect to detecting a change, since the second measurement is 
 very often outside the MCID (red dashed lines around the green dashed line of perfect identity). 
-Or in short: Even if Mary measures twice 
-with this ICC value, she will detect a clinically meaningful change in almost half of the cases, 
-although the underlying
-truth did not change. 
 
-One could play around a little bit with the parameters here 
-(and maybe make the argument more rigorous),
-but my guess would be that the main message remains stable.
+The blue dashed lines show the *Smallest Detectable Change (SDC)*, 
+which is the smallest change that can be detected statistically. 
+As one would expect (by definition), only few points are outside this range.
 
-What do you think? Can you find literature or logical arguments against this
-simulation? I would be pleased to hear your thoughts.
+In our case of artificially generated data, the SDC is larger than the MCID.
+This is also true [in the literature](https://www.sciencedirect.com/science/article/pii/S1526590024004899#sec0080).
 
-What could come to the rescue of this systematic problem?
-I think one must consider more reliable scales simultaneously in order
-to make decicisions, specifically to determine if a change occured.
+Hence, we are in the case (b) of Figure 8.11 of the book "Measurement in Medicine" (p.260).
+Ideally, we want to be in case (a), where the SDC is smaller than the MCID (see also section 8.5.5. in the book).
+
+To answer the question in the title: On an indidivual level, instruments such as the HADS-A
+are not able to detect a clinically meaningful change at the individual level based on a single measurement.
+
+The instrument is useful again if one takes the mean of several measurements or groups of 
+patients are compared (see p.261).
 
 See [exercise 4](#exercise4) to try the above code with a score of your choosing.
 
