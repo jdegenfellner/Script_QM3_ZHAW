@@ -1023,6 +1023,12 @@ predict(mod, newdata = data.frame(TP1 = 10), interval = "prediction") # 95% pred
 # Prediction interval width is ~5 times our minimally clinically important 
 # change of 1.68 for HADS-A.
 
+# SEM = sd_difference/sqrt(2)
+(SEM <- sd(df$TP1 - df$TP2)/sqrt(2)) # 1.663973
+
+# SDC = 1.96*sqrt(2)*SEM
+(SDC <- 1.96 * sqrt(2) * SEM) # 4.61
+
 df %>% 
   ggplot(aes(x = TP1, y = TP2)) +
   # Color points conditionally
@@ -1034,8 +1040,10 @@ df %>%
   ggtitle("HADS-A and 95% Prediction Interval for TP2") +
   theme(plot.title = element_text(hjust = 0.5)) +
   geom_abline(intercept = 0, slope = 1, color = "green", linetype = "dashed") +
-  geom_abline(intercept = 1.68, slope = 1, color = "red", linetype = "dashed") +
-  geom_abline(intercept = -1.68, slope = 1, color = "red", linetype = "dashed")
+  geom_abline(intercept = 1.68, slope = 1, color = "red", linetype = "dashed") + # MCID upper
+  geom_abline(intercept = -1.68, slope = 1, color = "red", linetype = "dashed") +  # MCID lower
+  geom_abline(intercept = SDC, slope = 1, color = "blue", linetype = "dashed") + # SDC upper
+  geom_abline(intercept = -SDC, slope = 1, color = "blue", linetype = "dashed") # SDC lower
 
 # How often is TP2 within the MCIC of 1.68 points?---------
 df$abs_diff <- abs(df$TP1 - df$TP2)
