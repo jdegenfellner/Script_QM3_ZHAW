@@ -444,11 +444,11 @@ which is drawn from a normal distribution.
 So far, we have only looked at the general **$ICC$** (ICC1 in the `psych`output) 
 (see also page 106 in the book). 
 
-There, we have not yet explicitely considered a bias (=systematic difference 
+There, we have not yet explicitly considered a bias (=systematic difference 
 between the raters) that the raters could have. In the book,
 they introduce a bias of 5 degrees (Mary measures 5 degrees more than Peter on average).
 
-The **model für ICC 2 and 3** in the `psych` output explicitely considers this
+The **model for ICC 2 and 3** in the `psych` output explicitly considers this
 (systematic) difference that could occur between the raters. 
 This results in an extra term in the denominator
 of the ICC, an additional variance component.
@@ -472,7 +472,7 @@ when we scale or standardize the data.
 
 Admitted, the Bayesian version in this case takes longer and is more complex.
 The advantage is still that it's fully probabilistic and one could work with 
-detailed prior information, especially for smaller smaple sizes.
+detailed prior information, especially for smaller sample sizes.
 
 Anyhow, let's try to give the model equations considering
 the introduced bias. This is the model **for both** 
@@ -564,7 +564,7 @@ var_patients / (var_patients + var_residual)
 ```
 
 It should be noted that this ICC is very sensitive to the choice of the prior.
-If you choose too agressive priors for the standard deviations $\sigma_{\alpha}, 
+If you choose too aggressive priors for the standard deviations $\sigma_{\alpha}, 
 \sigma_{\beta}, \sigma_{\varepsilon}$, you will get a too low ICC.
 
 I have played around a little with the parameters in the exponential priors 
@@ -656,7 +656,7 @@ Let's talk about the first three **ICCs in the `psych` output**:
   ICC2 ($=ICC_{agreement}$ in the book) and ICC3 ($=ICC_{consistency}$ in the book) 
   are based on the **same (!)** statistical model. The only difference is
   that ICC2 assumes that the (in our case) 2 raters are randomly selected from a larger pool of raters,
-  hence, the rater variability must be explicitely considered and yields a potentially smaller
+  hence, the rater variability must be explicitly considered and yields a potentially smaller
   value for the ICC. Compared to ICC1, we have repeated measurements from the same raters
   in 50 patients. That's why we can model their bias. One observation would not be enough.
   The help file says: "A random sample of k judges rate each target. 
@@ -694,7 +694,7 @@ correlation (r) are the same (see Figure 5.3 in the book).
 
 $ICC_{consistency}$ vs. $ICC_{agreement}$:
 The latter is used, when we need Peter and Mary to concur in their measurements.
-Patients coming to Peters practice will get the same (or very similar) "diagnosis" (ROM-value)
+Patients coming to Peter's practice will get the same (or very similar) "diagnosis" (ROM-value)
 from Mary. When there is systematic difference (line is shifted downwards in Figure 5.3), 
 this cannot be guaranteed.
 If we only need Peter and Mary to *rank* the patients in the same order,
@@ -710,7 +710,7 @@ we can use $ICC_{consistency}$.
   If we go back to [the definition of the ICC above](#ICC), it follows that:
 
   $$Y_{1} + Y_{2} = 2 \eta + \varepsilon_1 + \varepsilon_2$$ 
-  for the same person with true $\eta$. Since ther errors $\varepsilon_i$ are 
+  for the same person with true $\eta$. Since the errors $\varepsilon_i$ are 
   independent and the true score $\eta$ is also independent from the errors, 
   it follows that:
 
@@ -752,7 +752,7 @@ measurements from the same rater).
 Also it makes intuitive sense, that 
 reliability increases or equivalently the unexplained variance decreases
 since we draw repeatedly from the same distribution ($\eta$ and an error term $\varepsilon$)
-and the central limit theorem guarantees that we can estimate $\eta$ as precicely 
+and the central limit theorem guarantees that we can estimate $\eta$ as precisely 
 as we want (variance of the mean goes to zero) if we only draw often enough.
 
 - **Average_raters_random ICC2/3k:**
@@ -782,7 +782,7 @@ These values are identical to the ICC2k and ICC3k in the `psych` output.
 ### Summary Peter and Mary, with and without bias (ICC1-3)
 
 Below, we summarize the results for the ICCs (calculated with `psych`)
-for the unbiased and biased case (Mary measures on average 5 degrees more than peter).
+for the unbiased and biased case (Mary measures on average 5 degrees more than Peter).
 
 ```{r}
 library(pacman)
@@ -818,16 +818,25 @@ icc_merged_df <- left_join(icc_unbiased_df,
                            by = "type") %>%
   slice(1:3)
 
-ft <- flextable(icc_merged_df) %>%
-  flextable::set_header_labels(type = "ICC Type") %>%
-  flextable::set_caption("Intraclass Correlation Coefficients - Unbiased vs. Biased") %>%
-  flextable::set_table_properties(width = .5, layout = "autofit")
-ft
+if (knitr::is_html_output(excludes = "epub")) {
+  ft <- flextable(icc_merged_df) %>%
+    flextable::set_header_labels(type = "ICC Type") %>%
+    flextable::set_caption("Intraclass Correlation Coefficients - Unbiased vs. Biased") %>%
+    flextable::set_table_properties(width = .5, layout = "autofit")
+  ft
+} else {
+  knitr::kable(
+    icc_merged_df,
+    col.names = c("ICC Type", "Unbiased ICC", "Biased ICC"),
+    booktabs = TRUE,
+    caption = "Intraclass Correlation Coefficients - Unbiased vs. Biased"
+  )
+}
 ```
 
 The **left column** shows that the ICCs are identical for the **unbiased case**.
 Specifically, ICC2 (=$ICC_{agreement}$ in the book) and 
-ICC3 ($ICC_{consistency}$ in the book) are based on the same model which explicitely 
+ICC3 ($ICC_{consistency}$ in the book) are based on the same model which explicitly 
 considers a potential bias between the raters. Since there is none,
 the ICCs are the same.
 
@@ -855,7 +864,7 @@ print(VarCorr(m_ICC2), comp = "Variance")
 ```
 
 The residual variance is smaller in the model with the rater effect.
-The model explains the data better, since it knows about the bias (see [exercise 7](#excercise7)).
+The model explains the data better, since it knows about the bias (see [exercise 7](#exercise7)).
 
 Look at the $\sigma_{\varepsilon}^2$ of the two models, they add up:
 
@@ -866,7 +875,7 @@ Hence, we just split up the error differently by considering the bias.
 The patient variability (`ID Variance` in the output) is slightly higher: 
 $270.882$ compared to $267.79$ before.
 In the first model, patient variability was conflated with rater variation/systematic difference
-because rater effects were not explicitely modeled. For this reason, 
+because rater effects were not explicitly modeled. For this reason, 
 `ID Variance` increases slightly.
 It is a rather small increase, so ICC1 and ICC2 are not that different.
 
@@ -1071,7 +1080,7 @@ This is also true [in the literature](https://www.sciencedirect.com/science/arti
 Hence, we are in the case (b) of Figure 8.11 of the book "Measurement in Medicine" (p.260).
 Ideally, we want to be in case (a), where the SDC is smaller than the MCID (see also section 8.5.5. in the book).
 
-To answer the question in the title: On an indidivual level, instruments such as the HADS-A
+To answer the question in the title: On an individual level, instruments such as the HADS-A
 are not able to detect a clinically meaningful change at the individual level based on a single measurement.
 
 The instrument is useful again if one takes the mean of several measurements or groups of 
@@ -1189,7 +1198,7 @@ $$LoA = \bar{d} \pm 1.96 \cdot SD_{difference} =
 
 Let us not get confused by the name. Just because a data point is shown
 within the LoA, it does not mean that it is a good measurement. Maybe $\pm 20$ degrees
-(as visible in the plot) is unsifficient agreement for practical purposes.
+(as visible in the plot) is insufficient agreement for practical purposes.
 The LoA is a statistical measure, not a clinical one.
 
 To remember the fact that a normal distribution is assumed for the differences
@@ -1233,7 +1242,7 @@ ggplot(df_plot, aes(x, dens)) +
   geom_vline(xintercept = c(LoA_low, LoA_high), linetype = "dotted") +
   # Beschriftungen
   annotate("text", x = d_bar,    y = 0,
-           label = sprintf("d̄ = %.2f", d_bar),
+           label = sprintf("bar(d) == %.2f", d_bar), parse = TRUE,
            angle = 90, vjust = -0.6, hjust = -1) +
   annotate("text", x = LoA_low,  y = 0,
            label = sprintf("LoA = %.2f", LoA_low),
@@ -1289,7 +1298,7 @@ Some comments after a quick glance at the paper:
   Fortunately, the authors do not overinterpret the results and 
   do not mention "significance" in the results or discussion.
 
-Look at Table 1 in the paper and consider the variable *Planar flexion MVC (N.m)*.
+Look at Table 1 in the paper and consider the variable *Plantar flexion MVC (N.m)*.
 We want to replicate the results in the first line 
 (except for $p$-values and effect size $d$).
 
@@ -1439,7 +1448,7 @@ Consider the $50$ ROM measurements from Peter and Mary (see above) on the non af
 
 - Regress Mary's measurements on Peter's measurements using the simple
   linear regression model in R.
-- How precisely can we predict Mary's measurements from Peter's, i.e. analyse the resdiuals.
+- How precisely can we predict Mary's measurements from Peter's, i.e. analyse the residuals.
 - Calculate the mean absolute deviation MAE, i.e. 
   $$MAE = \frac{1}{n} \sum_{i=1}^n |ROM_i - \widehat{ROM}_i|$$
   where $ROM_i$ is the true value and $\widehat{ROM}_i$ is the model-predicted value.
@@ -1453,7 +1462,7 @@ Consider the $50$ ROM measurements from Peter and Mary (see above) on the non af
 Go back to the [section](#badnews) about the ICC and the example of the HADS-A.
 
 - Find your own score, maybe one that is used in your field.
-- Find the miminally clinically important difference (MCID) for this score.
+- Find the minimally clinically important difference (MCID) for this score.
 - Execute the code above with your score and the MCID and see if 
   the results are similar to the HADS-A example.
 
@@ -1519,19 +1528,19 @@ In this eLearning section, please study (the whole) chapter 6 on
 Here are some thoughts on the chapter:
 
 - p. 153: "Existing knowledge about the construct should drive the hypotheses."
-  This is an important point. It seems a good idea to apply our Baysian knowledge
+  This is an important point. It seems a good idea to apply our Bayesian knowledge
   here. Often simply correlation tests or $t$-tests are used in this area. 
   When doing so, it would be advantageous to define priors and use the Bayesian
   analysis we have covered previously.
 - p. 154: "They emphasize that the crucial ingredient of validity involves the
   causal role of the construct in determining what value the measurement 
   outcomes will take..." In my opinion, all these analyses should be done using 
-  causal inference. Richard McEleath's book contains a lot of information on this.
+  causal inference. Richard McElreath's book contains a lot of information on this.
   But granted: We are at the very beginning on this topic, in the lecture and in wide
   areas of health-research.
 - You should be familiar with the different definitions of validity: 
   face, content, concurrent, predictive, structural, convergent, discriminant, 
-  discriminiative validity.
+  discriminative validity.
 - p. 181 at the top: As you can imagine, this is a very important piece of information.
   We are not here to play "significance"-bingo with "hypotheses". Ideally, 
   we are searching for the truth and want to answer real questions 
@@ -1539,7 +1548,7 @@ Here are some thoughts on the chapter:
 - Figure 6.8. on p. 195. is worth remembering.
 
 Additionally, look for at least two reliability and validity articles in your field
-(either Reliabiilty alone or Reliability and Validity together) and try to understand what
+(either Reliability alone or Reliability and Validity together) and try to understand what
 they did. Did the authors provide code and data to aid reproducibility?
 
 Please also go through the [last part](https://jdegenfellner.github.io/Script_QM3_ZHAW/reliability-and-validity.html#example_RELStudy) 

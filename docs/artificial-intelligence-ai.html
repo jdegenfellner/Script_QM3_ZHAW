@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Artificial Intelligence (AI) | Quantitative Methods 3, ZHAW</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Artificial Intelligence (AI) | Quantitative Methods 3, ZHAW" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Jürgen Degenfellner" />
 
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2026-06-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,9 +145,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preamble</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#separate-pdfs-of-this-script-might-not-be-up-to-date"><i class="fa fa-check"></i><b>1.1</b> Separate PDFs of this script (might not be up to date)</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#books-we-will-borrow-from-are"><i class="fa fa-check"></i><b>1.2</b> Books we will borrow from are:</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#if-you-need-a-good-reason-to-buy-great-books"><i class="fa fa-check"></i><b>1.3</b> If you need a good reason to buy great books…</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#books-we-will-borrow-from-are"><i class="fa fa-check"></i><b>1.1</b> Books we will borrow from are:</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#if-you-need-a-good-reason-to-buy-great-books"><i class="fa fa-check"></i><b>1.2</b> If you need a good reason to buy great books…</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="reliability-and-validity.html"><a href="reliability-and-validity.html"><i class="fa fa-check"></i><b>2</b> Reliability and Validity</a>
 <ul>
@@ -225,7 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1.1" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#a-short-history-of-ai"><i class="fa fa-check"></i><b>4.1.1</b> A short history of AI</a></li>
 <li class="chapter" data-level="4.1.2" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#chatgpt"><i class="fa fa-check"></i><b>4.1.2</b> ChatGPT</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#capabilites-of-llms"><i class="fa fa-check"></i><b>4.2</b> Capabilites of LLMs</a></li>
+<li class="chapter" data-level="4.2" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#capabilities-of-llms"><i class="fa fa-check"></i><b>4.2</b> Capabilities of LLMs</a></li>
 <li class="chapter" data-level="4.3" data-path="artificial-intelligence-ai.html"><a href="artificial-intelligence-ai.html#risks-of-llm-and-ai-in-general"><i class="fa fa-check"></i><b>4.3</b> Risks of LLM and AI in general</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -343,7 +342,7 @@ the world champion Go player Lee Sedol in 2016. As with chess,
 many people thought that Go would be too complex for a computer to master.</p>
 <p><a href="https://www.nobelprize.org/prizes/chemistry/2024/hassabis/facts/">Demis Hassabis</a>,
 the founder of DeepMind,
-won the nobel prize in chemistry 2024 for his work on AlphaFold2, which
+won the Nobel Prize in chemistry 2024 for his work on AlphaFold2, which
 solved the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2443096/#:~:text=The%20protein%20folding%20problem%20is,first%20atomic%2Dresolution%20protein%20structures.">protein folding problem</a>.</p>
 </div>
 <div id="chatgpt" class="section level3 hasAnchor" number="4.1.2">
@@ -375,27 +374,27 @@ We will not go into details here. Interestingly, the transformer architecture
 was introduced by researchers at Google in 2017 in a paper called
 <a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention is All You Need</a>,
 which was cited…</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="artificial-intelligence-ai.html#cb396-1" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb396-2"><a href="artificial-intelligence-ai.html#cb396-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb396-3"><a href="artificial-intelligence-ai.html#cb396-3" tabindex="-1"></a></span>
-<span id="cb396-4"><a href="artificial-intelligence-ai.html#cb396-4" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://scholar.google.com/scholar?hl=en&amp;q=attention+is+all+you+need&quot;</span></span>
-<span id="cb396-5"><a href="artificial-intelligence-ai.html#cb396-5" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
-<span id="cb396-6"><a href="artificial-intelligence-ai.html#cb396-6" tabindex="-1"></a></span>
-<span id="cb396-7"><a href="artificial-intelligence-ai.html#cb396-7" tabindex="-1"></a><span class="co"># Extract result blocks</span></span>
-<span id="cb396-8"><a href="artificial-intelligence-ai.html#cb396-8" tabindex="-1"></a>results <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span> <span class="fu">html_elements</span>(<span class="st">&quot;.gs_ri&quot;</span>)</span>
-<span id="cb396-9"><a href="artificial-intelligence-ai.html#cb396-9" tabindex="-1"></a>first_result <span class="ot">&lt;-</span> results[[<span class="dv">1</span>]]</span>
-<span id="cb396-10"><a href="artificial-intelligence-ai.html#cb396-10" tabindex="-1"></a></span>
-<span id="cb396-11"><a href="artificial-intelligence-ai.html#cb396-11" tabindex="-1"></a><span class="co"># Extract footer text</span></span>
-<span id="cb396-12"><a href="artificial-intelligence-ai.html#cb396-12" tabindex="-1"></a>citation_text <span class="ot">&lt;-</span> first_result <span class="sc">%&gt;%</span></span>
-<span id="cb396-13"><a href="artificial-intelligence-ai.html#cb396-13" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;.gs_fl&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb396-14"><a href="artificial-intelligence-ai.html#cb396-14" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
-<span id="cb396-15"><a href="artificial-intelligence-ai.html#cb396-15" tabindex="-1"></a></span>
-<span id="cb396-16"><a href="artificial-intelligence-ai.html#cb396-16" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;wait for it...&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="artificial-intelligence-ai.html#cb361-1" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb361-2"><a href="artificial-intelligence-ai.html#cb361-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb361-3"><a href="artificial-intelligence-ai.html#cb361-3" tabindex="-1"></a></span>
+<span id="cb361-4"><a href="artificial-intelligence-ai.html#cb361-4" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://scholar.google.com/scholar?hl=en&amp;q=attention+is+all+you+need&quot;</span></span>
+<span id="cb361-5"><a href="artificial-intelligence-ai.html#cb361-5" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb361-6"><a href="artificial-intelligence-ai.html#cb361-6" tabindex="-1"></a></span>
+<span id="cb361-7"><a href="artificial-intelligence-ai.html#cb361-7" tabindex="-1"></a><span class="co"># Extract result blocks</span></span>
+<span id="cb361-8"><a href="artificial-intelligence-ai.html#cb361-8" tabindex="-1"></a>results <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span> <span class="fu">html_elements</span>(<span class="st">&quot;.gs_ri&quot;</span>)</span>
+<span id="cb361-9"><a href="artificial-intelligence-ai.html#cb361-9" tabindex="-1"></a>first_result <span class="ot">&lt;-</span> results[[<span class="dv">1</span>]]</span>
+<span id="cb361-10"><a href="artificial-intelligence-ai.html#cb361-10" tabindex="-1"></a></span>
+<span id="cb361-11"><a href="artificial-intelligence-ai.html#cb361-11" tabindex="-1"></a><span class="co"># Extract footer text</span></span>
+<span id="cb361-12"><a href="artificial-intelligence-ai.html#cb361-12" tabindex="-1"></a>citation_text <span class="ot">&lt;-</span> first_result <span class="sc">%&gt;%</span></span>
+<span id="cb361-13"><a href="artificial-intelligence-ai.html#cb361-13" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;.gs_fl&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb361-14"><a href="artificial-intelligence-ai.html#cb361-14" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
+<span id="cb361-15"><a href="artificial-intelligence-ai.html#cb361-15" tabindex="-1"></a></span>
+<span id="cb361-16"><a href="artificial-intelligence-ai.html#cb361-16" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;wait for it...&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;wait for it...&quot;</code></pre>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="artificial-intelligence-ai.html#cb398-1" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
-<span id="cb398-2"><a href="artificial-intelligence-ai.html#cb398-2" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;185289&quot;</code></pre>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="artificial-intelligence-ai.html#cb400-1" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;...times.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="artificial-intelligence-ai.html#cb363-1" tabindex="-1"></a><span class="co"># Extract citation number</span></span>
+<span id="cb363-2"><a href="artificial-intelligence-ai.html#cb363-2" tabindex="-1"></a><span class="fu">str_extract</span>(citation_text, <span class="st">&quot;(?&lt;=Cited by )</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;256582&quot;</code></pre>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="artificial-intelligence-ai.html#cb365-1" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;...times.&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;...times.&quot;</code></pre>
 <p>As LLMs matured, the focus shifted (also) to <strong>autonomous agents</strong>.
 Systems like <a href="https://agpt.co/">AutoGPT</a>,
@@ -405,7 +404,7 @@ giving models access to tools (e.g., browsers, calculators, APIs), memory, and g
 One failed attempt to sell AI agents as an end-user product was
 the <a href="https://www.youtube.com/watch?v=ddTV12hErTc&amp;ab_channel=MarquesBrownlee">Rabbit R1</a>.</p>
 <p>For people in the field, it was clear the technology was not ready for this type of application yet.
-I am not sure how is has progressed in the meantime, but a year ago the practical use of these
+I am not sure how it has progressed in the meantime, but a year ago the practical use of these
 agents was still limited.
 Google announced “Agent Mode” <a href="https://www.youtube.com/watch?v=LxvErFkBXPk&amp;ab_channel=Google">recently</a>.
 There have been promises of AI agents performing tasks
@@ -421,8 +420,8 @@ models like Falcon, Mistral, and Mixtral. Although initially less powerful, thes
 enabled broader research, customization, and deployment, especially in privacy-sensitive environments.</p>
 </div>
 </div>
-<div id="capabilites-of-llms" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Capabilites of LLMs<a href="artificial-intelligence-ai.html#capabilites-of-llms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="capabilities-of-llms" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Capabilities of LLMs<a href="artificial-intelligence-ai.html#capabilities-of-llms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A model like GPT-4 can perform a wide range of tasks, including:</p>
 <ul>
 <li><p><strong>Text Generation</strong>: Writing essays, articles, or creative content.
@@ -430,7 +429,7 @@ enabled broader research, customization, and deployment, especially in privacy-s
 this is done by <strong>predicting the next word</strong> in a sequence based on
 the context of the previous words. GPT-4 was trained using
 <a href="https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback">Reinforcement Learning from Human Feedback (RLHF)</a>.
-More on reinforment learning later.
+More on reinforcement learning later.
 But the <em>Human Feedback</em> means that humans rated the quality of the generated text.</p></li>
 <li><p><strong>Image generation</strong>: Creating <a href="https://openai.com/index/introducing-4o-image-generation/">images</a>
 from text prompts. This has improved during the last 1-2 years.

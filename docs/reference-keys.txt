@@ -1,6 +1,5 @@
 tab:unnamed-chunk-12
 intro0
-separate-pdfs-of-this-script-might-not-be-up-to-date
 books-we-will-borrow-from-are
 if-you-need-a-good-reason-to-buy-great-books
 reliability-and-validity
@@ -74,5 +73,5 @@ artificial-intelligence-ai
 introduction
 a-short-history-of-ai
 chatgpt
-capabilites-of-llms
+capabilities-of-llms
 risks-of-llm-and-ai-in-general
