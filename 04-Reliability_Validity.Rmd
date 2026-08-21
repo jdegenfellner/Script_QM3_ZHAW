@@ -54,7 +54,7 @@ if we would measure repeatedly an infinite number of times.
 
 ### Peter and Mary's ROM measurements
 
-The data can be found [here](http://www.clinimetrics.nl/answers-to-the-assignments-in-textbook_22_0.html).
+The data can be found [here](https://www.cosmin.nl/book-measurement-in-medicine/).
 We randomly select 50 measurements from Peter and Mary in 50 different patients,
 plot their measurements and annotate the absolutely largest one(s). At first the
 *not affected shoulder* (nas) and then the *affected shoulder* (as).
@@ -344,7 +344,7 @@ distribution of the parameters.
   A *chain* is a sequence of points in a space with as many dimensions as there 
   are parameters in the model. It jumps from one point to the next in this parameter 
   space and in doing so, visits the points of the posterior approximately in the correct 
-  frequency. [Here](https://blog.revolutionanalytics.com/2013/09/an-animated-peek-into-the-workings-of-bayesian-statistics.html) 
+  frequency. [Here](https://mbjoseph.github.io/posts/2018-12-25-animating-the-metropolis-algorithm/) 
   is an excellent visualization.
 
 - The `cores` argument specifies how many CPU cores we want to use. 

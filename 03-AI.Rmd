@@ -26,8 +26,8 @@ so fast that it is impossible to keep up with the latest developments.
 So, please forgive me if some of the information is outdated or not up to date.
 
 The standard textbook on AI is Russell and Norvig's
-[Artificial Intelligence: A Modern Approach](hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf) 
-(3rd edition, 2020), currently in its 4th edition.
+[Artificial Intelligence: A Modern Approach](https://aima.cs.berkeley.edu/), 
+currently in its 4th edition (2020); the 3rd edition appeared in 2009.
 
 Other good (non-technical) books on the topic are:
 

@@ -1762,7 +1762,7 @@ There are known **unknown unknowns** (from our current perspective), which we di
   are data that represent parts of a whole, such as percentages or proportions.
   They are often constrained to sum to a constant (e.g., $100\%$) and can 
   lead to **misleading results if analyzed with standard statistical methods**.
-  Here is a [simple example](https://www.geo.fu-berlin.de/en/v/soga-r/Advances-statistics/Feature-scales/Intro_compositional_data/index.html).
+  Here is a [simple example](https://www.geo.fu-berlin.de/en/v/soga-r/Advanced-statistics/Feature-scales/Intro_compositional_data/index.html).
 
 - [Causal inference](https://projecteuclid.org/journals/statistics-surveys/volume-3/issue-none/Causal-inference-in-statistics-An-overview/10.1214/09-SS057.full).
   In Richard McElreath's book *Statistical Rethinking*, causal thinking is a central theme.

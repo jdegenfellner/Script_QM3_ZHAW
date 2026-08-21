@@ -183,7 +183,7 @@ download button at the top of the page.
 \item
   \href{https://www.cambridge.org/core/books/measurement-in-medicine/8BD913A1DA0ECCBA951AC4C1F719BCC5}{Measurement in Medicine}
 \item
-  (3rd edition is free) \href{https://people.engr.tamu.edu/guni/csce625/slides/AI.pdf}{Artificial Intelligence A Modern Approach}
+  \href{https://aima.cs.berkeley.edu/}{Artificial Intelligence: A Modern Approach} (Russell \& Norvig, 4th ed.~2020; official book site with freely available code, figures, exercises and errata)
 \item
   \href{https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983\#overview}{Data Analysis Using Regression and Multilevel/Hierarchical Models}
 \end{itemize}
@@ -193,7 +193,10 @@ download button at the top of the page.
 \section{If you need a good reason to buy great books\ldots{}}\label{if-you-need-a-good-reason-to-buy-great-books}
 
 Think of the total costs of your education. You want to extract maximum
-benefit from it. In the US, an education costs \href{https://www.finaid.ucsb.edu/docs/default-source/default-document-library/2024-2025-undergrad-coa.pdf?sfvrsn=fb791f8a_4}{a lot}.
+benefit from it. In the US, an education costs
+\href{https://research.collegeboard.org/trends/college-pricing/highlights}{a lot} --- and a
+non-resident undergraduate at \href{https://www.finaid.ucsb.edu/costs-estimated-aid/cost-attendance/ucsb-undergraduate-cost-attendance-budget}{UC Santa Barbara}
+is budgeted at over USD 90,000 per year.
 In beautiful Switzerland, the \href{https://www.zhaw.ch/de/sml/studium/master/kosten}{tuition fees} (if applicable) are nowhere near these figures.
 Costs you could consider are opportunity costs of not working.
 A comparison with both, a foreign education or opportunity costs,
@@ -277,7 +280,7 @@ arbitrarily well.
 
 \subsection{Peter and Mary's ROM measurements}\label{peter-and-marys-rom-measurements}
 
-The data can be found \href{http://www.clinimetrics.nl/answers-to-the-assignments-in-textbook_22_0.html}{here}.
+The data can be found \href{https://www.cosmin.nl/book-measurement-in-medicine/}{here}.
 We randomly select 50 measurements from Peter and Mary in 50 different patients,
 plot their measurements and annotate the absolutely largest one(s). At first the
 \emph{not affected shoulder} (nas) and then the \emph{affected shoulder} (as).
@@ -724,7 +727,7 @@ distribution of the parameters.
   A \emph{chain} is a sequence of points in a space with as many dimensions as there
   are parameters in the model. It jumps from one point to the next in this parameter
   space and in doing so, visits the points of the posterior approximately in the correct
-  frequency. \href{https://blog.revolutionanalytics.com/2013/09/an-animated-peek-into-the-workings-of-bayesian-statistics.html}{Here}
+  frequency. \href{https://mbjoseph.github.io/posts/2018-12-25-animating-the-metropolis-algorithm/}{Here}
   is an excellent visualization.
 \item
   The \texttt{cores} argument specifies how many CPU cores we want to use.
@@ -811,7 +814,7 @@ distribution of the parameters.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c236009d00.stan', line 17, column 4 to column 34)
+## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1bb9abc4.stan', line 17, column 4 to column 34)
 \end{verbatim}
 
 \begin{verbatim}
@@ -846,7 +849,7 @@ distribution of the parameters.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c236009d00.stan', line 17, column 4 to column 34)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1bb9abc4.stan', line 17, column 4 to column 34)
 \end{verbatim}
 
 \begin{verbatim}
@@ -885,7 +888,7 @@ distribution of the parameters.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 5 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c236009d00.stan', line 17, column 4 to column 34)
+## Chain 5 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1bb9abc4.stan', line 17, column 4 to column 34)
 \end{verbatim}
 
 \begin{verbatim}
@@ -920,7 +923,7 @@ distribution of the parameters.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 6 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c236009d00.stan', line 17, column 4 to column 34)
+## Chain 6 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1bb9abc4.stan', line 17, column 4 to column 34)
 \end{verbatim}
 
 \begin{verbatim}
@@ -955,7 +958,7 @@ distribution of the parameters.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 7 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c236009d00.stan', line 17, column 4 to column 34)
+## Chain 7 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1bb9abc4.stan', line 17, column 4 to column 34)
 \end{verbatim}
 
 \begin{verbatim}
@@ -990,7 +993,7 @@ distribution of the parameters.
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c236009d00.stan', line 17, column 4 to column 34)
+## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1bb9abc4.stan', line 17, column 4 to column 34)
 \end{verbatim}
 
 \begin{verbatim}
@@ -1023,7 +1026,7 @@ distribution of the parameters.
 \end{Shaded}
 
 \begin{verbatim}
-## 4.615 sec elapsed
+## 5.131 sec elapsed
 \end{verbatim}
 
 \begin{Shaded}
@@ -1375,7 +1378,7 @@ Draw the model structure as \hyperref[exercise5]{exercise 5}.
 
 \begin{verbatim}
 ## Chain 3 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c23a1d142f.stan', line 21, column 4 to column 45)
+## Chain 3 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1657fae6.stan', line 21, column 4 to column 45)
 ## Chain 3 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 3 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 3
@@ -1419,14 +1422,15 @@ Draw the model structure as \hyperref[exercise5]{exercise 5}.
 ## Chain 6 Iteration: 600 / 1000 [ 60%]  (Sampling) 
 ## Chain 6 Iteration: 700 / 1000 [ 70%]  (Sampling) 
 ## Chain 6 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 6 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 7 Iteration:   1 / 1000 [  0%]  (Warmup) 
 ## Chain 7 Iteration: 100 / 1000 [ 10%]  (Warmup) 
 ## Chain 7 Iteration: 200 / 1000 [ 20%]  (Warmup) 
 ## Chain 7 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 4 finished in 0.2 seconds.
 ## Chain 5 finished in 0.1 seconds.
-## Chain 6 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 6 Iteration: 1000 / 1000 [100%]  (Sampling) 
+## Chain 6 finished in 0.1 seconds.
 ## Chain 7 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 7 Iteration: 500 / 1000 [ 50%]  (Warmup) 
 ## Chain 7 Iteration: 501 / 1000 [ 50%]  (Sampling) 
@@ -1437,21 +1441,20 @@ Draw the model structure as \hyperref[exercise5]{exercise 5}.
 ## Chain 7 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 8 Iteration:   1 / 1000 [  0%]  (Warmup) 
 ## Chain 8 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-## Chain 8 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-## Chain 8 Iteration: 300 / 1000 [ 30%]  (Warmup)
+## Chain 8 Iteration: 200 / 1000 [ 20%]  (Warmup)
 \end{verbatim}
 
 \begin{verbatim}
 ## Chain 8 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c23a1d142f.stan', line 21, column 4 to column 45)
+## Chain 8 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e1657fae6.stan', line 21, column 4 to column 45)
 ## Chain 8 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 8 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 8
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 6 finished in 0.1 seconds.
 ## Chain 7 finished in 0.1 seconds.
+## Chain 8 Iteration: 300 / 1000 [ 30%]  (Warmup) 
 ## Chain 8 Iteration: 400 / 1000 [ 40%]  (Warmup) 
 ## Chain 8 Iteration: 500 / 1000 [ 50%]  (Warmup) 
 ## Chain 8 Iteration: 501 / 1000 [ 50%]  (Sampling) 
@@ -3766,14 +3769,14 @@ from the \texttt{rethinking} package to fit the model.
 ## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 0.0 seconds.
-## Chain 2 finished in 0.0 seconds.
+## Chain 1 finished in 0.1 seconds.
+## Chain 2 finished in 0.1 seconds.
 ## Chain 3 finished in 0.0 seconds.
 ## Chain 4 finished in 0.0 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 0.0 seconds.
-## Total execution time: 0.2 seconds.
+## Mean chain execution time: 0.1 seconds.
+## Total execution time: 0.3 seconds.
 \end{verbatim}
 
 \begin{Shaded}
@@ -4001,7 +4004,7 @@ We now fit the model using the \texttt{ulam} function from the \texttt{rethinkin
 
 \begin{verbatim}
 ## Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c2214bc3ed.stan', line 15, column 4 to column 32)
+## Chain 4 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e27818394.stan', line 15, column 4 to column 32)
 ## Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 ## Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 ## Chain 4
@@ -5023,7 +5026,7 @@ Refer to section 5.3 (Categorical variables) in the book \emph{Rethinking} for m
 \end{verbatim}
 
 \begin{verbatim}
-## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpJexZb1/model-128c24ce3ca78.stan', line 29, column 4 to column 31)
+## Chain 1 Exception: normal_lpdf: Scale parameter is 0, but must be positive! (in '/var/folders/tk/g1tvgn0j41jddc5lj7b509mm0000gp/T/RtmpmiVpiT/model-17e2e42ddbb34.stan', line 29, column 4 to column 31)
 \end{verbatim}
 
 \begin{verbatim}
@@ -5075,24 +5078,24 @@ Refer to section 5.3 (Categorical variables) in the book \emph{Rethinking} for m
 ## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
 ## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
 ## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
 ## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
 ## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
 ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
 ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 2 finished in 3.0 seconds.
-## Chain 3 finished in 3.0 seconds.
+## Chain 2 finished in 3.2 seconds.
+## Chain 3 finished in 3.2 seconds.
 ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 4 finished in 3.1 seconds.
+## Chain 4 finished in 3.3 seconds.
 ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-## Chain 1 finished in 3.3 seconds.
+## Chain 1 finished in 3.5 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 3.1 seconds.
-## Total execution time: 3.4 seconds.
+## Mean chain execution time: 3.3 seconds.
+## Total execution time: 3.6 seconds.
 \end{verbatim}
 
 \begin{Shaded}
@@ -6858,7 +6861,7 @@ There are known \textbf{unknown unknowns} (from our current perspective), which 
   are data that represent parts of a whole, such as percentages or proportions.
   They are often constrained to sum to a constant (e.g., \(100\%\)) and can
   lead to \textbf{misleading results if analyzed with standard statistical methods}.
-  Here is a \href{https://www.geo.fu-berlin.de/en/v/soga-r/Advances-statistics/Feature-scales/Intro_compositional_data/index.html}{simple example}.
+  Here is a \href{https://www.geo.fu-berlin.de/en/v/soga-r/Advanced-statistics/Feature-scales/Intro_compositional_data/index.html}{simple example}.
 \item
   \href{https://projecteuclid.org/journals/statistics-surveys/volume-3/issue-none/Causal-inference-in-statistics-An-overview/10.1214/09-SS057.full}{Causal inference}.
   In Richard McElreath's book \emph{Statistical Rethinking}, causal thinking is a central theme.
@@ -7179,8 +7182,8 @@ so fast that it is impossible to keep up with the latest developments.
 So, please forgive me if some of the information is outdated or not up to date.
 
 The standard textbook on AI is Russell and Norvig's
-\href{hhttps://people.engr.tamu.edu/guni/csce625/slides/AI.pdf}{Artificial Intelligence: A Modern Approach}
-(3rd edition, 2020), currently in its 4th edition.
+\href{https://aima.cs.berkeley.edu/}{Artificial Intelligence: A Modern Approach},
+currently in its 4th edition (2020); the 3rd edition appeared in 2009.
 
 Other good (non-technical) books on the topic are:
 
