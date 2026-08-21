@@ -1643,8 +1643,12 @@ Thus, the **mean of the outcome** $Y_i$ **increases by a factor** of $e^{0.5} \a
 **when we increase $x_i$ by $1$ unit**.
 
 ### Model Assumptions 
-(Maybe this [link](https://cambiotraining.github.io/stats-glm/materials/checking-assumptions.html) 
-is interesting)
+(Maybe this [link](https://cambiotraining.github.io/stats-glm/materials/glm-11-checking-assumptions.html) 
+is interesting. Further reading on checking the assumptions of count models:
+[Roback & Legler, *Beyond Multiple Linear Regression*, Ch. 4](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html#poisson-regression-assumptions),
+the [`DHARMa` vignette](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html)
+on residual diagnostics via simulated residuals, and
+[overdispersed count data](https://cambiotraining.github.io/stats-glm/materials/glm-13-overdispersed-count-data.html).)
 
 #### Outcome variable is Poisson distributed 
 
